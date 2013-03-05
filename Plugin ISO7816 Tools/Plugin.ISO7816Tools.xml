@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<Plugins>
+
+	<plugin name="ISO7816 Tools">
+		<dll>Plugin.ISO7816Tools.dll</dll>
+		<className>WSCT.GUI.Plugins.ISO7816Tools.PluginEntry</className>
+		<pathToDll></pathToDll>
+	</plugin>
+
+</Plugins>
