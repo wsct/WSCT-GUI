@@ -188,7 +188,7 @@ namespace WSCT.GUI
             guiGroupCard.Controls.Add(this.guiCardColdReset);
             guiGroupCard.Location = new System.Drawing.Point(12, 99);
             guiGroupCard.Name = "guiGroupCard";
-            guiGroupCard.Size = new System.Drawing.Size(102, 134);
+            guiGroupCard.Size = new System.Drawing.Size(102, 148);
             guiGroupCard.TabIndex = 1;
             guiGroupCard.TabStop = false;
             guiGroupCard.Text = "Quick Connect";
@@ -245,7 +245,7 @@ namespace WSCT.GUI
             guiGroupContext.Controls.Add(this.guiContextEstablish);
             guiGroupContext.Location = new System.Drawing.Point(12, 3);
             guiGroupContext.Name = "guiGroupContext";
-            guiGroupContext.Size = new System.Drawing.Size(102, 76);
+            guiGroupContext.Size = new System.Drawing.Size(102, 90);
             guiGroupContext.TabIndex = 0;
             guiGroupContext.TabStop = false;
             guiGroupContext.Text = "Context";
@@ -509,6 +509,7 @@ namespace WSCT.GUI
             this.guiGroupCardAttributes.Controls.Add(this.guiStringAttribute);
             this.guiGroupCardAttributes.Controls.Add(this.guiRawAttribute);
             this.guiGroupCardAttributes.Controls.Add(this.guiAttribute);
+            this.guiGroupCardAttributes.Enabled = false;
             this.guiGroupCardAttributes.Location = new System.Drawing.Point(6, 153);
             this.guiGroupCardAttributes.Name = "guiGroupCardAttributes";
             this.guiGroupCardAttributes.Size = new System.Drawing.Size(640, 141);
@@ -608,7 +609,7 @@ namespace WSCT.GUI
             this.guiLoadedPlugins.FormattingEnabled = true;
             this.guiLoadedPlugins.Location = new System.Drawing.Point(3, 16);
             this.guiLoadedPlugins.Name = "guiLoadedPlugins";
-            this.guiLoadedPlugins.Size = new System.Drawing.Size(188, 433);
+            this.guiLoadedPlugins.Size = new System.Drawing.Size(188, 443);
             this.guiLoadedPlugins.TabIndex = 0;
             this.guiLoadedPlugins.SelectedIndexChanged += new System.EventHandler(this.guiLoadedPlugins_SelectedIndexChanged);
             // 
@@ -957,9 +958,9 @@ namespace WSCT.GUI
             // 
             // guiTabs
             // 
-            this.guiTabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiTabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiTabs.Controls.Add(guiTabConnection);
             this.guiTabs.Controls.Add(this.guiTabLogs);
             this.guiTabs.Controls.Add(this.guiTabPlugins);
@@ -985,9 +986,9 @@ namespace WSCT.GUI
             // 
             // guiLogsView
             // 
-            this.guiLogsView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiLogsView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiLogsView.Location = new System.Drawing.Point(6, 6);
             this.guiLogsView.Name = "guiLogsView";
             this.guiLogsView.Size = new System.Drawing.Size(649, 458);
