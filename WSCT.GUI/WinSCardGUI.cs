@@ -189,6 +189,8 @@ namespace WSCT.GUI
 
         private void guiContextRelease_Click(object sender, EventArgs e)
         {
+            statusMonitor.stop();
+
             ErrorCode lastError = SharedData.cardContext.release();
             if (lastError == ErrorCode.SCARD_S_SUCCESS)
             {
@@ -198,8 +200,6 @@ namespace WSCT.GUI
 
                 updateContextReleased();
             }
-
-            statusMonitor.stop();
         }
 
         private void guiCardConnect_Click(object sender, EventArgs e)
