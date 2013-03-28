@@ -11,37 +11,9 @@ using WSCT.GUI.Plugins;
 namespace WSCT.GUI.Plugins.LayerInteractive
 {
     /// <summary>
-    /// Plugin entry point
+    /// Plugin Entry point dedicated to create and show associated GUI
     /// </summary>
-    public class PluginEntry : IPlugin
+    public class PluginEntry : GenericPluginEntry<GUI>
     {
-        #region >> IPlugin
-
-        /// <inheritdoc />
-        public void show()
-        {
-            Thread pluginThread = new Thread(startPlugin);
-            pluginThread.SetApartmentState(ApartmentState.STA);
-            pluginThread.Start();
-        }
-
-        private void startPlugin()
-        {
-            // Use a named Mutex (available computer-wide) to check if the plugin thread still exists
-            using (var mutex = new Mutex(false, Assembly.GetExecutingAssembly().FullName))
-            {
-                // If the mutex is available, then get it and launch the plugin GUI
-                if (mutex.WaitOne(TimeSpan.FromSeconds(0), false))
-                {
-                    Application.Run(new GUI());
-                }
-                else
-                {
-                    MessageBox.Show("Only one instance of the plugin is authorized", "Plugin", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
-            }
-        }
-
-        #endregion
     }
 }
