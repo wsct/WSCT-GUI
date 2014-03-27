@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
-
 using WSCT.GUI.Plugins;
 using WSCT.Layers.Interactive.Actions;
+using WSCT.Stack;
 
 namespace WSCT.Layers.Interactive
 {
-
     /// <summary>
     /// Controller for Interactive Layers
     /// </summary>
@@ -29,7 +26,7 @@ namespace WSCT.Layers.Interactive
         /// <summary>
         /// Mode of the layer
         /// </summary>
-        static InteractiveMode _mode = InteractiveMode.TRANSPARENT;
+        private static InteractiveMode _mode = InteractiveMode.TRANSPARENT;
 
         #endregion
 
@@ -53,15 +50,16 @@ namespace WSCT.Layers.Interactive
             {
                 try
                 {
-                    if (!(SharedData.cardContext is Stack.ICardContextStack))
+                    if (!(SharedData.cardContext is ICardContextStack))
+                    {
                         return false;
+                    }
                 }
                 catch (Exception)
                 {
                     return false;
                 }
-                return findInteractiveLayerInStack((Stack.ICardContextStack)SharedData.cardContext);
-
+                return findInteractiveLayerInStack((ICardContextStack)SharedData.cardContext);
             }
         }
 
@@ -74,18 +72,17 @@ namespace WSCT.Layers.Interactive
             {
                 try
                 {
-                    if (!(SharedData.cardChannel is Stack.ICardChannelStack))
+                    if (!(SharedData.cardChannel is ICardChannelStack))
+                    {
                         return false;
+                    }
                 }
                 catch (Exception)
                 {
                     return false;
                 }
-                Stack.ICardChannelStack stack = (Stack.ICardChannelStack)SharedData.cardChannel;
-                foreach (Stack.ICardChannelLayer layer in stack.layers)
-                    if (layer is Layers.Interactive.CardChannelLayer)
-                        return true;
-                return false;
+                var stack = (ICardChannelStack)SharedData.cardChannel;
+                return stack.Layers.OfType<CardChannelLayer>().Any();
             }
         }
 
@@ -98,7 +95,10 @@ namespace WSCT.Layers.Interactive
             set
             {
                 _mode = value;
-                if (InteractiveController.interactiveModeChangedEvent != null) InteractiveController.interactiveModeChangedEvent();
+                if (interactiveModeChangedEvent != null)
+                {
+                    interactiveModeChangedEvent();
+                }
                 onInteractiveModeChanged();
             }
         }
@@ -129,36 +129,51 @@ namespace WSCT.Layers.Interactive
 
         #endregion
 
-        static void onInteractiveModeChanged()
+        private static void onInteractiveModeChanged()
         {
-            if (InteractiveController.mode == InteractiveMode.RECORD && InteractiveController.actionsList == null)
+            if (mode == InteractiveMode.RECORD && actionsList == null)
             {
-                InteractiveController.actionsList = new List<AbstractAction>();
-                InteractiveController.actionsListId = 0;
+                actionsList = new List<AbstractAction>();
+                actionsListId = 0;
             }
         }
 
-        static Boolean findInteractiveLayerInStack(Stack.ICardContextStack stack)
+        private static Boolean findInteractiveLayerInStack(ICardContextStack stack)
         {
-            foreach (Stack.ICardContextLayer layer in stack.layers)
-                if (layer is Layers.Interactive.CardContextLayer)
+            foreach (var layer in stack.Layers)
+            {
+                if (layer is CardContextLayer)
+                {
                     return true;
-                else if (layer is Stack.ICardContextStack)
-                    if (findInteractiveLayerInStack((Stack.ICardContextStack)layer))
+                }
+                if (layer is ICardContextStack)
+                {
+                    if (findInteractiveLayerInStack((ICardContextStack)layer))
+                    {
                         return true;
+                    }
+                }
+            }
             return false;
         }
 
-        static Boolean findInteractiveLayerInStack(Stack.ICardChannelStack stack)
+        private static Boolean findInteractiveLayerInStack(ICardChannelStack stack)
         {
-            foreach (Stack.ICardChannelLayer layer in stack.layers)
-                if (layer is Layers.Interactive.CardChannelLayer)
+            foreach (var layer in stack.Layers)
+            {
+                if (layer is CardChannelLayer)
+                {
                     return true;
-                else if (layer is Stack.ICardChannelStack)
-                    if (findInteractiveLayerInStack((Stack.ICardChannelStack)layer))
+                }
+                if (layer is ICardChannelStack)
+                {
+                    if (findInteractiveLayerInStack((ICardChannelStack)layer))
+                    {
                         return true;
+                    }
+                }
+            }
             return false;
         }
-
     }
 }

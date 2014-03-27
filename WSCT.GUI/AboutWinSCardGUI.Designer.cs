@@ -1,6 +1,6 @@
 ﻿namespace WSCT.GUI
 {
-    partial class AboutWinSCardGUI
+    sealed partial class AboutWinSCardGUI
     {
         /// <summary>
         /// Variable nécessaire au concepteur.

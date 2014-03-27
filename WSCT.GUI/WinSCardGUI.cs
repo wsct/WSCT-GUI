@@ -1,18 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
+using System.IO;
 using System.Reflection;
-
-using WSCT;
+using System.Windows.Forms;
 using WSCT.Core;
+using WSCT.GUI.Plugins;
+using WSCT.Helpers;
 using WSCT.Stack;
 using WSCT.Wrapper;
-using WSCT.Helpers;
-using WSCT.GUI.Plugins;
 
 namespace WSCT.GUI
 {
@@ -20,11 +14,10 @@ namespace WSCT.GUI
     {
         #region >> Fields
 
-        Plugins.PluginRepository pluginRepository;
-
-        CardContextStackDescription contextLayers;
-        CardChannelStackDescription channelLayers;
-        StatusChangeMonitor statusMonitor;
+        private readonly CardChannelStackDescription channelLayers;
+        private readonly CardContextStackDescription contextLayers;
+        private readonly PluginRepository pluginRepository;
+        private readonly StatusChangeMonitor statusMonitor;
 
         #endregion
 
@@ -38,39 +31,40 @@ namespace WSCT.GUI
             InitializeComponent();
 
             guiShareMode.DataSource = Enum.GetValues(typeof(ShareMode));
-            guiShareMode.SelectedItem = ShareMode.SCARD_SHARE_SHARED;
+            guiShareMode.SelectedItem = ShareMode.Shared;
 
             guiProtocol.DataSource = Enum.GetValues(typeof(Protocol));
-            guiProtocol.SelectedItem = Protocol.SCARD_PROTOCOL_ANY;
+            guiProtocol.SelectedItem = Protocol.Any;
 
             guiDisposition.DataSource = Enum.GetValues(typeof(Disposition));
-            guiDisposition.SelectedItem = Disposition.SCARD_UNPOWER_CARD;
+            guiDisposition.SelectedItem = Disposition.UnpowerCard;
 
             guiAttribute.DataSource = Enum.GetValues(typeof(Attrib));
-            guiAttribute.SelectedItem = Attrib.SCARD_ATTR_ATR_STRING;
+            guiAttribute.SelectedItem = Attrib.AtrString;
 
-            pluginRepository = new Plugins.PluginRepository();
+            pluginRepository = new PluginRepository();
             // Read all independant plugins repository and aggregate them in <c>pluginRepository</c>
-            foreach (String fileName in System.IO.Directory.GetFiles(".", "Plugin*.xml"))
+            foreach (var fileName in Directory.GetFiles(".", "Plugin*.xml"))
             {
-                PluginRepository pr = SerializedObject<PluginRepository>.loadFromXml(fileName);
-                foreach (PluginDescription pluginDesc in pr.plugins)
+                var pr = SerializedObject<PluginRepository>.LoadFromXml(fileName);
+                foreach (var pluginDesc in pr.plugins)
+                {
                     pluginRepository.add(pluginDesc);
+                }
             }
 
-            channelLayers = SerializedObject<CardChannelStackDescription>.loadFromXml(@"Stack.Channel.xml");
+            channelLayers = SerializedObject<CardChannelStackDescription>.LoadFromXml(@"Stack.Channel.xml");
 
-            contextLayers = SerializedObject<CardContextStackDescription>.loadFromXml(@"Stack.Context.xml");
+            contextLayers = SerializedObject<CardContextStackDescription>.LoadFromXml(@"Stack.Context.xml");
 
             statusMonitor = new StatusChangeMonitor();
 
             #region >> Initialize plugins menu and tab
 
-            foreach (Plugins.PluginDescription plugin in pluginRepository.plugins)
+            foreach (var plugin in pluginRepository.plugins)
             {
-                ToolStripMenuItem pluginMenuItem = new ToolStripMenuItem();
-                pluginMenuItem.Text = plugin.name;
-                pluginMenuItem.Click += new System.EventHandler(this.guiPluginsMenu_Click);
+                var pluginMenuItem = new ToolStripMenuItem { Text = plugin.name };
+                pluginMenuItem.Click += guiPluginsMenu_Click;
                 guiPluginsMenuItem.DropDownItems.Add(pluginMenuItem);
 
                 guiLoadedPlugins.Items.Add(plugin);
@@ -82,13 +76,13 @@ namespace WSCT.GUI
 
             #region >> Initialize layers menu and tab
 
-            foreach (CardChannelLayerDescription layer in channelLayers.layerDescriptions)
+            foreach (var layer in channelLayers.LayerDescriptions)
             {
                 guiLoadedChannelLayers.Items.Add(layer);
             }
             guiLoadedChannelLayers.DisplayMember = "name";
 
-            foreach (CardContextLayerDescription layer in contextLayers.layerDescriptions)
+            foreach (var layer in contextLayers.LayerDescriptions)
             {
                 guiLoadedContextLayers.Items.Add(layer);
             }
@@ -101,9 +95,9 @@ namespace WSCT.GUI
 
         #region >> Methods
 
-        String getLastNamespaceOf(Object instance)
+        private String getLastNamespaceOf(Object instance)
         {
-            String[] splittedNamespace = instance.GetType().Namespace.Split('.');
+            var splittedNamespace = instance.GetType().Namespace.Split('.');
             return splittedNamespace[splittedNamespace.Length - 1];
         }
 
@@ -111,39 +105,39 @@ namespace WSCT.GUI
 
         #region >> createCard * Stack
 
-        void createCardChannelStack()
+        private void createCardChannelStack()
         {
-            CardChannelStack cardStack = new CardChannelStack();
-            foreach (CardChannelLayerDescription cardLayer in channelLayers.layerDescriptions)
+            var cardStack = new CardChannelStack();
+            foreach (var cardLayer in channelLayers.LayerDescriptions)
             {
-                ICardChannelLayer cardChannelLayer = channelLayers.createInstance(cardLayer.name);
-                cardChannelLayer.setStack(cardStack);
+                var cardChannelLayer = channelLayers.CreateInstance(cardLayer.Name);
+                cardChannelLayer.SetStack(cardStack);
                 if (cardChannelLayer is ICardChannelObservable)
                 {
-                    CardObserver cardObserver = new CardObserver(this, getLastNamespaceOf(cardChannelLayer));
-                    cardObserver.observeChannel((Core.ICardChannelObservable)cardChannelLayer);
+                    var cardObserver = new CardObserver(this, getLastNamespaceOf(cardChannelLayer));
+                    cardObserver.observeChannel((ICardChannelObservable)cardChannelLayer);
                 }
-                cardStack.addLayer(cardChannelLayer);
+                cardStack.AddLayer(cardChannelLayer);
             }
-            cardStack.attach(SharedData.cardContext, guiReaders.SelectedItem.ToString());
+            cardStack.Attach(SharedData.cardContext, guiReaders.SelectedItem.ToString());
 
             SharedData.cardChannel = cardStack;
         }
 
-        void createCardContextStack()
+        private void createCardContextStack()
         {
             ICardContextStack cardStack = new CardContextStack();
-            foreach (CardContextLayerDescription layer in contextLayers.layerDescriptions)
+            foreach (var layer in contextLayers.LayerDescriptions)
             {
-                ICardContextLayer cardContextLayer = contextLayers.createInstance(layer.name);
-                cardContextLayer.setStack(cardStack);
+                var cardContextLayer = contextLayers.CreateInstance(layer.Name);
+                cardContextLayer.SetStack(cardStack);
                 if (cardContextLayer is ICardContextObservable)
                 {
-                    CardObserver cardObserver = new CardObserver(this, getLastNamespaceOf(cardContextLayer));
-                    cardObserver.observeContext((Core.ICardContextObservable)cardContextLayer);
+                    var cardObserver = new CardObserver(this, getLastNamespaceOf(cardContextLayer));
+                    cardObserver.observeContext((ICardContextObservable)cardContextLayer);
                     cardObserver.observeMonitor(statusMonitor);
                 }
-                cardStack.addLayer(cardContextLayer);
+                cardStack.AddLayer(cardContextLayer);
             }
 
             SharedData.cardContext = cardStack;
@@ -155,27 +149,26 @@ namespace WSCT.GUI
 
         private void guiContextEstablish_Click(object sender, EventArgs e)
         {
-            statusMonitor.onCardInsertionEvent = null;
-            statusMonitor.onCardRemovalEvent = null;
+            statusMonitor.OnCardInsertionEvent = null;
+            statusMonitor.OnCardRemovalEvent = null;
             createCardContextStack();
 
-            ErrorCode lastError = SharedData.cardContext.establish();
+            var lastError = SharedData.cardContext.Establish();
 
-            if (lastError == ErrorCode.SCARD_S_SUCCESS)
+            if (lastError == ErrorCode.Success)
             {
-
-                if (SharedData.cardContext.listReaderGroups() == ErrorCode.SCARD_S_SUCCESS)
+                if (SharedData.cardContext.ListReaderGroups() == ErrorCode.Success)
                 {
-                    guiReaderGroups.DataSource = SharedData.cardContext.groups;
-                    guiFoundReaderGroups.Text = String.Format("Reader groups descriptionFound: {0}", SharedData.cardContext.groupsCount);
+                    guiReaderGroups.DataSource = SharedData.cardContext.Groups;
+                    guiFoundReaderGroups.Text = String.Format("Reader groups descriptionFound: {0}", SharedData.cardContext.GroupsCount);
 
-                    if (SharedData.cardContext.listReaders(SharedData.cardContext.groups[0]) == ErrorCode.SCARD_S_SUCCESS)
+                    if (SharedData.cardContext.ListReaders(SharedData.cardContext.Groups[0]) == ErrorCode.Success)
                     {
-                        guiReaders.DataSource = SharedData.cardContext.readers;
-                        guiFoundReaders.Text = String.Format("Readers descriptionFound: {0}", SharedData.cardContext.readersCount);
+                        guiReaders.DataSource = SharedData.cardContext.Readers;
+                        guiFoundReaders.Text = String.Format("Readers descriptionFound: {0}", SharedData.cardContext.ReadersCount);
 
-                        statusMonitor.context = SharedData.cardContext;
-                        statusMonitor.start();
+                        statusMonitor.Context = SharedData.cardContext;
+                        statusMonitor.Start();
                     }
                 }
 
@@ -189,10 +182,10 @@ namespace WSCT.GUI
 
         private void guiContextRelease_Click(object sender, EventArgs e)
         {
-            statusMonitor.stop();
+            statusMonitor.Stop();
 
-            ErrorCode lastError = SharedData.cardContext.release();
-            if (lastError == ErrorCode.SCARD_S_SUCCESS)
+            var lastError = SharedData.cardContext.Release();
+            if (lastError == ErrorCode.Success)
             {
                 SharedData.cardContext = null;
                 guiContextState.Text = "Released";
@@ -206,8 +199,8 @@ namespace WSCT.GUI
         {
             createCardChannelStack();
 
-            ErrorCode errorCode = SharedData.cardChannel.connect(ShareMode.SCARD_SHARE_SHARED, Protocol.SCARD_PROTOCOL_ANY);
-            if (errorCode == ErrorCode.SCARD_S_SUCCESS)
+            var errorCode = SharedData.cardChannel.Connect(ShareMode.Shared, Protocol.Any);
+            if (errorCode == ErrorCode.Success)
             {
                 updateReaderInUse(guiReaders.SelectedItem.ToString());
             }
@@ -215,17 +208,17 @@ namespace WSCT.GUI
 
         private void guiCardWarmReset_Click(object sender, EventArgs e)
         {
-            SharedData.cardChannel.reconnect(ShareMode.SCARD_SHARE_SHARED, Protocol.SCARD_PROTOCOL_ANY, Disposition.SCARD_RESET_CARD);
+            SharedData.cardChannel.Reconnect(ShareMode.Shared, Protocol.Any, Disposition.ResetCard);
         }
 
         private void guiCardColdReset_Click(object sender, EventArgs e)
         {
-            SharedData.cardChannel.reconnect(ShareMode.SCARD_SHARE_SHARED, Protocol.SCARD_PROTOCOL_ANY, Disposition.SCARD_UNPOWER_CARD);
+            SharedData.cardChannel.Reconnect(ShareMode.Shared, Protocol.Any, Disposition.UnpowerCard);
         }
 
         private void guiCardUnpower_Click(object sender, EventArgs e)
         {
-            SharedData.cardChannel.disconnect(Disposition.SCARD_UNPOWER_CARD);
+            SharedData.cardChannel.Disconnect(Disposition.UnpowerCard);
             updateReaderInUse("");
         }
 
@@ -233,29 +226,33 @@ namespace WSCT.GUI
         {
             createCardChannelStack();
 
-            ErrorCode errorCode = SharedData.cardChannel.connect((ShareMode)guiShareMode.SelectedItem, (Protocol)guiProtocol.SelectedItem);
-            if (errorCode == ErrorCode.SCARD_S_SUCCESS)
+            var errorCode = SharedData.cardChannel.Connect((ShareMode)guiShareMode.SelectedItem, (Protocol)guiProtocol.SelectedItem);
+            if (errorCode == ErrorCode.Success)
+            {
                 updateReaderInUse(guiReaders.SelectedItem.ToString());
+            }
         }
 
         private void guiChannelReconnect_Click(object sender, EventArgs e)
         {
-            SharedData.cardChannel.reconnect((ShareMode)guiShareMode.SelectedItem, (Protocol)guiProtocol.SelectedItem, (Disposition)guiDisposition.SelectedItem);
+            SharedData.cardChannel.Reconnect((ShareMode)guiShareMode.SelectedItem, (Protocol)guiProtocol.SelectedItem, (Disposition)guiDisposition.SelectedItem);
         }
 
         private void guiChannelDisconnect_Click(object sender, EventArgs e)
         {
-            SharedData.cardChannel.disconnect((Disposition)guiDisposition.SelectedItem);
+            SharedData.cardChannel.Disconnect((Disposition)guiDisposition.SelectedItem);
         }
 
         private void guiGetAttribute_Click(object sender, EventArgs e)
         {
             try
             {
-                Byte[] recvBuffer = null;
-                ErrorCode errorCode = SharedData.cardChannel.getAttrib((Attrib)guiAttribute.SelectedItem, ref recvBuffer);
-                if (errorCode == ErrorCode.SCARD_S_SUCCESS)
+                byte[] recvBuffer = null;
+                var errorCode = SharedData.cardChannel.GetAttrib((Attrib)guiAttribute.SelectedItem, ref recvBuffer);
+                if (errorCode == ErrorCode.Success)
+                {
                     updateAttribute(recvBuffer);
+                }
             }
             catch (Exception)
             {
@@ -276,10 +273,10 @@ namespace WSCT.GUI
 
         private void guiPluginsMenu_Click(object sender, EventArgs e)
         {
-            ToolStripMenuItem menuItem = (ToolStripMenuItem)sender;
+            var menuItem = (ToolStripMenuItem)sender;
             try
             {
-                Plugins.IPlugin plugin = pluginRepository.createInstance(menuItem.Text);
+                var plugin = pluginRepository.createInstance(menuItem.Text);
                 plugin.show();
             }
             catch (Exception ex)
@@ -298,8 +295,8 @@ namespace WSCT.GUI
         /// <param name="attribute"></param>
         public void updateAttribute(byte[] attribute)
         {
-            guiRawAttribute.Text = attribute.toHexa();
-            guiStringAttribute.Text = attribute.toString();
+            guiRawAttribute.Text = attribute.ToHexa();
+            guiStringAttribute.Text = attribute.ToAsciiString();
         }
 
         /// <summary>
@@ -327,8 +324,6 @@ namespace WSCT.GUI
                     break;
                 case ChannelStatusType.error:
                     guiChannelState.Text = "An error occured";
-                    break;
-                default:
                     break;
             }
         }
@@ -389,10 +384,10 @@ namespace WSCT.GUI
 
         private void guiLoadedPlugins_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ListBox listBox = (ListBox)sender;
+            var listBox = (ListBox)sender;
             if (listBox.SelectedItem != null)
             {
-                Plugins.PluginDescription plugin = (Plugins.PluginDescription)listBox.SelectedItem;
+                var plugin = (PluginDescription)listBox.SelectedItem;
                 guiPluginName.Text = plugin.name;
                 guiPluginClassName.Text = plugin.className;
                 guiPluginDLL.Text = plugin.dllName;
@@ -400,11 +395,11 @@ namespace WSCT.GUI
 
                 try
                 {
-                    System.Reflection.Assembly assembly = System.Reflection.Assembly.LoadFrom(plugin.pathToDll + plugin.dllName);
-                    System.Reflection.AssemblyName assemblyName = new System.Reflection.AssemblyName(assembly.FullName);
+                    var assembly = Assembly.LoadFrom(plugin.pathToDll + plugin.dllName);
+                    var assemblyName = new AssemblyName(assembly.FullName);
                     guiPluginAssemblyVersion.Text = assemblyName.Version.ToString();
                     guiPluginAssemblyName.Text = assemblyName.Name;
-                    AssemblyDescriptionAttribute assemblyDescription = (AssemblyDescriptionAttribute)AssemblyDescriptionAttribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
+                    var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
                     guiPluginAssemblyDescription.Text = assemblyDescription.Description;
                 }
                 catch (Exception ex)
@@ -416,62 +411,62 @@ namespace WSCT.GUI
 
         private void guiLoadedChannelLayers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ListBox listBox = (ListBox)sender;
+            var listBox = (ListBox)sender;
             if (listBox.SelectedItem != null)
             {
                 // Deselect the selected layer in context layers
                 guiLoadedContextLayers.SetSelected(0, false);
 
                 // Update assembly informations
-                CardChannelLayerDescription layer = (CardChannelLayerDescription)listBox.SelectedItem;
-                guiLayerName.Text = layer.name;
-                guiLayerClassName.Text = layer.className;
-                guiLayerDLL.Text = layer.dllName;
-                guiLayerPathToDll.Text = layer.pathToDll;
+                var layer = (CardChannelLayerDescription)listBox.SelectedItem;
+                guiLayerName.Text = layer.Name;
+                guiLayerClassName.Text = layer.ClassName;
+                guiLayerDLL.Text = layer.DllName;
+                guiLayerPathToDll.Text = layer.PathToDll;
 
                 try
                 {
-                    System.Reflection.Assembly assembly = System.Reflection.Assembly.LoadFrom(layer.pathToDll + layer.dllName);
-                    System.Reflection.AssemblyName assemblyName = new System.Reflection.AssemblyName(assembly.FullName);
+                    var assembly = Assembly.LoadFrom(layer.PathToDll + layer.DllName);
+                    var assemblyName = new AssemblyName(assembly.FullName);
                     guiLayerAssemblyVersion.Text = assemblyName.Version.ToString();
                     guiLayerAssemblyName.Text = assemblyName.Name;
-                    AssemblyDescriptionAttribute assemblyDescription = (AssemblyDescriptionAttribute)AssemblyDescriptionAttribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
+                    var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
                     guiLayerAssemblyDescription.Text = assemblyDescription.Description;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error(s) occured when accessing layer '" + layer.name + "'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(ex.Message, "Error(s) occured when accessing layer '" + layer.Name + "'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
 
         private void guiLoadedContextLayers_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ListBox listBox = (ListBox)sender;
+            var listBox = (ListBox)sender;
             if (listBox.SelectedItem != null)
             {
                 // Deselect the selected layer in channel layers
                 guiLoadedChannelLayers.SetSelected(0, false);
 
                 // Update assembly informations
-                CardContextLayerDescription layer = (CardContextLayerDescription)listBox.SelectedItem;
-                guiLayerName.Text = layer.name;
-                guiLayerClassName.Text = layer.className;
-                guiLayerDLL.Text = layer.dllName;
-                guiLayerPathToDll.Text = layer.pathToDll;
+                var layer = (CardContextLayerDescription)listBox.SelectedItem;
+                guiLayerName.Text = layer.Name;
+                guiLayerClassName.Text = layer.ClassName;
+                guiLayerDLL.Text = layer.DllName;
+                guiLayerPathToDll.Text = layer.PathToDll;
 
                 try
                 {
-                    System.Reflection.Assembly assembly = System.Reflection.Assembly.LoadFrom(layer.pathToDll + layer.dllName);
-                    System.Reflection.AssemblyName assemblyName = new System.Reflection.AssemblyName(assembly.FullName);
+                    var assembly = Assembly.LoadFrom(layer.PathToDll + layer.DllName);
+                    var assemblyName = new AssemblyName(assembly.FullName);
                     guiLayerAssemblyVersion.Text = assemblyName.Version.ToString();
                     guiLayerAssemblyName.Text = assemblyName.Name;
-                    AssemblyDescriptionAttribute assemblyDescription = (AssemblyDescriptionAttribute)AssemblyDescriptionAttribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
+                    var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
                     guiLayerAssemblyDescription.Text = assemblyDescription.Description;
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error(s) occured when accessing layer '" + layer.name + "'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(ex.Message, "Error(s) occured when accessing layer '" + layer.Name + "'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }
@@ -482,7 +477,7 @@ namespace WSCT.GUI
 
         private void WinSCardGUI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            statusMonitor.stop();
+            statusMonitor.Stop();
         }
 
         #endregion

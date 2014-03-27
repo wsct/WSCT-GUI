@@ -1,15 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
+using WSCT.Core;
 
 namespace WSCT.Layers.Interactive.Actions
 {
     /// <summary>
     /// Concrete action: transmit(...)
-    /// <see cref="WSCT.Core.ICardChannel.transmit"/>
+    /// <see cref="ICardChannel.Transmit"/>
     /// </summary>
     [XmlRoot("transmit")]
     public class TransmitAction : AbstractAction, IXmlSerializable
@@ -19,14 +18,12 @@ namespace WSCT.Layers.Interactive.Actions
         /// <summary>
         /// R-APDU
         /// </summary>
-        public String response
-        { get; set; }
+        public String response { get; set; }
 
         /// <summary>
         /// C-APDU
         /// </summary>
-        public String command
-        { get; set; }
+        public String command { get; set; }
 
         #endregion
 
@@ -57,13 +54,13 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> IXmlSerializable Members
 
         /// <inheritdoc />
-        public System.Xml.Schema.XmlSchema GetSchema()
+        public XmlSchema GetSchema()
         {
             return null;
         }
 
         /// <inheritdoc />
-        public void ReadXml(System.Xml.XmlReader reader)
+        public void ReadXml(XmlReader reader)
         {
             command = reader.GetAttribute("command");
             reader.ReadStartElement();
@@ -72,7 +69,7 @@ namespace WSCT.Layers.Interactive.Actions
         }
 
         /// <inheritdoc />
-        public void WriteXml(System.Xml.XmlWriter writer)
+        public void WriteXml(XmlWriter writer)
         {
             writer.WriteAttributeString("command", command);
             writer.WriteString(response);

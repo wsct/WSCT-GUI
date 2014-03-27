@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
-
+using WSCT.Core;
 using WSCT.Wrapper;
 
 namespace WSCT.Layers.Interactive.Actions
 {
     /// <summary>
     /// Concrete action: disconnect(...)
-    /// <see cref="WSCT.Core.ICardChannel.disconnect"/>
+    /// <see cref="ICardChannel.Disconnect"/>
     /// </summary>
     [XmlRoot("disconnect")]
     public class DisconnectAction : AbstractAction, IXmlSerializable
@@ -20,8 +19,7 @@ namespace WSCT.Layers.Interactive.Actions
         /// <summary>
         /// A parameter of the action
         /// </summary>
-        public Disposition disposition
-        { get; set; }
+        public Disposition disposition { get; set; }
 
         #endregion
 
@@ -50,13 +48,13 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> IXmlSerializable Members
 
         /// <inheritdoc />
-        public System.Xml.Schema.XmlSchema GetSchema()
+        public XmlSchema GetSchema()
         {
             return null;
         }
 
         /// <inheritdoc />
-        public void ReadXml(System.Xml.XmlReader reader)
+        public void ReadXml(XmlReader reader)
         {
             disposition = (Disposition)Enum.Parse(typeof(Disposition), reader.GetAttribute("disposition"));
             reader.ReadStartElement();
@@ -64,7 +62,7 @@ namespace WSCT.Layers.Interactive.Actions
         }
 
         /// <inheritdoc />
-        public void WriteXml(System.Xml.XmlWriter writer)
+        public void WriteXml(XmlWriter writer)
         {
             writer.WriteAttributeString("disposition", disposition.ToString());
         }

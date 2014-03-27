@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace WSCT.Layers.Interactive.Actions
 {
@@ -15,8 +12,7 @@ namespace WSCT.Layers.Interactive.Actions
         /// <summary>
         /// Name of the action (can be used when deserializing a concrete action)
         /// </summary>
-        public String name
-        { get; set; }
+        public String name { get; set; }
 
         #endregion
 
@@ -26,7 +22,7 @@ namespace WSCT.Layers.Interactive.Actions
         /// Default constructor
         /// </summary>
         /// <param name="name">Name of the action</param>
-        public AbstractAction(String name)
+        protected AbstractAction(String name)
         {
             this.name = name;
         }

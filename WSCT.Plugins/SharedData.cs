@@ -1,7 +1,4 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-
 using WSCT.Core;
 
 namespace WSCT.GUI.Plugins
@@ -14,14 +11,14 @@ namespace WSCT.GUI.Plugins
         #region >> Delegates
 
         /// <summary>
-        /// Delegate for event sent after <see cref="SharedData.cardContext"/> object has been changed
-        /// </summary>
-        public delegate void CardContextChangedEventHandler();
-
-        /// <summary>
         /// Delegate for event sent after <see cref="SharedData.cardChannel"/> object has been changed
         /// </summary>
         public delegate void CardChannelChangedEventHandler();
+
+        /// <summary>
+        /// Delegate for event sent after <see cref="SharedData.cardContext"/> object has been changed
+        /// </summary>
+        public delegate void CardContextChangedEventHandler();
 
         #endregion
 
@@ -42,13 +39,18 @@ namespace WSCT.GUI.Plugins
             get
             {
                 if (!validContext)
+                {
                     throw new ContextNotInitializedException();
+                }
                 return _cardContext;
             }
             set
             {
                 _cardContext = value;
-                if (SharedData.cardContextChangedEvent != null) SharedData.cardContextChangedEvent();
+                if (cardContextChangedEvent != null)
+                {
+                    cardContextChangedEvent();
+                }
             }
         }
 
@@ -60,13 +62,18 @@ namespace WSCT.GUI.Plugins
             get
             {
                 if (!validChannel)
+                {
                     throw new ChannelNotInitializedException();
+                }
                 return _cardChannel;
             }
             set
             {
                 _cardChannel = value;
-                if (SharedData.cardChannelChangedEvent != null) SharedData.cardChannelChangedEvent();
+                if (cardChannelChangedEvent != null)
+                {
+                    cardChannelChangedEvent();
+                }
             }
         }
 

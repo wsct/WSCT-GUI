@@ -1,11 +1,8 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Xml.Serialization;
 
 namespace WSCT.GUI.Plugins
 {
-
     /// <summary>
     /// 
     /// </summary>
@@ -13,10 +10,10 @@ namespace WSCT.GUI.Plugins
     {
         #region >> Fields
 
-        String _name;
-        String _dllName;
-        String _className;
-        String _pathToDll;
+        private String _className;
+        private String _dllName;
+        private String _name;
+        private String _pathToDll;
 
         #endregion
 
@@ -61,7 +58,7 @@ namespace WSCT.GUI.Plugins
         public String className
         {
             get { return _className; }
-            set { _className = (value == null ? "" : value); }
+            set { _className = (value ?? string.Empty); }
         }
 
         /// <summary>
@@ -71,7 +68,7 @@ namespace WSCT.GUI.Plugins
         public String pathToDll
         {
             get { return _pathToDll; }
-            set { _pathToDll = (value == null ? "" : value); }
+            set { _pathToDll = (value ?? string.Empty); }
         }
 
         /// <summary>

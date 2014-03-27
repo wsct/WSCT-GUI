@@ -1,7 +1,5 @@
 using System;
 using System.Windows.Forms;
-using System.Xml.Serialization;
-
 using WSCT.Helpers;
 using WSCT.Layers.Interactive;
 using WSCT.Layers.Interactive.Actions;
@@ -13,7 +11,7 @@ namespace WSCT.GUI.Plugins.LayerInteractive
     /// </summary>
     public partial class GUI : Form
     {
-        const String defaultFileName = @"InteractiveData.xml";
+        private const String defaultFileName = @"InteractiveData.xml";
 
         #region >> Constructor
 
@@ -44,20 +42,19 @@ namespace WSCT.GUI.Plugins.LayerInteractive
         {
             if (guiInteractiveMode.InvokeRequired)
             {
-                guiInteractiveMode.Invoke(new MethodInvoker(delegate() { guiInteractiveMode.SelectedItem = InteractiveController.mode; }));
+                guiInteractiveMode.Invoke(new MethodInvoker(() => guiInteractiveMode.SelectedItem = InteractiveController.mode));
             }
             else
             {
                 guiInteractiveMode.SelectedItem = InteractiveController.mode;
             }
-
         }
 
         private void onCardContextChanged()
         {
             if (guiContextLayerPresence.InvokeRequired)
             {
-                guiContextLayerPresence.Invoke(new MethodInvoker(delegate() { guiContextLayerPresence.Checked = InteractiveController.contextLayerPresence; }));
+                guiContextLayerPresence.Invoke(new MethodInvoker(() => guiContextLayerPresence.Checked = InteractiveController.contextLayerPresence));
             }
             else
             {
@@ -69,7 +66,7 @@ namespace WSCT.GUI.Plugins.LayerInteractive
         {
             if (guiContextLayerPresence.InvokeRequired)
             {
-                guiChannelLayerPresence.Invoke(new MethodInvoker(delegate() { guiChannelLayerPresence.Checked = InteractiveController.channelLayerPresence; }));
+                guiChannelLayerPresence.Invoke(new MethodInvoker(() => guiChannelLayerPresence.Checked = InteractiveController.channelLayerPresence));
             }
             else
             {
@@ -105,7 +102,7 @@ namespace WSCT.GUI.Plugins.LayerInteractive
             guiSaveFileInteractive.FileName = defaultFileName;
             if (guiSaveFileInteractive.ShowDialog() == DialogResult.OK && guiSaveFileInteractive.FileName != "")
             {
-                SerializedObject<ActionsContainer>.saveToXml(new ActionsContainer(InteractiveController.actionsList), guiSaveFileInteractive.FileName);
+                SerializedObject<ActionsContainer>.SaveToXml(new ActionsContainer(InteractiveController.actionsList), guiSaveFileInteractive.FileName);
             }
         }
 
@@ -114,7 +111,7 @@ namespace WSCT.GUI.Plugins.LayerInteractive
             guiOpenFileInteractive.FileName = defaultFileName;
             if (guiOpenFileInteractive.ShowDialog() == DialogResult.OK && guiOpenFileInteractive.FileName != "")
             {
-                ActionsContainer actionsContainer = SerializedObject<ActionsContainer>.loadFromXml(guiOpenFileInteractive.FileName);
+                var actionsContainer = SerializedObject<ActionsContainer>.LoadFromXml(guiOpenFileInteractive.FileName);
                 InteractiveController.actionsList = actionsContainer.actionsList;
             }
             InteractiveController.actionsListId = 0;

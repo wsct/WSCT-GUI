@@ -1,23 +1,20 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-
+using System.Drawing;
 using WSCT.Core;
 using WSCT.Core.APDU;
-using WSCT.Wrapper;
-
 using WSCT.Helpers;
+using WSCT.Wrapper;
 
 namespace WSCT.GUI
 {
-    class CardObserver
+    internal class CardObserver
     {
-        internal String header;
-        internal System.Drawing.Color highlightColor = System.Drawing.Color.DarkBlue;
-        internal System.Drawing.Color standardColor = System.Drawing.Color.Black;
-        internal System.Drawing.Color errorColor = System.Drawing.Color.Red;
+        internal Color errorColor = Color.Red;
 
         internal WinSCardGUI gui;
+        internal String header;
+        internal Color highlightColor = Color.DarkBlue;
+        internal Color standardColor = Color.Black;
 
         internal virtual void __start()
         {
@@ -46,51 +43,51 @@ namespace WSCT.GUI
         /// 
         /// </summary>
         /// <param name="context"></param>
-        public void observeContext(Core.ICardContextObservable context)
+        public void observeContext(ICardContextObservable context)
         {
-            context.beforeEstablishEvent += beforeEstablish;
+            context.BeforeEstablishEvent += beforeEstablish;
             //context.beforeGetStatusChangeEvent += beforeGetStatusChange;
-            context.beforeListReaderGroupsEvent += beforeListReaderGroups;
-            context.beforeListReadersEvent += beforeListReaders;
-            context.beforeReleaseEvent += beforeRelease;
+            context.BeforeListReaderGroupsEvent += beforeListReaderGroups;
+            context.BeforeListReadersEvent += beforeListReaders;
+            context.BeforeReleaseEvent += beforeRelease;
 
-            context.afterEstablishEvent += notifyEstablish;
+            context.AfterEstablishEvent += notifyEstablish;
             //context.afterGetStatusChangeEvent += notifyGetStatusChange;
-            context.afterListReaderGroupsEvent += notifyListReaderGroups;
-            context.afterListReadersEvent += notifyListReaders;
-            context.afterReleaseEvent += notifyRelease;
+            context.AfterListReaderGroupsEvent += notifyListReaderGroups;
+            context.AfterListReadersEvent += notifyListReaders;
+            context.AfterReleaseEvent += notifyRelease;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="channel"></param>
-        public void observeChannel(Core.ICardChannelObservable channel)
+        public void observeChannel(ICardChannelObservable channel)
         {
-            channel.beforeConnectEvent += beforeConnect;
-            channel.afterConnectEvent += notifyConnect;
+            channel.BeforeConnectEvent += beforeConnect;
+            channel.AfterConnectEvent += notifyConnect;
 
-            channel.beforeDisconnectEvent += beforeDisconnect;
-            channel.afterDisconnectEvent += notifyDisconnect;
+            channel.BeforeDisconnectEvent += beforeDisconnect;
+            channel.AfterDisconnectEvent += notifyDisconnect;
 
-            channel.beforeGetAttribEvent += beforeGetAttrib;
-            channel.afterGetAttribEvent += notifyGetAttrib;
+            channel.BeforeGetAttribEvent += beforeGetAttrib;
+            channel.AfterGetAttribEvent += notifyGetAttrib;
 
-            channel.beforeReconnectEvent += beforeReconnect;
-            channel.afterReconnectEvent += notifyReconnect;
+            channel.BeforeReconnectEvent += beforeReconnect;
+            channel.AfterReconnectEvent += notifyReconnect;
 
-            channel.beforeTransmitEvent += beforeTransmit;
-            channel.afterTransmitEvent += notifyTransmit;
+            channel.BeforeTransmitEvent += beforeTransmit;
+            channel.AfterTransmitEvent += notifyTransmit;
         }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="monitor"></param>
-        public void observeMonitor(Core.StatusChangeMonitor monitor)
+        public void observeMonitor(StatusChangeMonitor monitor)
         {
-            monitor.onCardInsertionEvent += onCardInsertionEvent;
-            monitor.onCardRemovalEvent += onCardRemovalEvent;
+            monitor.OnCardInsertionEvent += onCardInsertionEvent;
+            monitor.OnCardRemovalEvent += onCardRemovalEvent;
         }
 
         #endregion
@@ -101,11 +98,11 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new afterConnect(notifyConnect), new Object[] { cardChannel, shareMode, preferedProtocol, errorCode });
+                gui.Invoke(new AfterConnect(notifyConnect), new Object[] { cardChannel, shareMode, preferedProtocol, errorCode });
             }
             else
             {
-                if (errorCode == ErrorCode.SCARD_S_SUCCESS)
+                if (errorCode == ErrorCode.Success)
                 {
                     gui.guiLogsView.AppendText(String.Format(header + ">> Error: {1}\n", LogLevel.Info, errorCode));
                     gui.updateChannelStatus(ChannelStatusType.connected);
@@ -125,11 +122,11 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new afterDisconnect(notifyDisconnect), new Object[] { cardChannel, disposition, errorCode });
+                gui.Invoke(new AfterDisconnect(notifyDisconnect), new Object[] { cardChannel, disposition, errorCode });
             }
             else
             {
-                if (errorCode == ErrorCode.SCARD_S_SUCCESS)
+                if (errorCode == ErrorCode.Success)
                 {
                     gui.guiLogsView.AppendText(String.Format(header + ">> Error: {1}\n", LogLevel.Info, errorCode));
                     gui.updateChannelStatus(ChannelStatusType.disconnected);
@@ -145,19 +142,19 @@ namespace WSCT.GUI
             }
         }
 
-        public void notifyGetAttrib(ICardChannel cardChannel, Attrib attrib, Byte[] buffer, ErrorCode errorCode)
+        public void notifyGetAttrib(ICardChannel cardChannel, Attrib attrib, byte[] buffer, ErrorCode errorCode)
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new afterGetAttrib(notifyGetAttrib), new Object[] { cardChannel, attrib, buffer, errorCode });
+                gui.Invoke(new AfterGetAttrib(notifyGetAttrib), new Object[] { cardChannel, attrib, buffer, errorCode });
             }
             else
             {
-                if (errorCode == ErrorCode.SCARD_S_SUCCESS)
+                if (errorCode == ErrorCode.Success)
                 {
                     gui.guiLogsView.AppendText(String.Format(header + ">> Error: {1}\n", LogLevel.Info, errorCode));
-                    gui.guiLogsView.AppendText(String.Format(header + ">> Byte[]: [{1}]\n", LogLevel.Info, buffer.toHexa()));
-                    gui.guiLogsView.AppendText(String.Format(header + ">> String: \"{1}\"\n", LogLevel.Info, buffer.toString()));
+                    gui.guiLogsView.AppendText(String.Format(header + ">> byte[]: [{1}]\n", LogLevel.Info, buffer.ToHexa()));
+                    gui.guiLogsView.AppendText(String.Format(header + ">> String: \"{1}\"\n", LogLevel.Info, buffer.ToAsciiString()));
                 }
                 else
                 {
@@ -173,11 +170,11 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new afterReconnect(notifyReconnect), new Object[] { cardChannel, shareMode, preferedProtocol, initialization, errorCode });
+                gui.Invoke(new AfterReconnect(notifyReconnect), new Object[] { cardChannel, shareMode, preferedProtocol, initialization, errorCode });
             }
             else
             {
-                if (errorCode == ErrorCode.SCARD_S_SUCCESS)
+                if (errorCode == ErrorCode.Success)
                 {
                     gui.guiLogsView.AppendText(String.Format(header + ">> Error: {1}\n", LogLevel.Info, errorCode));
                     gui.updateChannelStatus(ChannelStatusType.connected);
@@ -197,11 +194,11 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new afterTransmit(notifyTransmit), new Object[] { cardChannel, cardCommand, cardResponse, errorCode });
+                gui.Invoke(new AfterTransmit(notifyTransmit), new Object[] { cardChannel, cardCommand, cardResponse, errorCode });
             }
             else
             {
-                if (errorCode == ErrorCode.SCARD_S_SUCCESS)
+                if (errorCode == ErrorCode.Success)
                 {
                     gui.guiLogsView.AppendText(String.Format(header + ">> Error: {1}\n", LogLevel.Info, errorCode));
                     gui.guiLogsView.AppendText(String.Format(header + ">> RAPDU: [{1}]\n", LogLevel.Info, cardResponse));
@@ -220,12 +217,12 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new beforeConnect(beforeConnect), new Object[] { cardChannel, shareMode, preferedProtocol });
+                gui.Invoke(new BeforeConnect(beforeConnect), new Object[] { cardChannel, shareMode, preferedProtocol });
             }
             else
             {
                 gui.guiLogsView.SelectionColor = highlightColor;
-                gui.guiLogsView.AppendText(String.Format(header + "connect(\"{1}\",{2},{3})\n", LogLevel.Info, cardChannel.readerName, shareMode, preferedProtocol));
+                gui.guiLogsView.AppendText(String.Format(header + "connect(\"{1}\",{2},{3})\n", LogLevel.Info, cardChannel.ReaderName, shareMode, preferedProtocol));
                 gui.guiLogsView.SelectionColor = standardColor;
             }
         }
@@ -234,7 +231,7 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new beforeDisconnect(beforeDisconnect), new Object[] { cardChannel, disposition });
+                gui.Invoke(new BeforeDisconnect(beforeDisconnect), new Object[] { cardChannel, disposition });
             }
             else
             {
@@ -244,11 +241,11 @@ namespace WSCT.GUI
             }
         }
 
-        public void beforeGetAttrib(ICardChannel cardChannel, Attrib attrib, Byte[] buffer)
+        public void beforeGetAttrib(ICardChannel cardChannel, Attrib attrib, byte[] buffer)
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new beforeGetAttrib(beforeGetAttrib), new Object[] { cardChannel, attrib, buffer });
+                gui.Invoke(new BeforeGetAttrib(beforeGetAttrib), new Object[] { cardChannel, attrib, buffer });
             }
             else
             {
@@ -262,7 +259,7 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new beforeReconnect(beforeReconnect), new Object[] { cardChannel, shareMode, preferedProtocol, initialization });
+                gui.Invoke(new BeforeReconnect(beforeReconnect), new Object[] { cardChannel, shareMode, preferedProtocol, initialization });
             }
             else
             {
@@ -272,11 +269,11 @@ namespace WSCT.GUI
             }
         }
 
-        public void beforeTransmit(ICardChannel cardChannel, ICardCommand cardCommand, Byte[] recvBuffer, UInt32 recvSize)
+        public void beforeTransmit(ICardChannel cardChannel, ICardCommand cardCommand, byte[] recvBuffer, UInt32 recvSize)
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new beforeTransmit(beforeTransmit), new Object[] { cardChannel, cardCommand, recvBuffer, recvSize });
+                gui.Invoke(new BeforeTransmit(beforeTransmit), new Object[] { cardChannel, cardCommand, recvBuffer, recvSize });
             }
             else
             {
@@ -290,7 +287,7 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new beforeTransmit(beforeTransmit), new Object[] { cardChannel, cardCommand, cardResponse });
+                gui.Invoke(new BeforeTransmit(beforeTransmit), new Object[] { cardChannel, cardCommand, cardResponse });
             }
             else
             {
@@ -308,7 +305,7 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new beforeEstablish(beforeEstablish), new Object[] { cardContext });
+                gui.Invoke(new BeforeEstablish(beforeEstablish), new Object[] { cardContext });
             }
             else
             {
@@ -322,7 +319,7 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new beforeGetStatusChange(beforeGetStatusChange), new Object[] { cardContext, timeout, readerStates });
+                gui.Invoke(new BeforeGetStatusChange(beforeGetStatusChange), new Object[] { cardContext, timeout, readerStates });
             }
             else
             {
@@ -336,7 +333,7 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new beforeListReaders(beforeListReaders), new Object[] { cardContext, group });
+                gui.Invoke(new BeforeListReaders(beforeListReaders), new Object[] { cardContext, group });
             }
             else
             {
@@ -350,7 +347,7 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new beforeListReaderGroups(beforeListReaderGroups), new Object[] { cardContext });
+                gui.Invoke(new BeforeListReaderGroups(beforeListReaderGroups), new Object[] { cardContext });
             }
             else
             {
@@ -364,7 +361,7 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new beforeRelease(beforeRelease), new Object[] { cardContext });
+                gui.Invoke(new BeforeRelease(beforeRelease), new Object[] { cardContext });
             }
             else
             {
@@ -378,7 +375,7 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new afterEstablish(notifyEstablish), new Object[] { cardContext, errorCode });
+                gui.Invoke(new AfterEstablish(notifyEstablish), new Object[] { cardContext, errorCode });
             }
             else
             {
@@ -393,18 +390,20 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new afterGetStatusChange(notifyGetStatusChange), new Object[] { cardContext, timeout, readerStates, errorCode });
+                gui.Invoke(new AfterGetStatusChange(notifyGetStatusChange), new Object[] { cardContext, timeout, readerStates, errorCode });
             }
             else
             {
                 gui.guiLogsView.SelectionColor = highlightColor;
                 gui.guiLogsView.AppendText(String.Format(header + "Error: {1}\n", LogLevel.Info, errorCode));
                 gui.guiLogsView.SelectionColor = standardColor;
-                if (errorCode == ErrorCode.SCARD_S_SUCCESS)
-                    foreach (AbstractReaderState readerState in readerStates)
+                if (errorCode == ErrorCode.Success)
+                {
+                    foreach (var readerState in readerStates)
                     {
-                        gui.guiLogsView.AppendText(String.Format(header + ">> State:[{2}]\n", LogLevel.Info, readerState.eventState, readerState));
+                        gui.guiLogsView.AppendText(String.Format(header + ">> State:[{2}]\n", LogLevel.Info, readerState.EventState, readerState));
                     }
+                }
             }
         }
 
@@ -412,16 +411,20 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new afterListReaders(notifyListReaders), new Object[] { cardContext, group, errorCode });
+                gui.Invoke(new AfterListReaders(notifyListReaders), new Object[] { cardContext, group, errorCode });
             }
             else
             {
                 gui.guiLogsView.SelectionColor = highlightColor;
                 gui.guiLogsView.AppendText(String.Format(header + ">> Error: {1}\n", LogLevel.Info, errorCode, group));
                 gui.guiLogsView.SelectionColor = standardColor;
-                if (errorCode == ErrorCode.SCARD_S_SUCCESS)
-                    foreach (String reader in cardContext.readers)
+                if (errorCode == ErrorCode.Success)
+                {
+                    foreach (var reader in cardContext.Readers)
+                    {
                         gui.guiLogsView.AppendText(String.Format(header + ">> Reader descriptionFound: {1}\n", LogLevel.Info, reader));
+                    }
+                }
                 gui.updateLastError(errorCode);
             }
         }
@@ -430,16 +433,20 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new afterListReaderGroups(notifyListReaderGroups), new Object[] { cardContext, errorCode });
+                gui.Invoke(new AfterListReaderGroups(notifyListReaderGroups), new Object[] { cardContext, errorCode });
             }
             else
             {
                 gui.guiLogsView.SelectionColor = highlightColor;
                 gui.guiLogsView.AppendText(String.Format(header + ">> Error: {1}\n", LogLevel.Info, errorCode));
                 gui.guiLogsView.SelectionColor = standardColor;
-                if (errorCode == ErrorCode.SCARD_S_SUCCESS)
-                    foreach (String group in cardContext.groups)
+                if (errorCode == ErrorCode.Success)
+                {
+                    foreach (var group in cardContext.Groups)
+                    {
                         gui.guiLogsView.AppendText(String.Format(header + ">> Reader groups descriptionFound: {1}\n", LogLevel.Info, group));
+                    }
+                }
                 gui.updateLastError(errorCode);
             }
         }
@@ -448,7 +455,7 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new afterRelease(notifyRelease), new Object[] { cardContext, errorCode });
+                gui.Invoke(new AfterRelease(notifyRelease), new Object[] { cardContext, errorCode });
             }
             else
             {
@@ -467,12 +474,12 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new StatusChangeMonitor.onCardInsertionEventHandler(onCardInsertionEvent), new Object[] { readerState });
+                gui.Invoke(new StatusChangeMonitor.OnCardInsertionEventHandler(onCardInsertionEvent), new Object[] { readerState });
             }
             else
             {
                 gui.guiLogsView.SelectionColor = highlightColor;
-                gui.guiLogsView.AppendText(String.Format(header + ">> Card insertion detected on reader {1}\n", LogLevel.Info, readerState.readerName));
+                gui.guiLogsView.AppendText(String.Format(header + ">> Card insertion detected on reader {1}\n", LogLevel.Info, readerState.ReaderName));
             }
         }
 
@@ -480,12 +487,12 @@ namespace WSCT.GUI
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new StatusChangeMonitor.onCardRemovalEventHandler(onCardRemovalEvent), new Object[] { readerState });
+                gui.Invoke(new StatusChangeMonitor.OnCardRemovalEventHandler(onCardRemovalEvent), new Object[] { readerState });
             }
             else
             {
                 gui.guiLogsView.SelectionColor = highlightColor;
-                gui.guiLogsView.AppendText(String.Format(header + ">> Card removal detected on reader {1}\n", LogLevel.Info, readerState.readerName));
+                gui.guiLogsView.AppendText(String.Format(header + ">> Card removal detected on reader {1}\n", LogLevel.Info, readerState.ReaderName));
             }
         }
 

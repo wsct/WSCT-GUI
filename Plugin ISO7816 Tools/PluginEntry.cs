@@ -1,8 +1,3 @@
-using System;
-using System.Reflection;
-using System.Threading;
-using System.Windows.Forms;
-
 namespace WSCT.GUI.Plugins.ISO7816Tools
 {
     /// <summary>

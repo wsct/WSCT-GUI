@@ -1,9 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Windows.Forms;
-using System.IO;
+using System.Linq;
 using System.Xml.Serialization;
+using WSCT.Helpers.Reflection;
 
 namespace WSCT.GUI.Plugins
 {
@@ -15,7 +14,7 @@ namespace WSCT.GUI.Plugins
     {
         #region >> Fields
 
-        List<PluginDescription> _plugins;
+        private List<PluginDescription> _plugins;
 
         #endregion
 
@@ -27,10 +26,7 @@ namespace WSCT.GUI.Plugins
         [XmlIgnore]
         public int count
         {
-            get
-            {
-                return _plugins.Count;
-            }
+            get { return _plugins.Count; }
         }
 
         /// <summary>
@@ -66,7 +62,7 @@ namespace WSCT.GUI.Plugins
         /// <returns>A new instance of the pluginDesc</returns>
         public static IPlugin createInstance(PluginDescription pluginDesc)
         {
-            return Helpers.Reflection.AssemblyLoader.createInstance<Plugins.IPlugin>(pluginDesc.pathToDll + pluginDesc.dllName, pluginDesc.className);
+            return AssemblyLoader.CreateInstance<IPlugin>(pluginDesc.pathToDll + pluginDesc.dllName, pluginDesc.className);
         }
 
         #endregion
@@ -89,7 +85,7 @@ namespace WSCT.GUI.Plugins
         /// <returns>A new instance of the pluginDesc</returns>
         public IPlugin createInstance(String pluginName)
         {
-            return PluginRepository.createInstance(get(pluginName));
+            return createInstance(get(pluginName));
         }
 
         /// <summary>
@@ -99,14 +95,7 @@ namespace WSCT.GUI.Plugins
         /// <returns><c>true</c> if the pluginDesc descriptor exists</returns>
         public Boolean isValid(String pluginName)
         {
-            Boolean found = false;
-            foreach (PluginDescription plugin in _plugins)
-                if (plugin.name == pluginName)
-                {
-                    found = true;
-                    break;
-                }
-            return found;
+            return _plugins.Any(plugin => plugin.name == pluginName);
         }
 
         /// <summary>
@@ -116,14 +105,7 @@ namespace WSCT.GUI.Plugins
         /// <returns>The PluginDescriptor instance or null if not find</returns>
         public PluginDescription get(String pluginName)
         {
-            PluginDescription pluginFound = null;
-            foreach (PluginDescription plugin in _plugins)
-                if (plugin.name == pluginName && plugin.isValid)
-                {
-                    pluginFound = plugin;
-                    break;
-                }
-            return pluginFound;
+            return _plugins.FirstOrDefault(plugin => plugin.name == pluginName && plugin.isValid);
         }
 
         #endregion

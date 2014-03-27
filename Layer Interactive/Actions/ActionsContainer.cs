@@ -1,9 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
 using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace WSCT.Layers.Interactive.Actions
@@ -19,8 +17,7 @@ namespace WSCT.Layers.Interactive.Actions
         /// <summary>
         /// List of concrete actions
         /// </summary>
-        public List<AbstractAction> actionsList
-        { get; set; }
+        public List<AbstractAction> actionsList { get; set; }
 
         #endregion
 
@@ -40,7 +37,7 @@ namespace WSCT.Layers.Interactive.Actions
         public ActionsContainer(List<AbstractAction> actionList)
             : this()
         {
-            this.actionsList = actionList;
+            actionsList = actionList;
         }
 
         #endregion
@@ -48,16 +45,15 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> IXmlSerializable Members
 
         /// <inheritdoc />
-        public System.Xml.Schema.XmlSchema GetSchema()
+        public XmlSchema GetSchema()
         {
             return null;
         }
 
         /// <inheritdoc />
-        public void ReadXml(System.Xml.XmlReader reader)
+        public void ReadXml(XmlReader reader)
         {
             actionsList = new List<AbstractAction>();
-            XmlSerializer serializer;
 
             reader.ReadStartElement();
 
@@ -66,6 +62,7 @@ namespace WSCT.Layers.Interactive.Actions
                 switch (reader.NodeType)
                 {
                     case (XmlNodeType.Element):
+                        XmlSerializer serializer;
                         switch (reader.Name)
                         {
                             case "connect":
@@ -100,11 +97,11 @@ namespace WSCT.Layers.Interactive.Actions
         }
 
         /// <inheritdoc />
-        public void WriteXml(System.Xml.XmlWriter writer)
+        public void WriteXml(XmlWriter writer)
         {
-            XmlSerializer serializer;
-            foreach (AbstractAction action in actionsList)
+            foreach (var action in actionsList)
             {
+                XmlSerializer serializer;
                 if (action is ConnectAction)
                 {
                     serializer = new XmlSerializer(typeof(ConnectAction));

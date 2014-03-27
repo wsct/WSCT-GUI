@@ -1,18 +1,14 @@
 using System;
-using System.Collections.Generic;
-using System.Text;
-
 using WSCT.Core;
 using WSCT.Core.APDU;
+using WSCT.ISO7816;
 using WSCT.Wrapper;
-
-using WSCT.Helpers;
 
 namespace WSCT.GUI.Plugins.ISO7816Tools
 {
-    class CardObserver
+    internal class CardObserver
     {
-        private GUI gui;
+        private readonly GUI gui;
 
         #region >> Constructors
 
@@ -32,22 +28,22 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         /// 
         /// </summary>
         /// <param name="channel"></param>
-        public void observeChannel(Core.ICardChannelObservable channel)
+        public void observeChannel(ICardChannelObservable channel)
         {
-            channel.beforeConnectEvent += beforeConnect;
-            channel.afterConnectEvent += notifyConnect;
+            channel.BeforeConnectEvent += beforeConnect;
+            channel.AfterConnectEvent += notifyConnect;
 
-            channel.beforeDisconnectEvent += beforeDisconnect;
-            channel.afterDisconnectEvent += notifyDisconnect;
+            channel.BeforeDisconnectEvent += beforeDisconnect;
+            channel.AfterDisconnectEvent += notifyDisconnect;
 
-            channel.beforeGetAttribEvent += beforeGetAttrib;
-            channel.afterGetAttribEvent += notifyGetAttrib;
+            channel.BeforeGetAttribEvent += beforeGetAttrib;
+            channel.AfterGetAttribEvent += notifyGetAttrib;
 
-            channel.beforeReconnectEvent += beforeReconnect;
-            channel.afterReconnectEvent += notifyReconnect;
+            channel.BeforeReconnectEvent += beforeReconnect;
+            channel.AfterReconnectEvent += notifyReconnect;
 
-            channel.beforeTransmitEvent += beforeTransmit;
-            channel.afterTransmitEvent += notifyTransmit;
+            channel.BeforeTransmitEvent += beforeTransmit;
+            channel.AfterTransmitEvent += notifyTransmit;
         }
 
         #region >> CardChannelObservable delegates
@@ -80,7 +76,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         /// <param name="errorCode"></param>
         /// <param name="attrib"></param>
         /// <param name="buffer"></param>
-        public void notifyGetAttrib(ICardChannel cardChannel, Attrib attrib, Byte[] buffer, ErrorCode errorCode)
+        public void notifyGetAttrib(ICardChannel cardChannel, Attrib attrib, byte[] buffer, ErrorCode errorCode)
         {
         }
 
@@ -107,20 +103,20 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new afterTransmit(notifyTransmit), new Object[] { cardChannel, cardCommand, cardResponse, errorCode });
+                gui.Invoke(new AfterTransmit(notifyTransmit), new Object[] { cardChannel, cardCommand, cardResponse, errorCode });
             }
             else
             {
-                if (errorCode == ErrorCode.SCARD_S_SUCCESS)
+                if (errorCode == ErrorCode.Success)
                 {
                     gui.updateRAPDU(cardResponse);
-                    gui.updateStatusWord((ISO7816.ResponseAPDU)cardResponse);
+                    gui.updateStatusWord((ResponseAPDU)cardResponse);
                     gui.updateHistoric(cardCommand, cardResponse);
                 }
                 else
                 {
                     gui.updateRAPDU(null);
-                    gui.updateStatusWord((ISO7816.ResponseAPDU)null);
+                    gui.updateStatusWord(null);
                     gui.updateHistoric(cardCommand, null);
                 }
             }
@@ -151,7 +147,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         /// <param name="cardChannel"></param>
         /// <param name="attrib"></param>
         /// <param name="buffer"></param>
-        public void beforeGetAttrib(ICardChannel cardChannel, Attrib attrib, Byte[] buffer)
+        public void beforeGetAttrib(ICardChannel cardChannel, Attrib attrib, byte[] buffer)
         {
         }
 
@@ -173,11 +169,11 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         /// <param name="cardCommand"></param>
         /// <param name="recvBuffer"></param>
         /// <param name="recvSize"></param>
-        public void beforeTransmit(ICardChannel cardChannel, ICardCommand cardCommand, Byte[] recvBuffer, UInt32 recvSize)
+        public void beforeTransmit(ICardChannel cardChannel, ICardCommand cardCommand, byte[] recvBuffer, UInt32 recvSize)
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new beforeTransmit(beforeTransmit), new Object[] { cardChannel, cardCommand, recvBuffer, recvSize });
+                gui.Invoke(new BeforeTransmit(beforeTransmit), new Object[] { cardChannel, cardCommand, recvBuffer, recvSize });
             }
             else
             {
@@ -195,7 +191,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new beforeTransmit(beforeTransmit), new Object[] { cardChannel, cardCommand, cardResponse });
+                gui.Invoke(new BeforeTransmit(beforeTransmit), new Object[] { cardChannel, cardCommand, cardResponse });
             }
             else
             {

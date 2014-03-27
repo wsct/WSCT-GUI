@@ -1,12 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-
-using WSCT.Helpers;
-using WSCT.Wrapper;
 using WSCT.Core;
 using WSCT.Stack;
+using WSCT.Wrapper;
 
 namespace WSCT.Layers.Interactive
 {
@@ -18,14 +14,14 @@ namespace WSCT.Layers.Interactive
     {
         #region >> Fields
 
-        ICardContextStack _stack;
+        private ICardContextStack _stack;
 
         #endregion
 
         #region >> ICardContextLayer
 
         /// <inheritdoc/>
-        public void setStack(ICardContextStack stack)
+        public void SetStack(ICardContextStack stack)
         {
             _stack = stack;
         }
@@ -35,38 +31,29 @@ namespace WSCT.Layers.Interactive
         #region >> ICardContext
 
         /// <inheritdoc />
-        public IntPtr context
+        public IntPtr Context
         {
-            get
-            {
-                return _stack.requestLayer(this, SearchMode.next).context;
-            }
+            get { return _stack.RequestLayer(this, SearchMode.Next).Context; }
         }
 
         /// <inheritdoc />
-        public string[] groups
+        public string[] Groups
         {
-            get
-            {
-                return _stack.requestLayer(this, SearchMode.next).groups;
-            }
+            get { return _stack.RequestLayer(this, SearchMode.Next).Groups; }
         }
 
         /// <inheritdoc />
-        public int groupsCount
+        public int GroupsCount
         {
-            get
-            {
-                return _stack.requestLayer(this, SearchMode.next).groupsCount;
-            }
+            get { return _stack.RequestLayer(this, SearchMode.Next).GroupsCount; }
         }
 
         /// <inheritdoc />
-        public string[] readers
+        public string[] Readers
         {
             get
             {
-                String[] readers = _stack.requestLayer(this, SearchMode.next).readers;
+                var readers = _stack.RequestLayer(this, SearchMode.Next).Readers;
                 if (InteractiveController.useFakeReader)
                 {
                     Array.Resize(ref readers, readers.Length + 1);
@@ -77,118 +64,162 @@ namespace WSCT.Layers.Interactive
         }
 
         /// <inheritdoc />
-        public int readersCount
+        public int ReadersCount
         {
             get
             {
-                int readersCount = _stack.requestLayer(this, SearchMode.next).readersCount;
+                var readersCount = _stack.RequestLayer(this, SearchMode.Next).ReadersCount;
                 if (InteractiveController.useFakeReader)
+                {
                     readersCount += 1;
+                }
                 return readersCount;
             }
         }
 
         /// <inheritdoc />
-        public Wrapper.ErrorCode cancel()
+        public ErrorCode Cancel()
         {
-            if (beforeCancelEvent != null) beforeCancelEvent(this);
+            if (BeforeCancelEvent != null)
+            {
+                BeforeCancelEvent(this);
+            }
 
-            ErrorCode ret = _stack.requestLayer(this, SearchMode.next).cancel();
+            var ret = _stack.RequestLayer(this, SearchMode.Next).Cancel();
 
-            if (afterCancelEvent != null) afterCancelEvent(this, ret);
+            if (AfterCancelEvent != null)
+            {
+                AfterCancelEvent(this, ret);
+            }
 
             return ret;
         }
 
         /// <inheritdoc />
-        public Wrapper.ErrorCode establish()
+        public ErrorCode Establish()
         {
-            if (beforeEstablishEvent != null) beforeEstablishEvent(this);
+            if (BeforeEstablishEvent != null)
+            {
+                BeforeEstablishEvent(this);
+            }
 
-            ErrorCode ret = _stack.requestLayer(this, SearchMode.next).establish();
+            var ret = _stack.RequestLayer(this, SearchMode.Next).Establish();
 
-            if (afterEstablishEvent != null) afterEstablishEvent(this, ret);
+            if (AfterEstablishEvent != null)
+            {
+                AfterEstablishEvent(this, ret);
+            }
 
             return ret;
         }
 
         /// <inheritdoc />
-        public ErrorCode getStatusChange(uint timeout, AbstractReaderState[] readerStates)
+        public ErrorCode GetStatusChange(uint timeout, AbstractReaderState[] readerStates)
         {
             ErrorCode ret;
 
-            if (beforeGetStatusChangeEvent != null) beforeGetStatusChangeEvent(this, timeout, readerStates);
+            if (BeforeGetStatusChangeEvent != null)
+            {
+                BeforeGetStatusChangeEvent(this, timeout, readerStates);
+            }
 
             // Filtering fakeReader
-            AbstractReaderState fakeReaderState = readerStates.FirstOrDefault(rs => rs.readerName == InteractiveController.fakeReaderName);
+            var fakeReaderState = readerStates.FirstOrDefault(rs => rs.ReaderName == InteractiveController.fakeReaderName);
             if (fakeReaderState != null)
             {
                 // To be improved to wait for eventState occuring on fake reader
                 if (readerStates.Length > 1)
                 {
                     // Sending getStatusChange of other readers to the next layer
-                    AbstractReaderState[] filteredReaderStates = readerStates.Where(rs => rs.readerName != InteractiveController.fakeReaderName).ToArray();
-                    ret = _stack.requestLayer(this, SearchMode.next).getStatusChange(timeout, filteredReaderStates);
+                    var filteredReaderStates = readerStates.Where(rs => rs.ReaderName != InteractiveController.fakeReaderName).ToArray();
+                    ret = _stack.RequestLayer(this, SearchMode.Next).GetStatusChange(timeout, filteredReaderStates);
                 }
                 else
                 {
-                    ret = ErrorCode.SCARD_S_SUCCESS;
+                    ret = ErrorCode.Success;
                 }
             }
             else
             {
-                ret = _stack.requestLayer(this, SearchMode.next).getStatusChange(timeout, readerStates);
+                ret = _stack.RequestLayer(this, SearchMode.Next).GetStatusChange(timeout, readerStates);
             }
 
-            if (afterGetStatusChangeEvent != null) afterGetStatusChangeEvent(this, timeout, readerStates, ret);
+            if (AfterGetStatusChangeEvent != null)
+            {
+                AfterGetStatusChangeEvent(this, timeout, readerStates, ret);
+            }
 
             return ret;
         }
 
         /// <inheritdoc />
-        public Wrapper.ErrorCode isValid()
+        public ErrorCode IsValid()
         {
-            if (beforeIsValidEvent != null) beforeIsValidEvent(this);
+            if (BeforeIsValidEvent != null)
+            {
+                BeforeIsValidEvent(this);
+            }
 
-            ErrorCode ret = _stack.requestLayer(this, SearchMode.next).isValid();
+            var ret = _stack.RequestLayer(this, SearchMode.Next).IsValid();
 
-            if (afterIsValidEvent != null) afterIsValidEvent(this, ret);
+            if (AfterIsValidEvent != null)
+            {
+                AfterIsValidEvent(this, ret);
+            }
 
             return ret;
         }
 
         /// <inheritdoc />
-        public Wrapper.ErrorCode listReaders(string group)
+        public ErrorCode ListReaders(string group)
         {
-            if (beforeListReadersEvent != null) beforeListReadersEvent(this, group);
+            if (BeforeListReadersEvent != null)
+            {
+                BeforeListReadersEvent(this, group);
+            }
 
-            ErrorCode ret = _stack.requestLayer(this, SearchMode.next).listReaders(group);
+            var ret = _stack.RequestLayer(this, SearchMode.Next).ListReaders(group);
 
-            if (afterListReadersEvent != null) afterListReadersEvent(this, group, ret);
+            if (AfterListReadersEvent != null)
+            {
+                AfterListReadersEvent(this, group, ret);
+            }
 
             return ret;
         }
 
         /// <inheritdoc />
-        public Wrapper.ErrorCode listReaderGroups()
+        public ErrorCode ListReaderGroups()
         {
-            if (beforeListReaderGroupsEvent != null) beforeListReaderGroupsEvent(this);
+            if (BeforeListReaderGroupsEvent != null)
+            {
+                BeforeListReaderGroupsEvent(this);
+            }
 
-            ErrorCode ret = _stack.requestLayer(this, SearchMode.next).listReaderGroups();
+            var ret = _stack.RequestLayer(this, SearchMode.Next).ListReaderGroups();
 
-            if (afterListReaderGroupsEvent != null) afterListReaderGroupsEvent(this, ret);
+            if (AfterListReaderGroupsEvent != null)
+            {
+                AfterListReaderGroupsEvent(this, ret);
+            }
 
             return ret;
         }
 
         /// <inheritdoc />
-        public Wrapper.ErrorCode release()
+        public ErrorCode Release()
         {
-            if (beforeReleaseEvent != null) beforeReleaseEvent(this);
+            if (BeforeReleaseEvent != null)
+            {
+                BeforeReleaseEvent(this);
+            }
 
-            ErrorCode ret = _stack.requestLayer(this, SearchMode.next).release();
+            var ret = _stack.RequestLayer(this, SearchMode.Next).Release();
 
-            if (afterReleaseEvent != null) afterReleaseEvent(this, ret);
+            if (AfterReleaseEvent != null)
+            {
+                AfterReleaseEvent(this, ret);
+            }
 
             return ret;
         }
@@ -198,46 +229,46 @@ namespace WSCT.Layers.Interactive
         #region >> ICardContextObservable
 
         /// <inheritdoc />
-        public event beforeCancel beforeCancelEvent;
+        public event BeforeCancel BeforeCancelEvent;
 
         /// <inheritdoc />
-        public event afterCancel afterCancelEvent;
+        public event AfterCancel AfterCancelEvent;
 
         /// <inheritdoc />
-        public event beforeEstablish beforeEstablishEvent;
+        public event BeforeEstablish BeforeEstablishEvent;
 
         /// <inheritdoc />
-        public event afterEstablish afterEstablishEvent;
+        public event AfterEstablish AfterEstablishEvent;
 
         /// <inheritdoc />
-        public event beforeGetStatusChange beforeGetStatusChangeEvent;
+        public event BeforeGetStatusChange BeforeGetStatusChangeEvent;
 
         /// <inheritdoc />
-        public event afterGetStatusChange afterGetStatusChangeEvent;
+        public event AfterGetStatusChange AfterGetStatusChangeEvent;
 
         /// <inheritdoc />
-        public event beforeIsValid beforeIsValidEvent;
+        public event BeforeIsValid BeforeIsValidEvent;
 
         /// <inheritdoc />
-        public event afterIsValid afterIsValidEvent;
+        public event AfterIsValid AfterIsValidEvent;
 
         /// <inheritdoc />
-        public event beforeListReaderGroups beforeListReaderGroupsEvent;
+        public event BeforeListReaderGroups BeforeListReaderGroupsEvent;
 
         /// <inheritdoc />
-        public event afterListReaderGroups afterListReaderGroupsEvent;
+        public event AfterListReaderGroups AfterListReaderGroupsEvent;
 
         /// <inheritdoc />
-        public event beforeListReaders beforeListReadersEvent;
+        public event BeforeListReaders BeforeListReadersEvent;
 
         /// <inheritdoc />
-        public event afterListReaders afterListReadersEvent;
+        public event AfterListReaders AfterListReadersEvent;
 
         /// <inheritdoc />
-        public event beforeRelease beforeReleaseEvent;
+        public event BeforeRelease BeforeReleaseEvent;
 
         /// <inheritdoc />
-        public event afterRelease afterReleaseEvent;
+        public event AfterRelease AfterReleaseEvent;
 
         #endregion
     }

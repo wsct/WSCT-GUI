@@ -1,15 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Xml;
-
+﻿using WSCT.Core;
+using WSCT.Core.APDU;
 using WSCT.Helpers;
-
-using WSCT.Wrapper;
-using WSCT.Core;
-using WSCT.Stack;
 using WSCT.Layers.Interactive.Actions;
+using WSCT.Stack;
+using WSCT.Wrapper;
 
 namespace WSCT.Layers.Interactive
 {
@@ -21,27 +15,15 @@ namespace WSCT.Layers.Interactive
     {
         #region >> Fields
 
-        ICardChannelStack _stack;
-
-        Protocol _protocol;
-
-        #endregion
-
-        #region >> Constructors
-
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        public CardChannelLayer()
-        {
-        }
+        private Protocol _protocol;
+        private ICardChannelStack _stack;
 
         #endregion
 
         #region >> ICardChannelLayer
 
         /// <inheritdoc />
-        public void setStack(ICardChannelStack stack)
+        public void SetStack(ICardChannelStack stack)
         {
             _stack = stack;
         }
@@ -51,250 +33,294 @@ namespace WSCT.Layers.Interactive
         #region >> ICardChannel
 
         /// <inheritdoc />
-        public Protocol protocol
+        public Protocol Protocol
         {
             get
             {
                 if (InteractiveController.mode == InteractiveMode.REPLAY)
+                {
                     return _protocol;
-                else
-                    return _stack.requestLayer(this, SearchMode.next).protocol;
+                }
+                return _stack.RequestLayer(this, SearchMode.Next).Protocol;
             }
         }
 
         /// <inheritdoc />
-        public string readerName
+        public string ReaderName
         {
-            get
+            get { return _stack.RequestLayer(this, SearchMode.Next).ReaderName; }
+        }
+
+        /// <inheritdoc />
+        public void Attach(ICardContext context, string readerName)
+        {
+            _stack.RequestLayer(this, SearchMode.Next).Attach(context, readerName);
+        }
+
+        /// <inheritdoc />
+        public ErrorCode Connect(ShareMode shareMode, Protocol preferedProtocol)
+        {
+            if (BeforeConnectEvent != null)
             {
-                return _stack.requestLayer(this, SearchMode.next).readerName;
+                BeforeConnectEvent(this, shareMode, preferedProtocol);
             }
-        }
-
-        /// <inheritdoc />
-        public void attach(ICardContext context, string readerName)
-        {
-            _stack.requestLayer(this, SearchMode.next).attach(context, readerName);
-        }
-
-        /// <inheritdoc />
-        public ErrorCode connect(ShareMode shareMode, Protocol preferedProtocol)
-        {
-            if (beforeConnectEvent != null) beforeConnectEvent(this, shareMode, preferedProtocol);
 
             ErrorCode ret;
             if (InteractiveController.mode == InteractiveMode.REPLAY)
             {
-                AbstractAction nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
+                var nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
                 if (nextAction is ConnectAction)
                 {
                     // Retrieve protocol to send
                     _protocol = ((ConnectAction)nextAction).protocol;
                     // Seek id to next action and check limits
                     if (++InteractiveController.actionsListId == InteractiveController.actionsList.Count)
+                    {
                         InteractiveController.mode = InteractiveMode.TRANSPARENT;
+                    }
                     // Success
-                    ret = ErrorCode.SCARD_S_SUCCESS;
+                    ret = ErrorCode.Success;
                 }
                 else
                 {
                     // Raise an error
-                    ret = ErrorCode.SCARD_E_UNSUPPORTED_FEATURE;
+                    ret = ErrorCode.UnsupportedFeature;
                 }
             }
             else
             {
-                ret = _stack.requestLayer(this, SearchMode.next).connect(shareMode, preferedProtocol);
+                ret = _stack.RequestLayer(this, SearchMode.Next).Connect(shareMode, preferedProtocol);
 
                 if (InteractiveController.mode == InteractiveMode.RECORD)
                 {
                     InteractiveController.actionsList.Add(
-                        new Actions.ConnectAction(protocol)
+                        new ConnectAction(Protocol)
                         );
                 }
             }
 
-            if (afterConnectEvent != null) afterConnectEvent(this, shareMode, preferedProtocol, ret);
+            if (AfterConnectEvent != null)
+            {
+                AfterConnectEvent(this, shareMode, preferedProtocol, ret);
+            }
 
             return ret;
         }
 
         /// <inheritdoc />
-        public ErrorCode disconnect(Disposition disposition)
+        public ErrorCode Disconnect(Disposition disposition)
         {
-            if (beforeDisconnectEvent != null) beforeDisconnectEvent(this, disposition);
+            if (BeforeDisconnectEvent != null)
+            {
+                BeforeDisconnectEvent(this, disposition);
+            }
 
             ErrorCode ret;
             if (InteractiveController.mode == InteractiveMode.REPLAY)
             {
-                AbstractAction nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
+                var nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
                 if (nextAction is DisconnectAction && ((DisconnectAction)nextAction).disposition == disposition)
                 {
                     // Seek id to next action and check limits
                     if (++InteractiveController.actionsListId == InteractiveController.actionsList.Count)
+                    {
                         InteractiveController.mode = InteractiveMode.TRANSPARENT;
+                    }
                     // Success
-                    ret = ErrorCode.SCARD_S_SUCCESS;
+                    ret = ErrorCode.Success;
                 }
                 else
                 {
                     // Raise an error
-                    ret = ErrorCode.SCARD_E_UNSUPPORTED_FEATURE;
+                    ret = ErrorCode.UnsupportedFeature;
                 }
             }
             else
             {
-                ret = _stack.requestLayer(this, SearchMode.next).disconnect(disposition);
+                ret = _stack.RequestLayer(this, SearchMode.Next).Disconnect(disposition);
 
                 if (InteractiveController.mode == InteractiveMode.RECORD)
                 {
                     InteractiveController.actionsList.Add(
-                        new Actions.DisconnectAction(disposition)
+                        new DisconnectAction(disposition)
                         );
                 }
             }
 
-            if (afterDisconnectEvent != null) afterDisconnectEvent(this, disposition, ret);
+            if (AfterDisconnectEvent != null)
+            {
+                AfterDisconnectEvent(this, disposition, ret);
+            }
 
             return ret;
         }
 
         /// <inheritdoc />
-        public ErrorCode getAttrib(Attrib attrib, ref byte[] buffer)
+        public ErrorCode GetAttrib(Attrib attrib, ref byte[] buffer)
         {
-            if (beforeGetAttribEvent != null) beforeGetAttribEvent(this, attrib, buffer);
+            if (BeforeGetAttribEvent != null)
+            {
+                BeforeGetAttribEvent(this, attrib, buffer);
+            }
 
             ErrorCode ret;
 
             if (InteractiveController.mode == InteractiveMode.REPLAY)
             {
-                AbstractAction nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
+                var nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
                 if (nextAction is GetAttribAction && ((GetAttribAction)nextAction).attrib == attrib)
                 {
                     // Retrieve buffer to send
-                    buffer = ((GetAttribAction)nextAction).response.fromHexa();
+                    buffer = ((GetAttribAction)nextAction).response.FromHexa();
                     // Seek id to next action and check limits
                     if (++InteractiveController.actionsListId == InteractiveController.actionsList.Count)
+                    {
                         InteractiveController.mode = InteractiveMode.TRANSPARENT;
+                    }
                     // Success
-                    ret = ErrorCode.SCARD_S_SUCCESS;
+                    ret = ErrorCode.Success;
                 }
                 else
                 {
                     // Raise an error
-                    ret = ErrorCode.SCARD_E_UNSUPPORTED_FEATURE;
+                    ret = ErrorCode.UnsupportedFeature;
                 }
             }
             else
             {
-                ret = _stack.requestLayer(this, SearchMode.next).getAttrib(attrib, ref buffer);
+                ret = _stack.RequestLayer(this, SearchMode.Next).GetAttrib(attrib, ref buffer);
 
                 if (InteractiveController.mode == InteractiveMode.RECORD)
                 {
                     InteractiveController.actionsList.Add(
-                        new Actions.GetAttribAction(attrib, buffer.toHexa())
+                        new GetAttribAction(attrib, buffer.ToHexa())
                         );
                 }
             }
 
-            if (afterGetAttribEvent != null) afterGetAttribEvent(this, attrib, buffer, ret);
+            if (AfterGetAttribEvent != null)
+            {
+                AfterGetAttribEvent(this, attrib, buffer, ret);
+            }
 
             return ret;
         }
 
         /// <inheritdoc />
-        public State getStatus()
+        public State GetStatus()
         {
-            if (beforeGetStatusEvent != null) beforeGetStatusEvent(this);
+            if (BeforeGetStatusEvent != null)
+            {
+                BeforeGetStatusEvent(this);
+            }
 
-            State ret = _stack.requestLayer(this, SearchMode.next).getStatus();
+            var ret = _stack.RequestLayer(this, SearchMode.Next).GetStatus();
 
-            if (afterGetStatusEvent != null) afterGetStatusEvent(this, ret);
+            if (AfterGetStatusEvent != null)
+            {
+                AfterGetStatusEvent(this, ret);
+            }
 
             return ret;
         }
 
         /// <inheritdoc />
-        public ErrorCode reconnect(ShareMode shareMode, Protocol preferedProtocol, Disposition initialization)
+        public ErrorCode Reconnect(ShareMode shareMode, Protocol preferedProtocol, Disposition initialization)
         {
-            if (beforeReconnectEvent != null) beforeReconnectEvent(this, shareMode, preferedProtocol, initialization);
+            if (BeforeReconnectEvent != null)
+            {
+                BeforeReconnectEvent(this, shareMode, preferedProtocol, initialization);
+            }
 
             ErrorCode ret;
             if (InteractiveController.mode == InteractiveMode.REPLAY)
             {
-                AbstractAction nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
+                var nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
                 if (nextAction is ReconnectAction && ((ReconnectAction)nextAction).initialization == initialization)
                 {
                     // Retrieve protocol to send
                     _protocol = ((ReconnectAction)nextAction).protocol;
                     // Seek id to next action and check limits
                     if (++InteractiveController.actionsListId == InteractiveController.actionsList.Count)
+                    {
                         InteractiveController.mode = InteractiveMode.TRANSPARENT;
+                    }
                     // Success
-                    ret = ErrorCode.SCARD_S_SUCCESS;
+                    ret = ErrorCode.Success;
                 }
                 else
                 {
                     // Raise an error
-                    ret = ErrorCode.SCARD_E_UNSUPPORTED_FEATURE;
+                    ret = ErrorCode.UnsupportedFeature;
                 }
             }
             else
             {
-                ret = _stack.requestLayer(this, SearchMode.next).reconnect(shareMode, preferedProtocol, initialization);
+                ret = _stack.RequestLayer(this, SearchMode.Next).Reconnect(shareMode, preferedProtocol, initialization);
 
                 if (InteractiveController.mode == InteractiveMode.RECORD)
                 {
                     InteractiveController.actionsList.Add(
-                        new Actions.ReconnectAction(protocol, initialization)
+                        new ReconnectAction(Protocol, initialization)
                         );
                 }
             }
 
-            if (afterReconnectEvent != null) afterReconnectEvent(this, shareMode, preferedProtocol, initialization, ret);
+            if (AfterReconnectEvent != null)
+            {
+                AfterReconnectEvent(this, shareMode, preferedProtocol, initialization, ret);
+            }
 
             return ret;
         }
 
         /// <inheritdoc />
-        public ErrorCode transmit(Core.APDU.ICardCommand command, Core.APDU.ICardResponse response)
+        public ErrorCode Transmit(ICardCommand command, ICardResponse response)
         {
-            if (beforeTransmitEvent != null) beforeTransmitEvent(this, command, response);
+            if (BeforeTransmitEvent != null)
+            {
+                BeforeTransmitEvent(this, command, response);
+            }
 
             ErrorCode ret;
 
             if (InteractiveController.mode == InteractiveMode.REPLAY)
             {
-                AbstractAction nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
+                var nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
                 if (nextAction is TransmitAction && ((TransmitAction)nextAction).command == command.ToString())
                 {
                     // Retrieve response to send
-                    response.parse(((TransmitAction)nextAction).response.fromHexa());
+                    response.Parse(((TransmitAction)nextAction).response.FromHexa());
                     // Seek id to next action and check limits
                     if (++InteractiveController.actionsListId == InteractiveController.actionsList.Count)
+                    {
                         InteractiveController.mode = InteractiveMode.TRANSPARENT;
+                    }
                     // Success
-                    ret = ErrorCode.SCARD_S_SUCCESS;
+                    ret = ErrorCode.Success;
                 }
                 else
                 {
                     // Raise an error
-                    ret = ErrorCode.SCARD_E_UNSUPPORTED_FEATURE;
+                    ret = ErrorCode.UnsupportedFeature;
                 }
             }
             else
             {
-                ret = _stack.requestLayer(this, SearchMode.next).transmit(command, response);
+                ret = _stack.RequestLayer(this, SearchMode.Next).Transmit(command, response);
 
                 if (InteractiveController.mode == InteractiveMode.RECORD)
                 {
                     InteractiveController.actionsList.Add(
-                        new Actions.TransmitAction(command.ToString(), response.ToString())
+                        new TransmitAction(command.ToString(), response.ToString())
                         );
                 }
             }
 
-            if (afterTransmitEvent != null) afterTransmitEvent(this, command, response, ret);
+            if (AfterTransmitEvent != null)
+            {
+                AfterTransmitEvent(this, command, response, ret);
+            }
 
             return ret;
         }
@@ -304,34 +330,40 @@ namespace WSCT.Layers.Interactive
         #region >> ICardChannelObservable
 
         /// <inheritdoc />
-        public event beforeConnect beforeConnectEvent;
-        /// <inheritdoc />
-        public event afterConnect afterConnectEvent;
+        public event BeforeConnect BeforeConnectEvent;
 
         /// <inheritdoc />
-        public event beforeDisconnect beforeDisconnectEvent;
-        /// <inheritdoc />
-        public event afterDisconnect afterDisconnectEvent;
+        public event AfterConnect AfterConnectEvent;
 
         /// <inheritdoc />
-        public event beforeGetAttrib beforeGetAttribEvent;
-        /// <inheritdoc />
-        public event afterGetAttrib afterGetAttribEvent;
+        public event BeforeDisconnect BeforeDisconnectEvent;
 
         /// <inheritdoc />
-        public event beforeGetStatus beforeGetStatusEvent;
-        /// <inheritdoc />
-        public event afterGetStatus afterGetStatusEvent;
+        public event AfterDisconnect AfterDisconnectEvent;
 
         /// <inheritdoc />
-        public event beforeReconnect beforeReconnectEvent;
-        /// <inheritdoc />
-        public event afterReconnect afterReconnectEvent;
+        public event BeforeGetAttrib BeforeGetAttribEvent;
 
         /// <inheritdoc />
-        public event beforeTransmit beforeTransmitEvent;
+        public event AfterGetAttrib AfterGetAttribEvent;
+
         /// <inheritdoc />
-        public event afterTransmit afterTransmitEvent;
+        public event BeforeGetStatus BeforeGetStatusEvent;
+
+        /// <inheritdoc />
+        public event AfterGetStatus AfterGetStatusEvent;
+
+        /// <inheritdoc />
+        public event BeforeReconnect BeforeReconnectEvent;
+
+        /// <inheritdoc />
+        public event AfterReconnect AfterReconnectEvent;
+
+        /// <inheritdoc />
+        public event BeforeTransmit BeforeTransmitEvent;
+
+        /// <inheritdoc />
+        public event AfterTransmit AfterTransmitEvent;
 
         #endregion
     }

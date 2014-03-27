@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Reflection;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -24,7 +23,7 @@ namespace WSCT.GUI.Plugins
             }
             else
             {
-                Thread pluginThread = new Thread(startPlugin);
+                var pluginThread = new Thread(startPlugin);
                 pluginThread.SetApartmentState(ApartmentState.STA);
                 pluginThread.Start();
             }

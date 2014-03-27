@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
-
+using WSCT.Core;
 using WSCT.Wrapper;
 
 namespace WSCT.Layers.Interactive.Actions
 {
     /// <summary>
     /// Concrete action: connect(...)
-    /// <see cref="WSCT.Core.ICardChannel.connect"/>
+    /// <see cref="ICardChannel.Connect"/>
     /// </summary>
     [XmlRoot("connect")]
     public class ConnectAction : AbstractAction, IXmlSerializable
@@ -20,8 +19,7 @@ namespace WSCT.Layers.Interactive.Actions
         /// <summary>
         /// Action parameter
         /// </summary>
-        public Protocol protocol
-        { get; set; }
+        public Protocol protocol { get; set; }
 
         #endregion
 
@@ -50,13 +48,13 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> IXmlSerializable Members
 
         /// <inheritdoc />
-        public System.Xml.Schema.XmlSchema GetSchema()
+        public XmlSchema GetSchema()
         {
             return null;
         }
 
         /// <inheritdoc />
-        public void ReadXml(System.Xml.XmlReader reader)
+        public void ReadXml(XmlReader reader)
         {
             reader.ReadStartElement();
             protocol = (Protocol)Enum.Parse(typeof(Protocol), reader.ReadString());
@@ -64,7 +62,7 @@ namespace WSCT.Layers.Interactive.Actions
         }
 
         /// <inheritdoc />
-        public void WriteXml(System.Xml.XmlWriter writer)
+        public void WriteXml(XmlWriter writer)
         {
             writer.WriteString(protocol.ToString());
         }

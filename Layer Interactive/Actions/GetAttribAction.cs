@@ -1,16 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
-
+using WSCT.Core;
 using WSCT.Wrapper;
 
 namespace WSCT.Layers.Interactive.Actions
 {
     /// <summary>
     /// Concrete action: getAttrib(...)
-    /// <see cref="WSCT.Core.ICardChannel.getAttrib"/>
+    /// <see cref="ICardChannel.GetAttrib"/>
     /// </summary>
     [XmlRoot("getAttrib")]
     public class GetAttribAction : AbstractAction, IXmlSerializable
@@ -20,14 +19,12 @@ namespace WSCT.Layers.Interactive.Actions
         /// <summary>
         /// R-APDU
         /// </summary>
-        public String response
-        { get; set; }
+        public String response { get; set; }
 
         /// <summary>
         /// Action parameter
         /// </summary>
-        public Attrib attrib
-        { get; set; }
+        public Attrib attrib { get; set; }
 
         #endregion
 
@@ -58,13 +55,13 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> IXmlSerializable Members
 
         /// <inheritdoc />
-        public System.Xml.Schema.XmlSchema GetSchema()
+        public XmlSchema GetSchema()
         {
             return null;
         }
 
         /// <inheritdoc />
-        public void ReadXml(System.Xml.XmlReader reader)
+        public void ReadXml(XmlReader reader)
         {
             attrib = (Attrib)Enum.Parse(typeof(Attrib), reader.GetAttribute("attrib"));
             reader.ReadStartElement();
@@ -73,7 +70,7 @@ namespace WSCT.Layers.Interactive.Actions
         }
 
         /// <inheritdoc />
-        public void WriteXml(System.Xml.XmlWriter writer)
+        public void WriteXml(XmlWriter writer)
         {
             writer.WriteAttributeString("attrib", attrib.ToString());
             writer.WriteString(response);
