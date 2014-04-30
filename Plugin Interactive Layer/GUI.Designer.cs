@@ -1,6 +1,6 @@
 ﻿namespace WSCT.GUI.Plugins.LayerInteractive
 {
-    partial class GUI
+    partial class Gui
     {
         /// <summary>
         /// Variable nécessaire au concepteur.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             System.Windows.Forms.GroupBox groupBox4;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gui));
             this.guiDoLoadReplayData = new System.Windows.Forms.Button();
             this.guiDoSaveRecordedData = new System.Windows.Forms.Button();
             this.statusStrip = new System.Windows.Forms.StatusStrip();

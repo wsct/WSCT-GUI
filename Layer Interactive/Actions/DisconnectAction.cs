@@ -8,8 +8,8 @@ using WSCT.Wrapper;
 namespace WSCT.Layers.Interactive.Actions
 {
     /// <summary>
-    /// Concrete action: disconnect(...)
-    /// <see cref="ICardChannel.Disconnect"/>
+    /// Concrete action: disconnect(...).
+    /// <see cref="ICardChannel.Disconnect"/>.
     /// </summary>
     [XmlRoot("disconnect")]
     public class DisconnectAction : AbstractAction, IXmlSerializable
@@ -17,16 +17,16 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> Properties
 
         /// <summary>
-        /// A parameter of the action
+        /// A parameter of the action.
         /// </summary>
-        public Disposition disposition { get; set; }
+        public Disposition Disposition { get; set; }
 
         #endregion
 
         #region >> Constructors
 
         /// <summary>
-        /// Default constructor
+        /// Creates a new instance.
         /// </summary>
         public DisconnectAction()
             : base("reconnect")
@@ -34,13 +34,13 @@ namespace WSCT.Layers.Interactive.Actions
         }
 
         /// <summary>
-        /// Constructor
+        /// Creates a new instance.
         /// </summary>
         /// <param name="disposition">Value of the parameter</param>
         public DisconnectAction(Disposition disposition)
             : this()
         {
-            this.disposition = disposition;
+            Disposition = disposition;
         }
 
         #endregion
@@ -56,7 +56,7 @@ namespace WSCT.Layers.Interactive.Actions
         /// <inheritdoc />
         public void ReadXml(XmlReader reader)
         {
-            disposition = (Disposition)Enum.Parse(typeof(Disposition), reader.GetAttribute("disposition"));
+            Disposition = (Disposition)Enum.Parse(typeof(Disposition), reader.GetAttribute("disposition"));
             reader.ReadStartElement();
             reader.ReadEndElement();
         }
@@ -64,7 +64,7 @@ namespace WSCT.Layers.Interactive.Actions
         /// <inheritdoc />
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteAttributeString("disposition", disposition.ToString());
+            writer.WriteAttributeString("disposition", Disposition.ToString());
         }
 
         #endregion

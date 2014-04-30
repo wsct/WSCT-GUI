@@ -8,8 +8,8 @@ using WSCT.Wrapper;
 namespace WSCT.Layers.Interactive.Actions
 {
     /// <summary>
-    /// Concrete action: connect(...)
-    /// <see cref="ICardChannel.Connect"/>
+    /// Concrete action: connect(...).
+    /// <see cref="ICardChannel.Connect"/>.
     /// </summary>
     [XmlRoot("connect")]
     public class ConnectAction : AbstractAction, IXmlSerializable
@@ -17,16 +17,16 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> Properties
 
         /// <summary>
-        /// Action parameter
+        /// Action parameter.
         /// </summary>
-        public Protocol protocol { get; set; }
+        public Protocol Protocol { get; set; }
 
         #endregion
 
         #region >> Constructors
 
         /// <summary>
-        /// Default constructor
+        /// Creates a new instance.
         /// </summary>
         public ConnectAction()
             : base("connect")
@@ -34,13 +34,13 @@ namespace WSCT.Layers.Interactive.Actions
         }
 
         /// <summary>
-        /// Constructor
+        /// Creates a new instance.
         /// </summary>
-        /// <param name="protocol">Action parameter</param>
+        /// <param name="protocol">Action parameter.</param>
         public ConnectAction(Protocol protocol)
             : this()
         {
-            this.protocol = protocol;
+            Protocol = protocol;
         }
 
         #endregion
@@ -57,14 +57,14 @@ namespace WSCT.Layers.Interactive.Actions
         public void ReadXml(XmlReader reader)
         {
             reader.ReadStartElement();
-            protocol = (Protocol)Enum.Parse(typeof(Protocol), reader.ReadString());
+            Protocol = (Protocol)Enum.Parse(typeof(Protocol), reader.ReadString());
             reader.ReadEndElement();
         }
 
         /// <inheritdoc />
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteString(protocol.ToString());
+            writer.WriteString(Protocol.ToString());
         }
 
         #endregion

@@ -1,9 +1,9 @@
 namespace WSCT.GUI.Plugins.ISO7816Tools
 {
     /// <summary>
-    /// Plugin Entry point dedicated to create and show associated GUI
+    /// Plugin Entry point dedicated to create and show associated GUI.
     /// </summary>
-    public class PluginEntry : GenericPluginEntry<GUI> //  : IPlugin
+    public class PluginEntry : GenericPluginEntry<Gui> //  : IPlugin
     {
     }
 }

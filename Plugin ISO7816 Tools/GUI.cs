@@ -15,19 +15,19 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
     /// <summary>
     /// 
     /// </summary>
-    public partial class GUI : Form
+    public partial class Gui : Form
     {
         private readonly CardObserver cardObserver;
 
-        private readonly List<ICardCommand> historicCAPDU;
-        private readonly List<ICardResponse> historicRAPDU;
+        private readonly List<ICardCommand> commandApduHistoric;
+        private readonly List<ICardResponse> responseApduHistoric;
 
         private readonly StatusWordDictionary statusWordDictionary;
 
         /// <summary>
         ///
         /// </summary>
-        public GUI()
+        public Gui()
         {
             InitializeComponent();
 
@@ -46,17 +46,17 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             guiParametersProtocolT.DataSource = Enum.GetValues(typeof(ProtocolT));
 
             // Install event to reinstal chennel observer if channel changes
-            SharedData.cardChannelChangedEvent += observeChannel;
+            SharedData.CardChannelChangedEvent += ObserveChannel;
 
             // Create the card observer instance
             cardObserver = new CardObserver(this);
 
             // Install the observer on channel
-            observeChannel();
+            ObserveChannel();
 
             // Initialize the historic
-            historicCAPDU = new List<ICardCommand>();
-            historicRAPDU = new List<ICardResponse>();
+            commandApduHistoric = new List<ICardCommand>();
+            responseApduHistoric = new List<ICardResponse>();
         }
 
         #region >> update*
@@ -65,7 +65,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         /// 
         /// </summary>
         /// <param name="rAPDU"></param>
-        internal void updateStatusWord(ResponseAPDU rAPDU)
+        internal void UpdateStatusWord(ResponseAPDU rAPDU)
         {
             if (rAPDU != null)
             {
@@ -82,7 +82,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         /// </summary>
         /// <param name="cAPDU"></param>
         /// <returns></returns>
-        internal void updateCAPDU(ICardCommand cAPDU)
+        internal void UpdateCommandApdu(ICardCommand cAPDU)
         {
             guiCLA.Text = String.Format("{0:X2}", ((CommandAPDU)cAPDU).Cla);
             guiINS.Text = String.Format("{0:X2}", ((CommandAPDU)cAPDU).Ins);
@@ -111,7 +111,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         /// 
         /// </summary>
         /// <param name="rAPDU"></param>
-        internal void updateRAPDU(ICardResponse rAPDU)
+        internal void UpdateResponseApdu(ICardResponse rAPDU)
         {
             if (rAPDU != null)
             {
@@ -128,11 +128,11 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         /// </summary>
         /// <param name="cAPDU"></param>
         /// <param name="rAPDU"></param>
-        internal void updateHistoric(ICardCommand cAPDU, ICardResponse rAPDU)
+        internal void UpdateHistoric(ICardCommand cAPDU, ICardResponse rAPDU)
         {
-            historicCAPDU.Add(cAPDU);
-            historicRAPDU.Add(rAPDU);
-            var listViewItem = new ListViewItem { Text = historicCAPDU.Count.ToString(CultureInfo.InvariantCulture) };
+            commandApduHistoric.Add(cAPDU);
+            responseApduHistoric.Add(rAPDU);
+            var listViewItem = new ListViewItem { Text = commandApduHistoric.Count.ToString(CultureInfo.InvariantCulture) };
             listViewItem.SubItems.Add(cAPDU.StringCommand);
             guiCRPHistoric.Items.Add(listViewItem);
         }
@@ -143,12 +143,12 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         private void guiParametersAttachObserver_Click(object sender, EventArgs e)
         {
-            if (SharedData.validChannel)
+            if (SharedData.IsValidChannel)
             {
-                var channelLayer = ((ICardChannelStack)SharedData.cardChannel).RequestLayer(null, SearchMode.Top);
+                var channelLayer = ((ICardChannelStack)SharedData.CardChannel).RequestLayer(null, SearchMode.Top);
                 if (channelLayer is ICardChannelObservable)
                 {
-                    cardObserver.observeChannel((ICardChannelObservable)channelLayer);
+                    cardObserver.ObserveChannel((ICardChannelObservable)channelLayer);
                 }
             }
         }
@@ -173,7 +173,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
                     guiSelectUDC.Text.FromHexa()
                     )
                 );
-            crp.Transmit(SharedData.cardChannel);
+            crp.Transmit(SharedData.CardChannel);
         }
 
         private void guiGetResponseExecute_Click(object sender, EventArgs e)
@@ -181,7 +181,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             var crp = new CommandResponsePair(
                 new GetResponseCommand(Convert.ToUInt32(guiGetResponseLe.Text, 16))
                 );
-            crp.Transmit(SharedData.cardChannel);
+            crp.Transmit(SharedData.CardChannel);
         }
 
         private void guiReadRecordExecute_Click(object sender, EventArgs e)
@@ -203,7 +203,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
                 (ReadRecordCommand.SearchMode)guiReadRecordSearchMode.SelectedItem,
                 le
                 );
-            crp.Transmit(SharedData.cardChannel);
+            crp.Transmit(SharedData.CardChannel);
         }
 
         private void guiAppendRecordExecute_Click(object sender, EventArgs e)
@@ -214,7 +214,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
                     guiAppendRecordUDC.Text.FromHexa()
                     )
                 );
-            crp.Transmit(SharedData.cardChannel);
+            crp.Transmit(SharedData.CardChannel);
         }
 
         private void guiWriteRecordExecute_Click(object sender, EventArgs e)
@@ -237,7 +237,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
                     guiWriteRecordUDC.Text.FromHexa()
                     )
                 );
-            crp.Transmit(SharedData.cardChannel);
+            crp.Transmit(SharedData.CardChannel);
         }
 
         private void guiReadBinaryExecute_Click(object sender, EventArgs e)
@@ -254,12 +254,12 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             }
 
             crp.CApdu = new ReadBinaryCommand(le);
-            crp.Transmit(SharedData.cardChannel);
+            crp.Transmit(SharedData.CardChannel);
         }
 
         private void guiSendCAPDU_Click(object sender, EventArgs e)
         {
-            var card = new CardChannelIso7816(SharedData.cardChannel);
+            var card = new CardChannelIso7816(SharedData.CardChannel);
 
             var stringAPDU = guiCLA.Text + guiINS.Text + guiP1.Text + guiP2.Text + guiLc.Text + guiUDC.Text + guiLe.Text;
             ICardCommand cAPDU = new CommandAPDU(stringAPDU);
@@ -295,7 +295,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         private void GUI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            SharedData.cardChannelChangedEvent -= observeChannel;
+            SharedData.CardChannelChangedEvent -= ObserveChannel;
 
             // TODO: !
             //            if (SharedData.validChannel)
@@ -304,17 +304,17 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         #endregion
 
-        private void observeChannel()
+        private void ObserveChannel()
         {
             // Attach to the top layer
-            if (SharedData.validChannel)
+            if (SharedData.IsValidChannel)
             {
                 //if (SharedData.cardChannel is Core.ICardChannelObservable)
                 //    cardObserver.observeChannel((Core.ICardChannelObservable)SharedData.cardChannel);
-                var channelLayer = ((ICardChannelStack)SharedData.cardChannel).RequestLayer(null, SearchMode.Top);
+                var channelLayer = ((ICardChannelStack)SharedData.CardChannel).RequestLayer(null, SearchMode.Top);
                 if (channelLayer is ICardChannelObservable)
                 {
-                    cardObserver.observeChannel((ICardChannelObservable)channelLayer);
+                    cardObserver.ObserveChannel((ICardChannelObservable)channelLayer);
                 }
             }
         }
@@ -325,8 +325,8 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             if (listView.SelectedItems.Count > 0)
             {
                 var index = Int32.Parse(guiCLA.Text = listView.SelectedItems[0].Text);
-                updateCAPDU(historicCAPDU[index - 1]);
-                updateRAPDU(historicRAPDU[index - 1]);
+                UpdateCommandApdu(commandApduHistoric[index - 1]);
+                UpdateResponseApdu(responseApduHistoric[index - 1]);
             }
         }
     }

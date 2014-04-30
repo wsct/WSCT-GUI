@@ -4,19 +4,19 @@ using WSCT.Core;
 namespace WSCT.GUI.Plugins
 {
     /// <summary>
-    /// Container allowing to share current <see cref="ICardContext"/> and <see cref="ICardChannel"/> between WinSCard GUI and its plugins
+    /// Container allowing to share current <see cref="ICardContext"/> and <see cref="ICardChannel"/> between WinSCard GUI and its plugins.
     /// </summary>
     public class SharedData
     {
         #region >> Delegates
 
         /// <summary>
-        /// Delegate for event sent after <see cref="SharedData.cardChannel"/> object has been changed
+        /// Delegate for event sent after <see cref="SharedData.CardChannel"/> object has been changed.
         /// </summary>
         public delegate void CardChannelChangedEventHandler();
 
         /// <summary>
-        /// Delegate for event sent after <see cref="SharedData.cardContext"/> object has been changed
+        /// Delegate for event sent after <see cref="SharedData.CardContext"/> object has been changed.
         /// </summary>
         public delegate void CardContextChangedEventHandler();
 
@@ -32,13 +32,13 @@ namespace WSCT.GUI.Plugins
         #region >> Properties
 
         /// <summary>
-        /// Accessor to the global CardContext object
+        /// Accessor to the global CardContext object.
         /// </summary>
-        public static ICardContext cardContext
+        public static ICardContext CardContext
         {
             get
             {
-                if (!validContext)
+                if (!IsValidContext)
                 {
                     throw new ContextNotInitializedException();
                 }
@@ -47,21 +47,21 @@ namespace WSCT.GUI.Plugins
             set
             {
                 _cardContext = value;
-                if (cardContextChangedEvent != null)
+                if (CardContextChangedEvent != null)
                 {
-                    cardContextChangedEvent();
+                    CardContextChangedEvent();
                 }
             }
         }
 
         /// <summary>
-        /// Accessor to the global CardChannel object
+        /// Accessor to the global CardChannel object.
         /// </summary>
-        public static ICardChannel cardChannel
+        public static ICardChannel CardChannel
         {
             get
             {
-                if (!validChannel)
+                if (!IsValidChannel)
                 {
                     throw new ChannelNotInitializedException();
                 }
@@ -70,25 +70,25 @@ namespace WSCT.GUI.Plugins
             set
             {
                 _cardChannel = value;
-                if (cardChannelChangedEvent != null)
+                if (CardChannelChangedEvent != null)
                 {
-                    cardChannelChangedEvent();
+                    CardChannelChangedEvent();
                 }
             }
         }
 
         /// <summary>
-        /// True if <c>cardContext</c> is not <c>null</c>
+        /// True if <see cref="CardContext"/> is valid.
         /// </summary>
-        public static Boolean validContext
+        public static Boolean IsValidContext
         {
             get { return _cardContext != null; }
         }
 
         /// <summary>
-        /// True if <c>cardChannel</c> is not <c>null</c>
+        /// True if <see cref="CardChannel"/> is valid.
         /// </summary>
-        public static Boolean validChannel
+        public static Boolean IsValidChannel
         {
             get { return _cardChannel != null; }
         }
@@ -98,14 +98,14 @@ namespace WSCT.GUI.Plugins
         #region >> events
 
         /// <summary>
-        /// Event sent after <see cref="SharedData.cardContext"/> object has been changed
+        /// Event sent after <see cref="CardContext"/> object has been changed.
         /// </summary>
-        public static event CardContextChangedEventHandler cardContextChangedEvent;
+        public static event CardContextChangedEventHandler CardContextChangedEvent;
 
         /// <summary>
-        /// Event sent after <see cref="SharedData.cardChannel"/> object has been changed
+        /// Event sent after <see cref="CardChannel"/> object has been changed.
         /// </summary>
-        public static event CardChannelChangedEventHandler cardChannelChangedEvent;
+        public static event CardChannelChangedEventHandler CardChannelChangedEvent;
 
         #endregion
     }

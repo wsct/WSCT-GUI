@@ -3,12 +3,12 @@
 namespace WSCT.GUI.Plugins
 {
     /// <summary>
-    /// Exception to be raised when PC/SC is used but not initialized
+    /// Exception to be raised when PC/SC is used but not initialized.
     /// </summary>
     public class ChannelNotInitializedException : Exception
     {
         /// <summary>
-        /// Default constructor
+        /// Creates a new instance.
         /// </summary>
         public ChannelNotInitializedException()
             : base("Error: SharedData.cardChannel not initialized.")
@@ -16,7 +16,7 @@ namespace WSCT.GUI.Plugins
         }
 
         /// <summary>
-        /// Constructor
+        /// Creates a new instance.
         /// </summary>
         /// <param name="message"><inheritdoc cref="Exception(String)"/></param>
         public ChannelNotInitializedException(String message)
@@ -25,7 +25,7 @@ namespace WSCT.GUI.Plugins
         }
 
         /// <summary>
-        /// Constructor
+        /// Creates a new instance.
         /// </summary>
         /// <param name="message"><inheritdoc cref="Exception(String,Exception)"/></param>
         /// <param name="inner"><inheritdoc cref="Exception(String,Exception)"/></param>

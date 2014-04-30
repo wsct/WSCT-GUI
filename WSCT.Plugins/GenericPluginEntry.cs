@@ -15,21 +15,21 @@ namespace WSCT.GUI.Plugins
         #region >> IPlugin
 
         /// <inheritdoc />
-        public void show()
+        public void Show()
         {
             if (Type.GetType("Mono.Runtime") != null)
             {
-                startPlugin();
+                StartPlugin();
             }
             else
             {
-                var pluginThread = new Thread(startPlugin);
+                var pluginThread = new Thread(StartPlugin);
                 pluginThread.SetApartmentState(ApartmentState.STA);
                 pluginThread.Start();
             }
         }
 
-        private void startPlugin()
+        private static void StartPlugin()
         {
             if (Type.GetType("Mono.Runtime") != null)
             {
@@ -37,10 +37,10 @@ namespace WSCT.GUI.Plugins
             }
             else
             {
-                // Use a named Mutex (available computer-wide) to check if the pluginDesc thread still exists
+                // Use a named Mutex (available computer-wide) to check if the plugin thread still exists
                 using (var mutex = new Mutex(false, typeof(T).Assembly.FullName))
                 {
-                    // If the mutex is available, then get it and launch the pluginDesc GUI
+                    // If the mutex is available, then get it and launch the plugin GUI
                     if (mutex.WaitOne(TimeSpan.FromSeconds(0), false))
                     {
                         Application.Run(new T());

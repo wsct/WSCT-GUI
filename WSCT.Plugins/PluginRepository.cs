@@ -24,7 +24,7 @@ namespace WSCT.GUI.Plugins
         /// Plugins Count
         /// </summary>
         [XmlIgnore]
-        public int count
+        public int Count
         {
             get { return _plugins.Count; }
         }
@@ -33,7 +33,7 @@ namespace WSCT.GUI.Plugins
         /// 
         /// </summary>
         [XmlElement("plugin")]
-        public List<PluginDescription> plugins
+        public List<PluginDescription> Plugins
         {
             get { return _plugins; }
             set { _plugins = value; }
@@ -44,7 +44,7 @@ namespace WSCT.GUI.Plugins
         #region >> Constructors
 
         /// <summary>
-        /// Default constructor
+        /// Creates a new instance.
         /// </summary>
         public PluginRepository()
         {
@@ -56,13 +56,13 @@ namespace WSCT.GUI.Plugins
         #region >> Static methods
 
         /// <summary>
-        /// Create a new instance of the pluginDesc described by <c>PluginDescriptor</c>
+        /// Create a new instance of the plugin described by <see cref="PluginDescription"/>.
         /// </summary>
-        /// <param name="pluginDesc">Descriptor of the pluginDesc to be instanciated</param>
-        /// <returns>A new instance of the pluginDesc</returns>
-        public static IPlugin createInstance(PluginDescription pluginDesc)
+        /// <param name="description">Descriptor of the plugin to be instanciated.</param>
+        /// <returns>A new instance of the plugin.</returns>
+        public static IPlugin CreateInstance(PluginDescription description)
         {
-            return AssemblyLoader.CreateInstance<IPlugin>(pluginDesc.pathToDll + pluginDesc.dllName, pluginDesc.className);
+            return AssemblyLoader.CreateInstance<IPlugin>(description.PathToDll + description.DllName, description.ClassName);
         }
 
         #endregion
@@ -70,42 +70,42 @@ namespace WSCT.GUI.Plugins
         #region >> Methods
 
         /// <summary>
-        /// Add a new pluginDesc descriptor to the manager
+        /// Add a new plugin descriptor to the manager.
         /// </summary>
-        /// <param name="pluginDesc">Descriptor of the pluginDesc to be added</param>
-        public void add(PluginDescription pluginDesc)
+        /// <param name="pluginDescription">Descriptor of the plugin to be added.</param>
+        public void Add(PluginDescription pluginDescription)
         {
-            _plugins.Add(pluginDesc);
+            _plugins.Add(pluginDescription);
         }
 
         /// <summary>
-        /// Create a new instance of the pluginDesc named <c>pluginNamed</c>
+        /// Create a new instance of the plugin named <paramref name="pluginName"/>.
         /// </summary>
-        /// <param name="pluginName">Name of the pluginDesc to be instanciated</param>
-        /// <returns>A new instance of the pluginDesc</returns>
-        public IPlugin createInstance(String pluginName)
+        /// <param name="pluginName">Name of the plugin to be instanciated.</param>
+        /// <returns>A new instance of the plugin.</returns>
+        public IPlugin CreateInstance(String pluginName)
         {
-            return createInstance(get(pluginName));
+            return CreateInstance(Get(pluginName));
         }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="pluginName">Name of the pluginDesc to look for</param>
-        /// <returns><c>true</c> if the pluginDesc descriptor exists</returns>
-        public Boolean isValid(String pluginName)
+        /// <param name="pluginName">Name of the plugin to look for.</param>
+        /// <returns><c>true</c> if the plugin descriptor exists.</returns>
+        public Boolean IsValid(String pluginName)
         {
-            return _plugins.Any(plugin => plugin.name == pluginName);
+            return _plugins.Any(plugin => plugin.Name == pluginName);
         }
 
         /// <summary>
-        /// Get the <c>PluginDescriptor</c> instance which name is <c>pluginName</c>
+        /// Get the <see cref="PluginDescription"/> instance which name is <paramref name="pluginName"/>.
         /// </summary>
         /// <param name="pluginName"></param>
-        /// <returns>The PluginDescriptor instance or null if not find</returns>
-        public PluginDescription get(String pluginName)
+        /// <returns>The PluginDescriptor instance or null if not find.</returns>
+        public PluginDescription Get(String pluginName)
         {
-            return _plugins.FirstOrDefault(plugin => plugin.name == pluginName && plugin.isValid);
+            return _plugins.FirstOrDefault(plugin => plugin.Name == pluginName && plugin.IsValid);
         }
 
         #endregion

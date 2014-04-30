@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 namespace WSCT.Layers.Interactive.Actions
 {
     /// <summary>
-    /// Actions container that can be serialized / deserialized
+    /// Actions container that can be serialized / deserialized.
     /// </summary>
     [XmlRoot("actions")]
     public class ActionsContainer : IXmlSerializable
@@ -15,29 +15,29 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> Properties
 
         /// <summary>
-        /// List of concrete actions
+        /// List of concrete actions.
         /// </summary>
-        public List<AbstractAction> actionsList { get; set; }
+        public List<AbstractAction> ActionsList { get; set; }
 
         #endregion
 
         #region >> Constructors
 
         /// <summary>
-        /// Default constructor
+        /// Creates a new instance.
         /// </summary>
         public ActionsContainer()
         {
         }
 
         /// <summary>
-        /// Constructor
+        /// Creates a new instance.
         /// </summary>
-        /// <param name="actionList">List on concrete actions to be handled by the object</param>
+        /// <param name="actionList">List on concrete actions to be handled by the object.</param>
         public ActionsContainer(List<AbstractAction> actionList)
             : this()
         {
-            actionsList = actionList;
+            ActionsList = actionList;
         }
 
         #endregion
@@ -53,7 +53,7 @@ namespace WSCT.Layers.Interactive.Actions
         /// <inheritdoc />
         public void ReadXml(XmlReader reader)
         {
-            actionsList = new List<AbstractAction>();
+            ActionsList = new List<AbstractAction>();
 
             reader.ReadStartElement();
 
@@ -83,7 +83,7 @@ namespace WSCT.Layers.Interactive.Actions
                             default:
                                 throw new Exception(String.Format("Unattended node name [{0}] when deserializing", reader.Name));
                         }
-                        actionsList.Add((AbstractAction)serializer.Deserialize(reader));
+                        ActionsList.Add((AbstractAction)serializer.Deserialize(reader));
                         break;
                     case (XmlNodeType.Comment):
                         reader.ReadString();
@@ -99,7 +99,7 @@ namespace WSCT.Layers.Interactive.Actions
         /// <inheritdoc />
         public void WriteXml(XmlWriter writer)
         {
-            foreach (var action in actionsList)
+            foreach (var action in ActionsList)
             {
                 XmlSerializer serializer;
                 if (action is ConnectAction)

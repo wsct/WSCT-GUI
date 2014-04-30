@@ -8,14 +8,14 @@ using WSCT.Stack;
 namespace WSCT.Layers.Interactive
 {
     /// <summary>
-    /// Controller for Interactive Layers
+    /// Controller for Interactive Layers.
     /// </summary>
     public class InteractiveController
     {
         #region >> Delegates
 
         /// <summary>
-        /// Delegate for event raised when <see cref="InteractiveController.mode"/> has changed
+        /// Delegate for event raised when <see cref="InteractiveController.Mode"/> has changed.
         /// </summary>
         public delegate void InteractiveModeChangedEventHandler();
 
@@ -24,33 +24,33 @@ namespace WSCT.Layers.Interactive
         #region >> Fields
 
         /// <summary>
-        /// Mode of the layer
+        /// Mode of the layer.
         /// </summary>
-        private static InteractiveMode _mode = InteractiveMode.TRANSPARENT;
+        private static InteractiveMode PrivateMode = InteractiveMode.Transparent;
 
         #endregion
 
         #region >> Events
 
         /// <summary>
-        /// Event raised when <see cref="mode"/> has changed
+        /// Event raised when <see cref="Mode"/> has changed.
         /// </summary>
-        public static InteractiveModeChangedEventHandler interactiveModeChangedEvent;
+        public static InteractiveModeChangedEventHandler InteractiveModeChangedEvent;
 
         #endregion
 
         #region >> Properties
 
         /// <summary>
-        /// Accessor the result of test of presence of the Interactive Context Layer
+        /// Accessor the result of test of presence of the Interactive Context Layer.
         /// </summary>
-        public static Boolean contextLayerPresence
+        public static Boolean ContextLayerPresence
         {
             get
             {
                 try
                 {
-                    if (!(SharedData.cardContext is ICardContextStack))
+                    if (!(SharedData.CardContext is ICardContextStack))
                     {
                         return false;
                     }
@@ -59,20 +59,20 @@ namespace WSCT.Layers.Interactive
                 {
                     return false;
                 }
-                return findInteractiveLayerInStack((ICardContextStack)SharedData.cardContext);
+                return FindInteractiveLayerInStack((ICardContextStack)SharedData.CardContext);
             }
         }
 
         /// <summary>
-        /// Accessor the result of test of presence of the Interactive Channel Layer
+        /// Accessor the result of test of presence of the Interactive Channel Layer.
         /// </summary>
-        public static Boolean channelLayerPresence
+        public static Boolean ChannelLayerPresence
         {
             get
             {
                 try
                 {
-                    if (!(SharedData.cardChannel is ICardChannelStack))
+                    if (!(SharedData.CardChannel is ICardChannelStack))
                     {
                         return false;
                     }
@@ -81,25 +81,25 @@ namespace WSCT.Layers.Interactive
                 {
                     return false;
                 }
-                var stack = (ICardChannelStack)SharedData.cardChannel;
+                var stack = (ICardChannelStack)SharedData.CardChannel;
                 return stack.Layers.OfType<CardChannelLayer>().Any();
             }
         }
 
         /// <summary>
-        /// Interactive mode
+        /// Interactive mode.
         /// </summary>
-        public static InteractiveMode mode
+        public static InteractiveMode Mode
         {
-            get { return _mode; }
+            get { return PrivateMode; }
             set
             {
-                _mode = value;
-                if (interactiveModeChangedEvent != null)
+                PrivateMode = value;
+                if (InteractiveModeChangedEvent != null)
                 {
-                    interactiveModeChangedEvent();
+                    InteractiveModeChangedEvent();
                 }
-                onInteractiveModeChanged();
+                OnInteractiveModeChanged();
             }
         }
 
@@ -110,36 +110,39 @@ namespace WSCT.Layers.Interactive
         /// <summary>
         /// Indicates if IL use its fake smartcard reader.
         /// </summary>
-        public static Boolean useFakeReader = false;
+        public static Boolean UseFakeReader = false;
 
         /// <summary>
         /// Name of the fake smartcard reader.
         /// </summary>
-        public static String fakeReaderName = "Interactive Fake Smartcard Reader 0";
+        public static String FakeReaderName = "Interactive Fake Smartcard Reader 0";
 
         /// <summary>
         /// List of actions used as source (REPLAY mode) or destination (RECORD mode)
         /// </summary>
-        public static List<AbstractAction> actionsList = new List<AbstractAction>();
+        public static List<AbstractAction> ActionsList = new List<AbstractAction>();
 
         /// <summary>
         /// Identifier of current action in list of actions (REPLAY mode)
         /// </summary>
-        public static int actionsListId = 0;
+        public static int ActionsListId = 0;
 
         #endregion
 
-        private static void onInteractiveModeChanged()
+        private static void OnInteractiveModeChanged()
         {
-            if (mode == InteractiveMode.RECORD && actionsList == null)
+            if (Mode != InteractiveMode.Record || ActionsList != null)
             {
-                actionsList = new List<AbstractAction>();
-                actionsListId = 0;
+                return;
             }
+
+            ActionsList = new List<AbstractAction>();
+            ActionsListId = 0;
         }
 
-        private static Boolean findInteractiveLayerInStack(ICardContextStack stack)
+        private static Boolean FindInteractiveLayerInStack(ICardContextStack stack)
         {
+            // TODO: not sure if it works...
             foreach (var layer in stack.Layers)
             {
                 if (layer is CardContextLayer)
@@ -148,7 +151,7 @@ namespace WSCT.Layers.Interactive
                 }
                 if (layer is ICardContextStack)
                 {
-                    if (findInteractiveLayerInStack((ICardContextStack)layer))
+                    if (FindInteractiveLayerInStack((ICardContextStack)layer))
                     {
                         return true;
                     }
@@ -157,7 +160,7 @@ namespace WSCT.Layers.Interactive
             return false;
         }
 
-        private static Boolean findInteractiveLayerInStack(ICardChannelStack stack)
+        private static Boolean FindInteractiveLayerInStack(ICardChannelStack stack)
         {
             foreach (var layer in stack.Layers)
             {
@@ -167,7 +170,7 @@ namespace WSCT.Layers.Interactive
                 }
                 if (layer is ICardChannelStack)
                 {
-                    if (findInteractiveLayerInStack((ICardChannelStack)layer))
+                    if (FindInteractiveLayerInStack((ICardChannelStack)layer))
                     {
                         return true;
                     }

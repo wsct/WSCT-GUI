@@ -5,9 +5,9 @@ using System.Windows.Forms;
 
 namespace WSCT.GUI
 {
-    sealed partial class AboutWinSCardGUI : Form
+    sealed partial class AboutWinSCardGui : Form
     {
-        public AboutWinSCardGUI()
+        public AboutWinSCardGui()
         {
             InitializeComponent();
 

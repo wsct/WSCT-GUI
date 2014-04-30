@@ -56,11 +56,11 @@
     <Compile Include="ChannelStatusType.cs" />
     <Compile Include="CardObserver.cs" />
     <Compile Include="LogLevel.cs" />
-    <Compile Include="WinSCardGUI.cs">
+    <Compile Include="WinSCardGui.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="WinSCardGUI.Designer.cs">
-      <DependentUpon>WinSCardGUI.cs</DependentUpon>
+      <DependentUpon>WinSCardGui.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="AboutWinSCardGUI.resx">
@@ -69,7 +69,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="WinSCardGUI.resx">
       <SubType>Designer</SubType>
-      <DependentUpon>WinSCardGUI.cs</DependentUpon>
+      <DependentUpon>WinSCardGui.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>

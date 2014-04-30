@@ -10,7 +10,7 @@ using WSCT.Wrapper;
 
 namespace WSCT.GUI
 {
-    public partial class WinSCardGUI : Form
+    public partial class WinSCardGui : Form
     {
         #region >> Fields
 
@@ -26,7 +26,7 @@ namespace WSCT.GUI
         /// <summary>
         /// 
         /// </summary>
-        public WinSCardGUI()
+        public WinSCardGui()
         {
             InitializeComponent();
 
@@ -47,23 +47,23 @@ namespace WSCT.GUI
             foreach (var fileName in Directory.GetFiles(".", "Plugin*.xml"))
             {
                 var pr = SerializedObject<PluginRepository>.LoadFromXml(fileName);
-                foreach (var pluginDesc in pr.plugins)
+                foreach (var pluginDescription in pr.Plugins)
                 {
-                    pluginRepository.add(pluginDesc);
+                    pluginRepository.Add(pluginDescription);
                 }
             }
 
-            channelLayers = SerializedObject<CardChannelStackDescription>.LoadFromXml(@"Stack.Channel.xml");
+            channelLayers = SerializedObject<CardChannelStackDescription>.LoadFromXml("Stack.Channel.xml");
 
-            contextLayers = SerializedObject<CardContextStackDescription>.LoadFromXml(@"Stack.Context.xml");
+            contextLayers = SerializedObject<CardContextStackDescription>.LoadFromXml("Stack.Context.xml");
 
             statusMonitor = new StatusChangeMonitor();
 
             #region >> Initialize plugins menu and tab
 
-            foreach (var plugin in pluginRepository.plugins)
+            foreach (var plugin in pluginRepository.Plugins)
             {
-                var pluginMenuItem = new ToolStripMenuItem { Text = plugin.name };
+                var pluginMenuItem = new ToolStripMenuItem { Text = plugin.Name };
                 pluginMenuItem.Click += guiPluginsMenu_Click;
                 guiPluginsMenuItem.DropDownItems.Add(pluginMenuItem);
 
@@ -95,7 +95,7 @@ namespace WSCT.GUI
 
         #region >> Methods
 
-        private String getLastNamespaceOf(Object instance)
+        private string getLastNamespaceOf(object instance)
         {
             var splittedNamespace = instance.GetType().Namespace.Split('.');
             return splittedNamespace[splittedNamespace.Length - 1];
@@ -105,42 +105,44 @@ namespace WSCT.GUI
 
         #region >> createCard * Stack
 
-        private void createCardChannelStack()
+        private void CreateCardChannelStack()
         {
             var cardStack = new CardChannelStack();
             foreach (var cardLayer in channelLayers.LayerDescriptions)
             {
                 var cardChannelLayer = channelLayers.CreateInstance(cardLayer.Name);
                 cardChannelLayer.SetStack(cardStack);
-                if (cardChannelLayer is ICardChannelObservable)
+                var channel = cardChannelLayer as ICardChannelObservable;
+                if (channel != null)
                 {
-                    var cardObserver = new CardObserver(this, getLastNamespaceOf(cardChannelLayer));
-                    cardObserver.observeChannel((ICardChannelObservable)cardChannelLayer);
+                    var cardObserver = new CardObserver(this, getLastNamespaceOf(channel));
+                    cardObserver.ObserveChannel(channel);
                 }
                 cardStack.AddLayer(cardChannelLayer);
             }
-            cardStack.Attach(SharedData.cardContext, guiReaders.SelectedItem.ToString());
+            cardStack.Attach(SharedData.CardContext, guiReaders.SelectedItem.ToString());
 
-            SharedData.cardChannel = cardStack;
+            SharedData.CardChannel = cardStack;
         }
 
-        private void createCardContextStack()
+        private void CreateCardContextStack()
         {
             ICardContextStack cardStack = new CardContextStack();
             foreach (var layer in contextLayers.LayerDescriptions)
             {
                 var cardContextLayer = contextLayers.CreateInstance(layer.Name);
                 cardContextLayer.SetStack(cardStack);
-                if (cardContextLayer is ICardContextObservable)
+                var context = cardContextLayer as ICardContextObservable;
+                if (context != null)
                 {
-                    var cardObserver = new CardObserver(this, getLastNamespaceOf(cardContextLayer));
-                    cardObserver.observeContext((ICardContextObservable)cardContextLayer);
-                    cardObserver.observeMonitor(statusMonitor);
+                    var cardObserver = new CardObserver(this, getLastNamespaceOf(context));
+                    cardObserver.ObserveContext(context);
+                    cardObserver.ObserveMonitor(statusMonitor);
                 }
                 cardStack.AddLayer(cardContextLayer);
             }
 
-            SharedData.cardContext = cardStack;
+            SharedData.CardContext = cardStack;
         }
 
         #endregion
@@ -151,28 +153,28 @@ namespace WSCT.GUI
         {
             statusMonitor.OnCardInsertionEvent = null;
             statusMonitor.OnCardRemovalEvent = null;
-            createCardContextStack();
+            CreateCardContextStack();
 
-            var lastError = SharedData.cardContext.Establish();
+            var lastError = SharedData.CardContext.Establish();
 
             if (lastError == ErrorCode.Success)
             {
-                if (SharedData.cardContext.ListReaderGroups() == ErrorCode.Success)
+                if (SharedData.CardContext.ListReaderGroups() == ErrorCode.Success)
                 {
-                    guiReaderGroups.DataSource = SharedData.cardContext.Groups;
-                    guiFoundReaderGroups.Text = String.Format("Reader groups descriptionFound: {0}", SharedData.cardContext.GroupsCount);
+                    guiReaderGroups.DataSource = SharedData.CardContext.Groups;
+                    guiFoundReaderGroups.Text = String.Format("Reader groups descriptionFound: {0}", SharedData.CardContext.GroupsCount);
 
-                    if (SharedData.cardContext.ListReaders(SharedData.cardContext.Groups[0]) == ErrorCode.Success)
+                    if (SharedData.CardContext.ListReaders(SharedData.CardContext.Groups[0]) == ErrorCode.Success)
                     {
-                        guiReaders.DataSource = SharedData.cardContext.Readers;
-                        guiFoundReaders.Text = String.Format("Readers descriptionFound: {0}", SharedData.cardContext.ReadersCount);
+                        guiReaders.DataSource = SharedData.CardContext.Readers;
+                        guiFoundReaders.Text = String.Format("Readers descriptionFound: {0}", SharedData.CardContext.ReadersCount);
 
-                        statusMonitor.Context = SharedData.cardContext;
+                        statusMonitor.Context = SharedData.CardContext;
                         statusMonitor.Start();
                     }
                 }
 
-                updateContextEstablished();
+                UpdateContextEstablished();
             }
             else
             {
@@ -184,63 +186,63 @@ namespace WSCT.GUI
         {
             statusMonitor.Stop();
 
-            var lastError = SharedData.cardContext.Release();
+            var lastError = SharedData.CardContext.Release();
             if (lastError == ErrorCode.Success)
             {
-                SharedData.cardContext = null;
+                SharedData.CardContext = null;
                 guiContextState.Text = "Released";
-                updateChannelStatus(ChannelStatusType.disconnected);
+                UpdateChannelStatus(ChannelStatusType.Disconnected);
 
-                updateContextReleased();
+                UpdateContextReleased();
             }
         }
 
         private void guiCardConnect_Click(object sender, EventArgs e)
         {
-            createCardChannelStack();
+            CreateCardChannelStack();
 
-            var errorCode = SharedData.cardChannel.Connect(ShareMode.Shared, Protocol.Any);
+            var errorCode = SharedData.CardChannel.Connect(ShareMode.Shared, Protocol.Any);
             if (errorCode == ErrorCode.Success)
             {
-                updateReaderInUse(guiReaders.SelectedItem.ToString());
+                UpdateReaderInUse(guiReaders.SelectedItem.ToString());
             }
         }
 
         private void guiCardWarmReset_Click(object sender, EventArgs e)
         {
-            SharedData.cardChannel.Reconnect(ShareMode.Shared, Protocol.Any, Disposition.ResetCard);
+            SharedData.CardChannel.Reconnect(ShareMode.Shared, Protocol.Any, Disposition.ResetCard);
         }
 
         private void guiCardColdReset_Click(object sender, EventArgs e)
         {
-            SharedData.cardChannel.Reconnect(ShareMode.Shared, Protocol.Any, Disposition.UnpowerCard);
+            SharedData.CardChannel.Reconnect(ShareMode.Shared, Protocol.Any, Disposition.UnpowerCard);
         }
 
         private void guiCardUnpower_Click(object sender, EventArgs e)
         {
-            SharedData.cardChannel.Disconnect(Disposition.UnpowerCard);
-            updateReaderInUse("");
+            SharedData.CardChannel.Disconnect(Disposition.UnpowerCard);
+            UpdateReaderInUse("");
         }
 
         private void guiChannelConnect_Click(object sender, EventArgs e)
         {
-            createCardChannelStack();
+            CreateCardChannelStack();
 
-            var errorCode = SharedData.cardChannel.Connect((ShareMode)guiShareMode.SelectedItem, (Protocol)guiProtocol.SelectedItem);
+            var errorCode = SharedData.CardChannel.Connect((ShareMode)guiShareMode.SelectedItem, (Protocol)guiProtocol.SelectedItem);
             if (errorCode == ErrorCode.Success)
             {
-                updateReaderInUse(guiReaders.SelectedItem.ToString());
+                UpdateReaderInUse(guiReaders.SelectedItem.ToString());
             }
         }
 
         private void guiChannelReconnect_Click(object sender, EventArgs e)
         {
-            SharedData.cardChannel.Reconnect((ShareMode)guiShareMode.SelectedItem, (Protocol)guiProtocol.SelectedItem, (Disposition)guiDisposition.SelectedItem);
+            SharedData.CardChannel.Reconnect((ShareMode)guiShareMode.SelectedItem, (Protocol)guiProtocol.SelectedItem, (Disposition)guiDisposition.SelectedItem);
         }
 
         private void guiChannelDisconnect_Click(object sender, EventArgs e)
         {
-            SharedData.cardChannel.Disconnect((Disposition)guiDisposition.SelectedItem);
+            SharedData.CardChannel.Disconnect((Disposition)guiDisposition.SelectedItem);
         }
 
         private void guiGetAttribute_Click(object sender, EventArgs e)
@@ -248,10 +250,10 @@ namespace WSCT.GUI
             try
             {
                 byte[] recvBuffer = null;
-                var errorCode = SharedData.cardChannel.GetAttrib((Attrib)guiAttribute.SelectedItem, ref recvBuffer);
+                var errorCode = SharedData.CardChannel.GetAttrib((Attrib)guiAttribute.SelectedItem, ref recvBuffer);
                 if (errorCode == ErrorCode.Success)
                 {
-                    updateAttribute(recvBuffer);
+                    UpdateAttribute(recvBuffer);
                 }
             }
             catch (Exception)
@@ -267,7 +269,7 @@ namespace WSCT.GUI
 
         private void guiAboutWinSCardGUI_Click(object sender, EventArgs e)
         {
-            Form about = new AboutWinSCardGUI();
+            Form about = new AboutWinSCardGui();
             about.Show();
         }
 
@@ -276,8 +278,8 @@ namespace WSCT.GUI
             var menuItem = (ToolStripMenuItem)sender;
             try
             {
-                var plugin = pluginRepository.createInstance(menuItem.Text);
-                plugin.show();
+                var plugin = pluginRepository.CreateInstance(menuItem.Text);
+                plugin.Show();
             }
             catch (Exception ex)
             {
@@ -293,7 +295,7 @@ namespace WSCT.GUI
         /// 
         /// </summary>
         /// <param name="attribute"></param>
-        public void updateAttribute(byte[] attribute)
+        public void UpdateAttribute(byte[] attribute)
         {
             guiRawAttribute.Text = attribute.ToHexa();
             guiStringAttribute.Text = attribute.ToAsciiString();
@@ -303,7 +305,7 @@ namespace WSCT.GUI
         /// 
         /// </summary>
         /// <param name="error"></param>
-        public void updateLastError(ErrorCode error)
+        public void UpdateLastError(ErrorCode error)
         {
             guiLastError.Text = String.Format("Last Error: {0}", error);
         }
@@ -312,17 +314,17 @@ namespace WSCT.GUI
         /// 
         /// </summary>
         /// <param name="status"></param>
-        public void updateChannelStatus(ChannelStatusType status)
+        public void UpdateChannelStatus(ChannelStatusType status)
         {
             switch (status)
             {
-                case ChannelStatusType.connected:
+                case ChannelStatusType.Connected:
                     guiChannelState.Text = "Connected";
                     break;
-                case ChannelStatusType.disconnected:
+                case ChannelStatusType.Disconnected:
                     guiChannelState.Text = "Disconnected";
                     break;
-                case ChannelStatusType.error:
+                case ChannelStatusType.Error:
                     guiChannelState.Text = "An error occured";
                     break;
             }
@@ -332,7 +334,7 @@ namespace WSCT.GUI
         /// 
         /// </summary>
         /// <param name="readerName"></param>
-        public void updateReaderInUse(string readerName)
+        public void UpdateReaderInUse(string readerName)
         {
             guiReaderInUse.Text = readerName;
         }
@@ -340,7 +342,7 @@ namespace WSCT.GUI
         /// <summary>
         /// Called when new context established: update GUI
         /// </summary>
-        public void updateContextEstablished()
+        public void UpdateContextEstablished()
         {
             guiGroupCardConnection.Enabled = true;
             guiGroupCardAttributes.Enabled = true;
@@ -359,7 +361,7 @@ namespace WSCT.GUI
         /// <summary>
         /// Called when context is released: updateGUI
         /// </summary>
-        public void updateContextReleased()
+        public void UpdateContextReleased()
         {
             guiGroupCardConnection.Enabled = false;
             guiGroupCardAttributes.Enabled = false;
@@ -388,14 +390,14 @@ namespace WSCT.GUI
             if (listBox.SelectedItem != null)
             {
                 var plugin = (PluginDescription)listBox.SelectedItem;
-                guiPluginName.Text = plugin.name;
-                guiPluginClassName.Text = plugin.className;
-                guiPluginDLL.Text = plugin.dllName;
-                guiPluginPathToDll.Text = plugin.pathToDll;
+                guiPluginName.Text = plugin.Name;
+                guiPluginClassName.Text = plugin.ClassName;
+                guiPluginDLL.Text = plugin.DllName;
+                guiPluginPathToDll.Text = plugin.PathToDll;
 
                 try
                 {
-                    var assembly = Assembly.LoadFrom(plugin.pathToDll + plugin.dllName);
+                    var assembly = Assembly.LoadFrom(plugin.PathToDll + plugin.DllName);
                     var assemblyName = new AssemblyName(assembly.FullName);
                     guiPluginAssemblyVersion.Text = assemblyName.Version.ToString();
                     guiPluginAssemblyName.Text = assemblyName.Name;
@@ -404,7 +406,7 @@ namespace WSCT.GUI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error(s) occured when accessing plugin '" + plugin.name + "'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(ex.Message, "Error(s) occured when accessing plugin '" + plugin.Name + "'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }

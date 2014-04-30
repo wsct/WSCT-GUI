@@ -35,7 +35,7 @@ namespace WSCT.GUI.Plugins
         /// 
         /// </summary>
         [XmlAttribute("name")]
-        public String name
+        public String Name
         {
             get { return _name; }
             set { _name = (value == "" ? null : value); }
@@ -45,7 +45,7 @@ namespace WSCT.GUI.Plugins
         /// 
         /// </summary>
         [XmlElement("dll")]
-        public String dllName
+        public String DllName
         {
             get { return _dllName; }
             set { _dllName = (value == "" ? null : value); }
@@ -55,7 +55,7 @@ namespace WSCT.GUI.Plugins
         /// 
         /// </summary>
         [XmlElement("className")]
-        public String className
+        public String ClassName
         {
             get { return _className; }
             set { _className = (value ?? string.Empty); }
@@ -65,7 +65,7 @@ namespace WSCT.GUI.Plugins
         /// 
         /// </summary>
         [XmlElement("pathToDll")]
-        public String pathToDll
+        public String PathToDll
         {
             get { return _pathToDll; }
             set { _pathToDll = (value ?? string.Empty); }
@@ -75,9 +75,9 @@ namespace WSCT.GUI.Plugins
         /// 
         /// </summary>
         [XmlIgnore]
-        public Boolean isValid
+        public Boolean IsValid
         {
-            get { return (name != null && _dllName != null); }
+            get { return (Name != null && _dllName != null); }
         }
 
         #endregion

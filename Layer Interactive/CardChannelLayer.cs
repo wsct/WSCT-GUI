@@ -37,7 +37,7 @@ namespace WSCT.Layers.Interactive
         {
             get
             {
-                if (InteractiveController.mode == InteractiveMode.REPLAY)
+                if (InteractiveController.Mode == InteractiveMode.Replay)
                 {
                     return _protocol;
                 }
@@ -48,7 +48,10 @@ namespace WSCT.Layers.Interactive
         /// <inheritdoc />
         public string ReaderName
         {
-            get { return _stack.RequestLayer(this, SearchMode.Next).ReaderName; }
+            get
+            {
+                return _stack.RequestLayer(this, SearchMode.Next).ReaderName;
+            }
         }
 
         /// <inheritdoc />
@@ -66,17 +69,17 @@ namespace WSCT.Layers.Interactive
             }
 
             ErrorCode ret;
-            if (InteractiveController.mode == InteractiveMode.REPLAY)
+            if (InteractiveController.Mode == InteractiveMode.Replay)
             {
-                var nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
+                var nextAction = InteractiveController.ActionsList[InteractiveController.ActionsListId];
                 if (nextAction is ConnectAction)
                 {
                     // Retrieve protocol to send
-                    _protocol = ((ConnectAction)nextAction).protocol;
+                    _protocol = ((ConnectAction)nextAction).Protocol;
                     // Seek id to next action and check limits
-                    if (++InteractiveController.actionsListId == InteractiveController.actionsList.Count)
+                    if (++InteractiveController.ActionsListId == InteractiveController.ActionsList.Count)
                     {
-                        InteractiveController.mode = InteractiveMode.TRANSPARENT;
+                        InteractiveController.Mode = InteractiveMode.Transparent;
                     }
                     // Success
                     ret = ErrorCode.Success;
@@ -91,9 +94,9 @@ namespace WSCT.Layers.Interactive
             {
                 ret = _stack.RequestLayer(this, SearchMode.Next).Connect(shareMode, preferedProtocol);
 
-                if (InteractiveController.mode == InteractiveMode.RECORD)
+                if (InteractiveController.Mode == InteractiveMode.Record)
                 {
-                    InteractiveController.actionsList.Add(
+                    InteractiveController.ActionsList.Add(
                         new ConnectAction(Protocol)
                         );
                 }
@@ -116,15 +119,15 @@ namespace WSCT.Layers.Interactive
             }
 
             ErrorCode ret;
-            if (InteractiveController.mode == InteractiveMode.REPLAY)
+            if (InteractiveController.Mode == InteractiveMode.Replay)
             {
-                var nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
-                if (nextAction is DisconnectAction && ((DisconnectAction)nextAction).disposition == disposition)
+                var nextAction = InteractiveController.ActionsList[InteractiveController.ActionsListId];
+                if (nextAction is DisconnectAction && ((DisconnectAction)nextAction).Disposition == disposition)
                 {
                     // Seek id to next action and check limits
-                    if (++InteractiveController.actionsListId == InteractiveController.actionsList.Count)
+                    if (++InteractiveController.ActionsListId == InteractiveController.ActionsList.Count)
                     {
-                        InteractiveController.mode = InteractiveMode.TRANSPARENT;
+                        InteractiveController.Mode = InteractiveMode.Transparent;
                     }
                     // Success
                     ret = ErrorCode.Success;
@@ -139,9 +142,9 @@ namespace WSCT.Layers.Interactive
             {
                 ret = _stack.RequestLayer(this, SearchMode.Next).Disconnect(disposition);
 
-                if (InteractiveController.mode == InteractiveMode.RECORD)
+                if (InteractiveController.Mode == InteractiveMode.Record)
                 {
-                    InteractiveController.actionsList.Add(
+                    InteractiveController.ActionsList.Add(
                         new DisconnectAction(disposition)
                         );
                 }
@@ -165,17 +168,17 @@ namespace WSCT.Layers.Interactive
 
             ErrorCode ret;
 
-            if (InteractiveController.mode == InteractiveMode.REPLAY)
+            if (InteractiveController.Mode == InteractiveMode.Replay)
             {
-                var nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
-                if (nextAction is GetAttribAction && ((GetAttribAction)nextAction).attrib == attrib)
+                var nextAction = InteractiveController.ActionsList[InteractiveController.ActionsListId];
+                if (nextAction is GetAttribAction && ((GetAttribAction)nextAction).Attrib == attrib)
                 {
                     // Retrieve buffer to send
-                    buffer = ((GetAttribAction)nextAction).response.FromHexa();
+                    buffer = ((GetAttribAction)nextAction).Response.FromHexa();
                     // Seek id to next action and check limits
-                    if (++InteractiveController.actionsListId == InteractiveController.actionsList.Count)
+                    if (++InteractiveController.ActionsListId == InteractiveController.ActionsList.Count)
                     {
-                        InteractiveController.mode = InteractiveMode.TRANSPARENT;
+                        InteractiveController.Mode = InteractiveMode.Transparent;
                     }
                     // Success
                     ret = ErrorCode.Success;
@@ -190,9 +193,9 @@ namespace WSCT.Layers.Interactive
             {
                 ret = _stack.RequestLayer(this, SearchMode.Next).GetAttrib(attrib, ref buffer);
 
-                if (InteractiveController.mode == InteractiveMode.RECORD)
+                if (InteractiveController.Mode == InteractiveMode.Record)
                 {
-                    InteractiveController.actionsList.Add(
+                    InteractiveController.ActionsList.Add(
                         new GetAttribAction(attrib, buffer.ToHexa())
                         );
                 }
@@ -233,17 +236,17 @@ namespace WSCT.Layers.Interactive
             }
 
             ErrorCode ret;
-            if (InteractiveController.mode == InteractiveMode.REPLAY)
+            if (InteractiveController.Mode == InteractiveMode.Replay)
             {
-                var nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
-                if (nextAction is ReconnectAction && ((ReconnectAction)nextAction).initialization == initialization)
+                var nextAction = InteractiveController.ActionsList[InteractiveController.ActionsListId];
+                if (nextAction is ReconnectAction && ((ReconnectAction)nextAction).Initialization == initialization)
                 {
                     // Retrieve protocol to send
-                    _protocol = ((ReconnectAction)nextAction).protocol;
+                    _protocol = ((ReconnectAction)nextAction).Protocol;
                     // Seek id to next action and check limits
-                    if (++InteractiveController.actionsListId == InteractiveController.actionsList.Count)
+                    if (++InteractiveController.ActionsListId == InteractiveController.ActionsList.Count)
                     {
-                        InteractiveController.mode = InteractiveMode.TRANSPARENT;
+                        InteractiveController.Mode = InteractiveMode.Transparent;
                     }
                     // Success
                     ret = ErrorCode.Success;
@@ -258,9 +261,9 @@ namespace WSCT.Layers.Interactive
             {
                 ret = _stack.RequestLayer(this, SearchMode.Next).Reconnect(shareMode, preferedProtocol, initialization);
 
-                if (InteractiveController.mode == InteractiveMode.RECORD)
+                if (InteractiveController.Mode == InteractiveMode.Record)
                 {
-                    InteractiveController.actionsList.Add(
+                    InteractiveController.ActionsList.Add(
                         new ReconnectAction(Protocol, initialization)
                         );
                 }
@@ -284,17 +287,17 @@ namespace WSCT.Layers.Interactive
 
             ErrorCode ret;
 
-            if (InteractiveController.mode == InteractiveMode.REPLAY)
+            if (InteractiveController.Mode == InteractiveMode.Replay)
             {
-                var nextAction = InteractiveController.actionsList[InteractiveController.actionsListId];
-                if (nextAction is TransmitAction && ((TransmitAction)nextAction).command == command.ToString())
+                var nextAction = InteractiveController.ActionsList[InteractiveController.ActionsListId];
+                if (nextAction is TransmitAction && ((TransmitAction)nextAction).Command == command.ToString())
                 {
                     // Retrieve response to send
-                    response.Parse(((TransmitAction)nextAction).response.FromHexa());
+                    response.Parse(((TransmitAction)nextAction).Response.FromHexa());
                     // Seek id to next action and check limits
-                    if (++InteractiveController.actionsListId == InteractiveController.actionsList.Count)
+                    if (++InteractiveController.ActionsListId == InteractiveController.ActionsList.Count)
                     {
-                        InteractiveController.mode = InteractiveMode.TRANSPARENT;
+                        InteractiveController.Mode = InteractiveMode.Transparent;
                     }
                     // Success
                     ret = ErrorCode.Success;
@@ -309,9 +312,9 @@ namespace WSCT.Layers.Interactive
             {
                 ret = _stack.RequestLayer(this, SearchMode.Next).Transmit(command, response);
 
-                if (InteractiveController.mode == InteractiveMode.RECORD)
+                if (InteractiveController.Mode == InteractiveMode.Record)
                 {
-                    InteractiveController.actionsList.Add(
+                    InteractiveController.ActionsList.Add(
                         new TransmitAction(command.ToString(), response.ToString())
                         );
                 }

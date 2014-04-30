@@ -3,7 +3,7 @@ namespace WSCT.GUI
 	/// <summary>
 	/// 
 	/// </summary>
-	partial class WinSCardGUI
+	partial class WinSCardGui
 	{
 		/// <summary>
 		/// Variable nécessaire au concepteur.
@@ -63,7 +63,7 @@ namespace WSCT.GUI
             System.Windows.Forms.Label label12;
             System.Windows.Forms.Label label13;
             System.Windows.Forms.GroupBox groupBox5;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WinSCardGUI));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WinSCardGui));
             this.guiCardConnect = new System.Windows.Forms.Button();
             this.guiCardWarmReset = new System.Windows.Forms.Button();
             this.guiCardUnpower = new System.Windows.Forms.Button();

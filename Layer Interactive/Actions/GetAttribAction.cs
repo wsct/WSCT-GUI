@@ -8,8 +8,8 @@ using WSCT.Wrapper;
 namespace WSCT.Layers.Interactive.Actions
 {
     /// <summary>
-    /// Concrete action: getAttrib(...)
-    /// <see cref="ICardChannel.GetAttrib"/>
+    /// Concrete action: getAttrib(...).
+    /// <see cref="ICardChannel.GetAttrib"/>.
     /// </summary>
     [XmlRoot("getAttrib")]
     public class GetAttribAction : AbstractAction, IXmlSerializable
@@ -17,21 +17,21 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> Constructors
 
         /// <summary>
-        /// R-APDU
+        /// R-APDU.
         /// </summary>
-        public String response { get; set; }
+        public String Response { get; set; }
 
         /// <summary>
-        /// Action parameter
+        /// Action parameter.
         /// </summary>
-        public Attrib attrib { get; set; }
+        public Attrib Attrib { get; set; }
 
         #endregion
 
         #region >> Constructors
 
         /// <summary>
-        /// Default constructor
+        /// Creates a new instance.
         /// </summary>
         public GetAttribAction()
             : base("getAttrib")
@@ -39,15 +39,15 @@ namespace WSCT.Layers.Interactive.Actions
         }
 
         /// <summary>
-        /// Constructor
+        /// Creates a new instance.
         /// </summary>
-        /// <param name="attrib">Action parameter</param>
-        /// <param name="response">Action parameter</param>
+        /// <param name="attrib">Action parameter.</param>
+        /// <param name="response">Action parameter.</param>
         public GetAttribAction(Attrib attrib, String response)
             : this()
         {
-            this.attrib = attrib;
-            this.response = response;
+            Attrib = attrib;
+            Response = response;
         }
 
         #endregion
@@ -63,17 +63,17 @@ namespace WSCT.Layers.Interactive.Actions
         /// <inheritdoc />
         public void ReadXml(XmlReader reader)
         {
-            attrib = (Attrib)Enum.Parse(typeof(Attrib), reader.GetAttribute("attrib"));
+            Attrib = (Attrib)Enum.Parse(typeof(Attrib), reader.GetAttribute("attrib"));
             reader.ReadStartElement();
-            response = reader.ReadString();
+            Response = reader.ReadString();
             reader.ReadEndElement();
         }
 
         /// <inheritdoc />
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteAttributeString("attrib", attrib.ToString());
-            writer.WriteString(response);
+            writer.WriteAttributeString("attrib", Attrib.ToString());
+            writer.WriteString(Response);
         }
 
         #endregion

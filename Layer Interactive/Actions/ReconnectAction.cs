@@ -8,8 +8,8 @@ using WSCT.Wrapper;
 namespace WSCT.Layers.Interactive.Actions
 {
     /// <summary>
-    /// Concrete action: reconnect(...)
-    /// <see cref="ICardChannel.Reconnect"/>
+    /// Concrete action: reconnect(...).
+    /// <see cref="ICardChannel.Reconnect"/>.
     /// </summary>
     [XmlRoot("reconnect")]
     public class ReconnectAction : AbstractAction, IXmlSerializable
@@ -17,21 +17,21 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> Properties
 
         /// <summary>
-        /// Action parameter
+        /// Action parameter.
         /// </summary>
-        public Protocol protocol { get; set; }
+        public Protocol Protocol { get; set; }
 
         /// <summary>
-        /// Action parameter
+        /// Action parameter.
         /// </summary>
-        public Disposition initialization { get; set; }
+        public Disposition Initialization { get; set; }
 
         #endregion
 
         #region >> Constructors
 
         /// <summary>
-        /// Default constructor
+        /// Creates a new instance.
         /// </summary>
         public ReconnectAction()
             : base("reconnect")
@@ -39,15 +39,15 @@ namespace WSCT.Layers.Interactive.Actions
         }
 
         /// <summary>
-        /// Constructor
+        /// Creates a new instance.
         /// </summary>
         /// <param name="protocol">Action parameter</param>
         /// <param name="initialization">Action parameter</param>
         public ReconnectAction(Protocol protocol, Disposition initialization)
             : this()
         {
-            this.protocol = protocol;
-            this.initialization = initialization;
+            Protocol = protocol;
+            Initialization = initialization;
         }
 
         #endregion
@@ -63,17 +63,17 @@ namespace WSCT.Layers.Interactive.Actions
         /// <inheritdoc />
         public void ReadXml(XmlReader reader)
         {
-            initialization = (Disposition)Enum.Parse(typeof(Disposition), reader.GetAttribute("initialization"));
+            Initialization = (Disposition)Enum.Parse(typeof(Disposition), reader.GetAttribute("initialization"));
             reader.ReadStartElement();
-            protocol = (Protocol)Enum.Parse(typeof(Protocol), reader.ReadString());
+            Protocol = (Protocol)Enum.Parse(typeof(Protocol), reader.ReadString());
             reader.ReadEndElement();
         }
 
         /// <inheritdoc />
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteAttributeString("initialization", initialization.ToString());
-            writer.WriteString(protocol.ToString());
+            writer.WriteAttributeString("initialization", Initialization.ToString());
+            writer.WriteString(Protocol.ToString());
         }
 
         #endregion

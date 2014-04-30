@@ -1,28 +1,28 @@
 ﻿namespace WSCT.Layers.Interactive
 {
     /// <summary>
-    /// Enumeration for mode
+    /// Enumeration for mode.
     /// </summary>
     public enum InteractiveMode
     {
         /// <summary>
-        /// Layer only acts as a transparent proxy
+        /// Layer only acts as a transparent proxy.
         /// </summary>
-        TRANSPARENT,
+        Transparent,
 
         /// <summary>
-        /// Layer acts as a transparent proxy and stores the actions 
+        /// Layer acts as a transparent proxy and stores the actions.
         /// </summary>
-        RECORD,
+        Record,
 
         /// <summary>
-        /// Layer acts as an automatic responder; no actions is send to next layers
+        /// Layer acts as an automatic responder; no actions is send to next layers.
         /// </summary>
-        REPLAY,
+        Replay,
 
         /// <summary>
-        /// Layer is piloted by a plugin
+        /// Layer is piloted by a plugin.
         /// </summary>
-        EMULATOR
+        Emulator
     }
 }

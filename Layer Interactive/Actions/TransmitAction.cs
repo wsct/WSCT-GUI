@@ -7,7 +7,7 @@ using WSCT.Core;
 namespace WSCT.Layers.Interactive.Actions
 {
     /// <summary>
-    /// Concrete action: transmit(...)
+    /// Concrete action: transmit(...).
     /// <see cref="ICardChannel.Transmit"/>
     /// </summary>
     [XmlRoot("transmit")]
@@ -16,14 +16,14 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> Properties
 
         /// <summary>
-        /// R-APDU
+        /// R-APDU.
         /// </summary>
-        public String response { get; set; }
+        public String Response { get; set; }
 
         /// <summary>
-        /// C-APDU
+        /// C-APDU.
         /// </summary>
-        public String command { get; set; }
+        public String Command { get; set; }
 
         #endregion
 
@@ -38,15 +38,15 @@ namespace WSCT.Layers.Interactive.Actions
         }
 
         /// <summary>
-        /// Constructor
+        /// Creates a new instance.
         /// </summary>
-        /// <param name="command">C-APDU</param>
-        /// <param name="response">R-APDU</param>
+        /// <param name="command">C-APDU.</param>
+        /// <param name="response">R-APDU.</param>
         public TransmitAction(String command, String response)
             : this()
         {
-            this.command = command;
-            this.response = response;
+            Command = command;
+            Response = response;
         }
 
         #endregion
@@ -62,17 +62,17 @@ namespace WSCT.Layers.Interactive.Actions
         /// <inheritdoc />
         public void ReadXml(XmlReader reader)
         {
-            command = reader.GetAttribute("command");
+            Command = reader.GetAttribute("command");
             reader.ReadStartElement();
-            response = reader.ReadString();
+            Response = reader.ReadString();
             reader.ReadEndElement();
         }
 
         /// <inheritdoc />
         public void WriteXml(XmlWriter writer)
         {
-            writer.WriteAttributeString("command", command);
-            writer.WriteString(response);
+            writer.WriteAttributeString("command", Command);
+            writer.WriteString(Response);
         }
 
         #endregion

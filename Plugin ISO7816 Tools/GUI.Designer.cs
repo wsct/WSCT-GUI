@@ -1,6 +1,6 @@
 ﻿namespace WSCT.GUI.Plugins.ISO7816Tools
 {
-	partial class GUI
+	partial class Gui
 	{
 		/// <summary>
 		/// Variable nécessaire au concepteur.
@@ -90,7 +90,7 @@
             System.Windows.Forms.GroupBox groupBox38;
             System.Windows.Forms.Label label29;
             System.Windows.Forms.GroupBox groupBox6;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GUI));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gui));
             this.guiStatusStatusWord = new System.Windows.Forms.ToolStripStatusLabel();
             this.guiParametersReleaseObserver = new System.Windows.Forms.Button();
             this.guiParametersAttachObserver = new System.Windows.Forms.Button();

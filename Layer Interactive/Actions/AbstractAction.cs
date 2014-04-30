@@ -10,21 +10,21 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> Properties
 
         /// <summary>
-        /// Name of the action (can be used when deserializing a concrete action)
+        /// Name of the action (can be used when deserializing a concrete action).
         /// </summary>
-        public String name { get; set; }
+        public String Name { get; set; }
 
         #endregion
 
         #region >> Constructors
 
         /// <summary>
-        /// Default constructor
+        /// Creates a new instance.
         /// </summary>
-        /// <param name="name">Name of the action</param>
+        /// <param name="name">Name of the action</param>.
         protected AbstractAction(String name)
         {
-            this.name = name;
+            Name = name;
         }
 
         #endregion

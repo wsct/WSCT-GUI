@@ -7,70 +7,70 @@ using WSCT.Layers.Interactive.Actions;
 namespace WSCT.GUI.Plugins.LayerInteractive
 {
     /// <summary>
-    /// Plugin dedicated form
+    /// Plugin dedicated form.
     /// </summary>
-    public partial class GUI : Form
+    public partial class Gui : Form
     {
-        private const String defaultFileName = @"InteractiveData.xml";
+        private const String DefaultFileName = @"InteractiveData.xml";
 
         #region >> Constructor
 
         /// <inheritdoc />
-        public GUI()
+        public Gui()
         {
             InitializeComponent();
 
-            guiContextLayerPresence.Checked = InteractiveController.contextLayerPresence;
-            guiChannelLayerPresence.Checked = InteractiveController.channelLayerPresence;
+            guiContextLayerPresence.Checked = InteractiveController.ContextLayerPresence;
+            guiChannelLayerPresence.Checked = InteractiveController.ChannelLayerPresence;
 
-            guiUseFakeReader.Checked = InteractiveController.useFakeReader;
-            guiFakeReaderName.Text = InteractiveController.fakeReaderName;
+            guiUseFakeReader.Checked = InteractiveController.UseFakeReader;
+            guiFakeReaderName.Text = InteractiveController.FakeReaderName;
 
             guiInteractiveMode.DataSource = Enum.GetValues(typeof(InteractiveMode));
-            guiInteractiveMode.SelectedItem = InteractiveController.mode;
+            guiInteractiveMode.SelectedItem = InteractiveController.Mode;
 
-            InteractiveController.interactiveModeChangedEvent += onInteractiveModeChanged;
-            SharedData.cardContextChangedEvent += onCardContextChanged;
-            SharedData.cardChannelChangedEvent += onCardChannelChanged;
+            InteractiveController.InteractiveModeChangedEvent += OnInteractiveModeChanged;
+            SharedData.CardContextChangedEvent += OnCardContextChanged;
+            SharedData.CardChannelChangedEvent += OnCardChannelChanged;
         }
 
         #endregion
 
         #region >> on * Changed
 
-        private void onInteractiveModeChanged()
+        private void OnInteractiveModeChanged()
         {
             if (guiInteractiveMode.InvokeRequired)
             {
-                guiInteractiveMode.Invoke(new MethodInvoker(() => guiInteractiveMode.SelectedItem = InteractiveController.mode));
+                guiInteractiveMode.Invoke(new MethodInvoker(() => guiInteractiveMode.SelectedItem = InteractiveController.Mode));
             }
             else
             {
-                guiInteractiveMode.SelectedItem = InteractiveController.mode;
+                guiInteractiveMode.SelectedItem = InteractiveController.Mode;
             }
         }
 
-        private void onCardContextChanged()
+        private void OnCardContextChanged()
         {
             if (guiContextLayerPresence.InvokeRequired)
             {
-                guiContextLayerPresence.Invoke(new MethodInvoker(() => guiContextLayerPresence.Checked = InteractiveController.contextLayerPresence));
+                guiContextLayerPresence.Invoke(new MethodInvoker(() => guiContextLayerPresence.Checked = InteractiveController.ContextLayerPresence));
             }
             else
             {
-                guiContextLayerPresence.Checked = InteractiveController.contextLayerPresence;
+                guiContextLayerPresence.Checked = InteractiveController.ContextLayerPresence;
             }
         }
 
-        private void onCardChannelChanged()
+        private void OnCardChannelChanged()
         {
             if (guiContextLayerPresence.InvokeRequired)
             {
-                guiChannelLayerPresence.Invoke(new MethodInvoker(() => guiChannelLayerPresence.Checked = InteractiveController.channelLayerPresence));
+                guiChannelLayerPresence.Invoke(new MethodInvoker(() => guiChannelLayerPresence.Checked = InteractiveController.ChannelLayerPresence));
             }
             else
             {
-                guiChannelLayerPresence.Checked = InteractiveController.channelLayerPresence;
+                guiChannelLayerPresence.Checked = InteractiveController.ChannelLayerPresence;
             }
         }
 
@@ -80,17 +80,17 @@ namespace WSCT.GUI.Plugins.LayerInteractive
 
         private void guiUseFakeReader_CheckedChanged(object sender, EventArgs e)
         {
-            InteractiveController.useFakeReader = guiUseFakeReader.Checked;
+            InteractiveController.UseFakeReader = guiUseFakeReader.Checked;
         }
 
         private void guiInteractiveMode_SelectedIndexChanged(object sender, EventArgs e)
         {
-            InteractiveController.mode = (InteractiveMode)guiInteractiveMode.SelectedItem;
+            InteractiveController.Mode = (InteractiveMode)guiInteractiveMode.SelectedItem;
         }
 
         private void guiFakeReaderName_TextChanged(object sender, EventArgs e)
         {
-            InteractiveController.fakeReaderName = guiFakeReaderName.Text;
+            InteractiveController.FakeReaderName = guiFakeReaderName.Text;
         }
 
         #endregion
@@ -99,22 +99,22 @@ namespace WSCT.GUI.Plugins.LayerInteractive
 
         private void guiDoSaveRecordedData_Click(object sender, EventArgs e)
         {
-            guiSaveFileInteractive.FileName = defaultFileName;
+            guiSaveFileInteractive.FileName = DefaultFileName;
             if (guiSaveFileInteractive.ShowDialog() == DialogResult.OK && guiSaveFileInteractive.FileName != "")
             {
-                SerializedObject<ActionsContainer>.SaveToXml(new ActionsContainer(InteractiveController.actionsList), guiSaveFileInteractive.FileName);
+                SerializedObject<ActionsContainer>.SaveToXml(new ActionsContainer(InteractiveController.ActionsList), guiSaveFileInteractive.FileName);
             }
         }
 
         private void guiDoLoadReplayData_Click(object sender, EventArgs e)
         {
-            guiOpenFileInteractive.FileName = defaultFileName;
+            guiOpenFileInteractive.FileName = DefaultFileName;
             if (guiOpenFileInteractive.ShowDialog() == DialogResult.OK && guiOpenFileInteractive.FileName != "")
             {
                 var actionsContainer = SerializedObject<ActionsContainer>.LoadFromXml(guiOpenFileInteractive.FileName);
-                InteractiveController.actionsList = actionsContainer.actionsList;
+                InteractiveController.ActionsList = actionsContainer.ActionsList;
             }
-            InteractiveController.actionsListId = 0;
+            InteractiveController.ActionsListId = 0;
         }
 
         #endregion
@@ -123,9 +123,9 @@ namespace WSCT.GUI.Plugins.LayerInteractive
 
         private void GUI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            InteractiveController.interactiveModeChangedEvent -= onInteractiveModeChanged;
-            SharedData.cardContextChangedEvent -= onCardContextChanged;
-            SharedData.cardChannelChangedEvent -= onCardChannelChanged;
+            InteractiveController.InteractiveModeChangedEvent -= OnInteractiveModeChanged;
+            SharedData.CardContextChangedEvent -= OnCardContextChanged;
+            SharedData.CardChannelChangedEvent -= OnCardChannelChanged;
         }
 
         #endregion

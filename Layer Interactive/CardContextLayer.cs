@@ -54,11 +54,12 @@ namespace WSCT.Layers.Interactive
             get
             {
                 var readers = _stack.RequestLayer(this, SearchMode.Next).Readers;
-                if (InteractiveController.useFakeReader)
+
+                if (InteractiveController.UseFakeReader)
                 {
-                    Array.Resize(ref readers, readers.Length + 1);
-                    readers[readers.Length - 1] = InteractiveController.fakeReaderName;
+                    readers = readers.Union(new[] { InteractiveController.FakeReaderName }).ToArray();
                 }
+
                 return readers;
             }
         }
@@ -69,10 +70,12 @@ namespace WSCT.Layers.Interactive
             get
             {
                 var readersCount = _stack.RequestLayer(this, SearchMode.Next).ReadersCount;
-                if (InteractiveController.useFakeReader)
+
+                if (InteractiveController.UseFakeReader)
                 {
                     readersCount += 1;
                 }
+
                 return readersCount;
             }
         }
@@ -124,14 +127,14 @@ namespace WSCT.Layers.Interactive
             }
 
             // Filtering fakeReader
-            var fakeReaderState = readerStates.FirstOrDefault(rs => rs.ReaderName == InteractiveController.fakeReaderName);
+            var fakeReaderState = readerStates.FirstOrDefault(rs => rs.ReaderName == InteractiveController.FakeReaderName);
             if (fakeReaderState != null)
             {
                 // To be improved to wait for eventState occuring on fake reader
                 if (readerStates.Length > 1)
                 {
                     // Sending getStatusChange of other readers to the next layer
-                    var filteredReaderStates = readerStates.Where(rs => rs.ReaderName != InteractiveController.fakeReaderName).ToArray();
+                    var filteredReaderStates = readerStates.Where(rs => rs.ReaderName != InteractiveController.FakeReaderName).ToArray();
                     ret = _stack.RequestLayer(this, SearchMode.Next).GetStatusChange(timeout, filteredReaderStates);
                 }
                 else
@@ -179,6 +182,12 @@ namespace WSCT.Layers.Interactive
             }
 
             var ret = _stack.RequestLayer(this, SearchMode.Next).ListReaders(group);
+
+            if (InteractiveController.UseFakeReader)
+            {
+                // If Interactive Layer is used, the dedicated fake reader is always present.
+                ret = ErrorCode.Success;
+            }
 
             if (AfterListReadersEvent != null)
             {

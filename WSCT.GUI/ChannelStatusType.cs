@@ -1,23 +1,23 @@
 namespace WSCT.GUI
 {
     /// <summary>
-    /// Possible connexion states of channel
+    /// Possible connexion states of channel.
     /// </summary>
     public enum ChannelStatusType
     {
         /// <summary>
         /// 
         /// </summary>
-        connected,
+        Connected,
 
         /// <summary>
         /// 
         /// </summary>
-        disconnected,
+        Disconnected,
 
         /// <summary>
         /// 
         /// </summary>
-        error
+        Error
     }
 }
