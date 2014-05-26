@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using WSCT.Core;
 using WSCT.GUI.Plugins;
 using WSCT.Helpers;
+using WSCT.Helpers.Portable.Windows;
 using WSCT.Stack;
 using WSCT.Wrapper;
 
@@ -29,6 +30,8 @@ namespace WSCT.GUI
         public WinSCardGui()
         {
             InitializeComponent();
+
+            RegisterPcl.Register();
 
             guiShareMode.DataSource = Enum.GetValues(typeof(ShareMode));
             guiShareMode.SelectedItem = ShareMode.Shared;

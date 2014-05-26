@@ -18,6 +18,8 @@
     <ApplicationRevision>0</ApplicationRevision>
     <TargetZone>LocalIntranet</TargetZone>
     <GenerateManifests>false</GenerateManifests>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,6 +31,7 @@
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>
     </DocumentationFile>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -37,6 +40,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -103,6 +107,10 @@
       <Project>{764A5311-A573-4774-A198-43A660167FC7}</Project>
       <Name>WSCT.Core</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\WSCT Core\WSCT.Helpers.Portable.Windows\WSCT.Helpers.Portable.Windows.csproj">
+      <Project>{a3eef6f2-8509-4eb2-a8b3-b31786ebb248}</Project>
+      <Name>WSCT.Helpers.Portable.Windows</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\WSCT Core\WSCT.Helpers\WSCT.Helpers.csproj">
       <Project>{B95B0E58-9296-4A15-AA69-10A7B6DC2267}</Project>
       <Name>WSCT.Helpers</Name>
@@ -110,6 +118,10 @@
     <ProjectReference Include="..\..\WSCT Core\WSCT.Stack\WSCT.Stack.csproj">
       <Project>{4EABE8DA-0BCB-4BC6-A571-7618AC0EC4B6}</Project>
       <Name>WSCT.Stack</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WSCT Core\WSCT.Wrapper.Core\WSCT.Wrapper.Core.csproj">
+      <Project>{f0afba85-a6f7-4a45-8dc8-3346d7060629}</Project>
+      <Name>WSCT.Wrapper.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj">
       <Project>{44D12C6F-7D70-40EC-864A-01202928D159}</Project>
