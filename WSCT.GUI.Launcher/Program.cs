@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Forms;
 
 namespace WSCT.GUI.Launcher
@@ -15,7 +13,7 @@ namespace WSCT.GUI.Launcher
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new WSCT.GUI.WinSCardGUI());
+            Application.Run(new WinSCardGui());
 
             // Force close all other existing Application.Run() 
             Application.Exit();
