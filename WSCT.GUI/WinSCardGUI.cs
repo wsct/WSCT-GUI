@@ -5,9 +5,10 @@ using System.Windows.Forms;
 using WSCT.Core;
 using WSCT.GUI.Plugins;
 using WSCT.Helpers;
-using WSCT.Helpers.Portable.Windows;
+using WSCT.Helpers.Desktop;
 using WSCT.Stack;
 using WSCT.Wrapper;
+using WSCT.Wrapper.Desktop.Core;
 
 namespace WSCT.GUI
 {

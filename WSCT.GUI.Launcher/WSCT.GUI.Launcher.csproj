@@ -121,17 +121,9 @@
       <Project>{B2F69421-36D1-40E2-B36C-165A622B810C}</Project>
       <Name>Plugin ISO7816 Tools</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\WSCT Core\WSCT.ISO7816\WSCT.ISO7816.csproj">
-      <Project>{BDECF2A5-900E-4C5D-BEEE-7903F9145BC1}</Project>
-      <Name>WSCT.ISO7816</Name>
-    </ProjectReference>
     <ProjectReference Include="..\WSCT.GUI\WSCT.GUI.csproj">
       <Project>{AD3F035D-2806-4F94-8C29-09E5E183C36D}</Project>
       <Name>WSCT.GUI</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WSCT Core\WSCT.Wrapper\WSCT.Wrapper.csproj">
-      <Project>{19B66E6E-7E5E-481A-8718-3F9C44212AD6}</Project>
-      <Name>WSCT.Wrapper</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
