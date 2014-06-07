@@ -1,11 +1,11 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <Plugins>
 
-	<plugin name="Layer Interactive">
-		<dll>Plugin.LayerInteractive.dll</dll>
-		<className>WSCT.GUI.Plugins.LayerInteractive.PluginEntry</className>
-		<pathToDll></pathToDll>
-	</plugin>
+  <plugin name="Layer Interactive">
+    <dll>Plugin.LayerInteractive.dll</dll>
+    <className>WSCT.GUI.Plugins.LayerInteractive.PluginEntry</className>
+    <pathToDll></pathToDll>
+  </plugin>
 
 </Plugins>
-

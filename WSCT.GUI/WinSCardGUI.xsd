@@ -1,5 +1,7 @@
-<?xml version="1.0" encoding="utf-8" standalone="no"?>
-<schema targetNamespace="http://xsd.zetoken.net" elementFormDefault="qualified" xmlns="http://www.w3.org/2001/XMLSchema" xmlns:this="http://xsd.zetoken.net">
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+
+<schema targetNamespace="http://xsd.zetoken.net" elementFormDefault="qualified"
+        xmlns="http://www.w3.org/2001/XMLSchema" xmlns:this="http://xsd.zetoken.net">
   <element name="WinSCardGUI" type="this:WinSCardGUIType">
   </element>
   <complexType name="WinSCardGUIType">
@@ -12,7 +14,7 @@
       </element>
     </sequence>
   </complexType>
-  
+
   <complexType name="PluginsType">
     <sequence>
       <element name="plugin" type="this:PluginType" maxOccurs="unbounded" minOccurs="0">
@@ -31,7 +33,7 @@
     <attribute name="name" type="string" use="required">
     </attribute>
   </complexType>
-  
+
   <complexType name="contextStackType">
     <sequence>
       <element name="layer" type="this:layerType" maxOccurs="unbounded" minOccurs="1">
@@ -46,10 +48,10 @@
   </complexType>
   <complexType name="layerType">
     <sequence>
-      <element name="dll" type="string" maxOccurs="1" minOccurs="0"/>
-      <element name="className" type="string" maxOccurs="1" minOccurs="1"/>
-      <element name="pathToDll" type="string" maxOccurs="1" minOccurs="0"/>
+      <element name="dll" type="string" maxOccurs="1" minOccurs="0" />
+      <element name="className" type="string" maxOccurs="1" minOccurs="1" />
+      <element name="pathToDll" type="string" maxOccurs="1" minOccurs="0" />
     </sequence>
-    <attribute name="name" type="string" use="required"/>
+    <attribute name="name" type="string" use="required" />
   </complexType>
 </schema>

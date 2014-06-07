@@ -1,16 +1,17 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ChannelStack>
 
-	<layer name="Interactive Channel">
-		<dll>Layer.Interactive.dll</dll>
-		<className>WSCT.Layers.Interactive.CardChannelLayer</className>
-		<pathToDll></pathToDll>
-	</layer>
+  <layer name="Interactive Channel">
+    <dll>Layer.Interactive.dll</dll>
+    <className>WSCT.Layers.Interactive.CardChannelLayer</className>
+    <pathToDll></pathToDll>
+  </layer>
 
-	<layer name="WinSCard Core Channel">
-		<dll>WSCT.Wrapper.Desktop.dll</dll>
-		<className>WSCT.Wrapper.Desktop.Stack.CardChannelLayer</className>
-		<pathToDll></pathToDll>
-	</layer>
+  <layer name="WinSCard Core Channel">
+    <dll>WSCT.Wrapper.Desktop.dll</dll>
+    <className>WSCT.Wrapper.Desktop.Stack.CardChannelLayer</className>
+    <pathToDll></pathToDll>
+  </layer>
 
 </ChannelStack>

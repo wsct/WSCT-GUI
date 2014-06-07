@@ -1,16 +1,17 @@
-<?xml version="1.0" encoding="utf-8" ?>
+﻿<?xml version="1.0" encoding="utf-8"?>
+
 <ContextStack>
 
-	<layer name="Interactive Context">
-		<dll>Layer.Interactive.dll</dll>
-		<className>WSCT.Layers.Interactive.CardContextLayer</className>
-		<pathToDll></pathToDll>
-	</layer>
+  <layer name="Interactive Context">
+    <dll>Layer.Interactive.dll</dll>
+    <className>WSCT.Layers.Interactive.CardContextLayer</className>
+    <pathToDll></pathToDll>
+  </layer>
 
-	<layer name="WinSCard Core Context">
-		<dll>WSCT.Wrapper.Desktop.dll</dll>
-		<className>WSCT.Wrapper.Desktop.Stack.CardContextLayer</className>
-		<pathToDll></pathToDll>
-	</layer>
+  <layer name="WinSCard Core Context">
+    <dll>WSCT.Wrapper.Desktop.dll</dll>
+    <className>WSCT.Wrapper.Desktop.Stack.CardContextLayer</className>
+    <pathToDll></pathToDll>
+  </layer>
 
 </ContextStack>

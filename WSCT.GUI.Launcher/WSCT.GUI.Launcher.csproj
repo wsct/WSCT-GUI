@@ -80,14 +80,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Deployment" />
-    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Program.cs" />
@@ -113,12 +106,24 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\WSCT Core\WSCT.Helpers.Desktop\WSCT.Helpers.Desktop.csproj">
+      <Project>{a3eef6f2-8509-4eb2-a8b3-b31786ebb248}</Project>
+      <Name>WSCT.Helpers.Desktop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\WSCT Core\WSCT\WSCT.csproj">
+      <Project>{4eabe8da-0bcb-4bc6-a571-7618ac0ec4b6}</Project>
+      <Name>WSCT</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Layer Interactive\Layer Interactive.csproj">
+      <Project>{8843a8de-b802-4049-84ca-7eab27bcd39f}</Project>
+      <Name>Layer Interactive</Name>
+    </ProjectReference>
     <ProjectReference Include="..\Plugin Interactive Layer\Plugin Interactive Layer.csproj">
-      <Project>{4BA36CE0-8FFA-401F-B630-A25EAC2AADDF}</Project>
+      <Project>{4ba36ce0-8ffa-401f-b630-a25eac2aaddf}</Project>
       <Name>Plugin Interactive Layer</Name>
     </ProjectReference>
     <ProjectReference Include="..\Plugin ISO7816 Tools\Plugin ISO7816 Tools.csproj">
-      <Project>{B2F69421-36D1-40E2-B36C-165A622B810C}</Project>
+      <Project>{b2f69421-36d1-40e2-b36c-165a622b810c}</Project>
       <Name>Plugin ISO7816 Tools</Name>
     </ProjectReference>
     <ProjectReference Include="..\WSCT.GUI\WSCT.GUI.csproj">

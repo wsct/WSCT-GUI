@@ -48,10 +48,7 @@ namespace WSCT.Layers.Interactive
         /// <inheritdoc />
         public string ReaderName
         {
-            get
-            {
-                return _stack.RequestLayer(this, SearchMode.Next).ReaderName;
-            }
+            get { return _stack.RequestLayer(this, SearchMode.Next).ReaderName; }
         }
 
         /// <inheritdoc />
