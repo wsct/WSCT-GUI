@@ -26,7 +26,7 @@ namespace WSCT.Layers.Interactive
         /// <summary>
         /// Mode of the layer.
         /// </summary>
-        private static InteractiveMode PrivateMode = InteractiveMode.Transparent;
+        private static InteractiveMode privateMode = InteractiveMode.Transparent;
 
         #endregion
 
@@ -91,10 +91,10 @@ namespace WSCT.Layers.Interactive
         /// </summary>
         public static InteractiveMode Mode
         {
-            get { return PrivateMode; }
+            get { return privateMode; }
             set
             {
-                PrivateMode = value;
+                privateMode = value;
                 if (InteractiveModeChangedEvent != null)
                 {
                     InteractiveModeChangedEvent();

@@ -1,11 +1,13 @@
 using System;
 using System.IO;
+using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
-using WSCT.Core;
 using WSCT.GUI.Plugins;
 using WSCT.Helpers;
 using WSCT.Helpers.Desktop;
+using WSCT.Helpers.Linq;
+using WSCT.Linq;
 using WSCT.Stack;
 using WSCT.Wrapper;
 using WSCT.Wrapper.Desktop.Core;
@@ -20,6 +22,7 @@ namespace WSCT.GUI
         private readonly CardContextStackDescription contextLayers;
         private readonly PluginRepository pluginRepository;
         private readonly StatusChangeMonitor statusMonitor;
+        private readonly CardObserver observer;
 
         #endregion
 
@@ -51,11 +54,10 @@ namespace WSCT.GUI
             foreach (var fileName in Directory.GetFiles(".", "Plugin*.xml"))
             {
                 var pr = SerializedObject<PluginRepository>.LoadFromXml(fileName);
-                foreach (var pluginDescription in pr.Plugins)
-                {
-                    pluginRepository.Add(pluginDescription);
-                }
+                pr.Plugins.DoForEach(d => pluginRepository.Add(d));
             }
+
+            observer = new CardObserver(this);
 
             channelLayers = SerializedObject<CardChannelStackDescription>.LoadFromXml("Stack.Channel.xml");
 
@@ -80,16 +82,10 @@ namespace WSCT.GUI
 
             #region >> Initialize layers menu and tab
 
-            foreach (var layer in channelLayers.LayerDescriptions)
-            {
-                guiLoadedChannelLayers.Items.Add(layer);
-            }
+            channelLayers.LayerDescriptions.DoForEach(d => guiLoadedChannelLayers.Items.Add(d));
             guiLoadedChannelLayers.DisplayMember = "name";
 
-            foreach (var layer in contextLayers.LayerDescriptions)
-            {
-                guiLoadedContextLayers.Items.Add(layer);
-            }
+            contextLayers.LayerDescriptions.DoForEach(d => guiLoadedContextLayers.Items.Add(d));
             guiLoadedContextLayers.DisplayMember = "name";
 
             #endregion
@@ -111,42 +107,26 @@ namespace WSCT.GUI
 
         private void CreateCardChannelStack()
         {
-            var cardStack = new CardChannelStack();
-            foreach (var cardLayer in channelLayers.LayerDescriptions)
-            {
-                var cardChannelLayer = channelLayers.CreateInstance(cardLayer.Name);
-                cardChannelLayer.SetStack(cardStack);
-                var channel = cardChannelLayer as ICardChannelObservable;
-                if (channel != null)
-                {
-                    var cardObserver = new CardObserver(this, getLastNamespaceOf(channel));
-                    cardObserver.ObserveChannel(channel);
-                }
-                cardStack.AddLayer(cardChannelLayer);
-            }
-            cardStack.Attach(SharedData.CardContext, guiReaders.SelectedItem.ToString());
+            var layers = channelLayers.LayerDescriptions
+                .Select(ld => channelLayers.CreateInstance(ld.Name))
+                .ToObservableLayers()
+                .ForEach(observer.ObserveChannel);
 
-            SharedData.CardChannel = cardStack;
+            var stack = new CardChannelStack(layers).ToObservableStack();
+
+            stack.Attach(SharedData.CardContext, guiReaders.SelectedItem.ToString());
+
+            SharedData.CardChannel = stack;
         }
 
         private void CreateCardContextStack()
         {
-            ICardContextStack cardStack = new CardContextStack();
-            foreach (var layer in contextLayers.LayerDescriptions)
-            {
-                var cardContextLayer = contextLayers.CreateInstance(layer.Name);
-                cardContextLayer.SetStack(cardStack);
-                var context = cardContextLayer as ICardContextObservable;
-                if (context != null)
-                {
-                    var cardObserver = new CardObserver(this, getLastNamespaceOf(context));
-                    cardObserver.ObserveContext(context);
-                    cardObserver.ObserveMonitor(statusMonitor);
-                }
-                cardStack.AddLayer(cardContextLayer);
-            }
+            var layers = contextLayers.LayerDescriptions
+                .Select(ld => contextLayers.CreateInstance(ld.Name))
+                .ToObservableLayers()
+                .ForEach(observer.ObserveContext);
 
-            SharedData.CardContext = cardStack;
+            SharedData.CardContext = new CardContextStack(layers).ToObservableStack();
         }
 
         #endregion

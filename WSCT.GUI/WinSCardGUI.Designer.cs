@@ -989,6 +989,7 @@ namespace WSCT.GUI
             this.guiLogsView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiLogsView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLogsView.Location = new System.Drawing.Point(6, 6);
             this.guiLogsView.Name = "guiLogsView";
             this.guiLogsView.Size = new System.Drawing.Size(649, 458);
@@ -1114,7 +1115,7 @@ namespace WSCT.GUI
             this.label1.TabIndex = 0;
             this.label1.Text = "Found: 0";
             // 
-            // WinSCardGUI
+            // WinSCardGui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -1122,7 +1123,7 @@ namespace WSCT.GUI
             this.Controls.Add(this.toolStripContainer1);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.guiMenu;
-            this.Name = "WinSCardGUI";
+            this.Name = "WinSCardGui";
             this.Text = "WinSCard GUI";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WinSCardGUI_FormClosing);
             guiGroupCard.ResumeLayout(false);

@@ -1,6 +1,9 @@
-﻿using WSCT.Core;
+﻿using System;
+using WSCT.Core;
 using WSCT.Core.APDU;
+using WSCT.Core.Events;
 using WSCT.Helpers;
+using WSCT.Helpers.Events;
 using WSCT.Layers.Interactive.Actions;
 using WSCT.Stack;
 using WSCT.Wrapper;
@@ -26,6 +29,12 @@ namespace WSCT.Layers.Interactive
         public void SetStack(ICardChannelStack stack)
         {
             _stack = stack;
+        }
+
+        /// <inheritdoc />
+        public string LayerId
+        {
+            get { return "IAL"; }
         }
 
         #endregion
@@ -60,10 +69,7 @@ namespace WSCT.Layers.Interactive
         /// <inheritdoc />
         public ErrorCode Connect(ShareMode shareMode, Protocol preferedProtocol)
         {
-            if (BeforeConnectEvent != null)
-            {
-                BeforeConnectEvent(this, shareMode, preferedProtocol);
-            }
+            BeforeConnectEvent.Raise(this, new BeforeConnectEventArgs { ShareMode = shareMode, PreferedProtocol = preferedProtocol });
 
             ErrorCode ret;
             if (InteractiveController.Mode == InteractiveMode.Replay)
@@ -99,10 +105,7 @@ namespace WSCT.Layers.Interactive
                 }
             }
 
-            if (AfterConnectEvent != null)
-            {
-                AfterConnectEvent(this, shareMode, preferedProtocol, ret);
-            }
+            AfterConnectEvent.Raise(this, new AfterConnectEventArgs { ShareMode = shareMode, PreferedProtocol = preferedProtocol, ReturnValue = ret });
 
             return ret;
         }
@@ -110,10 +113,7 @@ namespace WSCT.Layers.Interactive
         /// <inheritdoc />
         public ErrorCode Disconnect(Disposition disposition)
         {
-            if (BeforeDisconnectEvent != null)
-            {
-                BeforeDisconnectEvent(this, disposition);
-            }
+            BeforeDisconnectEvent.Raise(this, new BeforeDisconnectEventArgs { Disposition = disposition });
 
             ErrorCode ret;
             if (InteractiveController.Mode == InteractiveMode.Replay)
@@ -147,10 +147,7 @@ namespace WSCT.Layers.Interactive
                 }
             }
 
-            if (AfterDisconnectEvent != null)
-            {
-                AfterDisconnectEvent(this, disposition, ret);
-            }
+            AfterDisconnectEvent.Raise(this, new AfterDisconnectEventArgs { Disposition = disposition, ReturnValue = ret });
 
             return ret;
         }
@@ -158,10 +155,7 @@ namespace WSCT.Layers.Interactive
         /// <inheritdoc />
         public ErrorCode GetAttrib(Attrib attrib, ref byte[] buffer)
         {
-            if (BeforeGetAttribEvent != null)
-            {
-                BeforeGetAttribEvent(this, attrib, buffer);
-            }
+            BeforeGetAttribEvent.Raise(this, new BeforeGetAttribEventArgs { Attrib = attrib, Buffer = buffer });
 
             ErrorCode ret;
 
@@ -198,10 +192,7 @@ namespace WSCT.Layers.Interactive
                 }
             }
 
-            if (AfterGetAttribEvent != null)
-            {
-                AfterGetAttribEvent(this, attrib, buffer, ret);
-            }
+            AfterGetAttribEvent.Raise(this, new AfterGetAttribEventArgs { Attrib = attrib, Buffer = buffer, ReturnValue = ret });
 
             return ret;
         }
@@ -209,28 +200,19 @@ namespace WSCT.Layers.Interactive
         /// <inheritdoc />
         public State GetStatus()
         {
-            if (BeforeGetStatusEvent != null)
-            {
-                BeforeGetStatusEvent(this);
-            }
+            BeforeGetStatusEvent.Raise(this, new BeforeGetStatusEventArgs());
 
-            var ret = _stack.RequestLayer(this, SearchMode.Next).GetStatus();
+            var state = _stack.RequestLayer(this, SearchMode.Next).GetStatus();
 
-            if (AfterGetStatusEvent != null)
-            {
-                AfterGetStatusEvent(this, ret);
-            }
+            AfterGetStatusEvent.Raise(this, new AfterGetStatusEventArgs { State = state });
 
-            return ret;
+            return state;
         }
 
         /// <inheritdoc />
         public ErrorCode Reconnect(ShareMode shareMode, Protocol preferedProtocol, Disposition initialization)
         {
-            if (BeforeReconnectEvent != null)
-            {
-                BeforeReconnectEvent(this, shareMode, preferedProtocol, initialization);
-            }
+            BeforeReconnectEvent.Raise(this, new BeforeReconnectEventArgs { ShareMode = shareMode, PreferedProtocol = preferedProtocol, Initialization = initialization });
 
             ErrorCode ret;
             if (InteractiveController.Mode == InteractiveMode.Replay)
@@ -266,10 +248,7 @@ namespace WSCT.Layers.Interactive
                 }
             }
 
-            if (AfterReconnectEvent != null)
-            {
-                AfterReconnectEvent(this, shareMode, preferedProtocol, initialization, ret);
-            }
+            AfterReconnectEvent.Raise(this, new AfterReconnectEventArgs { ShareMode = shareMode, PreferedProtocol = preferedProtocol, Initialization = initialization, ReturnValue = ret });
 
             return ret;
         }
@@ -277,10 +256,7 @@ namespace WSCT.Layers.Interactive
         /// <inheritdoc />
         public ErrorCode Transmit(ICardCommand command, ICardResponse response)
         {
-            if (BeforeTransmitEvent != null)
-            {
-                BeforeTransmitEvent(this, command, response);
-            }
+            BeforeTransmitEvent.Raise(this, new BeforeTransmitEventArgs { Command = command, Response = response });
 
             ErrorCode ret;
 
@@ -317,10 +293,7 @@ namespace WSCT.Layers.Interactive
                 }
             }
 
-            if (AfterTransmitEvent != null)
-            {
-                AfterTransmitEvent(this, command, response, ret);
-            }
+            AfterTransmitEvent.Raise(this, new AfterTransmitEventArgs { Command = command, Response = response, ReturnValue = ret });
 
             return ret;
         }
@@ -330,40 +303,40 @@ namespace WSCT.Layers.Interactive
         #region >> ICardChannelObservable
 
         /// <inheritdoc />
-        public event BeforeConnect BeforeConnectEvent;
+        public event EventHandler<BeforeConnectEventArgs> BeforeConnectEvent;
 
         /// <inheritdoc />
-        public event AfterConnect AfterConnectEvent;
+        public event EventHandler<AfterConnectEventArgs> AfterConnectEvent;
 
         /// <inheritdoc />
-        public event BeforeDisconnect BeforeDisconnectEvent;
+        public event EventHandler<BeforeDisconnectEventArgs> BeforeDisconnectEvent;
 
         /// <inheritdoc />
-        public event AfterDisconnect AfterDisconnectEvent;
+        public event EventHandler<AfterDisconnectEventArgs> AfterDisconnectEvent;
 
         /// <inheritdoc />
-        public event BeforeGetAttrib BeforeGetAttribEvent;
+        public event EventHandler<BeforeGetAttribEventArgs> BeforeGetAttribEvent;
 
         /// <inheritdoc />
-        public event AfterGetAttrib AfterGetAttribEvent;
+        public event EventHandler<AfterGetAttribEventArgs> AfterGetAttribEvent;
 
         /// <inheritdoc />
-        public event BeforeGetStatus BeforeGetStatusEvent;
+        public event EventHandler<BeforeGetStatusEventArgs> BeforeGetStatusEvent;
 
         /// <inheritdoc />
-        public event AfterGetStatus AfterGetStatusEvent;
+        public event EventHandler<AfterGetStatusEventArgs> AfterGetStatusEvent;
 
         /// <inheritdoc />
-        public event BeforeReconnect BeforeReconnectEvent;
+        public event EventHandler<BeforeReconnectEventArgs> BeforeReconnectEvent;
 
         /// <inheritdoc />
-        public event AfterReconnect AfterReconnectEvent;
+        public event EventHandler<AfterReconnectEventArgs> AfterReconnectEvent;
 
         /// <inheritdoc />
-        public event BeforeTransmit BeforeTransmitEvent;
+        public event EventHandler<BeforeTransmitEventArgs> BeforeTransmitEvent;
 
         /// <inheritdoc />
-        public event AfterTransmit AfterTransmitEvent;
+        public event EventHandler<AfterTransmitEventArgs> AfterTransmitEvent;
 
         #endregion
     }

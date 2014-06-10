@@ -1,12 +1,12 @@
 using System;
 using WSCT.Core;
-using WSCT.Core.APDU;
+using WSCT.Core.Events;
 using WSCT.ISO7816;
 using WSCT.Wrapper;
 
 namespace WSCT.GUI.Plugins.ISO7816Tools
 {
-    internal class CardObserver
+    internal sealed class CardObserver
     {
         private readonly Gui gui;
 
@@ -39,88 +39,44 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         /// <param name="channel"></param>
         public void ObserveChannel(ICardChannelObservable channel)
         {
-            channel.BeforeConnectEvent += BeforeConnect;
-            channel.AfterConnectEvent += NotifyConnect;
-
-            channel.BeforeDisconnectEvent += BeforeDisconnect;
-            channel.AfterDisconnectEvent += NotifyDisconnect;
-
-            channel.BeforeGetAttribEvent += BeforeGetAttrib;
-            channel.AfterGetAttribEvent += NotifyGetAttrib;
-
-            channel.BeforeReconnectEvent += BeforeReconnect;
-            channel.AfterReconnectEvent += NotifyReconnect;
-
             channel.BeforeTransmitEvent += BeforeTransmit;
             channel.AfterTransmitEvent += NotifyTransmit;
         }
 
         #region >> CardChannelObservable delegates
 
-        private void NotifyConnect(ICardChannel cardChannel, ShareMode shareMode, Protocol preferedProtocol, ErrorCode errorCode)
-        {
-        }
-
-        private void NotifyDisconnect(ICardChannel cardChannel, Disposition disposition, ErrorCode errorCode)
-        {
-        }
-
-        private void NotifyGetAttrib(ICardChannel cardChannel, Attrib attrib, byte[] buffer, ErrorCode errorCode)
-        {
-        }
-
-        private void NotifyReconnect(ICardChannel cardChannel, ShareMode shareMode, Protocol preferedProtocol, Disposition initialization, ErrorCode errorCode)
-        {
-        }
-
-        private void NotifyTransmit(ICardChannel cardChannel, ICardCommand cardCommand, ICardResponse cardResponse, ErrorCode errorCode)
+        private void NotifyTransmit(object sender, AfterTransmitEventArgs eventArgs)
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new AfterTransmit(NotifyTransmit), new Object[] { cardChannel, cardCommand, cardResponse, errorCode });
+                gui.Invoke(new EventHandler<AfterTransmitEventArgs>(NotifyTransmit), new Object[] { sender, eventArgs });
             }
             else
             {
-                if (errorCode == ErrorCode.Success)
+                if (eventArgs.ReturnValue == ErrorCode.Success)
                 {
-                    gui.UpdateResponseApdu(cardResponse);
-                    gui.UpdateStatusWord((ResponseAPDU)cardResponse);
-                    gui.UpdateHistoric(cardCommand, cardResponse);
+                    gui.UpdateResponseApdu(eventArgs.Response);
+                    gui.UpdateStatusWord((ResponseAPDU)eventArgs.Response);
+                    gui.UpdateHistoric(eventArgs.Command, eventArgs.Response);
                 }
                 else
                 {
                     gui.UpdateResponseApdu(null);
                     gui.UpdateStatusWord(null);
-                    gui.UpdateHistoric(cardCommand, null);
+                    gui.UpdateHistoric(eventArgs.Command, null);
                 }
             }
         }
 
-        private void BeforeConnect(ICardChannel cardChannel, ShareMode shareMode, Protocol preferedProtocol)
-        {
-        }
-
-        private void BeforeDisconnect(ICardChannel cardChannel, Disposition disposition)
-        {
-        }
-
-        private void BeforeGetAttrib(ICardChannel cardChannel, Attrib attrib, byte[] buffer)
-        {
-        }
-
-        private void BeforeReconnect(ICardChannel cardChannel, ShareMode shareMode, Protocol preferedProtocol, Disposition initialization)
-        {
-        }
-
-        private void BeforeTransmit(ICardChannel cardChannel, ICardCommand cardCommand, ICardResponse cardResponse)
+        private void BeforeTransmit(object sender, BeforeTransmitEventArgs eventArgs)
         {
             if (gui.InvokeRequired)
             {
-                gui.Invoke(new BeforeTransmit(BeforeTransmit), new Object[] { cardChannel, cardCommand, cardResponse });
+                gui.Invoke(new EventHandler<BeforeTransmitEventArgs>(BeforeTransmit), new Object[] { sender, eventArgs });
             }
             else
             {
-                gui.UpdateCommandApdu(cardCommand);
+                gui.UpdateCommandApdu(eventArgs.Command);
             }
         }
 

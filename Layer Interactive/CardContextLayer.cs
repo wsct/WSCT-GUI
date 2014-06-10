@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Linq;
+using System.Linq.Expressions;
 using WSCT.Core;
+using WSCT.Core.Events;
+using WSCT.Helpers.Events;
 using WSCT.Stack;
 using WSCT.Wrapper;
 
@@ -24,6 +27,12 @@ namespace WSCT.Layers.Interactive
         public void SetStack(ICardContextStack stack)
         {
             _stack = stack;
+        }
+
+        /// <inheritdoc />
+        public string LayerId
+        {
+            get { return "IAL"; }
         }
 
         #endregion
@@ -83,17 +92,11 @@ namespace WSCT.Layers.Interactive
         /// <inheritdoc />
         public ErrorCode Cancel()
         {
-            if (BeforeCancelEvent != null)
-            {
-                BeforeCancelEvent(this);
-            }
+            BeforeCancelEvent.Raise(this, new BeforeCancelEventArgs());
 
             var ret = _stack.RequestLayer(this, SearchMode.Next).Cancel();
 
-            if (AfterCancelEvent != null)
-            {
-                AfterCancelEvent(this, ret);
-            }
+            AfterCancelEvent.Raise(this, new AfterCancelEventArgs { ReturnValue = ret });
 
             return ret;
         }
@@ -101,17 +104,11 @@ namespace WSCT.Layers.Interactive
         /// <inheritdoc />
         public ErrorCode Establish()
         {
-            if (BeforeEstablishEvent != null)
-            {
-                BeforeEstablishEvent(this);
-            }
+            BeforeEstablishEvent.Raise(this, new BeforeEstablishEventArgs());
 
             var ret = _stack.RequestLayer(this, SearchMode.Next).Establish();
 
-            if (AfterEstablishEvent != null)
-            {
-                AfterEstablishEvent(this, ret);
-            }
+            AfterEstablishEvent.Raise(this, new AfterEstablishEventArgs { ReturnValue = ret });
 
             return ret;
         }
@@ -121,10 +118,7 @@ namespace WSCT.Layers.Interactive
         {
             ErrorCode ret;
 
-            if (BeforeGetStatusChangeEvent != null)
-            {
-                BeforeGetStatusChangeEvent(this, timeout, readerStates);
-            }
+            BeforeGetStatusChangeEvent.Raise(this, new BeforeGetStatusChangeEventArgs { TimeOut = timeout, ReaderStates = readerStates });
 
             // Filtering fakeReader
             var fakeReaderState = readerStates.FirstOrDefault(rs => rs.ReaderName == InteractiveController.FakeReaderName);
@@ -147,10 +141,7 @@ namespace WSCT.Layers.Interactive
                 ret = _stack.RequestLayer(this, SearchMode.Next).GetStatusChange(timeout, readerStates);
             }
 
-            if (AfterGetStatusChangeEvent != null)
-            {
-                AfterGetStatusChangeEvent(this, timeout, readerStates, ret);
-            }
+            AfterGetStatusChangeEvent.Raise(this, new AfterGetStatusChangeEventArgs { TimeOut = timeout, ReaderStates = readerStates, ReturnValue = ret });
 
             return ret;
         }
@@ -158,17 +149,11 @@ namespace WSCT.Layers.Interactive
         /// <inheritdoc />
         public ErrorCode IsValid()
         {
-            if (BeforeIsValidEvent != null)
-            {
-                BeforeIsValidEvent(this);
-            }
+            BeforeIsValidEvent.Raise(this, new BeforeIsValidEventArgs());
 
             var ret = _stack.RequestLayer(this, SearchMode.Next).IsValid();
 
-            if (AfterIsValidEvent != null)
-            {
-                AfterIsValidEvent(this, ret);
-            }
+            AfterIsValidEvent.Raise(this, new AfterIsValidEventArgs { ReturnValue = ret });
 
             return ret;
         }
@@ -176,10 +161,7 @@ namespace WSCT.Layers.Interactive
         /// <inheritdoc />
         public ErrorCode ListReaders(string group)
         {
-            if (BeforeListReadersEvent != null)
-            {
-                BeforeListReadersEvent(this, group);
-            }
+            BeforeListReadersEvent.Raise(this, new BeforeListReadersEventArgs { Group = group });
 
             var ret = _stack.RequestLayer(this, SearchMode.Next).ListReaders(group);
 
@@ -189,10 +171,7 @@ namespace WSCT.Layers.Interactive
                 ret = ErrorCode.Success;
             }
 
-            if (AfterListReadersEvent != null)
-            {
-                AfterListReadersEvent(this, group, ret);
-            }
+            AfterListReadersEvent.Raise(this, new AfterListReadersEventArgs { Group = group, ReturnValue = ret });
 
             return ret;
         }
@@ -200,17 +179,11 @@ namespace WSCT.Layers.Interactive
         /// <inheritdoc />
         public ErrorCode ListReaderGroups()
         {
-            if (BeforeListReaderGroupsEvent != null)
-            {
-                BeforeListReaderGroupsEvent(this);
-            }
+            BeforeListReaderGroupsEvent.Raise(this, new BeforeListReaderGroupsEventArgs());
 
             var ret = _stack.RequestLayer(this, SearchMode.Next).ListReaderGroups();
 
-            if (AfterListReaderGroupsEvent != null)
-            {
-                AfterListReaderGroupsEvent(this, ret);
-            }
+            AfterListReaderGroupsEvent.Raise(this, new AfterListReaderGroupsEventArgs { ReturnValue = ret });
 
             return ret;
         }
@@ -218,17 +191,11 @@ namespace WSCT.Layers.Interactive
         /// <inheritdoc />
         public ErrorCode Release()
         {
-            if (BeforeReleaseEvent != null)
-            {
-                BeforeReleaseEvent(this);
-            }
+            BeforeReleaseEvent.Raise(this, new BeforeReleaseEventArgs());
 
             var ret = _stack.RequestLayer(this, SearchMode.Next).Release();
 
-            if (AfterReleaseEvent != null)
-            {
-                AfterReleaseEvent(this, ret);
-            }
+            AfterReleaseEvent.Raise(this, new AfterReleaseEventArgs { ReturnValue = ret });
 
             return ret;
         }
@@ -238,46 +205,46 @@ namespace WSCT.Layers.Interactive
         #region >> ICardContextObservable
 
         /// <inheritdoc />
-        public event BeforeCancel BeforeCancelEvent;
+        public event EventHandler<BeforeCancelEventArgs> BeforeCancelEvent;
 
         /// <inheritdoc />
-        public event AfterCancel AfterCancelEvent;
+        public event EventHandler<AfterCancelEventArgs> AfterCancelEvent;
 
         /// <inheritdoc />
-        public event BeforeEstablish BeforeEstablishEvent;
+        public event EventHandler<BeforeEstablishEventArgs> BeforeEstablishEvent;
 
         /// <inheritdoc />
-        public event AfterEstablish AfterEstablishEvent;
+        public event EventHandler<AfterEstablishEventArgs> AfterEstablishEvent;
 
         /// <inheritdoc />
-        public event BeforeGetStatusChange BeforeGetStatusChangeEvent;
+        public event EventHandler<BeforeGetStatusChangeEventArgs> BeforeGetStatusChangeEvent;
 
         /// <inheritdoc />
-        public event AfterGetStatusChange AfterGetStatusChangeEvent;
+        public event EventHandler<AfterGetStatusChangeEventArgs> AfterGetStatusChangeEvent;
 
         /// <inheritdoc />
-        public event BeforeIsValid BeforeIsValidEvent;
+        public event EventHandler<BeforeIsValidEventArgs> BeforeIsValidEvent;
 
         /// <inheritdoc />
-        public event AfterIsValid AfterIsValidEvent;
+        public event EventHandler<AfterIsValidEventArgs> AfterIsValidEvent;
 
         /// <inheritdoc />
-        public event BeforeListReaderGroups BeforeListReaderGroupsEvent;
+        public event EventHandler<BeforeListReaderGroupsEventArgs> BeforeListReaderGroupsEvent;
 
         /// <inheritdoc />
-        public event AfterListReaderGroups AfterListReaderGroupsEvent;
+        public event EventHandler<AfterListReaderGroupsEventArgs> AfterListReaderGroupsEvent;
 
         /// <inheritdoc />
-        public event BeforeListReaders BeforeListReadersEvent;
+        public event EventHandler<BeforeListReadersEventArgs> BeforeListReadersEvent;
 
         /// <inheritdoc />
-        public event AfterListReaders AfterListReadersEvent;
+        public event EventHandler<AfterListReadersEventArgs> AfterListReadersEvent;
 
         /// <inheritdoc />
-        public event BeforeRelease BeforeReleaseEvent;
+        public event EventHandler<BeforeReleaseEventArgs> BeforeReleaseEvent;
 
         /// <inheritdoc />
-        public event AfterRelease AfterReleaseEvent;
+        public event EventHandler<AfterReleaseEventArgs> AfterReleaseEvent;
 
         #endregion
     }

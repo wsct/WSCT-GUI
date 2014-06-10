@@ -1,14 +1,16 @@
 using System;
 using System.Drawing;
 using WSCT.Core;
-using WSCT.Core.APDU;
+using WSCT.Core.Events;
 using WSCT.Helpers;
+using WSCT.Helpers.Linq;
+using WSCT.Stack;
 using WSCT.Wrapper;
 using WSCT.Wrapper.Desktop.Core;
 
 namespace WSCT.GUI
 {
-    internal class CardObserver
+    internal sealed class CardObserver
     {
         internal Color ErrorColor = Color.Red;
 
@@ -17,9 +19,34 @@ namespace WSCT.GUI
         internal Color HighlightColor = Color.DarkBlue;
         internal Color StandardColor = Color.Black;
 
-        internal virtual void __start()
+        private void WriteLine(LogLevel level, object sender, string message)
         {
-            Gui.guiLogsView.AppendText(String.Format(Header + "ContextObserver started\n", LogLevel.Info));
+            var channelLayer = sender as ICardChannelLayerObservable;
+            if (channelLayer != null)
+            {
+                Gui.guiLogsView.AppendText(String.Format(Header, level, channelLayer.LayerId, message));
+                return;
+            }
+
+            var channel = sender as ICardChannelObservable;
+            if (channel != null)
+            {
+                Gui.guiLogsView.AppendText(String.Format(Header, level, "unknown", message));
+                return;
+            }
+
+            var contextLayer = sender as ICardContextLayerObservable;
+            if (contextLayer != null)
+            {
+                Gui.guiLogsView.AppendText(String.Format(Header, level, contextLayer.LayerId, message));
+                return;
+            }
+
+            var context = sender as ICardContextObservable;
+            if (context != null)
+            {
+                Gui.guiLogsView.AppendText(String.Format(Header, level, "unknown", message));
+            }
         }
 
         #region >> Constructors
@@ -29,20 +56,9 @@ namespace WSCT.GUI
         /// </summary>
         /// <param name="gui"></param>
         public CardObserver(WinSCardGui gui)
-            : this(gui, "Core ")
         {
-        }
-
-        /// <summary>
-        /// Creates a new instance.
-        /// </summary>
-        /// <param name="gui"></param>
-        /// <param name="header"></param>
-        public CardObserver(WinSCardGui gui, string header)
-        {
-            Header = "[{0,7}] " + header + " ";
+            Header = "[{0,7}] [{1,7}] {2}" + Environment.NewLine;
             Gui = gui;
-            __start();
         }
 
         #endregion
@@ -56,13 +72,11 @@ namespace WSCT.GUI
         public void ObserveContext(ICardContextObservable context)
         {
             context.BeforeEstablishEvent += BeforeEstablish;
-            //context.beforeGetStatusChangeEvent += beforeGetStatusChange;
             context.BeforeListReaderGroupsEvent += BeforeListReaderGroups;
             context.BeforeListReadersEvent += BeforeListReaders;
             context.BeforeReleaseEvent += BeforeRelease;
 
             context.AfterEstablishEvent += NotifyEstablish;
-            //context.afterGetStatusChangeEvent += notifyGetStatusChange;
             context.AfterListReaderGroupsEvent += NotifyListReaderGroups;
             context.AfterListReadersEvent += NotifyListReaders;
             context.AfterReleaseEvent += NotifyRelease;
@@ -104,406 +118,357 @@ namespace WSCT.GUI
 
         #region >> CardChannelObservable delegates
 
-        public void NotifyConnect(ICardChannel cardChannel, ShareMode shareMode, Protocol preferedProtocol, ErrorCode errorCode)
+        public void NotifyConnect(object sender, AfterConnectEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new AfterConnect(NotifyConnect), new Object[] { cardChannel, shareMode, preferedProtocol, errorCode });
+                Gui.Invoke(new EventHandler<AfterConnectEventArgs>(NotifyConnect), new[] { sender, eventArgs });
+                return;
             }
-            else
-            {
-                if (errorCode == ErrorCode.Success)
-                {
-                    Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Info, errorCode));
-                    Gui.UpdateChannelStatus(ChannelStatusType.Connected);
-                }
-                else
-                {
-                    Gui.guiLogsView.SelectionColor = ErrorColor;
-                    Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Warning, errorCode));
-                    Gui.guiLogsView.SelectionColor = StandardColor;
-                    Gui.UpdateChannelStatus(ChannelStatusType.Error);
-                }
-                Gui.UpdateLastError(errorCode);
-            }
-        }
 
-        public void NotifyDisconnect(ICardChannel cardChannel, Disposition disposition, ErrorCode errorCode)
-        {
-            if (Gui.InvokeRequired)
+            if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                Gui.Invoke(new AfterDisconnect(NotifyDisconnect), new Object[] { cardChannel, disposition, errorCode });
-            }
-            else
-            {
-                if (errorCode == ErrorCode.Success)
-                {
-                    Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Info, errorCode));
-                    Gui.UpdateChannelStatus(ChannelStatusType.Disconnected);
-                }
-                else
-                {
-                    Gui.guiLogsView.SelectionColor = ErrorColor;
-                    Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Warning, errorCode));
-                    Gui.guiLogsView.SelectionColor = StandardColor;
-                    Gui.UpdateChannelStatus(ChannelStatusType.Error);
-                }
-                Gui.UpdateLastError(errorCode);
-            }
-        }
-
-        public void NotifyGetAttrib(ICardChannel cardChannel, Attrib attrib, byte[] buffer, ErrorCode errorCode)
-        {
-            if (Gui.InvokeRequired)
-            {
-                Gui.Invoke(new AfterGetAttrib(NotifyGetAttrib), new Object[] { cardChannel, attrib, buffer, errorCode });
-            }
-            else
-            {
-                if (errorCode == ErrorCode.Success)
-                {
-                    Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Info, errorCode));
-                    Gui.guiLogsView.AppendText(String.Format(Header + ">> byte[]: [{1}]\n", LogLevel.Info, buffer.ToHexa()));
-                    Gui.guiLogsView.AppendText(String.Format(Header + ">> String: \"{1}\"\n", LogLevel.Info, buffer.ToAsciiString()));
-                }
-                else
-                {
-                    Gui.guiLogsView.SelectionColor = ErrorColor;
-                    Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Warning, errorCode));
-                    Gui.guiLogsView.SelectionColor = StandardColor;
-                }
-                Gui.UpdateLastError(errorCode);
-            }
-        }
-
-        public void NotifyReconnect(ICardChannel cardChannel, ShareMode shareMode, Protocol preferedProtocol, Disposition initialization, ErrorCode errorCode)
-        {
-            if (Gui.InvokeRequired)
-            {
-                Gui.Invoke(new AfterReconnect(NotifyReconnect), new Object[] { cardChannel, shareMode, preferedProtocol, initialization, errorCode });
-            }
-            else
-            {
-                if (errorCode == ErrorCode.Success)
-                {
-                    Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Info, errorCode));
-                    Gui.UpdateChannelStatus(ChannelStatusType.Connected);
-                }
-                else
-                {
-                    Gui.guiLogsView.SelectionColor = ErrorColor;
-                    Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Warning, errorCode));
-                    Gui.guiLogsView.SelectionColor = StandardColor;
-                    Gui.UpdateChannelStatus(ChannelStatusType.Error);
-                }
-                Gui.UpdateLastError(errorCode);
-            }
-        }
-
-        public void NotifyTransmit(ICardChannel cardChannel, ICardCommand cardCommand, ICardResponse cardResponse, ErrorCode errorCode)
-        {
-            if (Gui.InvokeRequired)
-            {
-                Gui.Invoke(new AfterTransmit(NotifyTransmit), new Object[] { cardChannel, cardCommand, cardResponse, errorCode });
-            }
-            else
-            {
-                if (errorCode == ErrorCode.Success)
-                {
-                    Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Info, errorCode));
-                    Gui.guiLogsView.AppendText(String.Format(Header + ">> RAPDU: [{1}]\n", LogLevel.Info, cardResponse));
-                }
-                else
-                {
-                    Gui.guiLogsView.SelectionColor = ErrorColor;
-                    Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Warning, errorCode));
-                    Gui.guiLogsView.SelectionColor = StandardColor;
-                }
-                Gui.UpdateLastError(errorCode);
-            }
-        }
-
-        public void BeforeConnect(ICardChannel cardChannel, ShareMode shareMode, Protocol preferedProtocol)
-        {
-            if (Gui.InvokeRequired)
-            {
-                Gui.Invoke(new BeforeConnect(BeforeConnect), new Object[] { cardChannel, shareMode, preferedProtocol });
-            }
-            else
-            {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + "connect(\"{1}\",{2},{3})\n", LogLevel.Info, cardChannel.ReaderName, shareMode, preferedProtocol));
                 Gui.guiLogsView.SelectionColor = StandardColor;
-            }
-        }
-
-        public void BeforeDisconnect(ICardChannel cardChannel, Disposition disposition)
-        {
-            if (Gui.InvokeRequired)
-            {
-                Gui.Invoke(new BeforeDisconnect(BeforeDisconnect), new Object[] { cardChannel, disposition });
+                WriteLine(LogLevel.Info, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.UpdateChannelStatus(ChannelStatusType.Connected);
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + "disconnect({1})\n", LogLevel.Info, disposition));
-                Gui.guiLogsView.SelectionColor = StandardColor;
+                Gui.guiLogsView.SelectionColor = ErrorColor;
+                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.UpdateChannelStatus(ChannelStatusType.Error);
             }
+
+            Gui.UpdateLastError(eventArgs.ReturnValue);
         }
 
-        public void BeforeGetAttrib(ICardChannel cardChannel, Attrib attrib, byte[] buffer)
+        public void NotifyDisconnect(object sender, AfterDisconnectEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new BeforeGetAttrib(BeforeGetAttrib), new Object[] { cardChannel, attrib, buffer });
+                Gui.Invoke(new EventHandler<AfterDisconnectEventArgs>(NotifyDisconnect), new[] { sender, eventArgs });
+                return;
+            }
+
+            if (eventArgs.ReturnValue == ErrorCode.Success)
+            {
+                Gui.guiLogsView.SelectionColor = StandardColor;
+                WriteLine(LogLevel.Info, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.UpdateChannelStatus(ChannelStatusType.Disconnected);
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + "getAttrib({1})\n", LogLevel.Info, attrib));
-                Gui.guiLogsView.SelectionColor = StandardColor;
+                Gui.guiLogsView.SelectionColor = ErrorColor;
+                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.UpdateChannelStatus(ChannelStatusType.Error);
             }
+
+            Gui.UpdateLastError(eventArgs.ReturnValue);
         }
 
-        public void BeforeReconnect(ICardChannel cardChannel, ShareMode shareMode, Protocol preferedProtocol, Disposition initialization)
+        public void NotifyGetAttrib(object sender, AfterGetAttribEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new BeforeReconnect(BeforeReconnect), new Object[] { cardChannel, shareMode, preferedProtocol, initialization });
+                Gui.Invoke(new EventHandler<AfterGetAttribEventArgs>(NotifyGetAttrib), new[] { sender, eventArgs });
+                return;
+            }
+
+            if (eventArgs.ReturnValue == ErrorCode.Success)
+            {
+                Gui.guiLogsView.SelectionColor = StandardColor;
+                WriteLine(LogLevel.Info, sender, String.Format("<=  byte[]: [{0}]", eventArgs.Buffer.ToHexa()));
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + "reconnect({1},{2},{3})\n", LogLevel.Info, shareMode, preferedProtocol, initialization));
-                Gui.guiLogsView.SelectionColor = StandardColor;
+                Gui.guiLogsView.SelectionColor = ErrorColor;
+                WriteLine(LogLevel.Error, sender, String.Format(Header + "<=  {0}", eventArgs.ReturnValue));
             }
+
+            Gui.UpdateLastError(eventArgs.ReturnValue);
         }
 
-        public void BeforeTransmit(ICardChannel cardChannel, ICardCommand cardCommand, byte[] recvBuffer, UInt32 recvSize)
+        public void NotifyReconnect(object sender, AfterReconnectEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new BeforeTransmit(BeforeTransmit), new Object[] { cardChannel, cardCommand, recvBuffer, recvSize });
+                Gui.Invoke(new EventHandler<AfterReconnectEventArgs>(NotifyReconnect), new[] { sender, eventArgs });
+                return;
+            }
+
+            if (eventArgs.ReturnValue == ErrorCode.Success)
+            {
+                Gui.guiLogsView.SelectionColor = StandardColor;
+                WriteLine(LogLevel.Info, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.UpdateChannelStatus(ChannelStatusType.Connected);
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + "transmit({1})\n", LogLevel.Info, cardCommand));
-                Gui.guiLogsView.SelectionColor = StandardColor;
+                Gui.guiLogsView.SelectionColor = ErrorColor;
+                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.UpdateChannelStatus(ChannelStatusType.Error);
             }
+
+            Gui.UpdateLastError(eventArgs.ReturnValue);
         }
 
-        public void BeforeTransmit(ICardChannel cardChannel, ICardCommand cardCommand, ICardResponse cardResponse)
+        public void NotifyTransmit(object sender, AfterTransmitEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new BeforeTransmit(BeforeTransmit), new Object[] { cardChannel, cardCommand, cardResponse });
+                Gui.Invoke(new EventHandler<AfterTransmitEventArgs>(NotifyTransmit), new[] { sender, eventArgs });
+                return;
+            }
+
+            if (eventArgs.ReturnValue == ErrorCode.Success)
+            {
+                Gui.guiLogsView.SelectionColor = StandardColor;
+                WriteLine(LogLevel.Info, sender, String.Format("<=  RAPDU: [{0}]", eventArgs.Response));
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + "transmit({1})\n", LogLevel.Info, cardCommand));
-                Gui.guiLogsView.SelectionColor = StandardColor;
+                Gui.guiLogsView.SelectionColor = ErrorColor;
+                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
             }
+
+            Gui.UpdateLastError(eventArgs.ReturnValue);
+        }
+
+        public void BeforeConnect(object sender, BeforeConnectEventArgs eventArgs)
+        {
+            if (Gui.InvokeRequired)
+            {
+                Gui.Invoke(new EventHandler<BeforeConnectEventArgs>(BeforeConnect), new[] { sender, eventArgs });
+                return;
+            }
+
+            var cardChannel = (ICardChannel)sender;
+
+            Gui.guiLogsView.SelectionColor = HighlightColor;
+            WriteLine(LogLevel.Info, sender, String.Format(" => Connect(\"{0}\",{1},{2})", cardChannel.ReaderName, eventArgs.ShareMode, eventArgs.PreferedProtocol));
+        }
+
+        public void BeforeDisconnect(object sender, BeforeDisconnectEventArgs eventArgs)
+        {
+            if (Gui.InvokeRequired)
+            {
+                Gui.Invoke(new EventHandler<BeforeDisconnectEventArgs>(BeforeDisconnect), new[] { sender, eventArgs });
+                return;
+            }
+
+            Gui.guiLogsView.SelectionColor = HighlightColor;
+            WriteLine(LogLevel.Info, sender, String.Format(" => Disconnect({0})", eventArgs.Disposition));
+        }
+
+        public void BeforeGetAttrib(object sender, BeforeGetAttribEventArgs eventArgs)
+        {
+            if (Gui.InvokeRequired)
+            {
+                Gui.Invoke(new EventHandler<BeforeGetAttribEventArgs>(BeforeGetAttrib), new[] { sender, eventArgs });
+                return;
+            }
+
+            Gui.guiLogsView.SelectionColor = HighlightColor;
+            WriteLine(LogLevel.Info, sender, String.Format(" => GetAttrib({0})", eventArgs.Attrib));
+        }
+
+        public void BeforeReconnect(object sender, BeforeReconnectEventArgs eventArgs)
+        {
+            if (Gui.InvokeRequired)
+            {
+                Gui.Invoke(new EventHandler<BeforeReconnectEventArgs>(BeforeReconnect), new[] { sender, eventArgs });
+                return;
+            }
+
+            Gui.guiLogsView.SelectionColor = HighlightColor;
+            WriteLine(LogLevel.Info, sender,
+                String.Format(" => Reconnect({0},{1},{2})", eventArgs.ShareMode, eventArgs.PreferedProtocol, eventArgs.Initialization));
+        }
+
+        public void BeforeTransmit(object sender, BeforeTransmitEventArgs eventArgs)
+        {
+            if (Gui.InvokeRequired)
+            {
+                Gui.Invoke(new EventHandler<BeforeTransmitEventArgs>(BeforeTransmit), new[] { sender, eventArgs });
+                return;
+            }
+
+            Gui.guiLogsView.SelectionColor = HighlightColor;
+            WriteLine(LogLevel.Info, sender, String.Format(" => Transmit({0})", eventArgs.Command));
         }
 
         #endregion
 
         #region >> CardContextObservable delegates
 
-        private void BeforeEstablish(ICardContext cardContext)
+        private void BeforeEstablish(object sender, BeforeEstablishEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new BeforeEstablish(BeforeEstablish), new Object[] { cardContext });
+                Gui.Invoke(new EventHandler<BeforeEstablishEventArgs>(BeforeEstablish), new[] { sender, eventArgs });
+                return;
             }
-            else
-            {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + "establish()\n", LogLevel.Info));
-                Gui.guiLogsView.SelectionColor = StandardColor;
-            }
+
+            Gui.guiLogsView.SelectionColor = HighlightColor;
+            WriteLine(LogLevel.Info, sender, " => Establish()");
         }
 
-        private void BeforeGetStatusChange(ICardContext cardContext, UInt32 timeout, AbstractReaderState[] readerStates)
+        private void BeforeListReaders(object sender, BeforeListReadersEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new BeforeGetStatusChange(BeforeGetStatusChange), new Object[] { cardContext, timeout, readerStates });
+                Gui.Invoke(new EventHandler<BeforeListReadersEventArgs>(BeforeListReaders), new[] { sender, eventArgs });
+                return;
             }
-            else
-            {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + "getStatusChange()\n", LogLevel.Info));
-                Gui.guiLogsView.SelectionColor = StandardColor;
-            }
+
+            Gui.guiLogsView.SelectionColor = HighlightColor;
+            WriteLine(LogLevel.Info, sender, String.Format(" => ListReaders({0})", eventArgs.Group));
         }
 
-        private void BeforeListReaders(ICardContext cardContext, string group)
+        private void BeforeListReaderGroups(object sender, BeforeListReaderGroupsEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new BeforeListReaders(BeforeListReaders), new Object[] { cardContext, group });
+                Gui.Invoke(new EventHandler<BeforeListReaderGroupsEventArgs>(BeforeListReaderGroups), new[] { sender, eventArgs });
+                return;
             }
-            else
-            {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + "listReaders({1})\n", LogLevel.Info, group));
-                Gui.guiLogsView.SelectionColor = StandardColor;
-            }
+
+            Gui.guiLogsView.SelectionColor = HighlightColor;
+            WriteLine(LogLevel.Info, sender, " => ListReaderGroups()");
         }
 
-        private void BeforeListReaderGroups(ICardContext cardContext)
+        private void BeforeRelease(object sender, BeforeReleaseEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new BeforeListReaderGroups(BeforeListReaderGroups), new Object[] { cardContext });
+                Gui.Invoke(new EventHandler<BeforeReleaseEventArgs>(BeforeRelease), new[] { sender, eventArgs });
+                return;
             }
-            else
-            {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + "listReaderGroups()\n", LogLevel.Info));
-                Gui.guiLogsView.SelectionColor = StandardColor;
-            }
+
+            Gui.guiLogsView.SelectionColor = HighlightColor;
+            WriteLine(LogLevel.Info, sender, " => Release()");
         }
 
-        private void BeforeRelease(ICardContext cardContext)
+        private void NotifyEstablish(object sender, AfterEstablishEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new BeforeRelease(BeforeRelease), new Object[] { cardContext });
+                Gui.Invoke(new EventHandler<AfterEstablishEventArgs>(NotifyEstablish), new[] { sender, eventArgs });
+                return;
+            }
+
+            if (eventArgs.ReturnValue == ErrorCode.Success)
+            {
+                Gui.guiLogsView.SelectionColor = StandardColor;
+                WriteLine(LogLevel.Info, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + "release()\n", LogLevel.Info));
-                Gui.guiLogsView.SelectionColor = StandardColor;
+                Gui.guiLogsView.SelectionColor = ErrorColor;
+                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
             }
+
+            Gui.UpdateLastError(eventArgs.ReturnValue);
         }
 
-        private void NotifyEstablish(ICardContext cardContext, ErrorCode errorCode)
+        private void NotifyListReaders(object sender, AfterListReadersEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new AfterEstablish(NotifyEstablish), new Object[] { cardContext, errorCode });
+                Gui.Invoke(new EventHandler<AfterListReadersEventArgs>(NotifyListReaders), new[] { sender, eventArgs });
+                return;
+            }
+
+            var cardContext = (ICardContext)sender;
+
+            if (eventArgs.ReturnValue == ErrorCode.Success)
+            {
+                cardContext.Readers.DoForEach(
+                    r => WriteLine(LogLevel.Info, sender, String.Format("<=  Reader: {0}", r))
+                    );
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Info, errorCode));
-                Gui.guiLogsView.SelectionColor = StandardColor;
-                Gui.UpdateLastError(errorCode);
+                Gui.guiLogsView.SelectionColor = ErrorColor;
+                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
             }
+
+            Gui.UpdateLastError(eventArgs.ReturnValue);
         }
 
-        private void NotifyGetStatusChange(ICardContext cardContext, UInt32 timeout, AbstractReaderState[] readerStates, ErrorCode errorCode)
+        private void NotifyListReaderGroups(object sender, AfterListReaderGroupsEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new AfterGetStatusChange(NotifyGetStatusChange), new Object[] { cardContext, timeout, readerStates, errorCode });
+                Gui.Invoke(new EventHandler<AfterListReaderGroupsEventArgs>(NotifyListReaderGroups), new[] { sender, eventArgs });
+                return;
+            }
+
+            var cardContext = (ICardContext)sender;
+
+            if (eventArgs.ReturnValue == ErrorCode.Success)
+            {
+                cardContext.Groups.DoForEach(
+                    g => WriteLine(LogLevel.Info, sender, String.Format("<=  Group: {0}", g))
+                    );
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + "Error: {1}\n", LogLevel.Info, errorCode));
-                Gui.guiLogsView.SelectionColor = StandardColor;
-                if (errorCode == ErrorCode.Success)
-                {
-                    foreach (var readerState in readerStates)
-                    {
-                        Gui.guiLogsView.AppendText(String.Format(Header + ">> State:[{2}]\n", LogLevel.Info, readerState.EventState, readerState));
-                    }
-                }
+                Gui.guiLogsView.SelectionColor = ErrorColor;
+                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
             }
+
+            Gui.UpdateLastError(eventArgs.ReturnValue);
         }
 
-        private void NotifyListReaders(ICardContext cardContext, string group, ErrorCode errorCode)
+        private void NotifyRelease(object sender, AfterReleaseEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new AfterListReaders(NotifyListReaders), new Object[] { cardContext, group, errorCode });
+                Gui.Invoke(new EventHandler<AfterReleaseEventArgs>(NotifyRelease), new[] { sender, eventArgs });
+                return;
             }
-            else
-            {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Info, errorCode, group));
-                Gui.guiLogsView.SelectionColor = StandardColor;
-                if (errorCode == ErrorCode.Success)
-                {
-                    foreach (var reader in cardContext.Readers)
-                    {
-                        Gui.guiLogsView.AppendText(String.Format(Header + ">> Reader descriptionFound: {1}\n", LogLevel.Info, reader));
-                    }
-                }
-                Gui.UpdateLastError(errorCode);
-            }
-        }
 
-        private void NotifyListReaderGroups(ICardContext cardContext, ErrorCode errorCode)
-        {
-            if (Gui.InvokeRequired)
+            if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                Gui.Invoke(new AfterListReaderGroups(NotifyListReaderGroups), new Object[] { cardContext, errorCode });
+                Gui.guiLogsView.SelectionColor = StandardColor;
+                WriteLine(LogLevel.Info, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Info, errorCode));
-                Gui.guiLogsView.SelectionColor = StandardColor;
-                if (errorCode == ErrorCode.Success)
-                {
-                    foreach (var group in cardContext.Groups)
-                    {
-                        Gui.guiLogsView.AppendText(String.Format(Header + ">> Reader groups descriptionFound: {1}\n", LogLevel.Info, group));
-                    }
-                }
-                Gui.UpdateLastError(errorCode);
+                Gui.guiLogsView.SelectionColor = ErrorColor;
+                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
             }
-        }
 
-        private void NotifyRelease(ICardContext cardContext, ErrorCode errorCode)
-        {
-            if (Gui.InvokeRequired)
-            {
-                Gui.Invoke(new AfterRelease(NotifyRelease), new Object[] { cardContext, errorCode });
-            }
-            else
-            {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + ">> Error: {1}\n", LogLevel.Info, errorCode));
-                Gui.guiLogsView.SelectionColor = StandardColor;
-                Gui.UpdateLastError(errorCode);
-            }
+            Gui.UpdateLastError(eventArgs.ReturnValue);
         }
 
         #endregion
 
         #region >> StatusChangeMonitor delegates
 
-        private void OnCardInsertionEvent(AbstractReaderState readerState)
+        private void OnCardInsertionEvent(object sender, OnCardInsertionEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new StatusChangeMonitor.OnCardInsertionEventHandler(OnCardInsertionEvent), new Object[] { readerState });
+                Gui.Invoke(new EventHandler<OnCardInsertionEventArgs>(OnCardInsertionEvent), new Object[] { eventArgs });
+                return;
             }
-            else
-            {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + ">> Card insertion detected on reader {1}\n", LogLevel.Info, readerState.ReaderName));
-            }
+
+            Gui.guiLogsView.SelectionColor = HighlightColor;
+            WriteLine(LogLevel.Info, sender, String.Format("<=  Card insertion detected on reader {0}\n", eventArgs.ReaderState.ReaderName));
         }
 
-        private void OnCardRemovalEvent(AbstractReaderState readerState)
+        private void OnCardRemovalEvent(object sender, OnCardRemovalEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new StatusChangeMonitor.OnCardRemovalEventHandler(OnCardRemovalEvent), new Object[] { readerState });
+                Gui.Invoke(new EventHandler<OnCardRemovalEventArgs>(OnCardRemovalEvent), new Object[] { eventArgs });
+                return;
             }
-            else
-            {
-                Gui.guiLogsView.SelectionColor = HighlightColor;
-                Gui.guiLogsView.AppendText(String.Format(Header + ">> Card removal detected on reader {1}\n", LogLevel.Info, readerState.ReaderName));
-            }
+
+            Gui.guiLogsView.SelectionColor = HighlightColor;
+            WriteLine(LogLevel.Info, sender, String.Format("<=  Card removal detected on reader {0}\n", eventArgs.ReaderState.ReaderName));
         }
 
         #endregion

@@ -306,16 +306,15 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         private void ObserveChannel()
         {
-            // Attach to the top layer
-            if (SharedData.IsValidChannel)
+            if (!SharedData.IsValidChannel)
             {
-                //if (SharedData.cardChannel is Core.ICardChannelObservable)
-                //    cardObserver.observeChannel((Core.ICardChannelObservable)SharedData.cardChannel);
-                var channelLayer = ((ICardChannelStack)SharedData.CardChannel).RequestLayer(null, SearchMode.Top);
-                if (channelLayer is ICardChannelObservable)
-                {
-                    cardObserver.ObserveChannel((ICardChannelObservable)channelLayer);
-                }
+                return;
+            }
+
+            var channel = SharedData.CardChannel as ICardChannelObservable;
+            if (channel != null)
+            {
+                cardObserver.ObserveChannel(channel);
             }
         }
 
