@@ -1,23 +1,20 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
+    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{8843A8DE-B802-4049-84CA-7EAB27BCD39F}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>WSCT.Layers.Interactive</RootNamespace>
     <AssemblyName>Layer.Interactive</AssemblyName>
+    <DefaultLanguage>fr-FR</DefaultLanguage>
     <FileAlignment>512</FileAlignment>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -27,40 +24,17 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <DocumentationFile>bin\Debug\ZeToken.WinSCard.Layers.Interactive.xml</DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Actions\DisconnectAction.cs" />
-    <Compile Include="CardChannelLayer.cs" />
-    <Compile Include="CardContextLayer.cs" />
-    <Compile Include="Actions\ActionsContainer.cs" />
-    <Compile Include="Actions\TransmitAction.cs" />
-    <Compile Include="Actions\ConnectAction.cs" />
-    <Compile Include="Actions\AbstractAction.cs" />
-    <Compile Include="Actions\GetAttribAction.cs" />
-    <Compile Include="Actions\ReconnectAction.cs" />
-    <Compile Include="InteractiveController.cs" />
-    <Compile Include="InteractiveMode.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
+    <!-- A reference to the entire .NET Framework is automatically included -->
     <ProjectReference Include="..\..\WSCT Core\WSCT.Helpers\WSCT.Helpers.csproj">
       <Project>{b95b0e58-9296-4a15-aa69-10a7b6dc2267}</Project>
       <Name>WSCT.Helpers</Name>
@@ -69,12 +43,22 @@
       <Project>{4eabe8da-0bcb-4bc6-a571-7618ac0ec4b6}</Project>
       <Name>WSCT</Name>
     </ProjectReference>
-    <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj">
-      <Project>{44D12C6F-7D70-40EC-864A-01202928D159}</Project>
-      <Name>WSCT.GUI.Plugins</Name>
-    </ProjectReference>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ItemGroup>
+    <Compile Include="Actions\AbstractAction.cs" />
+    <Compile Include="Actions\ActionsContainer.cs" />
+    <Compile Include="Actions\ConnectAction.cs" />
+    <Compile Include="Actions\DisconnectAction.cs" />
+    <Compile Include="Actions\GetAttribAction.cs" />
+    <Compile Include="Actions\ReconnectAction.cs" />
+    <Compile Include="Actions\TransmitAction.cs" />
+    <Compile Include="CardChannelLayer.cs" />
+    <Compile Include="CardContextLayer.cs" />
+    <Compile Include="InteractiveController.cs" />
+    <Compile Include="InteractiveMode.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

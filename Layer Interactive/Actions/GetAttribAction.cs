@@ -65,7 +65,7 @@ namespace WSCT.Layers.Interactive.Actions
         {
             Attrib = (Attrib)Enum.Parse(typeof(Attrib), reader.GetAttribute("attrib"));
             reader.ReadStartElement();
-            Response = reader.ReadString();
+            Response = reader.ReadContentAsString();
             reader.ReadEndElement();
         }
 

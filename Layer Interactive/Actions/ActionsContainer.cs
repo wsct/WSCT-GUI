@@ -86,7 +86,7 @@ namespace WSCT.Layers.Interactive.Actions
                         ActionsList.Add((AbstractAction)serializer.Deserialize(reader));
                         break;
                     case (XmlNodeType.Comment):
-                        reader.ReadString();
+                        reader.ReadContentAsString();
                         break;
                     default:
                         throw new Exception(String.Format("Unattended XmlNodeType [{0}] when deserializing", reader.NodeType));

@@ -64,7 +64,7 @@ namespace WSCT.Layers.Interactive.Actions
         {
             Command = reader.GetAttribute("command");
             reader.ReadStartElement();
-            Response = reader.ReadString();
+            Response = reader.ReadContentAsString();
             reader.ReadEndElement();
         }
 

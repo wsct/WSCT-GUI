@@ -65,7 +65,7 @@ namespace WSCT.Layers.Interactive.Actions
         {
             Initialization = (Disposition)Enum.Parse(typeof(Disposition), reader.GetAttribute("initialization"));
             reader.ReadStartElement();
-            Protocol = (Protocol)Enum.Parse(typeof(Protocol), reader.ReadString());
+            Protocol = (Protocol)Enum.Parse(typeof(Protocol), reader.ReadContentAsString());
             reader.ReadEndElement();
         }
 

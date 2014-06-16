@@ -57,7 +57,7 @@ namespace WSCT.Layers.Interactive.Actions
         public void ReadXml(XmlReader reader)
         {
             reader.ReadStartElement();
-            Protocol = (Protocol)Enum.Parse(typeof(Protocol), reader.ReadString());
+            Protocol = (Protocol)Enum.Parse(typeof(Protocol), reader.ReadContentAsString());
             reader.ReadEndElement();
         }
 
