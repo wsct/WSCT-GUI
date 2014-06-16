@@ -20,9 +20,6 @@ namespace WSCT.GUI.Plugins.LayerInteractive
         {
             InitializeComponent();
 
-            guiContextLayerPresence.Checked = InteractiveController.ContextLayerPresence;
-            guiChannelLayerPresence.Checked = InteractiveController.ChannelLayerPresence;
-
             guiUseFakeReader.Checked = InteractiveController.UseFakeReader;
             guiFakeReaderName.Text = InteractiveController.FakeReaderName;
 
@@ -30,8 +27,6 @@ namespace WSCT.GUI.Plugins.LayerInteractive
             guiInteractiveMode.SelectedItem = InteractiveController.Mode;
 
             InteractiveController.InteractiveModeChangedEvent += OnInteractiveModeChanged;
-            SharedData.CardContextChangedEvent += OnCardContextChanged;
-            SharedData.CardChannelChangedEvent += OnCardChannelChanged;
         }
 
         #endregion
@@ -47,30 +42,6 @@ namespace WSCT.GUI.Plugins.LayerInteractive
             else
             {
                 guiInteractiveMode.SelectedItem = InteractiveController.Mode;
-            }
-        }
-
-        private void OnCardContextChanged()
-        {
-            if (guiContextLayerPresence.InvokeRequired)
-            {
-                guiContextLayerPresence.Invoke(new MethodInvoker(() => guiContextLayerPresence.Checked = InteractiveController.ContextLayerPresence));
-            }
-            else
-            {
-                guiContextLayerPresence.Checked = InteractiveController.ContextLayerPresence;
-            }
-        }
-
-        private void OnCardChannelChanged()
-        {
-            if (guiContextLayerPresence.InvokeRequired)
-            {
-                guiChannelLayerPresence.Invoke(new MethodInvoker(() => guiChannelLayerPresence.Checked = InteractiveController.ChannelLayerPresence));
-            }
-            else
-            {
-                guiChannelLayerPresence.Checked = InteractiveController.ChannelLayerPresence;
             }
         }
 
@@ -124,8 +95,6 @@ namespace WSCT.GUI.Plugins.LayerInteractive
         private void GUI_FormClosing(object sender, FormClosingEventArgs e)
         {
             InteractiveController.InteractiveModeChangedEvent -= OnInteractiveModeChanged;
-            SharedData.CardContextChangedEvent -= OnCardContextChanged;
-            SharedData.CardChannelChangedEvent -= OnCardChannelChanged;
         }
 
         #endregion

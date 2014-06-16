@@ -1,9 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using WSCT.GUI.Plugins;
 using WSCT.Layers.Interactive.Actions;
-using WSCT.Stack;
 
 namespace WSCT.Layers.Interactive
 {
@@ -40,51 +37,6 @@ namespace WSCT.Layers.Interactive
         #endregion
 
         #region >> Properties
-
-        /// <summary>
-        /// Accessor the result of test of presence of the Interactive Context Layer.
-        /// </summary>
-        public static Boolean ContextLayerPresence
-        {
-            get
-            {
-                try
-                {
-                    if (!(SharedData.CardContext is ICardContextStack))
-                    {
-                        return false;
-                    }
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-                return FindInteractiveLayerInStack((ICardContextStack)SharedData.CardContext);
-            }
-        }
-
-        /// <summary>
-        /// Accessor the result of test of presence of the Interactive Channel Layer.
-        /// </summary>
-        public static Boolean ChannelLayerPresence
-        {
-            get
-            {
-                try
-                {
-                    if (!(SharedData.CardChannel is ICardChannelStack))
-                    {
-                        return false;
-                    }
-                }
-                catch (Exception)
-                {
-                    return false;
-                }
-                var stack = (ICardChannelStack)SharedData.CardChannel;
-                return stack.Layers.OfType<CardChannelLayer>().Any();
-            }
-        }
 
         /// <summary>
         /// Interactive mode.
@@ -138,45 +90,6 @@ namespace WSCT.Layers.Interactive
 
             ActionsList = new List<AbstractAction>();
             ActionsListId = 0;
-        }
-
-        private static Boolean FindInteractiveLayerInStack(ICardContextStack stack)
-        {
-            // TODO: not sure if it works...
-            foreach (var layer in stack.Layers)
-            {
-                if (layer is CardContextLayer)
-                {
-                    return true;
-                }
-                if (layer is ICardContextStack)
-                {
-                    if (FindInteractiveLayerInStack((ICardContextStack)layer))
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
-        }
-
-        private static Boolean FindInteractiveLayerInStack(ICardChannelStack stack)
-        {
-            foreach (var layer in stack.Layers)
-            {
-                if (layer is CardChannelLayer)
-                {
-                    return true;
-                }
-                if (layer is ICardChannelStack)
-                {
-                    if (FindInteractiveLayerInStack((ICardChannelStack)layer))
-                    {
-                        return true;
-                    }
-                }
-            }
-            return false;
         }
     }
 }

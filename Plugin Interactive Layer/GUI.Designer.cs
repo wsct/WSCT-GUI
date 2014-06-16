@@ -39,16 +39,12 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.guiInteractiveMode = new System.Windows.Forms.ComboBox();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.guiChannelLayerPresence = new System.Windows.Forms.CheckBox();
-            this.guiContextLayerPresence = new System.Windows.Forms.CheckBox();
             this.guiSaveFileInteractive = new System.Windows.Forms.SaveFileDialog();
             this.guiOpenFileInteractive = new System.Windows.Forms.OpenFileDialog();
             groupBox4 = new System.Windows.Forms.GroupBox();
             groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox4
@@ -56,7 +52,7 @@
             groupBox4.AutoSize = true;
             groupBox4.Controls.Add(this.guiDoLoadReplayData);
             groupBox4.Controls.Add(this.guiDoSaveRecordedData);
-            groupBox4.Location = new System.Drawing.Point(12, 248);
+            groupBox4.Location = new System.Drawing.Point(12, 164);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new System.Drawing.Size(294, 61);
             groupBox4.TabIndex = 10;
@@ -85,7 +81,7 @@
             // 
             // statusStrip
             // 
-            this.statusStrip.Location = new System.Drawing.Point(0, 314);
+            this.statusStrip.Location = new System.Drawing.Point(0, 237);
             this.statusStrip.Name = "statusStrip";
             this.statusStrip.Size = new System.Drawing.Size(319, 22);
             this.statusStrip.TabIndex = 3;
@@ -125,7 +121,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.guiFakeReaderName);
             this.groupBox1.Controls.Add(this.guiUseFakeReader);
-            this.groupBox1.Location = new System.Drawing.Point(12, 96);
+            this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(294, 81);
             this.groupBox1.TabIndex = 7;
@@ -136,7 +132,7 @@
             // 
             this.groupBox2.AutoSize = true;
             this.groupBox2.Controls.Add(this.guiInteractiveMode);
-            this.groupBox2.Location = new System.Drawing.Point(12, 183);
+            this.groupBox2.Location = new System.Drawing.Point(12, 99);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(294, 59);
             this.groupBox2.TabIndex = 8;
@@ -153,44 +149,6 @@
             this.guiInteractiveMode.TabIndex = 0;
             this.guiInteractiveMode.SelectedIndexChanged += new System.EventHandler(this.guiInteractiveMode_SelectedIndexChanged);
             // 
-            // groupBox3
-            // 
-            this.groupBox3.AutoSize = true;
-            this.groupBox3.Controls.Add(this.guiChannelLayerPresence);
-            this.groupBox3.Controls.Add(this.guiContextLayerPresence);
-            this.groupBox3.Location = new System.Drawing.Point(12, 12);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(294, 78);
-            this.groupBox3.TabIndex = 9;
-            this.groupBox3.TabStop = false;
-            this.groupBox3.Text = "Interactive Layer Status";
-            // 
-            // guiChannelLayerPresence
-            // 
-            this.guiChannelLayerPresence.AutoCheck = false;
-            this.guiChannelLayerPresence.AutoSize = true;
-            this.guiChannelLayerPresence.Checked = true;
-            this.guiChannelLayerPresence.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.guiChannelLayerPresence.Location = new System.Drawing.Point(6, 42);
-            this.guiChannelLayerPresence.Name = "guiChannelLayerPresence";
-            this.guiChannelLayerPresence.Size = new System.Drawing.Size(136, 17);
-            this.guiChannelLayerPresence.TabIndex = 5;
-            this.guiChannelLayerPresence.Text = "Channel Layer Installed";
-            this.guiChannelLayerPresence.UseVisualStyleBackColor = true;
-            // 
-            // guiContextLayerPresence
-            // 
-            this.guiContextLayerPresence.AutoCheck = false;
-            this.guiContextLayerPresence.AutoSize = true;
-            this.guiContextLayerPresence.Checked = true;
-            this.guiContextLayerPresence.CheckState = System.Windows.Forms.CheckState.Indeterminate;
-            this.guiContextLayerPresence.Location = new System.Drawing.Point(6, 19);
-            this.guiContextLayerPresence.Name = "guiContextLayerPresence";
-            this.guiContextLayerPresence.Size = new System.Drawing.Size(133, 17);
-            this.guiContextLayerPresence.TabIndex = 4;
-            this.guiContextLayerPresence.Text = "Context Layer Installed";
-            this.guiContextLayerPresence.UseVisualStyleBackColor = true;
-            // 
             // guiSaveFileInteractive
             // 
             this.guiSaveFileInteractive.DefaultExt = "xml";
@@ -203,26 +161,23 @@
             this.guiOpenFileInteractive.Filter = "XML Files|*.xml";
             this.guiOpenFileInteractive.RestoreDirectory = true;
             // 
-            // GUI
+            // Gui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(319, 336);
+            this.ClientSize = new System.Drawing.Size(319, 259);
             this.Controls.Add(groupBox4);
-            this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.statusStrip);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "GUI";
+            this.Name = "Gui";
             this.Text = "Layer Interactive Controller";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUI_FormClosing);
             groupBox4.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -237,9 +192,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.ComboBox guiInteractiveMode;
-        private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.CheckBox guiChannelLayerPresence;
-        private System.Windows.Forms.CheckBox guiContextLayerPresence;
         private System.Windows.Forms.SaveFileDialog guiSaveFileInteractive;
         private System.Windows.Forms.Button guiDoSaveRecordedData;
         private System.Windows.Forms.OpenFileDialog guiOpenFileInteractive;
