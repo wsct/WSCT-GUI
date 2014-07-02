@@ -84,6 +84,7 @@ namespace WSCT.GUI.Plugins.LayerInteractive
             {
                 var actionsContainer = SerializedObject<ActionsContainer>.LoadFromXml(guiOpenFileInteractive.FileName);
                 InteractiveController.ActionsList = actionsContainer.ActionsList;
+                InteractiveController.Mode = InteractiveMode.Replay;
             }
             InteractiveController.ActionsListId = 0;
         }
