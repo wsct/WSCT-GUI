@@ -31,7 +31,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         {
             InitializeComponent();
 
-            statusWordDictionary = SerializedObject<StatusWordDictionary>.LoadFromXml(@"ISO7816/Dictionary.StatusWord.xml");
+            statusWordDictionary = SerializedObject<StatusWordDictionary>.LoadFromXml(@"Dictionary.StatusWord.xml");
 
             guiSelectP1.DataSource = Enum.GetValues(typeof(SelectCommand.SelectionMode));
 

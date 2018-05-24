@@ -1,69 +1,17 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <MinimumVisualStudioVersion>10.0</MinimumVisualStudioVersion>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{8843A8DE-B802-4049-84CA-7EAB27BCD39F}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WSCT.Layers.Interactive</RootNamespace>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <PackageId>WSCT.Layers.Interactive</PackageId>
+    <Authors>Sylvain Vernois</Authors>
+    <Company>ENSICAEN</Company>
+    <Product>WSCT</Product>
+    <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2010-2018</Copyright>
+    <AssemblyVersion>2.1.0.0</AssemblyVersion>
+    <FileVersion>2.1.0.0</FileVersion>
     <AssemblyName>Layer.Interactive</AssemblyName>
-    <DefaultLanguage>fr-FR</DefaultLanguage>
-    <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <TargetFrameworkProfile>Profile78</TargetFrameworkProfile>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
+    <RootNamespace>Layer.Interactive</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <!-- A reference to the entire .NET Framework is automatically included -->
-    <ProjectReference Include="..\..\WSCT Core\WSCT.Helpers\WSCT.Helpers.csproj">
-      <Project>{b95b0e58-9296-4a15-aa69-10a7b6dc2267}</Project>
-      <Name>WSCT.Helpers</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\WSCT Core\WSCT\WSCT.csproj">
-      <Project>{4eabe8da-0bcb-4bc6-a571-7618ac0ec4b6}</Project>
-      <Name>WSCT</Name>
-    </ProjectReference>
+    <PackageReference Include="WSCT.Core" Version="6.1.0" />
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="Actions\AbstractAction.cs" />
-    <Compile Include="Actions\ActionsContainer.cs" />
-    <Compile Include="Actions\ConnectAction.cs" />
-    <Compile Include="Actions\DisconnectAction.cs" />
-    <Compile Include="Actions\GetAttribAction.cs" />
-    <Compile Include="Actions\ReconnectAction.cs" />
-    <Compile Include="Actions\TransmitAction.cs" />
-    <Compile Include="CardChannelLayer.cs" />
-    <Compile Include="CardContextLayer.cs" />
-    <Compile Include="InteractiveController.cs" />
-    <Compile Include="InteractiveMode.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

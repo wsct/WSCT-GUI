@@ -1,10 +1,8 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30501.0
+# Visual Studio 15
+VisualStudioVersion = 15.0.27703.2018
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "WSCT Core", "WSCT Core", "{510720A5-63D5-4425-9557-9344990FDDF4}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSCT.GUI", "WSCT.GUI\WSCT.GUI.csproj", "{AD3F035D-2806-4F94-8C29-09E5E183C36D}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSCT.GUI.Plugins", "WSCT.Plugins\WSCT.GUI.Plugins.csproj", "{44D12C6F-7D70-40EC-864A-01202928D159}"
@@ -13,34 +11,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin ISO7816 Tools", "Plu
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Plugin Interactive Layer", "Plugin Interactive Layer\Plugin Interactive Layer.csproj", "{4BA36CE0-8FFA-401F-B630-A25EAC2AADDF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Layer Interactive", "Layer Interactive\Layer Interactive.csproj", "{8843A8DE-B802-4049-84CA-7EAB27BCD39F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Layer Interactive", "Layer Interactive\Layer Interactive.csproj", "{8843A8DE-B802-4049-84CA-7EAB27BCD39F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSCT.GUI.Launcher", "WSCT.GUI.Launcher\WSCT.GUI.Launcher.csproj", "{056F1E5C-6A73-4C6D-9FFF-CC50B195F218}"
 EndProject
 Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Documentation", "Documentation\Documentation.shfbproj", "{C2B56F21-6174-4D8C-84FC-265C90BAFEE8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSCT.Helpers", "..\WSCT Core\WSCT.Helpers\WSCT.Helpers.csproj", "{B95B0E58-9296-4A15-AA69-10A7B6DC2267}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSCT.Wrapper.Desktop", "..\WSCT Core\WSCT.Wrapper.Desktop\WSCT.Wrapper.Desktop.csproj", "{19B66E6E-7E5E-481A-8718-3F9C44212AD6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSCT.Wrapper.MacOSX", "..\WSCT Core\WSCT.Wrapper.MacOSX\WSCT.Wrapper.MacOSX.csproj", "{0F6F8081-B090-4505-9FBC-F127AA18806F}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSCT.Wrapper.PCSCLite32", "..\WSCT Core\WSCT.Wrapper.PCSCLite32\WSCT.Wrapper.PCSCLite32.csproj", "{8AAE3E6A-D6FE-4B35-AF27-731CE1996106}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSCT.Wrapper.PCSCLite64", "..\WSCT Core\WSCT.Wrapper.PCSCLite64\WSCT.Wrapper.PCSCLite64.csproj", "{796A4CE8-2724-43C9-BCD8-5CFD331AA541}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSCT.Wrapper.WinSCard", "..\WSCT Core\WSCT.Wrapper.WinSCard\WSCT.Wrapper.WinSCard.csproj", "{651952E8-6D49-44E6-AB52-3C4BD78255FA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSCT", "..\WSCT Core\WSCT\WSCT.csproj", "{4EABE8DA-0BCB-4BC6-A571-7618AC0EC4B6}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WSCT.Helpers.Desktop", "..\WSCT Core\WSCT.Helpers.Desktop\WSCT.Helpers.Desktop.csproj", "{A3EEF6F2-8509-4EB2-A8B3-B31786EBB248}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{BF3E71F6-6A5B-46BD-9C6F-E610BE6F7896}"
-	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
-	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -74,51 +49,12 @@ Global
 		{056F1E5C-6A73-4C6D-9FFF-CC50B195F218}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C2B56F21-6174-4D8C-84FC-265C90BAFEE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C2B56F21-6174-4D8C-84FC-265C90BAFEE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B95B0E58-9296-4A15-AA69-10A7B6DC2267}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B95B0E58-9296-4A15-AA69-10A7B6DC2267}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B95B0E58-9296-4A15-AA69-10A7B6DC2267}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B95B0E58-9296-4A15-AA69-10A7B6DC2267}.Release|Any CPU.Build.0 = Release|Any CPU
-		{19B66E6E-7E5E-481A-8718-3F9C44212AD6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{19B66E6E-7E5E-481A-8718-3F9C44212AD6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{19B66E6E-7E5E-481A-8718-3F9C44212AD6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{19B66E6E-7E5E-481A-8718-3F9C44212AD6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0F6F8081-B090-4505-9FBC-F127AA18806F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0F6F8081-B090-4505-9FBC-F127AA18806F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0F6F8081-B090-4505-9FBC-F127AA18806F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0F6F8081-B090-4505-9FBC-F127AA18806F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8AAE3E6A-D6FE-4B35-AF27-731CE1996106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8AAE3E6A-D6FE-4B35-AF27-731CE1996106}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8AAE3E6A-D6FE-4B35-AF27-731CE1996106}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8AAE3E6A-D6FE-4B35-AF27-731CE1996106}.Release|Any CPU.Build.0 = Release|Any CPU
-		{796A4CE8-2724-43C9-BCD8-5CFD331AA541}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{796A4CE8-2724-43C9-BCD8-5CFD331AA541}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{796A4CE8-2724-43C9-BCD8-5CFD331AA541}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{796A4CE8-2724-43C9-BCD8-5CFD331AA541}.Release|Any CPU.Build.0 = Release|Any CPU
-		{651952E8-6D49-44E6-AB52-3C4BD78255FA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{651952E8-6D49-44E6-AB52-3C4BD78255FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{651952E8-6D49-44E6-AB52-3C4BD78255FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{651952E8-6D49-44E6-AB52-3C4BD78255FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4EABE8DA-0BCB-4BC6-A571-7618AC0EC4B6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4EABE8DA-0BCB-4BC6-A571-7618AC0EC4B6}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4EABE8DA-0BCB-4BC6-A571-7618AC0EC4B6}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4EABE8DA-0BCB-4BC6-A571-7618AC0EC4B6}.Release|Any CPU.Build.0 = Release|Any CPU
-		{A3EEF6F2-8509-4EB2-A8B3-B31786EBB248}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A3EEF6F2-8509-4EB2-A8B3-B31786EBB248}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A3EEF6F2-8509-4EB2-A8B3-B31786EBB248}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A3EEF6F2-8509-4EB2-A8B3-B31786EBB248}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{B95B0E58-9296-4A15-AA69-10A7B6DC2267} = {510720A5-63D5-4425-9557-9344990FDDF4}
-		{19B66E6E-7E5E-481A-8718-3F9C44212AD6} = {510720A5-63D5-4425-9557-9344990FDDF4}
-		{0F6F8081-B090-4505-9FBC-F127AA18806F} = {510720A5-63D5-4425-9557-9344990FDDF4}
-		{8AAE3E6A-D6FE-4B35-AF27-731CE1996106} = {510720A5-63D5-4425-9557-9344990FDDF4}
-		{796A4CE8-2724-43C9-BCD8-5CFD331AA541} = {510720A5-63D5-4425-9557-9344990FDDF4}
-		{651952E8-6D49-44E6-AB52-3C4BD78255FA} = {510720A5-63D5-4425-9557-9344990FDDF4}
-		{4EABE8DA-0BCB-4BC6-A571-7618AC0EC4B6} = {510720A5-63D5-4425-9557-9344990FDDF4}
-		{A3EEF6F2-8509-4EB2-A8B3-B31786EBB248} = {510720A5-63D5-4425-9557-9344990FDDF4}
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {49FF5709-4C40-4C5C-9829-29ACDA67EA87}
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
 		StartupItem = WSCT.GUI.Launcher\WSCT.GUI.Launcher.csproj
