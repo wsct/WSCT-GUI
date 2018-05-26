@@ -10,6 +10,7 @@
     <FileVersion>2.1.0.0</FileVersion>
     <AssemblyName>Layer.Interactive</AssemblyName>
     <RootNamespace>Layer.Interactive</RootNamespace>
+    <Description>WSCT Layer allowing basic interception of CRP and replay of previously intercepted CRP.</Description>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="WSCT.Core" Version="6.1.0" />

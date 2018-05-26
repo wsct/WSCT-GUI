@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 using WSCT.GUI.Plugins;
+using WSCT.GUI.Resources;
 using WSCT.Helpers;
 using WSCT.Helpers.Linq;
 using WSCT.Linq;
@@ -27,8 +28,8 @@ namespace WSCT.GUI
 
         #region >> Constructors
 
+        /// <inheritdoc />
         /// <summary>
-        /// 
         /// </summary>
         public WinSCardGui()
         {
@@ -92,12 +93,6 @@ namespace WSCT.GUI
 
         #region >> Methods
 
-        private string getLastNamespaceOf(object instance)
-        {
-            var splittedNamespace = instance.GetType().Namespace.Split('.');
-            return splittedNamespace[splittedNamespace.Length - 1];
-        }
-
         #endregion
 
         #region >> createCard * Stack
@@ -143,12 +138,12 @@ namespace WSCT.GUI
                 if (SharedData.CardContext.ListReaderGroups() == ErrorCode.Success)
                 {
                     guiReaderGroups.DataSource = SharedData.CardContext.Groups;
-                    guiFoundReaderGroups.Text = String.Format("Reader groups descriptionFound: {0}", SharedData.CardContext.GroupsCount);
+                    guiFoundReaderGroups.Text = string.Format(Lang.ReaderGroupsFoundAre, SharedData.CardContext.GroupsCount);
 
                     if (SharedData.CardContext.ListReaders(SharedData.CardContext.Groups[0]) == ErrorCode.Success)
                     {
                         guiReaders.DataSource = SharedData.CardContext.Readers;
-                        guiFoundReaders.Text = String.Format("Readers descriptionFound: {0}", SharedData.CardContext.ReadersCount);
+                        guiFoundReaders.Text = string.Format(Lang.ReadersFoundAre, SharedData.CardContext.ReadersCount);
 
                         statusMonitor.Context = SharedData.CardContext;
                         statusMonitor.Start();
@@ -159,7 +154,7 @@ namespace WSCT.GUI
             }
             else
             {
-                guiContextState.Text = "An error occured";
+                guiContextState.Text = Lang.AnErrorOccured;
             }
         }
 
@@ -171,7 +166,7 @@ namespace WSCT.GUI
             if (lastError == ErrorCode.Success)
             {
                 SharedData.CardContext = null;
-                guiContextState.Text = "Released";
+                guiContextState.Text = Lang.ContextIsReleased;
                 UpdateChannelStatus(ChannelStatusType.Disconnected);
 
                 UpdateContextReleased();
@@ -239,6 +234,7 @@ namespace WSCT.GUI
             }
             catch (Exception)
             {
+                // ignored
             }
         }
 
@@ -264,7 +260,7 @@ namespace WSCT.GUI
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Error(s) occured when launching plugin '" + menuItem.Text + "'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, String.Format(Lang.ErrorWhenLaunchingPluginX, menuItem.Text), MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -288,7 +284,7 @@ namespace WSCT.GUI
         /// <param name="error"></param>
         public void UpdateLastError(ErrorCode error)
         {
-            guiLastError.Text = String.Format("Last Error: {0}", error);
+            guiLastError.Text = string.Format(Lang.LastErrorIsX, error);
         }
 
         /// <summary>
@@ -300,13 +296,13 @@ namespace WSCT.GUI
             switch (status)
             {
                 case ChannelStatusType.Connected:
-                    guiChannelState.Text = "Connected";
+                    guiChannelState.Text = Lang.ChannelIsConnected;
                     break;
                 case ChannelStatusType.Disconnected:
-                    guiChannelState.Text = "Disconnected";
+                    guiChannelState.Text = Lang.ChannelIsDisconnected;
                     break;
                 case ChannelStatusType.Error:
-                    guiChannelState.Text = "An error occured";
+                    guiChannelState.Text = Lang.AnErrorOccured;
                     break;
             }
         }
@@ -329,7 +325,7 @@ namespace WSCT.GUI
             guiGroupCardAttributes.Enabled = true;
             guiGroupCardInformations.Enabled = true;
 
-            guiContextState.Text = "Established";
+            guiContextState.Text = Lang.ContextIsEstablish;
 
             guiContextEstablish.Enabled = false;
             guiContextRelease.Enabled = true;
@@ -348,9 +344,9 @@ namespace WSCT.GUI
             guiGroupCardAttributes.Enabled = false;
             guiGroupCardInformations.Enabled = false;
 
-            guiFoundReaderGroups.Text = String.Format("Reader groups descriptionFound: {0}", 0);
+            guiFoundReaderGroups.Text = String.Format(Lang.ReaderGroupsFoundAre, 0);
             guiReaderGroups.DataSource = null;
-            guiFoundReaders.Text = String.Format("Readers descriptionFound: {0}", 0);
+            guiFoundReaders.Text = String.Format(Lang.ReadersFoundAre, 0);
             guiReaders.DataSource = null;
 
             guiContextEstablish.Enabled = true;
@@ -376,18 +372,31 @@ namespace WSCT.GUI
                 guiPluginDLL.Text = plugin.DllName;
                 guiPluginPathToDll.Text = plugin.PathToDll;
 
+                Assembly assembly = null;
                 try
                 {
-                    var assembly = Assembly.LoadFrom(plugin.PathToDll + plugin.DllName);
-                    var assemblyName = new AssemblyName(assembly.FullName);
-                    guiPluginAssemblyVersion.Text = assemblyName.Version.ToString();
-                    guiPluginAssemblyName.Text = assemblyName.Name;
-                    var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
-                    guiPluginAssemblyDescription.Text = assemblyDescription.Description;
+                    assembly = Assembly.LoadFrom(plugin.PathToDll + plugin.DllName);
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error(s) occured when accessing plugin '" + plugin.Name + "'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(ex.Message, String.Format(Lang.ErrorAccessingPluginAssemblyX, plugin.Name), MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+
+                if (assembly != null)
+                {
+                    var assemblyName = new AssemblyName(assembly.FullName);
+                    guiPluginAssemblyVersion.Text = assemblyName.Version.ToString();
+                    guiPluginAssemblyName.Text = assemblyName.Name;
+
+                    try
+                    {
+                        var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
+                        guiPluginAssemblyDescription.Text = assemblyDescription.Description;
+                    }
+                    catch (Exception)
+                    {
+                        guiPluginAssemblyDescription.Text = "";
+                    }
                 }
             }
         }
@@ -400,26 +409,41 @@ namespace WSCT.GUI
                 // Deselect the selected layer in context layers
                 guiLoadedContextLayers.SetSelected(0, false);
 
-                // Update assembly informations
+                // Update assembly information
                 var layer = (CardChannelLayerDescription)listBox.SelectedItem;
                 guiLayerName.Text = layer.Name;
                 guiLayerClassName.Text = layer.ClassName;
                 guiLayerDLL.Text = layer.DllName;
                 guiLayerPathToDll.Text = layer.PathToDll;
 
+                Assembly assembly = null;
                 try
                 {
-                    var assembly = Assembly.LoadFrom(layer.PathToDll + layer.DllName);
-                    var assemblyName = new AssemblyName(assembly.FullName);
-                    guiLayerAssemblyVersion.Text = assemblyName.Version.ToString();
-                    guiLayerAssemblyName.Text = assemblyName.Name;
-                    var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
-                    guiLayerAssemblyDescription.Text = assemblyDescription.Description;
+                    assembly = Assembly.LoadFrom(Path.Combine(layer.PathToDll, layer.DllName));
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error(s) occured when accessing layer '" + layer.Name + "'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(ex.Message, String.Format(Lang.ErrorAccessingLayerAssemblyX, layer.Name), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
+
+                if (assembly != null)
+                {
+                    var assemblyName = new AssemblyName(assembly.FullName);
+                    guiLayerAssemblyVersion.Text = assemblyName.Version.ToString();
+                    guiLayerAssemblyName.Text = assemblyName.Name;
+
+                    try
+                    {
+                        var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
+                        guiLayerAssemblyDescription.Text = assemblyDescription.Description;
+                    }
+                    catch (Exception)
+                    {
+                        guiLayerAssemblyDescription.Text = "";
+                    }
+                }
+
+
             }
         }
 
@@ -449,7 +473,7 @@ namespace WSCT.GUI
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "Error(s) occured when accessing layer '" + layer.Name + "'", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    MessageBox.Show(ex.Message, String.Format(Lang.ErrorAccessingLayerAssemblyX, layer.Name), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
             }
         }

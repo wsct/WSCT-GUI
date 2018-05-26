@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <root>
   <!-- 
     Microsoft ResX Schema 
@@ -599,5 +599,11 @@
         ipcU73XhimscoJ7nmkq/K3pARbMxQSFYLIVi2aW4L35fP8fS4CSscnUDZfV/BZrfFf2jFa0A/vv6hdfP
         cJWw3xX9u6JfoPW7on9X9Ku1flf074p+tdbviv5d0a/S+r//+/8BPTxUq6Ub7iwAAAAASUVORK5CYII=
 </value>
+  </data>
+  <data name="ErrorWhenAccessingLayer" xml:space="preserve">
+    <value>Error(s) occured when accessing layer '{0}'</value>
+  </data>
+  <data name="ErrorWhenAccessingLayerAssembly" xml:space="preserve">
+    <value>Error(s) occured when accessing layer {0}</value>
   </data>
 </root>

@@ -10,3 +10,4 @@ obj
 *.csproj.user
 .vs/
 packages/
+*.DotSettings.user

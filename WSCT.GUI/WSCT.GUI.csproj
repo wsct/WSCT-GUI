@@ -83,6 +83,11 @@
     <Compile Include="ChannelStatusType.cs" />
     <Compile Include="CardObserver.cs" />
     <Compile Include="LogLevel.cs" />
+    <Compile Include="Resources\Lang.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Lang.resx</DependentUpon>
+    </Compile>
     <Compile Include="WinSCardGui.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,31 +99,16 @@
       <SubType>Designer</SubType>
       <DependentUpon>AboutWinSCardGUI.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Resources\Lang.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Lang.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinSCardGUI.resx">
       <SubType>Designer</SubType>
       <DependentUpon>WinSCardGui.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="packages.config" />
     <None Include="Properties\app.manifest" />
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj">
