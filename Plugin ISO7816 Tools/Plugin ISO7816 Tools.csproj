@@ -1,101 +1,41 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{B2F69421-36D1-40E2-B36C-165A622B810C}</ProjectGuid>
+    <TargetFramework>net462</TargetFramework>
+    <Version>4.3.0.0</Version>
+    <Copyright>Copyright © Sylvain Vernois 2010</Copyright>
+    <Product>WSCT</Product>
+    <Company>ENSICAEN</Company>
+    <Authors>Sylvain Vernois</Authors>
+    <PackageId>WSCT.Plugin.ISO7816Tools</PackageId>
+    <RepositoryUrl>https://github.com/wsct/WSCT-GUI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
+    <Description>ISO7816 Plugin for WinSCard GUI.</Description>
+    <ApplicationIcon>Resources\$this.Icon.ico</ApplicationIcon>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WSCT.GUI.Plugins.ISO7816Tools</RootNamespace>
     <AssemblyName>Plugin.ISO7816Tools</AssemblyName>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <RootNamespace>WSCT.GUI.Plugins.ISO7816Tools</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Drawing" />
+    <None Remove="Resources\%24this.Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\$this.Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WSCT.Core" Version="6.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="System.Core" />
-    <Reference Include="WSCT, Version=6.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WSCT.Core.6.1.0\lib\netstandard2.0\WSCT.dll</HintPath>
-    </Reference>
-    <Reference Include="WSCT.Helpers, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WSCT.Helpers.4.1.0\lib\netstandard2.0\WSCT.Helpers.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CardObserver.cs" />
-    <Compile Include="Enums.cs" />
-    <Compile Include="GUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="GUI.Designer.cs">
-      <DependentUpon>GUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="PluginEntry.cs" />
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj">
-      <Project>{44D12C6F-7D70-40EC-864A-01202928D159}</Project>
-      <Name>WSCT.GUI.Plugins</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Dictionary.StatusWord.xml">
+    <None Update="Dictionary.StatusWord.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Plugin.ISO7816Tools.xml">
+    </None>
+    <None Update="Plugin.ISO7816Tools.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-    <None Include="packages.config" />
-    <None Include="Resources\%24this.Icon.ico" />
+    </None>
   </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="GUI.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>GUI.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

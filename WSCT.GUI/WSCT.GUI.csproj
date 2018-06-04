@@ -1,130 +1,31 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{AD3F035D-2806-4F94-8C29-09E5E183C36D}</ProjectGuid>
-    <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WSCT.GUI</RootNamespace>
+    <TargetFramework>net462</TargetFramework>
+    <PackageId>WSCT.GUI</PackageId>
+    <Authors>Sylvain Vernois</Authors>
+    <Company>ENSICAEN</Company>
+    <Product>WSCT</Product>
+    <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2007</Copyright>
     <AssemblyName>WSCT.GUI</AssemblyName>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <ApplicationRevision>0</ApplicationRevision>
-    <TargetZone>LocalIntranet</TargetZone>
-    <GenerateManifests>false</GenerateManifests>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
-    <DefineConstants>TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <Prefer32Bit>false</Prefer32Bit>
+    <RootNamespace>WSCT.GUI</RootNamespace>
+    <Description>Simple but Extensible Graphic User Interface for using WinSCard API.</Description>
+    <ApplicationIcon>Resources\$this.Icon.ico</ApplicationIcon>
+    <Version>5.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Drawing" />
+    <None Remove="Resources\%24this.Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\$this.Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WSCT.Core" Version="6.1.0" />
+    <PackageReference Include="WSCT.Wrapper.Desktop" Version="1.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WSCT, Version=6.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WSCT.Core.6.1.0\lib\netstandard2.0\WSCT.dll</HintPath>
-    </Reference>
-    <Reference Include="WSCT.Helpers, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WSCT.Helpers.4.1.0\lib\netstandard2.0\WSCT.Helpers.dll</HintPath>
-    </Reference>
-    <Reference Include="WSCT.Wrapper.Desktop, Version=1.0.0.31078, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WSCT.Wrapper.Desktop.1.0.1\lib\net462\WSCT.Wrapper.Desktop.dll</HintPath>
-    </Reference>
-    <Reference Include="WSCT.Wrapper.MacOSX, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WSCT.Wrapper.Desktop.1.0.1\lib\net462\WSCT.Wrapper.MacOSX.dll</HintPath>
-    </Reference>
-    <Reference Include="WSCT.Wrapper.PCSCLite32, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WSCT.Wrapper.Desktop.1.0.1\lib\net462\WSCT.Wrapper.PCSCLite32.dll</HintPath>
-    </Reference>
-    <Reference Include="WSCT.Wrapper.PCSCLite64, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WSCT.Wrapper.Desktop.1.0.1\lib\net462\WSCT.Wrapper.PCSCLite64.dll</HintPath>
-    </Reference>
-    <Reference Include="WSCT.Wrapper.WinSCard, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WSCT.Wrapper.Desktop.1.0.1\lib\net462\WSCT.Wrapper.WinSCard.dll</HintPath>
-    </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Compile Include="AboutWinSCardGUI.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="AboutWinSCardGUI.Designer.cs">
-      <DependentUpon>AboutWinSCardGUI.cs</DependentUpon>
-    </Compile>
-    <Compile Include="ChannelStatusType.cs" />
-    <Compile Include="CardObserver.cs" />
-    <Compile Include="LogLevel.cs" />
-    <Compile Include="Resources\Lang.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>Lang.resx</DependentUpon>
-    </Compile>
-    <Compile Include="WinSCardGui.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="WinSCardGUI.Designer.cs">
-      <DependentUpon>WinSCardGui.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AboutWinSCardGUI.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>AboutWinSCardGUI.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Resources\Lang.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Lang.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WinSCardGUI.resx">
-      <SubType>Designer</SubType>
-      <DependentUpon>WinSCardGui.cs</DependentUpon>
-    </EmbeddedResource>
-    <None Include="packages.config" />
-    <None Include="Properties\app.manifest" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj">
-      <Project>{44D12C6F-7D70-40EC-864A-01202928D159}</Project>
-      <Name>WSCT.GUI.Plugins</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Resources\%24this.Icon.ico" />
-  </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>

@@ -6,11 +6,10 @@
     <Company>ENSICAEN</Company>
     <Product>WSCT</Product>
     <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2010-2018</Copyright>
-    <AssemblyVersion>2.1.0.0</AssemblyVersion>
-    <FileVersion>2.1.0.0</FileVersion>
     <AssemblyName>Layer.Interactive</AssemblyName>
     <RootNamespace>Layer.Interactive</RootNamespace>
     <Description>WSCT Layer allowing basic interception of CRP and replay of previously intercepted CRP.</Description>
+    <Version>2.2.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="WSCT.Core" Version="6.1.0" />

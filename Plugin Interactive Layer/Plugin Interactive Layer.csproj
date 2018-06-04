@@ -1,103 +1,45 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="12.0">
+﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
-    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
-    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProductVersion>9.0.30729</ProductVersion>
-    <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{4BA36CE0-8FFA-401F-B630-A25EAC2AADDF}</ProjectGuid>
+    <TargetFramework>net462</TargetFramework>
+    <Version>2.2.0.0</Version>
+    <Copyright>Copyright © Sylvain Vernois 2010</Copyright>
+    <Product>WSCT</Product>
+    <Company>ENSICAEN</Company>
+    <Authors>Sylvain Vernois</Authors>
+    <PackageId>WSCT.GUI.Plugins.LayerInteractive</PackageId>
+    <RepositoryUrl>https://github.com/wsct/WSCT-GUI</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
+    <Description>Plugin acting as a controller for Interactive Layer.</Description>
+    <ApplicationIcon>Resources\$this.Icon.ico</ApplicationIcon>
     <OutputType>Library</OutputType>
-    <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WSCT.GUI.Plugins.LayerInteractive</RootNamespace>
     <AssemblyName>Plugin.LayerInteractive</AssemblyName>
-    <FileAlignment>512</FileAlignment>
-    <FileUpgradeFlags>
-    </FileUpgradeFlags>
-    <UpgradeBackupLocation>
-    </UpgradeBackupLocation>
-    <OldToolsVersion>2.0</OldToolsVersion>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
-    <TargetFrameworkProfile />
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <DebugSymbols>true</DebugSymbols>
-    <DebugType>full</DebugType>
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
-    <Optimize>true</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
-    <ErrorReport>prompt</ErrorReport>
-    <WarningLevel>4</WarningLevel>
-    <DocumentationFile>
-    </DocumentationFile>
-    <Prefer32Bit>false</Prefer32Bit>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationIcon>Resources\%24this.Icon.ico</ApplicationIcon>
+    <RootNamespace>WSCT.GUI.Plugins.LayerInteractive</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Newtonsoft.Json, Version=11.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.11.0.2\lib\net45\Newtonsoft.Json.dll</HintPath>
-    </Reference>
-    <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Drawing" />
+    <None Remove="Resources\%24this.Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\$this.Icon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="WSCT.Core" Version="6.1.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Layer Interactive\Layer Interactive.csproj" />
+    <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />
+  </ItemGroup>
+  <ItemGroup>
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="System.Xml" />
-    <Reference Include="WSCT.Helpers, Version=4.1.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <HintPath>..\packages\WSCT.Helpers.4.1.0\lib\netstandard2.0\WSCT.Helpers.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="PluginEntry.cs" />
-    <Compile Include="Gui.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Gui.Designer.cs">
-      <DependentUpon>Gui.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Gui.resx">
-      <DependentUpon>Gui.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Layer Interactive\Layer Interactive.csproj">
-      <Project>{8843A8DE-B802-4049-84CA-7EAB27BCD39F}</Project>
-      <Name>Layer Interactive</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj">
-      <Project>{44D12C6F-7D70-40EC-864A-01202928D159}</Project>
-      <Name>WSCT.GUI.Plugins</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="Plugin.LayerInteractive.xml">
+    <None Update="Dictionary.StatusWord.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-      <SubType>Designer</SubType>
-    </Content>
-    <None Include="packages.config" />
-    <None Include="Resources\%24this.Icon.ico" />
+    </None>
+    <None Update="Plugin.ISO7816Tools.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Plugin.LayerInteractive.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
-       Other similar extension points exist, see Microsoft.Common.targets.
-  <Target Name="BeforeBuild">
-  </Target>
-  <Target Name="AfterBuild">
-  </Target>
-  -->
 </Project>
