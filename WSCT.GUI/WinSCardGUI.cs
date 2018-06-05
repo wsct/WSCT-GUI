@@ -1,4 +1,5 @@
 using System;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -20,9 +21,9 @@ namespace WSCT.GUI
 
         private readonly CardChannelStackDescription channelLayers;
         private readonly CardContextStackDescription contextLayers;
-        private readonly PluginRepository pluginRepository;
         private readonly StatusChangeMonitor statusMonitor;
         private readonly CardObserver observer;
+        private readonly PluginsManager pluginManager;
 
         #endregion
 
@@ -47,13 +48,8 @@ namespace WSCT.GUI
             guiAttribute.DataSource = Enum.GetValues(typeof(Attrib));
             guiAttribute.SelectedItem = Attrib.AtrString;
 
-            pluginRepository = new PluginRepository();
-            // Read all independant plugins repository and aggregate them in <c>pluginRepository</c>
-            foreach (var fileName in Directory.GetFiles(".", "Plugin*.xml"))
-            {
-                var pr = SerializedObject<PluginRepository>.LoadFromXml(fileName);
-                pr.Plugins.DoForEach(d => pluginRepository.Add(d));
-            }
+            pluginManager = new PluginsManager();
+            pluginManager.DiscoverInDirectory(Directory.GetCurrentDirectory());
 
             observer = new CardObserver(this);
 
@@ -65,16 +61,20 @@ namespace WSCT.GUI
 
             #region >> Initialize plugins menu and tab
 
-            foreach (var plugin in pluginRepository.Plugins)
+            foreach (var plugin in pluginManager.Plugins)
             {
-                var pluginMenuItem = new ToolStripMenuItem { Text = plugin.Name };
+                var pluginMenuItem = new ToolStripMenuItem
+                {
+                    Text = plugin.Attribute.Name,
+                    Tag = plugin
+                };
                 pluginMenuItem.Click += guiPluginsMenu_Click;
                 guiPluginsMenuItem.DropDownItems.Add(pluginMenuItem);
-
-                guiLoadedPlugins.Items.Add(plugin);
             }
 
-            guiLoadedPlugins.DisplayMember = "name";
+            guiLoadedPlugins.Format += (sender, args) =>
+                args.Value = ((PluginInfo)args.ListItem).Attribute.Name;
+            guiLoadedPlugins.DataSource = pluginManager.Plugins;
 
             #endregion
 
@@ -255,8 +255,8 @@ namespace WSCT.GUI
             var menuItem = (ToolStripMenuItem)sender;
             try
             {
-                var plugin = pluginRepository.CreateInstance(menuItem.Text);
-                plugin.Show();
+                var plugin = (PluginInfo)menuItem.Tag;
+                plugin.CreateInstance().Show();
             }
             catch (Exception ex)
             {
@@ -366,38 +366,18 @@ namespace WSCT.GUI
             var listBox = (ListBox)sender;
             if (listBox.SelectedItem != null)
             {
-                var plugin = (PluginDescription)listBox.SelectedItem;
-                guiPluginName.Text = plugin.Name;
-                guiPluginClassName.Text = plugin.ClassName;
-                guiPluginDLL.Text = plugin.DllName;
-                guiPluginPathToDll.Text = plugin.PathToDll;
+                var plugin = (PluginInfo)listBox.SelectedItem;
+                var assembly = plugin.Type.Assembly;
 
-                Assembly assembly = null;
-                try
-                {
-                    assembly = Assembly.LoadFrom(plugin.PathToDll + plugin.DllName);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, String.Format(Lang.ErrorAccessingPluginAssemblyX, plugin.Name), MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                guiPluginName.Text = plugin.Attribute.Name;
+                // TODO Add plugin.Attribute.Description
+                guiPluginClassName.Text = plugin.Type.FullName;
+                guiPluginDLL.Text = assembly.FullName;
+                guiPluginPathToDll.Text = assembly.Location;
 
-                if (assembly != null)
-                {
-                    var assemblyName = new AssemblyName(assembly.FullName);
-                    guiPluginAssemblyVersion.Text = assemblyName.Version.ToString();
-                    guiPluginAssemblyName.Text = assemblyName.Name;
-
-                    try
-                    {
-                        var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
-                        guiPluginAssemblyDescription.Text = assemblyDescription.Description;
-                    }
-                    catch (Exception)
-                    {
-                        guiPluginAssemblyDescription.Text = "";
-                    }
-                }
+                guiPluginAssemblyVersion.Text = assembly.GetName().Version.ToString();
+                guiPluginAssemblyName.Text = assembly.FullName;
+                guiPluginAssemblyDescription.Text = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
             }
         }
 

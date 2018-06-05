@@ -13,6 +13,16 @@
     <Version>5.1.0</Version>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Update="WinSCardGui.Designer.cs" DesignTime="True">
+      <DependentUpon>WinSCardGui.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="AboutWinSCardGUI.Designer.cs" DesignTime="True">
+      <DependentUpon>AboutWinSCardGUI.cs</DependentUpon>
+      <SubType>Form</SubType>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
     <None Remove="Resources\%24this.Icon.ico" />
   </ItemGroup>
   <ItemGroup>
