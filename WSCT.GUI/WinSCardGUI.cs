@@ -1,6 +1,4 @@
 using System;
-using System.Diagnostics;
-using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -75,19 +73,19 @@ namespace WSCT.GUI
                 guiPluginsMenuItem.DropDownItems.Add(pluginMenuItem);
             }
 
-            guiLoadedPlugins.Format += (sender, args) =>
+            guiAvailablePlugins.Format += (sender, args) =>
                 args.Value = ((PluginInfo)args.ListItem).Attribute.Name;
-            guiLoadedPlugins.DataSource = pluginManager.Plugins;
+            guiAvailablePlugins.DataSource = pluginManager.Plugins;
 
             #endregion
 
             #region >> Initialize layers menu and tab
 
-            channelLayers.LayerDescriptions.DoForEach(d => guiLoadedChannelLayers.Items.Add(d));
-            guiLoadedChannelLayers.DisplayMember = "name";
+            channelLayers.LayerDescriptions.DoForEach(d => guiAvailableChannelLayers.Items.Add(d));
+            guiAvailableChannelLayers.DisplayMember = "name";
 
-            contextLayers.LayerDescriptions.DoForEach(d => guiLoadedContextLayers.Items.Add(d));
-            guiLoadedContextLayers.DisplayMember = "name";
+            contextLayers.LayerDescriptions.DoForEach(d => guiAvailableContextLayers.Items.Add(d));
+            guiAvailableContextLayers.DisplayMember = "name";
 
             #endregion
         }
@@ -376,7 +374,7 @@ namespace WSCT.GUI
                 guiPluginClassName.Text = plugin.Type.FullName;
                 guiPluginDescription.Text = plugin.Attribute.Description;
 
-                guiPluginPathToDll.Text = assembly.Location;
+                guiPluginAssemblyPath.Text = assembly.Location;
                 guiPluginAssemblyVersion.Text = assembly.GetName().Version.ToString();
                 guiPluginAssemblyName.Text = assembly.FullName;
                 guiPluginAssemblyDescription.Text = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
@@ -389,7 +387,7 @@ namespace WSCT.GUI
             if (listBox.SelectedItem != null)
             {
                 // Deselect the selected layer in context layers
-                guiLoadedContextLayers.SetSelected(0, false);
+                guiAvailableContextLayers.SetSelected(0, false);
 
                 // Update assembly information
                 var layer = (CardChannelLayerDescription)listBox.SelectedItem;
@@ -435,7 +433,7 @@ namespace WSCT.GUI
             if (listBox.SelectedItem != null)
             {
                 // Deselect the selected layer in channel layers
-                guiLoadedChannelLayers.SetSelected(0, false);
+                guiAvailableChannelLayers.SetSelected(0, false);
 
                 // Update assembly informations
                 var layer = (CardContextLayerDescription)listBox.SelectedItem;
