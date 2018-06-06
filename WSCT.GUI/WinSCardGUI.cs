@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -35,6 +36,8 @@ namespace WSCT.GUI
         public WinSCardGui()
         {
             InitializeComponent();
+
+            Icon = Icons.WinSCardGui_Icon;
 
             guiShareMode.DataSource = Enum.GetValues(typeof(ShareMode));
             guiShareMode.SelectedItem = ShareMode.Shared;
@@ -370,11 +373,10 @@ namespace WSCT.GUI
                 var assembly = plugin.Type.Assembly;
 
                 guiPluginName.Text = plugin.Attribute.Name;
-                // TODO Add plugin.Attribute.Description
                 guiPluginClassName.Text = plugin.Type.FullName;
-                guiPluginDLL.Text = assembly.FullName;
-                guiPluginPathToDll.Text = assembly.Location;
+                guiPluginDescription.Text = plugin.Attribute.Description;
 
+                guiPluginPathToDll.Text = assembly.Location;
                 guiPluginAssemblyVersion.Text = assembly.GetName().Version.ToString();
                 guiPluginAssemblyName.Text = assembly.FullName;
                 guiPluginAssemblyDescription.Text = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description;

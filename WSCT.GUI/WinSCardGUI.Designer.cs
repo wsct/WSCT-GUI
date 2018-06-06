@@ -73,13 +73,11 @@ namespace WSCT.GUI
             this.guiGroupBoxLoadedPlugins = new System.Windows.Forms.GroupBox();
             this.guiLoadedPlugins = new System.Windows.Forms.ListBox();
             this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.guiPluginPathToDll = new System.Windows.Forms.TextBox();
             this.guiPluginClassName = new System.Windows.Forms.TextBox();
-            this.guiPluginDLL = new System.Windows.Forms.TextBox();
             this.guiPluginName = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
@@ -121,6 +119,8 @@ namespace WSCT.GUI
             this.guiAboutWinSCardGUI = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
+            this.guiPluginDescription = new System.Windows.Forms.TextBox();
             this.guiGroupCard.SuspendLayout();
             this.guiGroupContext.SuspendLayout();
             this.guiTabConnection.SuspendLayout();
@@ -165,6 +165,7 @@ namespace WSCT.GUI
             // guiCardConnect
             // 
             this.guiCardConnect.Enabled = false;
+            this.guiCardConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiCardConnect.Location = new System.Drawing.Point(12, 37);
             this.guiCardConnect.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiCardConnect.Name = "guiCardConnect";
@@ -177,6 +178,7 @@ namespace WSCT.GUI
             // guiCardWarmReset
             // 
             this.guiCardWarmReset.Enabled = false;
+            this.guiCardWarmReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiCardWarmReset.Location = new System.Drawing.Point(12, 92);
             this.guiCardWarmReset.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiCardWarmReset.Name = "guiCardWarmReset";
@@ -189,6 +191,7 @@ namespace WSCT.GUI
             // guiCardUnpower
             // 
             this.guiCardUnpower.Enabled = false;
+            this.guiCardUnpower.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiCardUnpower.Location = new System.Drawing.Point(12, 204);
             this.guiCardUnpower.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiCardUnpower.Name = "guiCardUnpower";
@@ -201,6 +204,7 @@ namespace WSCT.GUI
             // guiCardColdReset
             // 
             this.guiCardColdReset.Enabled = false;
+            this.guiCardColdReset.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiCardColdReset.Location = new System.Drawing.Point(12, 148);
             this.guiCardColdReset.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiCardColdReset.Name = "guiCardColdReset";
@@ -228,6 +232,7 @@ namespace WSCT.GUI
             // guiContextRelease
             // 
             this.guiContextRelease.Enabled = false;
+            this.guiContextRelease.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiContextRelease.Location = new System.Drawing.Point(12, 92);
             this.guiContextRelease.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiContextRelease.Name = "guiContextRelease";
@@ -239,6 +244,7 @@ namespace WSCT.GUI
             // 
             // guiContextEstablish
             // 
+            this.guiContextEstablish.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiContextEstablish.Location = new System.Drawing.Point(12, 37);
             this.guiContextEstablish.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiContextEstablish.Name = "guiContextEstablish";
@@ -253,11 +259,12 @@ namespace WSCT.GUI
             this.guiTabConnection.Controls.Add(this.guiGroupCardInformations);
             this.guiTabConnection.Controls.Add(this.guiGroupCardConnection);
             this.guiTabConnection.Controls.Add(this.guiGroupCardAttributes);
+            this.guiTabConnection.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiTabConnection.Location = new System.Drawing.Point(8, 39);
             this.guiTabConnection.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiTabConnection.Name = "guiTabConnection";
             this.guiTabConnection.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.guiTabConnection.Size = new System.Drawing.Size(1322, 914);
+            this.guiTabConnection.Size = new System.Drawing.Size(1328, 963);
             this.guiTabConnection.TabIndex = 0;
             this.guiTabConnection.Text = "Card Tools";
             this.guiTabConnection.UseVisualStyleBackColor = true;
@@ -271,6 +278,7 @@ namespace WSCT.GUI
             this.guiGroupCardInformations.Controls.Add(this.labelCardChannel);
             this.guiGroupCardInformations.Controls.Add(this.guiContextState);
             this.guiGroupCardInformations.Controls.Add(this.labelContext);
+            this.guiGroupCardInformations.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiGroupCardInformations.Location = new System.Drawing.Point(12, 577);
             this.guiGroupCardInformations.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiGroupCardInformations.Name = "guiGroupCardInformations";
@@ -282,6 +290,7 @@ namespace WSCT.GUI
             // 
             // guiReaderInUse
             // 
+            this.guiReaderInUse.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiReaderInUse.Location = new System.Drawing.Point(568, 81);
             this.guiReaderInUse.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiReaderInUse.Name = "guiReaderInUse";
@@ -293,6 +302,7 @@ namespace WSCT.GUI
             // labelReaderInUser
             // 
             this.labelReaderInUser.AutoSize = true;
+            this.labelReaderInUser.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelReaderInUser.Location = new System.Drawing.Point(396, 87);
             this.labelReaderInUser.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelReaderInUser.Name = "labelReaderInUser";
@@ -302,6 +312,7 @@ namespace WSCT.GUI
             // 
             // guiChannelState
             // 
+            this.guiChannelState.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiChannelState.Location = new System.Drawing.Point(184, 81);
             this.guiChannelState.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiChannelState.Name = "guiChannelState";
@@ -314,6 +325,7 @@ namespace WSCT.GUI
             // labelCardChannel
             // 
             this.labelCardChannel.AutoSize = true;
+            this.labelCardChannel.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelCardChannel.Location = new System.Drawing.Point(12, 87);
             this.labelCardChannel.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelCardChannel.Name = "labelCardChannel";
@@ -323,6 +335,7 @@ namespace WSCT.GUI
             // 
             // guiContextState
             // 
+            this.guiContextState.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiContextState.Location = new System.Drawing.Point(184, 31);
             this.guiContextState.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiContextState.Name = "guiContextState";
@@ -335,6 +348,7 @@ namespace WSCT.GUI
             // labelContext
             // 
             this.labelContext.AutoSize = true;
+            this.labelContext.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelContext.Location = new System.Drawing.Point(12, 37);
             this.labelContext.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelContext.Name = "labelContext";
@@ -359,6 +373,7 @@ namespace WSCT.GUI
             this.guiGroupCardConnection.Controls.Add(this.guiProtocol);
             this.guiGroupCardConnection.Controls.Add(this.labelProtocol);
             this.guiGroupCardConnection.Enabled = false;
+            this.guiGroupCardConnection.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiGroupCardConnection.Location = new System.Drawing.Point(12, 12);
             this.guiGroupCardConnection.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiGroupCardConnection.Name = "guiGroupCardConnection";
@@ -370,6 +385,7 @@ namespace WSCT.GUI
             // 
             // guiChannelConnect
             // 
+            this.guiChannelConnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiChannelConnect.Location = new System.Drawing.Point(12, 190);
             this.guiChannelConnect.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiChannelConnect.Name = "guiChannelConnect";
@@ -382,6 +398,7 @@ namespace WSCT.GUI
             // guiFoundReaders
             // 
             this.guiFoundReaders.AutoSize = true;
+            this.guiFoundReaders.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiFoundReaders.Location = new System.Drawing.Point(618, 31);
             this.guiFoundReaders.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.guiFoundReaders.Name = "guiFoundReaders";
@@ -392,6 +409,7 @@ namespace WSCT.GUI
             // guiFoundReaderGroups
             // 
             this.guiFoundReaderGroups.AutoSize = true;
+            this.guiFoundReaderGroups.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiFoundReaderGroups.Location = new System.Drawing.Point(12, 31);
             this.guiFoundReaderGroups.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.guiFoundReaderGroups.Name = "guiFoundReaderGroups";
@@ -402,6 +420,7 @@ namespace WSCT.GUI
             // labelDisposition
             // 
             this.labelDisposition.AutoSize = true;
+            this.labelDisposition.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelDisposition.Location = new System.Drawing.Point(830, 108);
             this.labelDisposition.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelDisposition.Name = "labelDisposition";
@@ -412,6 +431,7 @@ namespace WSCT.GUI
             // guiReaderGroups
             // 
             this.guiReaderGroups.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.guiReaderGroups.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiReaderGroups.FormattingEnabled = true;
             this.guiReaderGroups.Location = new System.Drawing.Point(12, 62);
             this.guiReaderGroups.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
@@ -422,6 +442,7 @@ namespace WSCT.GUI
             // guiReaders
             // 
             this.guiReaders.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.guiReaders.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiReaders.FormattingEnabled = true;
             this.guiReaders.Location = new System.Drawing.Point(624, 62);
             this.guiReaders.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
@@ -431,6 +452,7 @@ namespace WSCT.GUI
             // 
             // guiChannelDisconnect
             // 
+            this.guiChannelDisconnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiChannelDisconnect.Location = new System.Drawing.Point(396, 190);
             this.guiChannelDisconnect.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiChannelDisconnect.Name = "guiChannelDisconnect";
@@ -443,6 +465,7 @@ namespace WSCT.GUI
             // guiShareMode
             // 
             this.guiShareMode.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.guiShareMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiShareMode.FormattingEnabled = true;
             this.guiShareMode.Location = new System.Drawing.Point(12, 138);
             this.guiShareMode.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
@@ -453,6 +476,7 @@ namespace WSCT.GUI
             // labelShareMode
             // 
             this.labelShareMode.AutoSize = true;
+            this.labelShareMode.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelShareMode.Location = new System.Drawing.Point(12, 108);
             this.labelShareMode.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelShareMode.Name = "labelShareMode";
@@ -462,6 +486,7 @@ namespace WSCT.GUI
             // 
             // guiChannelReconnect
             // 
+            this.guiChannelReconnect.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiChannelReconnect.Location = new System.Drawing.Point(204, 190);
             this.guiChannelReconnect.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiChannelReconnect.Name = "guiChannelReconnect";
@@ -474,6 +499,7 @@ namespace WSCT.GUI
             // guiDisposition
             // 
             this.guiDisposition.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.guiDisposition.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiDisposition.FormattingEnabled = true;
             this.guiDisposition.Location = new System.Drawing.Point(836, 138);
             this.guiDisposition.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
@@ -484,6 +510,7 @@ namespace WSCT.GUI
             // guiProtocol
             // 
             this.guiProtocol.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.guiProtocol.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiProtocol.FormattingEnabled = true;
             this.guiProtocol.Location = new System.Drawing.Point(424, 138);
             this.guiProtocol.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
@@ -494,6 +521,7 @@ namespace WSCT.GUI
             // labelProtocol
             // 
             this.labelProtocol.AutoSize = true;
+            this.labelProtocol.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelProtocol.Location = new System.Drawing.Point(418, 108);
             this.labelProtocol.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelProtocol.Name = "labelProtocol";
@@ -511,6 +539,7 @@ namespace WSCT.GUI
             this.guiGroupCardAttributes.Controls.Add(this.guiRawAttribute);
             this.guiGroupCardAttributes.Controls.Add(this.guiAttribute);
             this.guiGroupCardAttributes.Enabled = false;
+            this.guiGroupCardAttributes.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiGroupCardAttributes.Location = new System.Drawing.Point(12, 294);
             this.guiGroupCardAttributes.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiGroupCardAttributes.Name = "guiGroupCardAttributes";
@@ -522,6 +551,7 @@ namespace WSCT.GUI
             // 
             // guiGetAttribute
             // 
+            this.guiGetAttribute.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiGetAttribute.Location = new System.Drawing.Point(624, 37);
             this.guiGetAttribute.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiGetAttribute.Name = "guiGetAttribute";
@@ -534,6 +564,7 @@ namespace WSCT.GUI
             // labelStringAttribute
             // 
             this.labelStringAttribute.AutoSize = true;
+            this.labelStringAttribute.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelStringAttribute.Location = new System.Drawing.Point(618, 87);
             this.labelStringAttribute.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelStringAttribute.Name = "labelStringAttribute";
@@ -544,6 +575,7 @@ namespace WSCT.GUI
             // labelRawAttribute
             // 
             this.labelRawAttribute.AutoSize = true;
+            this.labelRawAttribute.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.labelRawAttribute.Location = new System.Drawing.Point(12, 88);
             this.labelRawAttribute.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.labelRawAttribute.Name = "labelRawAttribute";
@@ -553,6 +585,7 @@ namespace WSCT.GUI
             // 
             // guiStringAttribute
             // 
+            this.guiStringAttribute.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiStringAttribute.Location = new System.Drawing.Point(624, 119);
             this.guiStringAttribute.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiStringAttribute.Multiline = true;
@@ -564,6 +597,7 @@ namespace WSCT.GUI
             // 
             // guiRawAttribute
             // 
+            this.guiRawAttribute.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiRawAttribute.Location = new System.Drawing.Point(12, 119);
             this.guiRawAttribute.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiRawAttribute.Multiline = true;
@@ -576,6 +610,7 @@ namespace WSCT.GUI
             // guiAttribute
             // 
             this.guiAttribute.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.guiAttribute.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiAttribute.FormattingEnabled = true;
             this.guiAttribute.Location = new System.Drawing.Point(12, 42);
             this.guiAttribute.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
@@ -586,19 +621,21 @@ namespace WSCT.GUI
             // guiStatus
             // 
             this.guiStatus.Dock = System.Windows.Forms.DockStyle.None;
+            this.guiStatus.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiStatus.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.guiStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.guiLastError});
             this.guiStatus.Location = new System.Drawing.Point(0, 0);
             this.guiStatus.Name = "guiStatus";
             this.guiStatus.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            this.guiStatus.Size = new System.Drawing.Size(1568, 37);
+            this.guiStatus.Size = new System.Drawing.Size(1574, 30);
             this.guiStatus.TabIndex = 0;
             // 
             // guiLastError
             // 
+            this.guiLastError.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLastError.Name = "guiLastError";
-            this.guiLastError.Size = new System.Drawing.Size(152, 32);
+            this.guiLastError.Size = new System.Drawing.Size(144, 25);
             this.guiLastError.Text = "Last Error: {0}";
             // 
             // guiGroupBoxLoadedPlugins
@@ -606,11 +643,12 @@ namespace WSCT.GUI
             this.guiGroupBoxLoadedPlugins.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
             this.guiGroupBoxLoadedPlugins.Controls.Add(this.guiLoadedPlugins);
             this.guiGroupBoxLoadedPlugins.Dock = System.Windows.Forms.DockStyle.Left;
+            this.guiGroupBoxLoadedPlugins.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiGroupBoxLoadedPlugins.Location = new System.Drawing.Point(6, 6);
             this.guiGroupBoxLoadedPlugins.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiGroupBoxLoadedPlugins.Name = "guiGroupBoxLoadedPlugins";
             this.guiGroupBoxLoadedPlugins.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.guiGroupBoxLoadedPlugins.Size = new System.Drawing.Size(400, 902);
+            this.guiGroupBoxLoadedPlugins.Size = new System.Drawing.Size(400, 951);
             this.guiGroupBoxLoadedPlugins.TabIndex = 0;
             this.guiGroupBoxLoadedPlugins.TabStop = false;
             this.guiGroupBoxLoadedPlugins.Text = "Loaded plugins";
@@ -618,39 +656,32 @@ namespace WSCT.GUI
             // guiLoadedPlugins
             // 
             this.guiLoadedPlugins.Dock = System.Windows.Forms.DockStyle.Left;
+            this.guiLoadedPlugins.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLoadedPlugins.FormattingEnabled = true;
             this.guiLoadedPlugins.ItemHeight = 25;
             this.guiLoadedPlugins.Location = new System.Drawing.Point(6, 30);
             this.guiLoadedPlugins.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiLoadedPlugins.Name = "guiLoadedPlugins";
-            this.guiLoadedPlugins.Size = new System.Drawing.Size(372, 866);
+            this.guiLoadedPlugins.Size = new System.Drawing.Size(372, 915);
             this.guiLoadedPlugins.TabIndex = 0;
             this.guiLoadedPlugins.SelectedIndexChanged += new System.EventHandler(this.guiLoadedPlugins_SelectedIndexChanged);
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 31);
+            this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(12, 30);
             this.label2.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(68, 25);
             this.label2.TabIndex = 0;
             this.label2.Text = "Name";
             // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 181);
-            this.label3.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(51, 25);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "DLL";
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(12, 106);
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.Location = new System.Drawing.Point(12, 98);
             this.label4.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(128, 25);
@@ -660,7 +691,8 @@ namespace WSCT.GUI
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(12, 256);
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.Location = new System.Drawing.Point(12, 98);
             this.label5.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(125, 25);
@@ -671,26 +703,26 @@ namespace WSCT.GUI
             // 
             this.groupBox1.AutoSize = true;
             this.groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.guiPluginPathToDll);
+            this.groupBox1.Controls.Add(this.guiPluginDescription);
+            this.groupBox1.Controls.Add(this.label16);
             this.groupBox1.Controls.Add(this.label4);
             this.groupBox1.Controls.Add(this.guiPluginClassName);
-            this.groupBox1.Controls.Add(this.label3);
-            this.groupBox1.Controls.Add(this.guiPluginDLL);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.guiPluginName);
-            this.groupBox1.Location = new System.Drawing.Point(424, 12);
+            this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox1.Location = new System.Drawing.Point(418, 6);
             this.groupBox1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.groupBox1.Size = new System.Drawing.Size(868, 354);
+            this.groupBox1.Size = new System.Drawing.Size(868, 306);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Plugin Description";
             // 
             // guiPluginPathToDll
             // 
-            this.guiPluginPathToDll.Location = new System.Drawing.Point(12, 287);
+            this.guiPluginPathToDll.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guiPluginPathToDll.Location = new System.Drawing.Point(12, 129);
             this.guiPluginPathToDll.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiPluginPathToDll.Name = "guiPluginPathToDll";
             this.guiPluginPathToDll.ReadOnly = true;
@@ -699,25 +731,18 @@ namespace WSCT.GUI
             // 
             // guiPluginClassName
             // 
-            this.guiPluginClassName.Location = new System.Drawing.Point(12, 137);
+            this.guiPluginClassName.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guiPluginClassName.Location = new System.Drawing.Point(12, 129);
             this.guiPluginClassName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiPluginClassName.Name = "guiPluginClassName";
             this.guiPluginClassName.ReadOnly = true;
             this.guiPluginClassName.Size = new System.Drawing.Size(844, 31);
             this.guiPluginClassName.TabIndex = 3;
             // 
-            // guiPluginDLL
-            // 
-            this.guiPluginDLL.Location = new System.Drawing.Point(12, 212);
-            this.guiPluginDLL.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.guiPluginDLL.Name = "guiPluginDLL";
-            this.guiPluginDLL.ReadOnly = true;
-            this.guiPluginDLL.Size = new System.Drawing.Size(844, 31);
-            this.guiPluginDLL.TabIndex = 5;
-            // 
             // guiPluginName
             // 
-            this.guiPluginName.Location = new System.Drawing.Point(12, 62);
+            this.guiPluginName.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guiPluginName.Location = new System.Drawing.Point(12, 61);
             this.guiPluginName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiPluginName.Name = "guiPluginName";
             this.guiPluginName.ReadOnly = true;
@@ -727,7 +752,8 @@ namespace WSCT.GUI
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(12, 31);
+            this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label6.Location = new System.Drawing.Point(12, 166);
             this.label6.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(85, 25);
@@ -737,7 +763,8 @@ namespace WSCT.GUI
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(12, 106);
+            this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label7.Location = new System.Drawing.Point(12, 30);
             this.label7.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(68, 25);
@@ -748,17 +775,20 @@ namespace WSCT.GUI
             // 
             this.groupBox2.AutoSize = true;
             this.groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox2.Controls.Add(this.label5);
+            this.groupBox2.Controls.Add(this.guiPluginPathToDll);
             this.groupBox2.Controls.Add(this.label15);
             this.groupBox2.Controls.Add(this.label7);
             this.groupBox2.Controls.Add(this.guiPluginAssemblyName);
             this.groupBox2.Controls.Add(this.label6);
             this.groupBox2.Controls.Add(this.guiPluginAssemblyVersion);
             this.groupBox2.Controls.Add(this.guiPluginAssemblyDescription);
-            this.groupBox2.Location = new System.Drawing.Point(424, 385);
+            this.groupBox2.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.groupBox2.Location = new System.Drawing.Point(418, 324);
             this.groupBox2.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.groupBox2.Size = new System.Drawing.Size(868, 321);
+            this.groupBox2.Size = new System.Drawing.Size(868, 374);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Plugin Assembly Informations";
@@ -766,7 +796,8 @@ namespace WSCT.GUI
             // label15
             // 
             this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(12, 181);
+            this.label15.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label15.Location = new System.Drawing.Point(12, 234);
             this.label15.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label15.Name = "label15";
             this.label15.Size = new System.Drawing.Size(120, 25);
@@ -775,7 +806,8 @@ namespace WSCT.GUI
             // 
             // guiPluginAssemblyName
             // 
-            this.guiPluginAssemblyName.Location = new System.Drawing.Point(12, 137);
+            this.guiPluginAssemblyName.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guiPluginAssemblyName.Location = new System.Drawing.Point(12, 61);
             this.guiPluginAssemblyName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiPluginAssemblyName.Name = "guiPluginAssemblyName";
             this.guiPluginAssemblyName.ReadOnly = true;
@@ -784,7 +816,8 @@ namespace WSCT.GUI
             // 
             // guiPluginAssemblyVersion
             // 
-            this.guiPluginAssemblyVersion.Location = new System.Drawing.Point(12, 62);
+            this.guiPluginAssemblyVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guiPluginAssemblyVersion.Location = new System.Drawing.Point(12, 197);
             this.guiPluginAssemblyVersion.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiPluginAssemblyVersion.Name = "guiPluginAssemblyVersion";
             this.guiPluginAssemblyVersion.ReadOnly = true;
@@ -793,7 +826,8 @@ namespace WSCT.GUI
             // 
             // guiPluginAssemblyDescription
             // 
-            this.guiPluginAssemblyDescription.Location = new System.Drawing.Point(12, 212);
+            this.guiPluginAssemblyDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guiPluginAssemblyDescription.Location = new System.Drawing.Point(12, 265);
             this.guiPluginAssemblyDescription.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiPluginAssemblyDescription.Multiline = true;
             this.guiPluginAssemblyDescription.Name = "guiPluginAssemblyDescription";
@@ -811,6 +845,7 @@ namespace WSCT.GUI
             this.groupBox3.Controls.Add(this.guiLayerAssemblyName);
             this.groupBox3.Controls.Add(this.label9);
             this.groupBox3.Controls.Add(this.guiLayerAssemblyVersion);
+            this.groupBox3.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox3.Location = new System.Drawing.Point(424, 385);
             this.groupBox3.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.groupBox3.Name = "groupBox3";
@@ -823,6 +858,7 @@ namespace WSCT.GUI
             // label14
             // 
             this.label14.AutoSize = true;
+            this.label14.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label14.Location = new System.Drawing.Point(12, 181);
             this.label14.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label14.Name = "label14";
@@ -832,6 +868,7 @@ namespace WSCT.GUI
             // 
             // guiLayerAssemblyDescription
             // 
+            this.guiLayerAssemblyDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLayerAssemblyDescription.Location = new System.Drawing.Point(12, 212);
             this.guiLayerAssemblyDescription.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiLayerAssemblyDescription.Multiline = true;
@@ -843,6 +880,7 @@ namespace WSCT.GUI
             // label8
             // 
             this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label8.Location = new System.Drawing.Point(12, 106);
             this.label8.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label8.Name = "label8";
@@ -852,6 +890,7 @@ namespace WSCT.GUI
             // 
             // guiLayerAssemblyName
             // 
+            this.guiLayerAssemblyName.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLayerAssemblyName.Location = new System.Drawing.Point(12, 137);
             this.guiLayerAssemblyName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiLayerAssemblyName.Name = "guiLayerAssemblyName";
@@ -862,6 +901,7 @@ namespace WSCT.GUI
             // label9
             // 
             this.label9.AutoSize = true;
+            this.label9.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label9.Location = new System.Drawing.Point(12, 31);
             this.label9.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label9.Name = "label9";
@@ -871,6 +911,7 @@ namespace WSCT.GUI
             // 
             // guiLayerAssemblyVersion
             // 
+            this.guiLayerAssemblyVersion.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLayerAssemblyVersion.Location = new System.Drawing.Point(12, 62);
             this.guiLayerAssemblyVersion.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiLayerAssemblyVersion.Name = "guiLayerAssemblyVersion";
@@ -890,6 +931,7 @@ namespace WSCT.GUI
             this.groupBox4.Controls.Add(this.guiLayerDLL);
             this.groupBox4.Controls.Add(this.label13);
             this.groupBox4.Controls.Add(this.guiLayerName);
+            this.groupBox4.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox4.Location = new System.Drawing.Point(424, 12);
             this.groupBox4.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.groupBox4.Name = "groupBox4";
@@ -902,6 +944,7 @@ namespace WSCT.GUI
             // label10
             // 
             this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label10.Location = new System.Drawing.Point(12, 256);
             this.label10.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label10.Name = "label10";
@@ -911,6 +954,7 @@ namespace WSCT.GUI
             // 
             // guiLayerPathToDll
             // 
+            this.guiLayerPathToDll.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLayerPathToDll.Location = new System.Drawing.Point(12, 287);
             this.guiLayerPathToDll.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiLayerPathToDll.Name = "guiLayerPathToDll";
@@ -921,6 +965,7 @@ namespace WSCT.GUI
             // label11
             // 
             this.label11.AutoSize = true;
+            this.label11.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label11.Location = new System.Drawing.Point(12, 106);
             this.label11.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label11.Name = "label11";
@@ -930,6 +975,7 @@ namespace WSCT.GUI
             // 
             // guiLayerClassName
             // 
+            this.guiLayerClassName.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLayerClassName.Location = new System.Drawing.Point(12, 137);
             this.guiLayerClassName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiLayerClassName.Name = "guiLayerClassName";
@@ -940,6 +986,7 @@ namespace WSCT.GUI
             // label12
             // 
             this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label12.Location = new System.Drawing.Point(12, 181);
             this.label12.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label12.Name = "label12";
@@ -949,6 +996,7 @@ namespace WSCT.GUI
             // 
             // guiLayerDLL
             // 
+            this.guiLayerDLL.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLayerDLL.Location = new System.Drawing.Point(12, 212);
             this.guiLayerDLL.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiLayerDLL.Name = "guiLayerDLL";
@@ -959,6 +1007,7 @@ namespace WSCT.GUI
             // label13
             // 
             this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label13.Location = new System.Drawing.Point(12, 31);
             this.label13.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
             this.label13.Name = "label13";
@@ -968,6 +1017,7 @@ namespace WSCT.GUI
             // 
             // guiLayerName
             // 
+            this.guiLayerName.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLayerName.Location = new System.Drawing.Point(12, 62);
             this.guiLayerName.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiLayerName.Name = "guiLayerName";
@@ -981,17 +1031,19 @@ namespace WSCT.GUI
             this.groupBox5.Controls.Add(this.guiLoadedContextLayers);
             this.groupBox5.Controls.Add(this.guiLoadedChannelLayers);
             this.groupBox5.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox5.Location = new System.Drawing.Point(6, 6);
             this.groupBox5.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.groupBox5.Size = new System.Drawing.Size(400, 902);
+            this.groupBox5.Size = new System.Drawing.Size(400, 1420);
             this.groupBox5.TabIndex = 0;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Loaded layers";
             // 
             // guiLoadedContextLayers
             // 
+            this.guiLoadedContextLayers.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLoadedContextLayers.FormattingEnabled = true;
             this.guiLoadedContextLayers.ItemHeight = 25;
             this.guiLoadedContextLayers.Location = new System.Drawing.Point(6, 456);
@@ -1003,6 +1055,7 @@ namespace WSCT.GUI
             // 
             // guiLoadedChannelLayers
             // 
+            this.guiLoadedChannelLayers.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLoadedChannelLayers.FormattingEnabled = true;
             this.guiLoadedChannelLayers.ItemHeight = 25;
             this.guiLoadedChannelLayers.Location = new System.Drawing.Point(6, 37);
@@ -1021,23 +1074,25 @@ namespace WSCT.GUI
             this.guiTabs.Controls.Add(this.guiTabLogs);
             this.guiTabs.Controls.Add(this.guiTabPlugins);
             this.guiTabs.Controls.Add(this.tabPage1);
+            this.guiTabs.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiTabs.HotTrack = true;
             this.guiTabs.Location = new System.Drawing.Point(240, 6);
             this.guiTabs.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiTabs.Multiline = true;
             this.guiTabs.Name = "guiTabs";
             this.guiTabs.SelectedIndex = 0;
-            this.guiTabs.Size = new System.Drawing.Size(1338, 961);
+            this.guiTabs.Size = new System.Drawing.Size(1344, 1010);
             this.guiTabs.TabIndex = 1;
             // 
             // guiTabLogs
             // 
             this.guiTabLogs.Controls.Add(this.guiLogsView);
+            this.guiTabLogs.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiTabLogs.Location = new System.Drawing.Point(8, 39);
             this.guiTabLogs.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiTabLogs.Name = "guiTabLogs";
             this.guiTabLogs.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.guiTabLogs.Size = new System.Drawing.Size(1322, 843);
+            this.guiTabLogs.Size = new System.Drawing.Size(1892, 1432);
             this.guiTabLogs.TabIndex = 4;
             this.guiTabLogs.Text = "Logs";
             this.guiTabLogs.UseVisualStyleBackColor = true;
@@ -1047,11 +1102,11 @@ namespace WSCT.GUI
             this.guiLogsView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.guiLogsView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guiLogsView.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLogsView.Location = new System.Drawing.Point(12, 12);
             this.guiLogsView.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiLogsView.Name = "guiLogsView";
-            this.guiLogsView.Size = new System.Drawing.Size(1278, 837);
+            this.guiLogsView.Size = new System.Drawing.Size(1278, 908);
             this.guiLogsView.TabIndex = 0;
             this.guiLogsView.Text = "";
             this.guiLogsView.WordWrap = false;
@@ -1061,11 +1116,12 @@ namespace WSCT.GUI
             this.guiTabPlugins.Controls.Add(this.groupBox2);
             this.guiTabPlugins.Controls.Add(this.groupBox1);
             this.guiTabPlugins.Controls.Add(this.guiGroupBoxLoadedPlugins);
+            this.guiTabPlugins.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiTabPlugins.Location = new System.Drawing.Point(8, 39);
             this.guiTabPlugins.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.guiTabPlugins.Name = "guiTabPlugins";
             this.guiTabPlugins.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.guiTabPlugins.Size = new System.Drawing.Size(1322, 914);
+            this.guiTabPlugins.Size = new System.Drawing.Size(1328, 963);
             this.guiTabPlugins.TabIndex = 5;
             this.guiTabPlugins.Text = "Plugins";
             this.guiTabPlugins.UseVisualStyleBackColor = true;
@@ -1075,11 +1131,12 @@ namespace WSCT.GUI
             this.tabPage1.Controls.Add(this.groupBox3);
             this.tabPage1.Controls.Add(this.groupBox4);
             this.tabPage1.Controls.Add(this.groupBox5);
+            this.tabPage1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage1.Location = new System.Drawing.Point(8, 39);
             this.tabPage1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.tabPage1.Size = new System.Drawing.Size(1322, 914);
+            this.tabPage1.Size = new System.Drawing.Size(1892, 1432);
             this.tabPage1.TabIndex = 6;
             this.tabPage1.Text = "Layers";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -1098,12 +1155,13 @@ namespace WSCT.GUI
             this.toolStripContainer1.ContentPanel.Controls.Add(this.guiGroupCard);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.guiGroupContext);
             this.toolStripContainer1.ContentPanel.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1568, 1008);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(1574, 1066);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStripContainer1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(1568, 1085);
+            this.toolStripContainer1.Size = new System.Drawing.Size(1574, 1129);
             this.toolStripContainer1.TabIndex = 8;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -1114,6 +1172,7 @@ namespace WSCT.GUI
             // guiMenu
             // 
             this.guiMenu.Dock = System.Windows.Forms.DockStyle.None;
+            this.guiMenu.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.guiMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.guiFileMenuItem,
@@ -1121,7 +1180,7 @@ namespace WSCT.GUI
             this.guiHelpMenuItem});
             this.guiMenu.Location = new System.Drawing.Point(0, 0);
             this.guiMenu.Name = "guiMenu";
-            this.guiMenu.Size = new System.Drawing.Size(1568, 40);
+            this.guiMenu.Size = new System.Drawing.Size(1574, 33);
             this.guiMenu.TabIndex = 0;
             this.guiMenu.Text = "menuStrip1";
             // 
@@ -1129,41 +1188,47 @@ namespace WSCT.GUI
             // 
             this.guiFileMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.guiQuit});
+            this.guiFileMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiFileMenuItem.Name = "guiFileMenuItem";
-            this.guiFileMenuItem.Size = new System.Drawing.Size(64, 36);
+            this.guiFileMenuItem.Size = new System.Drawing.Size(59, 29);
             this.guiFileMenuItem.Text = "&File";
             // 
             // guiQuit
             // 
+            this.guiQuit.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiQuit.Name = "guiQuit";
-            this.guiQuit.Size = new System.Drawing.Size(160, 38);
+            this.guiQuit.Size = new System.Drawing.Size(147, 38);
             this.guiQuit.Text = "&Quit";
             this.guiQuit.Click += new System.EventHandler(this.guiQuit_Click);
             // 
             // guiPluginsMenuItem
             // 
+            this.guiPluginsMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiPluginsMenuItem.Name = "guiPluginsMenuItem";
-            this.guiPluginsMenuItem.Size = new System.Drawing.Size(104, 36);
+            this.guiPluginsMenuItem.Size = new System.Drawing.Size(95, 29);
             this.guiPluginsMenuItem.Text = "Plugins";
             // 
             // guiHelpMenuItem
             // 
             this.guiHelpMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.guiAboutWinSCardGUI});
+            this.guiHelpMenuItem.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiHelpMenuItem.Name = "guiHelpMenuItem";
-            this.guiHelpMenuItem.Size = new System.Drawing.Size(77, 36);
+            this.guiHelpMenuItem.Size = new System.Drawing.Size(68, 29);
             this.guiHelpMenuItem.Text = "&Help";
             // 
             // guiAboutWinSCardGUI
             // 
+            this.guiAboutWinSCardGUI.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiAboutWinSCardGUI.Name = "guiAboutWinSCardGUI";
-            this.guiAboutWinSCardGUI.Size = new System.Drawing.Size(335, 38);
+            this.guiAboutWinSCardGUI.Size = new System.Drawing.Size(324, 38);
             this.guiAboutWinSCardGUI.Text = "&About WinSCard GUI";
             this.guiAboutWinSCardGUI.Click += new System.EventHandler(this.guiAboutWinSCardGUI_Click);
             // 
             // comboBox1
             // 
             this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Location = new System.Drawing.Point(6, 32);
             this.comboBox1.Name = "comboBox1";
@@ -1173,17 +1238,41 @@ namespace WSCT.GUI
             // label1
             // 
             this.label1.AutoSize = true;
+            this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.Location = new System.Drawing.Point(6, 16);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(49, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Found: 0";
             // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(12, 166);
+            this.label16.Margin = new System.Windows.Forms.Padding(6, 0, 6, 0);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(120, 25);
+            this.label16.TabIndex = 5;
+            this.label16.Text = "Description";
+            // 
+            // guiPluginDescription
+            // 
+            this.guiPluginDescription.Font = new System.Drawing.Font("Microsoft Sans Serif", 7.875F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.guiPluginDescription.Location = new System.Drawing.Point(12, 197);
+            this.guiPluginDescription.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
+            this.guiPluginDescription.Multiline = true;
+            this.guiPluginDescription.Name = "guiPluginDescription";
+            this.guiPluginDescription.ReadOnly = true;
+            this.guiPluginDescription.Size = new System.Drawing.Size(844, 73);
+            this.guiPluginDescription.TabIndex = 6;
+            // 
             // WinSCardGui
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1568, 1085);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(192F, 192F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Dpi;
+            this.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.ClientSize = new System.Drawing.Size(1574, 1129);
             this.Controls.Add(this.toolStripContainer1);
             this.MainMenuStrip = this.guiMenu;
             this.Margin = new System.Windows.Forms.Padding(6, 6, 6, 6);
@@ -1272,7 +1361,6 @@ namespace WSCT.GUI
         private System.Windows.Forms.ToolStripMenuItem guiPluginsMenuItem;
 		private System.Windows.Forms.TabPage guiTabPlugins;
 		private System.Windows.Forms.ListBox guiLoadedPlugins;
-		private System.Windows.Forms.TextBox guiPluginDLL;
 		private System.Windows.Forms.TextBox guiPluginName;
 		private System.Windows.Forms.TextBox guiPluginClassName;
 		private System.Windows.Forms.TextBox guiPluginPathToDll;
@@ -1305,7 +1393,6 @@ namespace WSCT.GUI
         private System.Windows.Forms.StatusStrip guiStatus;
         private System.Windows.Forms.GroupBox guiGroupBoxLoadedPlugins;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.GroupBox groupBox1;
@@ -1324,6 +1411,8 @@ namespace WSCT.GUI
         private System.Windows.Forms.Label label13;
         private System.Windows.Forms.GroupBox groupBox5;
         private System.Windows.Forms.TextBox guiPluginAssemblyDescription;
-	}
+        private System.Windows.Forms.TextBox guiPluginDescription;
+        private System.Windows.Forms.Label label16;
+    }
 }
 
