@@ -30,6 +30,8 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         public Gui()
         {
             InitializeComponent();
+            
+            Icon = Common.Resources.Icons.WSCT;
 
             statusWordDictionary = SerializedObject<StatusWordDictionary>.LoadFromXml(@"Dictionary.StatusWord.xml");
 

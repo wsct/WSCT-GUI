@@ -14,17 +14,6 @@
     <Win32Resource />
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Resources\WinSCardGui.Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\WinSCardGui.Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Resources\Icons.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Icons.resx</DependentUpon>
-    </Compile>
     <Compile Update="WinSCardGui.cs" SubType="Form" />
     <Compile Update="WinSCardGui.designer.cs" SubType="Form" DependentUpon="WinSCardGui.cs" />
   </ItemGroup>
@@ -37,15 +26,10 @@
     <PackageReference Include="WSCT.Wrapper.Desktop" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WSCT.GUI.Common.Resources\WSCT.GUI.Common.Resources.csproj" />
     <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\Icons.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Icons.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
   </ItemGroup>
 </Project>

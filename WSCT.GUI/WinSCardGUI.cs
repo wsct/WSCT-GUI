@@ -35,7 +35,7 @@ namespace WSCT.GUI
         {
             InitializeComponent();
 
-            Icon = Icons.WinSCardGui_Icon;
+            Icon = Common.Resources.Icons.WSCT;
 
             guiShareMode.DataSource = Enum.GetValues(typeof(ShareMode));
             guiShareMode.SelectedItem = ShareMode.Shared;
