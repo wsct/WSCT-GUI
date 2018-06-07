@@ -9,20 +9,24 @@
     <AssemblyName>WSCT.GUI</AssemblyName>
     <RootNamespace>WSCT.GUI</RootNamespace>
     <Description>Simple but Extensible Graphic User Interface for using WinSCard API.</Description>
-    <ApplicationIcon>Resources\$this.Icon.ico</ApplicationIcon>
+    <ApplicationIcon></ApplicationIcon>
     <Version>5.1.0</Version>
+    <Win32Resource />
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Resources\%24this.Icon.ico" />
+    <Compile Update="WinSCardGui.cs" SubType="Form" />
+    <Compile Update="WinSCardGui.designer.cs" SubType="Form" DependentUpon="WinSCardGui.cs" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\$this.Icon.ico" />
+    <Compile Update="AboutWinSCardGUI.cs" SubType="Form" />
+    <Compile Update="AboutWinSCardGUI.designer.cs" SubType="Form" DependentUpon="AboutWinSCardGUI.cs" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="WSCT.Core" Version="6.1.0" />
     <PackageReference Include="WSCT.Wrapper.Desktop" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\WSCT.GUI.Common.Resources\WSCT.GUI.Common.Resources.csproj" />
     <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />
   </ItemGroup>
   <ItemGroup>

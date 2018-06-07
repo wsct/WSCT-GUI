@@ -1,3 +1,5 @@
+using System.Drawing;
+
 namespace WSCT.GUI
 {
 	/// <summary>
@@ -31,88 +33,87 @@ namespace WSCT.GUI
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.GroupBox guiGroupCard;
-            System.Windows.Forms.GroupBox guiGroupContext;
-            System.Windows.Forms.TabPage guiTabConnection;
-            System.Windows.Forms.Label labelReaderInUser;
-            System.Windows.Forms.Label labelCardChannel;
-            System.Windows.Forms.Label labelContext;
-            System.Windows.Forms.Label labelDisposition;
-            System.Windows.Forms.Label labelShareMode;
-            System.Windows.Forms.Label labelProtocol;
-            System.Windows.Forms.Label labelStringAttribute;
-            System.Windows.Forms.Label labelRawAttribute;
-            System.Windows.Forms.StatusStrip guiStatus;
-            System.Windows.Forms.GroupBox guiGroupBoxLoadedPlugins;
-            System.Windows.Forms.Label label2;
-            System.Windows.Forms.Label label3;
-            System.Windows.Forms.Label label4;
-            System.Windows.Forms.Label label5;
-            System.Windows.Forms.GroupBox groupBox1;
-            System.Windows.Forms.Label label6;
-            System.Windows.Forms.Label label7;
-            System.Windows.Forms.GroupBox groupBox2;
-            System.Windows.Forms.Label label15;
-            System.Windows.Forms.GroupBox groupBox3;
-            System.Windows.Forms.Label label14;
-            System.Windows.Forms.Label label8;
-            System.Windows.Forms.Label label9;
-            System.Windows.Forms.GroupBox groupBox4;
-            System.Windows.Forms.Label label10;
-            System.Windows.Forms.Label label11;
-            System.Windows.Forms.Label label12;
-            System.Windows.Forms.Label label13;
-            System.Windows.Forms.GroupBox groupBox5;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WinSCardGui));
+            System.Windows.Forms.GroupBox guiPluginDescriptionGroupBox;
+            System.Windows.Forms.GroupBox guiPluginAssemblyInfoGroupBox;
+            this.label2 = new System.Windows.Forms.Label();
+            this.guiPluginName = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.guiPluginClassName = new System.Windows.Forms.TextBox();
+            this.label16 = new System.Windows.Forms.Label();
+            this.guiPluginDescription = new System.Windows.Forms.TextBox();
+            this.guiGroupCard = new System.Windows.Forms.GroupBox();
             this.guiCardConnect = new System.Windows.Forms.Button();
             this.guiCardWarmReset = new System.Windows.Forms.Button();
             this.guiCardUnpower = new System.Windows.Forms.Button();
             this.guiCardColdReset = new System.Windows.Forms.Button();
+            this.guiGroupContext = new System.Windows.Forms.GroupBox();
             this.guiContextRelease = new System.Windows.Forms.Button();
             this.guiContextEstablish = new System.Windows.Forms.Button();
+            this.guiTabConnection = new System.Windows.Forms.TabPage();
             this.guiGroupCardInformations = new System.Windows.Forms.GroupBox();
             this.guiReaderInUse = new System.Windows.Forms.TextBox();
+            this.labelReaderInUser = new System.Windows.Forms.Label();
             this.guiChannelState = new System.Windows.Forms.TextBox();
+            this.labelCardChannel = new System.Windows.Forms.Label();
             this.guiContextState = new System.Windows.Forms.TextBox();
+            this.labelContext = new System.Windows.Forms.Label();
             this.guiGroupCardConnection = new System.Windows.Forms.GroupBox();
             this.guiChannelConnect = new System.Windows.Forms.Button();
             this.guiFoundReaders = new System.Windows.Forms.Label();
             this.guiFoundReaderGroups = new System.Windows.Forms.Label();
+            this.labelDisposition = new System.Windows.Forms.Label();
             this.guiReaderGroups = new System.Windows.Forms.ComboBox();
             this.guiReaders = new System.Windows.Forms.ComboBox();
             this.guiChannelDisconnect = new System.Windows.Forms.Button();
             this.guiShareMode = new System.Windows.Forms.ComboBox();
+            this.labelShareMode = new System.Windows.Forms.Label();
             this.guiChannelReconnect = new System.Windows.Forms.Button();
             this.guiDisposition = new System.Windows.Forms.ComboBox();
             this.guiProtocol = new System.Windows.Forms.ComboBox();
+            this.labelProtocol = new System.Windows.Forms.Label();
             this.guiGroupCardAttributes = new System.Windows.Forms.GroupBox();
             this.guiGetAttribute = new System.Windows.Forms.Button();
+            this.labelStringAttribute = new System.Windows.Forms.Label();
+            this.labelRawAttribute = new System.Windows.Forms.Label();
             this.guiStringAttribute = new System.Windows.Forms.TextBox();
             this.guiRawAttribute = new System.Windows.Forms.TextBox();
             this.guiAttribute = new System.Windows.Forms.ComboBox();
+            this.guiStatus = new System.Windows.Forms.StatusStrip();
             this.guiLastError = new System.Windows.Forms.ToolStripStatusLabel();
-            this.guiLoadedPlugins = new System.Windows.Forms.ListBox();
-            this.guiPluginPathToDll = new System.Windows.Forms.TextBox();
-            this.guiPluginClassName = new System.Windows.Forms.TextBox();
-            this.guiPluginDLL = new System.Windows.Forms.TextBox();
-            this.guiPluginName = new System.Windows.Forms.TextBox();
+            this.guiGroupBoxLoadedPlugins = new System.Windows.Forms.GroupBox();
+            this.guiAvailablePlugins = new System.Windows.Forms.ListBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.guiPluginAssemblyPath = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
             this.guiPluginAssemblyName = new System.Windows.Forms.TextBox();
             this.guiPluginAssemblyVersion = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
             this.guiPluginAssemblyDescription = new System.Windows.Forms.TextBox();
+            this.guiLayerAssemblyInfoGroupBox = new System.Windows.Forms.GroupBox();
+            this.label14 = new System.Windows.Forms.Label();
             this.guiLayerAssemblyDescription = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.guiLayerAssemblyName = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.guiLayerAssemblyVersion = new System.Windows.Forms.TextBox();
+            this.guiLayerDescriptionGroupBox = new System.Windows.Forms.GroupBox();
+            this.label10 = new System.Windows.Forms.Label();
             this.guiLayerPathToDll = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
             this.guiLayerClassName = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
             this.guiLayerDLL = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.guiLayerName = new System.Windows.Forms.TextBox();
-            this.guiLoadedContextLayers = new System.Windows.Forms.ListBox();
-            this.guiLoadedChannelLayers = new System.Windows.Forms.ListBox();
+            this.guiAvailableLayersGroupBox = new System.Windows.Forms.GroupBox();
+            this.guiAvailableContextLayers = new System.Windows.Forms.ListBox();
+            this.guiAvailableChannelLayers = new System.Windows.Forms.ListBox();
             this.guiTabs = new System.Windows.Forms.TabControl();
             this.guiTabLogs = new System.Windows.Forms.TabPage();
             this.guiLogsView = new System.Windows.Forms.RichTextBox();
             this.guiTabPlugins = new System.Windows.Forms.TabPage();
-            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.guiTabLayers = new System.Windows.Forms.TabPage();
             this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
             this.guiMenu = new System.Windows.Forms.MenuStrip();
             this.guiFileMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -122,55 +123,25 @@ namespace WSCT.GUI
             this.guiAboutWinSCardGUI = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            guiGroupCard = new System.Windows.Forms.GroupBox();
-            guiGroupContext = new System.Windows.Forms.GroupBox();
-            guiTabConnection = new System.Windows.Forms.TabPage();
-            labelReaderInUser = new System.Windows.Forms.Label();
-            labelCardChannel = new System.Windows.Forms.Label();
-            labelContext = new System.Windows.Forms.Label();
-            labelDisposition = new System.Windows.Forms.Label();
-            labelShareMode = new System.Windows.Forms.Label();
-            labelProtocol = new System.Windows.Forms.Label();
-            labelStringAttribute = new System.Windows.Forms.Label();
-            labelRawAttribute = new System.Windows.Forms.Label();
-            guiStatus = new System.Windows.Forms.StatusStrip();
-            guiGroupBoxLoadedPlugins = new System.Windows.Forms.GroupBox();
-            label2 = new System.Windows.Forms.Label();
-            label3 = new System.Windows.Forms.Label();
-            label4 = new System.Windows.Forms.Label();
-            label5 = new System.Windows.Forms.Label();
-            groupBox1 = new System.Windows.Forms.GroupBox();
-            label6 = new System.Windows.Forms.Label();
-            label7 = new System.Windows.Forms.Label();
-            groupBox2 = new System.Windows.Forms.GroupBox();
-            label15 = new System.Windows.Forms.Label();
-            groupBox3 = new System.Windows.Forms.GroupBox();
-            label14 = new System.Windows.Forms.Label();
-            label8 = new System.Windows.Forms.Label();
-            label9 = new System.Windows.Forms.Label();
-            groupBox4 = new System.Windows.Forms.GroupBox();
-            label10 = new System.Windows.Forms.Label();
-            label11 = new System.Windows.Forms.Label();
-            label12 = new System.Windows.Forms.Label();
-            label13 = new System.Windows.Forms.Label();
-            groupBox5 = new System.Windows.Forms.GroupBox();
-            guiGroupCard.SuspendLayout();
-            guiGroupContext.SuspendLayout();
-            guiTabConnection.SuspendLayout();
+            guiPluginDescriptionGroupBox = new System.Windows.Forms.GroupBox();
+            guiPluginAssemblyInfoGroupBox = new System.Windows.Forms.GroupBox();
+            guiPluginDescriptionGroupBox.SuspendLayout();
+            this.guiGroupCard.SuspendLayout();
+            this.guiGroupContext.SuspendLayout();
+            this.guiTabConnection.SuspendLayout();
             this.guiGroupCardInformations.SuspendLayout();
             this.guiGroupCardConnection.SuspendLayout();
             this.guiGroupCardAttributes.SuspendLayout();
-            guiStatus.SuspendLayout();
-            guiGroupBoxLoadedPlugins.SuspendLayout();
-            groupBox1.SuspendLayout();
-            groupBox2.SuspendLayout();
-            groupBox3.SuspendLayout();
-            groupBox4.SuspendLayout();
-            groupBox5.SuspendLayout();
+            this.guiStatus.SuspendLayout();
+            this.guiGroupBoxLoadedPlugins.SuspendLayout();
+            guiPluginAssemblyInfoGroupBox.SuspendLayout();
+            this.guiLayerAssemblyInfoGroupBox.SuspendLayout();
+            this.guiLayerDescriptionGroupBox.SuspendLayout();
+            this.guiAvailableLayersGroupBox.SuspendLayout();
             this.guiTabs.SuspendLayout();
             this.guiTabLogs.SuspendLayout();
             this.guiTabPlugins.SuspendLayout();
-            this.tabPage1.SuspendLayout();
+            this.guiTabLayers.SuspendLayout();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
             this.toolStripContainer1.ContentPanel.SuspendLayout();
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
@@ -178,20 +149,95 @@ namespace WSCT.GUI
             this.guiMenu.SuspendLayout();
             this.SuspendLayout();
             // 
+            // guiPluginDescriptionGroupBox
+            // 
+            guiPluginDescriptionGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            guiPluginDescriptionGroupBox.Controls.Add(this.label2);
+            guiPluginDescriptionGroupBox.Controls.Add(this.guiPluginName);
+            guiPluginDescriptionGroupBox.Controls.Add(this.label4);
+            guiPluginDescriptionGroupBox.Controls.Add(this.guiPluginClassName);
+            guiPluginDescriptionGroupBox.Controls.Add(this.label16);
+            guiPluginDescriptionGroupBox.Controls.Add(this.guiPluginDescription);
+            guiPluginDescriptionGroupBox.Location = new System.Drawing.Point(209, 6);
+            guiPluginDescriptionGroupBox.Name = "guiPluginDescriptionGroupBox";
+            guiPluginDescriptionGroupBox.Size = new System.Drawing.Size(450, 169);
+            guiPluginDescriptionGroupBox.TabIndex = 1;
+            guiPluginDescriptionGroupBox.TabStop = false;
+            guiPluginDescriptionGroupBox.Text = "Plugin Description";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 16);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(35, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Name";
+            // 
+            // guiPluginName
+            // 
+            this.guiPluginName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiPluginName.Location = new System.Drawing.Point(6, 32);
+            this.guiPluginName.Name = "guiPluginName";
+            this.guiPluginName.ReadOnly = true;
+            this.guiPluginName.Size = new System.Drawing.Size(438, 20);
+            this.guiPluginName.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(6, 55);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(63, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Class Name";
+            // 
+            // guiPluginClassName
+            // 
+            this.guiPluginClassName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiPluginClassName.Location = new System.Drawing.Point(6, 71);
+            this.guiPluginClassName.Name = "guiPluginClassName";
+            this.guiPluginClassName.ReadOnly = true;
+            this.guiPluginClassName.Size = new System.Drawing.Size(438, 20);
+            this.guiPluginClassName.TabIndex = 3;
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Location = new System.Drawing.Point(6, 94);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(60, 13);
+            this.label16.TabIndex = 5;
+            this.label16.Text = "Description";
+            // 
+            // guiPluginDescription
+            // 
+            this.guiPluginDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiPluginDescription.Location = new System.Drawing.Point(6, 110);
+            this.guiPluginDescription.Multiline = true;
+            this.guiPluginDescription.Name = "guiPluginDescription";
+            this.guiPluginDescription.ReadOnly = true;
+            this.guiPluginDescription.Size = new System.Drawing.Size(438, 40);
+            this.guiPluginDescription.TabIndex = 6;
+            // 
             // guiGroupCard
             // 
-            guiGroupCard.AutoSize = true;
-            guiGroupCard.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            guiGroupCard.Controls.Add(this.guiCardConnect);
-            guiGroupCard.Controls.Add(this.guiCardWarmReset);
-            guiGroupCard.Controls.Add(this.guiCardUnpower);
-            guiGroupCard.Controls.Add(this.guiCardColdReset);
-            guiGroupCard.Location = new System.Drawing.Point(12, 99);
-            guiGroupCard.Name = "guiGroupCard";
-            guiGroupCard.Size = new System.Drawing.Size(102, 148);
-            guiGroupCard.TabIndex = 1;
-            guiGroupCard.TabStop = false;
-            guiGroupCard.Text = "Quick Connect";
+            this.guiGroupCard.AutoSize = true;
+            this.guiGroupCard.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.guiGroupCard.Controls.Add(this.guiCardConnect);
+            this.guiGroupCard.Controls.Add(this.guiCardWarmReset);
+            this.guiGroupCard.Controls.Add(this.guiCardUnpower);
+            this.guiGroupCard.Controls.Add(this.guiCardColdReset);
+            this.guiGroupCard.Location = new System.Drawing.Point(3, 99);
+            this.guiGroupCard.Name = "guiGroupCard";
+            this.guiGroupCard.Size = new System.Drawing.Size(102, 148);
+            this.guiGroupCard.TabIndex = 1;
+            this.guiGroupCard.TabStop = false;
+            this.guiGroupCard.Text = "Quick Connect";
             // 
             // guiCardConnect
             // 
@@ -239,16 +285,16 @@ namespace WSCT.GUI
             // 
             // guiGroupContext
             // 
-            guiGroupContext.AutoSize = true;
-            guiGroupContext.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            guiGroupContext.Controls.Add(this.guiContextRelease);
-            guiGroupContext.Controls.Add(this.guiContextEstablish);
-            guiGroupContext.Location = new System.Drawing.Point(12, 3);
-            guiGroupContext.Name = "guiGroupContext";
-            guiGroupContext.Size = new System.Drawing.Size(102, 90);
-            guiGroupContext.TabIndex = 0;
-            guiGroupContext.TabStop = false;
-            guiGroupContext.Text = "Context";
+            this.guiGroupContext.AutoSize = true;
+            this.guiGroupContext.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.guiGroupContext.Controls.Add(this.guiContextRelease);
+            this.guiGroupContext.Controls.Add(this.guiContextEstablish);
+            this.guiGroupContext.Location = new System.Drawing.Point(3, 3);
+            this.guiGroupContext.Name = "guiGroupContext";
+            this.guiGroupContext.Size = new System.Drawing.Size(102, 90);
+            this.guiGroupContext.TabIndex = 0;
+            this.guiGroupContext.TabStop = false;
+            this.guiGroupContext.Text = "Context";
             // 
             // guiContextRelease
             // 
@@ -273,29 +319,30 @@ namespace WSCT.GUI
             // 
             // guiTabConnection
             // 
-            guiTabConnection.Controls.Add(this.guiGroupCardInformations);
-            guiTabConnection.Controls.Add(this.guiGroupCardConnection);
-            guiTabConnection.Controls.Add(this.guiGroupCardAttributes);
-            guiTabConnection.Location = new System.Drawing.Point(4, 22);
-            guiTabConnection.Name = "guiTabConnection";
-            guiTabConnection.Padding = new System.Windows.Forms.Padding(3);
-            guiTabConnection.Size = new System.Drawing.Size(661, 468);
-            guiTabConnection.TabIndex = 0;
-            guiTabConnection.Text = "Card Tools";
-            guiTabConnection.UseVisualStyleBackColor = true;
+            this.guiTabConnection.Controls.Add(this.guiGroupCardInformations);
+            this.guiTabConnection.Controls.Add(this.guiGroupCardConnection);
+            this.guiTabConnection.Controls.Add(this.guiGroupCardAttributes);
+            this.guiTabConnection.Location = new System.Drawing.Point(4, 22);
+            this.guiTabConnection.Name = "guiTabConnection";
+            this.guiTabConnection.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.guiTabConnection.Size = new System.Drawing.Size(665, 509);
+            this.guiTabConnection.TabIndex = 0;
+            this.guiTabConnection.Text = "Card Tools";
+            this.guiTabConnection.UseVisualStyleBackColor = true;
             // 
             // guiGroupCardInformations
             // 
-            this.guiGroupCardInformations.AutoSize = true;
+            this.guiGroupCardInformations.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiGroupCardInformations.Controls.Add(this.guiReaderInUse);
-            this.guiGroupCardInformations.Controls.Add(labelReaderInUser);
+            this.guiGroupCardInformations.Controls.Add(this.labelReaderInUser);
             this.guiGroupCardInformations.Controls.Add(this.guiChannelState);
-            this.guiGroupCardInformations.Controls.Add(labelCardChannel);
+            this.guiGroupCardInformations.Controls.Add(this.labelCardChannel);
             this.guiGroupCardInformations.Controls.Add(this.guiContextState);
-            this.guiGroupCardInformations.Controls.Add(labelContext);
+            this.guiGroupCardInformations.Controls.Add(this.labelContext);
             this.guiGroupCardInformations.Location = new System.Drawing.Point(6, 300);
             this.guiGroupCardInformations.Name = "guiGroupCardInformations";
-            this.guiGroupCardInformations.Size = new System.Drawing.Size(640, 81);
+            this.guiGroupCardInformations.Size = new System.Drawing.Size(653, 81);
             this.guiGroupCardInformations.TabIndex = 2;
             this.guiGroupCardInformations.TabStop = false;
             this.guiGroupCardInformations.Text = "Card Informations";
@@ -311,12 +358,12 @@ namespace WSCT.GUI
             // 
             // labelReaderInUser
             // 
-            labelReaderInUser.AutoSize = true;
-            labelReaderInUser.Location = new System.Drawing.Point(198, 45);
-            labelReaderInUser.Name = "labelReaderInUser";
-            labelReaderInUser.Size = new System.Drawing.Size(76, 13);
-            labelReaderInUser.TabIndex = 4;
-            labelReaderInUser.Text = "Reader in use:";
+            this.labelReaderInUser.AutoSize = true;
+            this.labelReaderInUser.Location = new System.Drawing.Point(198, 45);
+            this.labelReaderInUser.Name = "labelReaderInUser";
+            this.labelReaderInUser.Size = new System.Drawing.Size(76, 13);
+            this.labelReaderInUser.TabIndex = 4;
+            this.labelReaderInUser.Text = "Reader in use:";
             // 
             // guiChannelState
             // 
@@ -330,12 +377,12 @@ namespace WSCT.GUI
             // 
             // labelCardChannel
             // 
-            labelCardChannel.AutoSize = true;
-            labelCardChannel.Location = new System.Drawing.Point(6, 45);
-            labelCardChannel.Name = "labelCardChannel";
-            labelCardChannel.Size = new System.Drawing.Size(73, 13);
-            labelCardChannel.TabIndex = 2;
-            labelCardChannel.Text = "Card channel:";
+            this.labelCardChannel.AutoSize = true;
+            this.labelCardChannel.Location = new System.Drawing.Point(6, 45);
+            this.labelCardChannel.Name = "labelCardChannel";
+            this.labelCardChannel.Size = new System.Drawing.Size(73, 13);
+            this.labelCardChannel.TabIndex = 2;
+            this.labelCardChannel.Text = "Card channel:";
             // 
             // guiContextState
             // 
@@ -349,33 +396,34 @@ namespace WSCT.GUI
             // 
             // labelContext
             // 
-            labelContext.AutoSize = true;
-            labelContext.Location = new System.Drawing.Point(6, 19);
-            labelContext.Name = "labelContext";
-            labelContext.Size = new System.Drawing.Size(46, 13);
-            labelContext.TabIndex = 0;
-            labelContext.Text = "Context:";
+            this.labelContext.AutoSize = true;
+            this.labelContext.Location = new System.Drawing.Point(6, 19);
+            this.labelContext.Name = "labelContext";
+            this.labelContext.Size = new System.Drawing.Size(46, 13);
+            this.labelContext.TabIndex = 0;
+            this.labelContext.Text = "Context:";
             // 
             // guiGroupCardConnection
             // 
-            this.guiGroupCardConnection.AutoSize = true;
+            this.guiGroupCardConnection.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiGroupCardConnection.Controls.Add(this.guiChannelConnect);
             this.guiGroupCardConnection.Controls.Add(this.guiFoundReaders);
             this.guiGroupCardConnection.Controls.Add(this.guiFoundReaderGroups);
-            this.guiGroupCardConnection.Controls.Add(labelDisposition);
+            this.guiGroupCardConnection.Controls.Add(this.labelDisposition);
             this.guiGroupCardConnection.Controls.Add(this.guiReaderGroups);
             this.guiGroupCardConnection.Controls.Add(this.guiReaders);
             this.guiGroupCardConnection.Controls.Add(this.guiChannelDisconnect);
             this.guiGroupCardConnection.Controls.Add(this.guiShareMode);
-            this.guiGroupCardConnection.Controls.Add(labelShareMode);
+            this.guiGroupCardConnection.Controls.Add(this.labelShareMode);
             this.guiGroupCardConnection.Controls.Add(this.guiChannelReconnect);
             this.guiGroupCardConnection.Controls.Add(this.guiDisposition);
             this.guiGroupCardConnection.Controls.Add(this.guiProtocol);
-            this.guiGroupCardConnection.Controls.Add(labelProtocol);
+            this.guiGroupCardConnection.Controls.Add(this.labelProtocol);
             this.guiGroupCardConnection.Enabled = false;
             this.guiGroupCardConnection.Location = new System.Drawing.Point(6, 6);
             this.guiGroupCardConnection.Name = "guiGroupCardConnection";
-            this.guiGroupCardConnection.Size = new System.Drawing.Size(640, 141);
+            this.guiGroupCardConnection.Size = new System.Drawing.Size(653, 141);
             this.guiGroupCardConnection.TabIndex = 0;
             this.guiGroupCardConnection.TabStop = false;
             this.guiGroupCardConnection.Text = "Card connection";
@@ -410,12 +458,12 @@ namespace WSCT.GUI
             // 
             // labelDisposition
             // 
-            labelDisposition.AutoSize = true;
-            labelDisposition.Location = new System.Drawing.Point(415, 56);
-            labelDisposition.Name = "labelDisposition";
-            labelDisposition.Size = new System.Drawing.Size(58, 13);
-            labelDisposition.TabIndex = 8;
-            labelDisposition.Text = "Disposition";
+            this.labelDisposition.AutoSize = true;
+            this.labelDisposition.Location = new System.Drawing.Point(415, 56);
+            this.labelDisposition.Name = "labelDisposition";
+            this.labelDisposition.Size = new System.Drawing.Size(58, 13);
+            this.labelDisposition.TabIndex = 8;
+            this.labelDisposition.Text = "Disposition";
             // 
             // guiReaderGroups
             // 
@@ -456,12 +504,12 @@ namespace WSCT.GUI
             // 
             // labelShareMode
             // 
-            labelShareMode.AutoSize = true;
-            labelShareMode.Location = new System.Drawing.Point(6, 56);
-            labelShareMode.Name = "labelShareMode";
-            labelShareMode.Size = new System.Drawing.Size(64, 13);
-            labelShareMode.TabIndex = 4;
-            labelShareMode.Text = "Share mode";
+            this.labelShareMode.AutoSize = true;
+            this.labelShareMode.Location = new System.Drawing.Point(6, 56);
+            this.labelShareMode.Name = "labelShareMode";
+            this.labelShareMode.Size = new System.Drawing.Size(64, 13);
+            this.labelShareMode.TabIndex = 4;
+            this.labelShareMode.Text = "Share mode";
             // 
             // guiChannelReconnect
             // 
@@ -493,26 +541,27 @@ namespace WSCT.GUI
             // 
             // labelProtocol
             // 
-            labelProtocol.AutoSize = true;
-            labelProtocol.Location = new System.Drawing.Point(209, 56);
-            labelProtocol.Name = "labelProtocol";
-            labelProtocol.Size = new System.Drawing.Size(46, 13);
-            labelProtocol.TabIndex = 6;
-            labelProtocol.Text = "Protocol";
+            this.labelProtocol.AutoSize = true;
+            this.labelProtocol.Location = new System.Drawing.Point(209, 56);
+            this.labelProtocol.Name = "labelProtocol";
+            this.labelProtocol.Size = new System.Drawing.Size(46, 13);
+            this.labelProtocol.TabIndex = 6;
+            this.labelProtocol.Text = "Protocol";
             // 
             // guiGroupCardAttributes
             // 
-            this.guiGroupCardAttributes.AutoSize = true;
+            this.guiGroupCardAttributes.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiGroupCardAttributes.Controls.Add(this.guiGetAttribute);
-            this.guiGroupCardAttributes.Controls.Add(labelStringAttribute);
-            this.guiGroupCardAttributes.Controls.Add(labelRawAttribute);
+            this.guiGroupCardAttributes.Controls.Add(this.labelStringAttribute);
+            this.guiGroupCardAttributes.Controls.Add(this.labelRawAttribute);
             this.guiGroupCardAttributes.Controls.Add(this.guiStringAttribute);
             this.guiGroupCardAttributes.Controls.Add(this.guiRawAttribute);
             this.guiGroupCardAttributes.Controls.Add(this.guiAttribute);
             this.guiGroupCardAttributes.Enabled = false;
             this.guiGroupCardAttributes.Location = new System.Drawing.Point(6, 153);
             this.guiGroupCardAttributes.Name = "guiGroupCardAttributes";
-            this.guiGroupCardAttributes.Size = new System.Drawing.Size(640, 141);
+            this.guiGroupCardAttributes.Size = new System.Drawing.Size(653, 141);
             this.guiGroupCardAttributes.TabIndex = 1;
             this.guiGroupCardAttributes.TabStop = false;
             this.guiGroupCardAttributes.Text = "Card Attributes";
@@ -529,21 +578,21 @@ namespace WSCT.GUI
             // 
             // labelStringAttribute
             // 
-            labelStringAttribute.AutoSize = true;
-            labelStringAttribute.Location = new System.Drawing.Point(309, 45);
-            labelStringAttribute.Name = "labelStringAttribute";
-            labelStringAttribute.Size = new System.Drawing.Size(98, 13);
-            labelStringAttribute.TabIndex = 4;
-            labelStringAttribute.Text = "String interpretation";
+            this.labelStringAttribute.AutoSize = true;
+            this.labelStringAttribute.Location = new System.Drawing.Point(309, 45);
+            this.labelStringAttribute.Name = "labelStringAttribute";
+            this.labelStringAttribute.Size = new System.Drawing.Size(98, 13);
+            this.labelStringAttribute.TabIndex = 4;
+            this.labelStringAttribute.Text = "String interpretation";
             // 
             // labelRawAttribute
             // 
-            labelRawAttribute.AutoSize = true;
-            labelRawAttribute.Location = new System.Drawing.Point(6, 46);
-            labelRawAttribute.Name = "labelRawAttribute";
-            labelRawAttribute.Size = new System.Drawing.Size(71, 13);
-            labelRawAttribute.TabIndex = 2;
-            labelRawAttribute.Text = "Raw Attribute";
+            this.labelRawAttribute.AutoSize = true;
+            this.labelRawAttribute.Location = new System.Drawing.Point(6, 46);
+            this.labelRawAttribute.Name = "labelRawAttribute";
+            this.labelRawAttribute.Size = new System.Drawing.Size(71, 13);
+            this.labelRawAttribute.TabIndex = 2;
+            this.labelRawAttribute.Text = "Raw Attribute";
             // 
             // guiStringAttribute
             // 
@@ -576,14 +625,15 @@ namespace WSCT.GUI
             // 
             // guiStatus
             // 
-            guiStatus.Dock = System.Windows.Forms.DockStyle.None;
-            guiStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.guiStatus.Dock = System.Windows.Forms.DockStyle.None;
+            this.guiStatus.ImageScalingSize = new System.Drawing.Size(32, 32);
+            this.guiStatus.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.guiLastError});
-            guiStatus.Location = new System.Drawing.Point(0, 0);
-            guiStatus.Name = "guiStatus";
-            guiStatus.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
-            guiStatus.Size = new System.Drawing.Size(784, 22);
-            guiStatus.TabIndex = 0;
+            this.guiStatus.Location = new System.Drawing.Point(0, 0);
+            this.guiStatus.Name = "guiStatus";
+            this.guiStatus.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional;
+            this.guiStatus.Size = new System.Drawing.Size(787, 22);
+            this.guiStatus.TabIndex = 0;
             // 
             // guiLastError
             // 
@@ -593,207 +643,148 @@ namespace WSCT.GUI
             // 
             // guiGroupBoxLoadedPlugins
             // 
-            guiGroupBoxLoadedPlugins.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            guiGroupBoxLoadedPlugins.Controls.Add(this.guiLoadedPlugins);
-            guiGroupBoxLoadedPlugins.Dock = System.Windows.Forms.DockStyle.Left;
-            guiGroupBoxLoadedPlugins.Location = new System.Drawing.Point(3, 3);
-            guiGroupBoxLoadedPlugins.Name = "guiGroupBoxLoadedPlugins";
-            guiGroupBoxLoadedPlugins.Size = new System.Drawing.Size(200, 462);
-            guiGroupBoxLoadedPlugins.TabIndex = 0;
-            guiGroupBoxLoadedPlugins.TabStop = false;
-            guiGroupBoxLoadedPlugins.Text = "Loaded plugins";
+            this.guiGroupBoxLoadedPlugins.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.guiGroupBoxLoadedPlugins.Controls.Add(this.guiAvailablePlugins);
+            this.guiGroupBoxLoadedPlugins.Dock = System.Windows.Forms.DockStyle.Left;
+            this.guiGroupBoxLoadedPlugins.Location = new System.Drawing.Point(3, 3);
+            this.guiGroupBoxLoadedPlugins.Name = "guiGroupBoxLoadedPlugins";
+            this.guiGroupBoxLoadedPlugins.Size = new System.Drawing.Size(200, 503);
+            this.guiGroupBoxLoadedPlugins.TabIndex = 0;
+            this.guiGroupBoxLoadedPlugins.TabStop = false;
+            this.guiGroupBoxLoadedPlugins.Text = "Available Plugins";
             // 
-            // guiLoadedPlugins
+            // guiAvailablePlugins
             // 
-            this.guiLoadedPlugins.Dock = System.Windows.Forms.DockStyle.Left;
-            this.guiLoadedPlugins.FormattingEnabled = true;
-            this.guiLoadedPlugins.Location = new System.Drawing.Point(3, 16);
-            this.guiLoadedPlugins.Name = "guiLoadedPlugins";
-            this.guiLoadedPlugins.Size = new System.Drawing.Size(188, 443);
-            this.guiLoadedPlugins.TabIndex = 0;
-            this.guiLoadedPlugins.SelectedIndexChanged += new System.EventHandler(this.guiLoadedPlugins_SelectedIndexChanged);
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new System.Drawing.Point(6, 16);
-            label2.Name = "label2";
-            label2.Size = new System.Drawing.Size(35, 13);
-            label2.TabIndex = 0;
-            label2.Text = "Name";
-            // 
-            // label3
-            // 
-            label3.AutoSize = true;
-            label3.Location = new System.Drawing.Point(6, 94);
-            label3.Name = "label3";
-            label3.Size = new System.Drawing.Size(27, 13);
-            label3.TabIndex = 4;
-            label3.Text = "DLL";
-            // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new System.Drawing.Point(6, 55);
-            label4.Name = "label4";
-            label4.Size = new System.Drawing.Size(63, 13);
-            label4.TabIndex = 2;
-            label4.Text = "Class Name";
+            this.guiAvailablePlugins.FormattingEnabled = true;
+            this.guiAvailablePlugins.Location = new System.Drawing.Point(6, 19);
+            this.guiAvailablePlugins.Name = "guiAvailablePlugins";
+            this.guiAvailablePlugins.Size = new System.Drawing.Size(188, 472);
+            this.guiAvailablePlugins.TabIndex = 0;
+            this.guiAvailablePlugins.SelectedIndexChanged += new System.EventHandler(this.guiLoadedPlugins_SelectedIndexChanged);
             // 
             // label5
             // 
-            label5.AutoSize = true;
-            label5.Location = new System.Drawing.Point(6, 133);
-            label5.Name = "label5";
-            label5.Size = new System.Drawing.Size(64, 13);
-            label5.TabIndex = 6;
-            label5.Text = "Path to DLL";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 55);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(29, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Path";
             // 
-            // groupBox1
+            // guiPluginAssemblyPath
             // 
-            groupBox1.AutoSize = true;
-            groupBox1.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox1.Controls.Add(label5);
-            groupBox1.Controls.Add(this.guiPluginPathToDll);
-            groupBox1.Controls.Add(label4);
-            groupBox1.Controls.Add(this.guiPluginClassName);
-            groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(this.guiPluginDLL);
-            groupBox1.Controls.Add(label2);
-            groupBox1.Controls.Add(this.guiPluginName);
-            groupBox1.Location = new System.Drawing.Point(212, 6);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new System.Drawing.Size(436, 188);
-            groupBox1.TabIndex = 1;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "Plugin Description";
-            // 
-            // guiPluginPathToDll
-            // 
-            this.guiPluginPathToDll.Location = new System.Drawing.Point(6, 149);
-            this.guiPluginPathToDll.Name = "guiPluginPathToDll";
-            this.guiPluginPathToDll.ReadOnly = true;
-            this.guiPluginPathToDll.Size = new System.Drawing.Size(424, 20);
-            this.guiPluginPathToDll.TabIndex = 7;
-            // 
-            // guiPluginClassName
-            // 
-            this.guiPluginClassName.Location = new System.Drawing.Point(6, 71);
-            this.guiPluginClassName.Name = "guiPluginClassName";
-            this.guiPluginClassName.ReadOnly = true;
-            this.guiPluginClassName.Size = new System.Drawing.Size(424, 20);
-            this.guiPluginClassName.TabIndex = 3;
-            // 
-            // guiPluginDLL
-            // 
-            this.guiPluginDLL.Location = new System.Drawing.Point(6, 110);
-            this.guiPluginDLL.Name = "guiPluginDLL";
-            this.guiPluginDLL.ReadOnly = true;
-            this.guiPluginDLL.Size = new System.Drawing.Size(424, 20);
-            this.guiPluginDLL.TabIndex = 5;
-            // 
-            // guiPluginName
-            // 
-            this.guiPluginName.Location = new System.Drawing.Point(6, 32);
-            this.guiPluginName.Name = "guiPluginName";
-            this.guiPluginName.ReadOnly = true;
-            this.guiPluginName.Size = new System.Drawing.Size(424, 20);
-            this.guiPluginName.TabIndex = 1;
+            this.guiPluginAssemblyPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiPluginAssemblyPath.Location = new System.Drawing.Point(6, 71);
+            this.guiPluginAssemblyPath.Name = "guiPluginAssemblyPath";
+            this.guiPluginAssemblyPath.ReadOnly = true;
+            this.guiPluginAssemblyPath.Size = new System.Drawing.Size(438, 20);
+            this.guiPluginAssemblyPath.TabIndex = 7;
             // 
             // label6
             // 
-            label6.AutoSize = true;
-            label6.Location = new System.Drawing.Point(6, 16);
-            label6.Name = "label6";
-            label6.Size = new System.Drawing.Size(42, 13);
-            label6.TabIndex = 0;
-            label6.Text = "Version";
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 94);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(42, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Version";
             // 
             // label7
             // 
-            label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(6, 55);
-            label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(35, 13);
-            label7.TabIndex = 2;
-            label7.Text = "Name";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 16);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Name";
             // 
-            // groupBox2
+            // guiPluginAssemblyInfoGroupBox
             // 
-            groupBox2.AutoSize = true;
-            groupBox2.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox2.Controls.Add(label15);
-            groupBox2.Controls.Add(label7);
-            groupBox2.Controls.Add(this.guiPluginAssemblyName);
-            groupBox2.Controls.Add(label6);
-            groupBox2.Controls.Add(this.guiPluginAssemblyVersion);
-            groupBox2.Controls.Add(this.guiPluginAssemblyDescription);
-            groupBox2.Location = new System.Drawing.Point(212, 200);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new System.Drawing.Size(436, 169);
-            groupBox2.TabIndex = 2;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "Plugin Assembly Informations";
-            // 
-            // label15
-            // 
-            label15.AutoSize = true;
-            label15.Location = new System.Drawing.Point(6, 94);
-            label15.Name = "label15";
-            label15.Size = new System.Drawing.Size(60, 13);
-            label15.TabIndex = 4;
-            label15.Text = "Description";
+            guiPluginAssemblyInfoGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            guiPluginAssemblyInfoGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            guiPluginAssemblyInfoGroupBox.Controls.Add(this.label7);
+            guiPluginAssemblyInfoGroupBox.Controls.Add(this.guiPluginAssemblyName);
+            guiPluginAssemblyInfoGroupBox.Controls.Add(this.label5);
+            guiPluginAssemblyInfoGroupBox.Controls.Add(this.guiPluginAssemblyPath);
+            guiPluginAssemblyInfoGroupBox.Controls.Add(this.label6);
+            guiPluginAssemblyInfoGroupBox.Controls.Add(this.guiPluginAssemblyVersion);
+            guiPluginAssemblyInfoGroupBox.Controls.Add(this.label15);
+            guiPluginAssemblyInfoGroupBox.Controls.Add(this.guiPluginAssemblyDescription);
+            guiPluginAssemblyInfoGroupBox.Location = new System.Drawing.Point(209, 180);
+            guiPluginAssemblyInfoGroupBox.Name = "guiPluginAssemblyInfoGroupBox";
+            guiPluginAssemblyInfoGroupBox.Size = new System.Drawing.Size(450, 208);
+            guiPluginAssemblyInfoGroupBox.TabIndex = 2;
+            guiPluginAssemblyInfoGroupBox.TabStop = false;
+            guiPluginAssemblyInfoGroupBox.Text = "Plugin Assembly Information";
             // 
             // guiPluginAssemblyName
             // 
-            this.guiPluginAssemblyName.Location = new System.Drawing.Point(6, 71);
+            this.guiPluginAssemblyName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiPluginAssemblyName.Location = new System.Drawing.Point(6, 32);
             this.guiPluginAssemblyName.Name = "guiPluginAssemblyName";
             this.guiPluginAssemblyName.ReadOnly = true;
-            this.guiPluginAssemblyName.Size = new System.Drawing.Size(424, 20);
+            this.guiPluginAssemblyName.Size = new System.Drawing.Size(438, 20);
             this.guiPluginAssemblyName.TabIndex = 3;
             // 
             // guiPluginAssemblyVersion
             // 
-            this.guiPluginAssemblyVersion.Location = new System.Drawing.Point(6, 32);
+            this.guiPluginAssemblyVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiPluginAssemblyVersion.Location = new System.Drawing.Point(6, 110);
             this.guiPluginAssemblyVersion.Name = "guiPluginAssemblyVersion";
             this.guiPluginAssemblyVersion.ReadOnly = true;
-            this.guiPluginAssemblyVersion.Size = new System.Drawing.Size(424, 20);
+            this.guiPluginAssemblyVersion.Size = new System.Drawing.Size(438, 20);
             this.guiPluginAssemblyVersion.TabIndex = 1;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 133);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(60, 13);
+            this.label15.TabIndex = 4;
+            this.label15.Text = "Description";
             // 
             // guiPluginAssemblyDescription
             // 
-            this.guiPluginAssemblyDescription.Location = new System.Drawing.Point(6, 110);
+            this.guiPluginAssemblyDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiPluginAssemblyDescription.Location = new System.Drawing.Point(6, 149);
             this.guiPluginAssemblyDescription.Multiline = true;
             this.guiPluginAssemblyDescription.Name = "guiPluginAssemblyDescription";
             this.guiPluginAssemblyDescription.ReadOnly = true;
-            this.guiPluginAssemblyDescription.Size = new System.Drawing.Size(424, 40);
+            this.guiPluginAssemblyDescription.Size = new System.Drawing.Size(438, 40);
             this.guiPluginAssemblyDescription.TabIndex = 5;
             // 
-            // groupBox3
+            // guiLayerAssemblyInfoGroupBox
             // 
-            groupBox3.AutoSize = true;
-            groupBox3.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox3.Controls.Add(label14);
-            groupBox3.Controls.Add(this.guiLayerAssemblyDescription);
-            groupBox3.Controls.Add(label8);
-            groupBox3.Controls.Add(this.guiLayerAssemblyName);
-            groupBox3.Controls.Add(label9);
-            groupBox3.Controls.Add(this.guiLayerAssemblyVersion);
-            groupBox3.Location = new System.Drawing.Point(212, 200);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new System.Drawing.Size(436, 169);
-            groupBox3.TabIndex = 2;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "Layer Assembly Informations";
+            this.guiLayerAssemblyInfoGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiLayerAssemblyInfoGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.guiLayerAssemblyInfoGroupBox.Controls.Add(this.label14);
+            this.guiLayerAssemblyInfoGroupBox.Controls.Add(this.guiLayerAssemblyDescription);
+            this.guiLayerAssemblyInfoGroupBox.Controls.Add(this.label8);
+            this.guiLayerAssemblyInfoGroupBox.Controls.Add(this.guiLayerAssemblyName);
+            this.guiLayerAssemblyInfoGroupBox.Controls.Add(this.label9);
+            this.guiLayerAssemblyInfoGroupBox.Controls.Add(this.guiLayerAssemblyVersion);
+            this.guiLayerAssemblyInfoGroupBox.Location = new System.Drawing.Point(209, 200);
+            this.guiLayerAssemblyInfoGroupBox.Name = "guiLayerAssemblyInfoGroupBox";
+            this.guiLayerAssemblyInfoGroupBox.Size = new System.Drawing.Size(450, 169);
+            this.guiLayerAssemblyInfoGroupBox.TabIndex = 2;
+            this.guiLayerAssemblyInfoGroupBox.TabStop = false;
+            this.guiLayerAssemblyInfoGroupBox.Text = "Layer Assembly Information";
             // 
             // label14
             // 
-            label14.AutoSize = true;
-            label14.Location = new System.Drawing.Point(6, 94);
-            label14.Name = "label14";
-            label14.Size = new System.Drawing.Size(60, 13);
-            label14.TabIndex = 4;
-            label14.Text = "Description";
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(6, 94);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(60, 13);
+            this.label14.TabIndex = 4;
+            this.label14.Text = "Description";
             // 
             // guiLayerAssemblyDescription
             // 
@@ -801,176 +792,177 @@ namespace WSCT.GUI
             this.guiLayerAssemblyDescription.Multiline = true;
             this.guiLayerAssemblyDescription.Name = "guiLayerAssemblyDescription";
             this.guiLayerAssemblyDescription.ReadOnly = true;
-            this.guiLayerAssemblyDescription.Size = new System.Drawing.Size(424, 40);
+            this.guiLayerAssemblyDescription.Size = new System.Drawing.Size(438, 40);
             this.guiLayerAssemblyDescription.TabIndex = 5;
             // 
             // label8
             // 
-            label8.AutoSize = true;
-            label8.Location = new System.Drawing.Point(6, 55);
-            label8.Name = "label8";
-            label8.Size = new System.Drawing.Size(35, 13);
-            label8.TabIndex = 2;
-            label8.Text = "Name";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 55);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(35, 13);
+            this.label8.TabIndex = 2;
+            this.label8.Text = "Name";
             // 
             // guiLayerAssemblyName
             // 
             this.guiLayerAssemblyName.Location = new System.Drawing.Point(6, 71);
             this.guiLayerAssemblyName.Name = "guiLayerAssemblyName";
             this.guiLayerAssemblyName.ReadOnly = true;
-            this.guiLayerAssemblyName.Size = new System.Drawing.Size(424, 20);
+            this.guiLayerAssemblyName.Size = new System.Drawing.Size(438, 20);
             this.guiLayerAssemblyName.TabIndex = 3;
             // 
             // label9
             // 
-            label9.AutoSize = true;
-            label9.Location = new System.Drawing.Point(6, 16);
-            label9.Name = "label9";
-            label9.Size = new System.Drawing.Size(42, 13);
-            label9.TabIndex = 0;
-            label9.Text = "Version";
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 16);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(42, 13);
+            this.label9.TabIndex = 0;
+            this.label9.Text = "Version";
             // 
             // guiLayerAssemblyVersion
             // 
             this.guiLayerAssemblyVersion.Location = new System.Drawing.Point(6, 32);
             this.guiLayerAssemblyVersion.Name = "guiLayerAssemblyVersion";
             this.guiLayerAssemblyVersion.ReadOnly = true;
-            this.guiLayerAssemblyVersion.Size = new System.Drawing.Size(424, 20);
+            this.guiLayerAssemblyVersion.Size = new System.Drawing.Size(438, 20);
             this.guiLayerAssemblyVersion.TabIndex = 1;
             // 
-            // groupBox4
+            // guiLayerDescriptionGroupBox
             // 
-            groupBox4.AutoSize = true;
-            groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox4.Controls.Add(label10);
-            groupBox4.Controls.Add(this.guiLayerPathToDll);
-            groupBox4.Controls.Add(label11);
-            groupBox4.Controls.Add(this.guiLayerClassName);
-            groupBox4.Controls.Add(label12);
-            groupBox4.Controls.Add(this.guiLayerDLL);
-            groupBox4.Controls.Add(label13);
-            groupBox4.Controls.Add(this.guiLayerName);
-            groupBox4.Location = new System.Drawing.Point(212, 6);
-            groupBox4.Name = "groupBox4";
-            groupBox4.Size = new System.Drawing.Size(436, 188);
-            groupBox4.TabIndex = 1;
-            groupBox4.TabStop = false;
-            groupBox4.Text = "Layer Description";
+            this.guiLayerDescriptionGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiLayerDescriptionGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.guiLayerDescriptionGroupBox.Controls.Add(this.label10);
+            this.guiLayerDescriptionGroupBox.Controls.Add(this.guiLayerPathToDll);
+            this.guiLayerDescriptionGroupBox.Controls.Add(this.label11);
+            this.guiLayerDescriptionGroupBox.Controls.Add(this.guiLayerClassName);
+            this.guiLayerDescriptionGroupBox.Controls.Add(this.label12);
+            this.guiLayerDescriptionGroupBox.Controls.Add(this.guiLayerDLL);
+            this.guiLayerDescriptionGroupBox.Controls.Add(this.label13);
+            this.guiLayerDescriptionGroupBox.Controls.Add(this.guiLayerName);
+            this.guiLayerDescriptionGroupBox.Location = new System.Drawing.Point(209, 6);
+            this.guiLayerDescriptionGroupBox.Name = "guiLayerDescriptionGroupBox";
+            this.guiLayerDescriptionGroupBox.Size = new System.Drawing.Size(450, 188);
+            this.guiLayerDescriptionGroupBox.TabIndex = 1;
+            this.guiLayerDescriptionGroupBox.TabStop = false;
+            this.guiLayerDescriptionGroupBox.Text = "Layer Description";
             // 
             // label10
             // 
-            label10.AutoSize = true;
-            label10.Location = new System.Drawing.Point(6, 133);
-            label10.Name = "label10";
-            label10.Size = new System.Drawing.Size(64, 13);
-            label10.TabIndex = 6;
-            label10.Text = "Path to DLL";
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 133);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(64, 13);
+            this.label10.TabIndex = 6;
+            this.label10.Text = "Path to DLL";
             // 
             // guiLayerPathToDll
             // 
             this.guiLayerPathToDll.Location = new System.Drawing.Point(6, 149);
             this.guiLayerPathToDll.Name = "guiLayerPathToDll";
             this.guiLayerPathToDll.ReadOnly = true;
-            this.guiLayerPathToDll.Size = new System.Drawing.Size(424, 20);
+            this.guiLayerPathToDll.Size = new System.Drawing.Size(438, 20);
             this.guiLayerPathToDll.TabIndex = 7;
             // 
             // label11
             // 
-            label11.AutoSize = true;
-            label11.Location = new System.Drawing.Point(6, 55);
-            label11.Name = "label11";
-            label11.Size = new System.Drawing.Size(63, 13);
-            label11.TabIndex = 2;
-            label11.Text = "Class Name";
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(6, 55);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(63, 13);
+            this.label11.TabIndex = 2;
+            this.label11.Text = "Class Name";
             // 
             // guiLayerClassName
             // 
             this.guiLayerClassName.Location = new System.Drawing.Point(6, 71);
             this.guiLayerClassName.Name = "guiLayerClassName";
             this.guiLayerClassName.ReadOnly = true;
-            this.guiLayerClassName.Size = new System.Drawing.Size(424, 20);
+            this.guiLayerClassName.Size = new System.Drawing.Size(438, 20);
             this.guiLayerClassName.TabIndex = 3;
             // 
             // label12
             // 
-            label12.AutoSize = true;
-            label12.Location = new System.Drawing.Point(6, 94);
-            label12.Name = "label12";
-            label12.Size = new System.Drawing.Size(27, 13);
-            label12.TabIndex = 4;
-            label12.Text = "DLL";
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(6, 94);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(27, 13);
+            this.label12.TabIndex = 4;
+            this.label12.Text = "DLL";
             // 
             // guiLayerDLL
             // 
             this.guiLayerDLL.Location = new System.Drawing.Point(6, 110);
             this.guiLayerDLL.Name = "guiLayerDLL";
             this.guiLayerDLL.ReadOnly = true;
-            this.guiLayerDLL.Size = new System.Drawing.Size(424, 20);
+            this.guiLayerDLL.Size = new System.Drawing.Size(438, 20);
             this.guiLayerDLL.TabIndex = 5;
             // 
             // label13
             // 
-            label13.AutoSize = true;
-            label13.Location = new System.Drawing.Point(6, 16);
-            label13.Name = "label13";
-            label13.Size = new System.Drawing.Size(35, 13);
-            label13.TabIndex = 0;
-            label13.Text = "Name";
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(6, 16);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(35, 13);
+            this.label13.TabIndex = 0;
+            this.label13.Text = "Name";
             // 
             // guiLayerName
             // 
             this.guiLayerName.Location = new System.Drawing.Point(6, 32);
             this.guiLayerName.Name = "guiLayerName";
             this.guiLayerName.ReadOnly = true;
-            this.guiLayerName.Size = new System.Drawing.Size(424, 20);
+            this.guiLayerName.Size = new System.Drawing.Size(438, 20);
             this.guiLayerName.TabIndex = 1;
             // 
-            // groupBox5
+            // guiAvailableLayersGroupBox
             // 
-            groupBox5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox5.Controls.Add(this.guiLoadedContextLayers);
-            groupBox5.Controls.Add(this.guiLoadedChannelLayers);
-            groupBox5.Dock = System.Windows.Forms.DockStyle.Left;
-            groupBox5.Location = new System.Drawing.Point(3, 3);
-            groupBox5.Name = "groupBox5";
-            groupBox5.Size = new System.Drawing.Size(200, 462);
-            groupBox5.TabIndex = 0;
-            groupBox5.TabStop = false;
-            groupBox5.Text = "Loaded layers";
+            this.guiAvailableLayersGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.guiAvailableLayersGroupBox.Controls.Add(this.guiAvailableContextLayers);
+            this.guiAvailableLayersGroupBox.Controls.Add(this.guiAvailableChannelLayers);
+            this.guiAvailableLayersGroupBox.Dock = System.Windows.Forms.DockStyle.Left;
+            this.guiAvailableLayersGroupBox.Location = new System.Drawing.Point(3, 3);
+            this.guiAvailableLayersGroupBox.Name = "guiAvailableLayersGroupBox";
+            this.guiAvailableLayersGroupBox.Size = new System.Drawing.Size(200, 503);
+            this.guiAvailableLayersGroupBox.TabIndex = 0;
+            this.guiAvailableLayersGroupBox.TabStop = false;
+            this.guiAvailableLayersGroupBox.Text = "Available Layers";
             // 
-            // guiLoadedContextLayers
+            // guiAvailableContextLayers
             // 
-            this.guiLoadedContextLayers.FormattingEnabled = true;
-            this.guiLoadedContextLayers.Location = new System.Drawing.Point(3, 237);
-            this.guiLoadedContextLayers.Name = "guiLoadedContextLayers";
-            this.guiLoadedContextLayers.Size = new System.Drawing.Size(191, 212);
-            this.guiLoadedContextLayers.TabIndex = 1;
-            this.guiLoadedContextLayers.SelectedIndexChanged += new System.EventHandler(this.guiLoadedContextLayers_SelectedIndexChanged);
+            this.guiAvailableContextLayers.FormattingEnabled = true;
+            this.guiAvailableContextLayers.Location = new System.Drawing.Point(6, 237);
+            this.guiAvailableContextLayers.Name = "guiAvailableContextLayers";
+            this.guiAvailableContextLayers.Size = new System.Drawing.Size(188, 212);
+            this.guiAvailableContextLayers.TabIndex = 1;
+            this.guiAvailableContextLayers.SelectedIndexChanged += new System.EventHandler(this.guiLoadedContextLayers_SelectedIndexChanged);
             // 
-            // guiLoadedChannelLayers
+            // guiAvailableChannelLayers
             // 
-            this.guiLoadedChannelLayers.FormattingEnabled = true;
-            this.guiLoadedChannelLayers.Location = new System.Drawing.Point(3, 19);
-            this.guiLoadedChannelLayers.Name = "guiLoadedChannelLayers";
-            this.guiLoadedChannelLayers.Size = new System.Drawing.Size(191, 212);
-            this.guiLoadedChannelLayers.TabIndex = 0;
-            this.guiLoadedChannelLayers.SelectedIndexChanged += new System.EventHandler(this.guiLoadedChannelLayers_SelectedIndexChanged);
+            this.guiAvailableChannelLayers.FormattingEnabled = true;
+            this.guiAvailableChannelLayers.Location = new System.Drawing.Point(6, 19);
+            this.guiAvailableChannelLayers.Name = "guiAvailableChannelLayers";
+            this.guiAvailableChannelLayers.Size = new System.Drawing.Size(188, 212);
+            this.guiAvailableChannelLayers.TabIndex = 0;
+            this.guiAvailableChannelLayers.SelectedIndexChanged += new System.EventHandler(this.guiLoadedChannelLayers_SelectedIndexChanged);
             // 
             // guiTabs
             // 
             this.guiTabs.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.guiTabs.Controls.Add(guiTabConnection);
+            this.guiTabs.Controls.Add(this.guiTabConnection);
             this.guiTabs.Controls.Add(this.guiTabLogs);
             this.guiTabs.Controls.Add(this.guiTabPlugins);
-            this.guiTabs.Controls.Add(this.tabPage1);
+            this.guiTabs.Controls.Add(this.guiTabLayers);
             this.guiTabs.HotTrack = true;
-            this.guiTabs.Location = new System.Drawing.Point(120, 3);
+            this.guiTabs.Location = new System.Drawing.Point(111, 3);
             this.guiTabs.Multiline = true;
             this.guiTabs.Name = "guiTabs";
             this.guiTabs.SelectedIndex = 0;
-            this.guiTabs.Size = new System.Drawing.Size(669, 494);
+            this.guiTabs.Size = new System.Drawing.Size(673, 535);
             this.guiTabs.TabIndex = 1;
             // 
             // guiTabLogs
@@ -978,8 +970,8 @@ namespace WSCT.GUI
             this.guiTabLogs.Controls.Add(this.guiLogsView);
             this.guiTabLogs.Location = new System.Drawing.Point(4, 22);
             this.guiTabLogs.Name = "guiTabLogs";
-            this.guiTabLogs.Padding = new System.Windows.Forms.Padding(3);
-            this.guiTabLogs.Size = new System.Drawing.Size(661, 468);
+            this.guiTabLogs.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.guiTabLogs.Size = new System.Drawing.Size(665, 509);
             this.guiTabLogs.TabIndex = 4;
             this.guiTabLogs.Text = "Logs";
             this.guiTabLogs.UseVisualStyleBackColor = true;
@@ -989,58 +981,57 @@ namespace WSCT.GUI
             this.guiLogsView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.guiLogsView.Font = new System.Drawing.Font("Courier New", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLogsView.Location = new System.Drawing.Point(6, 6);
             this.guiLogsView.Name = "guiLogsView";
-            this.guiLogsView.Size = new System.Drawing.Size(649, 458);
+            this.guiLogsView.Size = new System.Drawing.Size(653, 502);
             this.guiLogsView.TabIndex = 0;
             this.guiLogsView.Text = "";
             this.guiLogsView.WordWrap = false;
             // 
             // guiTabPlugins
             // 
-            this.guiTabPlugins.Controls.Add(groupBox2);
-            this.guiTabPlugins.Controls.Add(groupBox1);
-            this.guiTabPlugins.Controls.Add(guiGroupBoxLoadedPlugins);
+            this.guiTabPlugins.Controls.Add(this.guiGroupBoxLoadedPlugins);
+            this.guiTabPlugins.Controls.Add(guiPluginDescriptionGroupBox);
+            this.guiTabPlugins.Controls.Add(guiPluginAssemblyInfoGroupBox);
             this.guiTabPlugins.Location = new System.Drawing.Point(4, 22);
             this.guiTabPlugins.Name = "guiTabPlugins";
-            this.guiTabPlugins.Padding = new System.Windows.Forms.Padding(3);
-            this.guiTabPlugins.Size = new System.Drawing.Size(661, 468);
+            this.guiTabPlugins.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.guiTabPlugins.Size = new System.Drawing.Size(665, 509);
             this.guiTabPlugins.TabIndex = 5;
             this.guiTabPlugins.Text = "Plugins";
             this.guiTabPlugins.UseVisualStyleBackColor = true;
             // 
-            // tabPage1
+            // guiTabLayers
             // 
-            this.tabPage1.Controls.Add(groupBox3);
-            this.tabPage1.Controls.Add(groupBox4);
-            this.tabPage1.Controls.Add(groupBox5);
-            this.tabPage1.Location = new System.Drawing.Point(4, 22);
-            this.tabPage1.Name = "tabPage1";
-            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(661, 468);
-            this.tabPage1.TabIndex = 6;
-            this.tabPage1.Text = "Layers";
-            this.tabPage1.UseVisualStyleBackColor = true;
+            this.guiTabLayers.Controls.Add(this.guiLayerAssemblyInfoGroupBox);
+            this.guiTabLayers.Controls.Add(this.guiLayerDescriptionGroupBox);
+            this.guiTabLayers.Controls.Add(this.guiAvailableLayersGroupBox);
+            this.guiTabLayers.Location = new System.Drawing.Point(4, 22);
+            this.guiTabLayers.Name = "guiTabLayers";
+            this.guiTabLayers.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.guiTabLayers.Size = new System.Drawing.Size(665, 509);
+            this.guiTabLayers.TabIndex = 6;
+            this.guiTabLayers.Text = "Layers";
+            this.guiTabLayers.UseVisualStyleBackColor = true;
             // 
             // toolStripContainer1
             // 
             // 
             // toolStripContainer1.BottomToolStripPanel
             // 
-            this.toolStripContainer1.BottomToolStripPanel.Controls.Add(guiStatus);
+            this.toolStripContainer1.BottomToolStripPanel.Controls.Add(this.guiStatus);
             // 
             // toolStripContainer1.ContentPanel
             // 
             this.toolStripContainer1.ContentPanel.AutoScroll = true;
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.guiGroupContext);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.guiGroupCard);
             this.toolStripContainer1.ContentPanel.Controls.Add(this.guiTabs);
-            this.toolStripContainer1.ContentPanel.Controls.Add(guiGroupCard);
-            this.toolStripContainer1.ContentPanel.Controls.Add(guiGroupContext);
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(784, 518);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(787, 541);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(784, 564);
+            this.toolStripContainer1.Size = new System.Drawing.Size(787, 587);
             this.toolStripContainer1.TabIndex = 8;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -1051,13 +1042,14 @@ namespace WSCT.GUI
             // guiMenu
             // 
             this.guiMenu.Dock = System.Windows.Forms.DockStyle.None;
+            this.guiMenu.ImageScalingSize = new System.Drawing.Size(32, 32);
             this.guiMenu.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.guiFileMenuItem,
             this.guiPluginsMenuItem,
             this.guiHelpMenuItem});
             this.guiMenu.Location = new System.Drawing.Point(0, 0);
             this.guiMenu.Name = "guiMenu";
-            this.guiMenu.Size = new System.Drawing.Size(784, 24);
+            this.guiMenu.Size = new System.Drawing.Size(787, 24);
             this.guiMenu.TabIndex = 0;
             this.guiMenu.Text = "menuStrip1";
             // 
@@ -1119,41 +1111,38 @@ namespace WSCT.GUI
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(784, 564);
+            this.ClientSize = new System.Drawing.Size(787, 587);
             this.Controls.Add(this.toolStripContainer1);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MainMenuStrip = this.guiMenu;
             this.Name = "WinSCardGui";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WinSCard GUI";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WinSCardGUI_FormClosing);
-            guiGroupCard.ResumeLayout(false);
-            guiGroupContext.ResumeLayout(false);
-            guiTabConnection.ResumeLayout(false);
-            guiTabConnection.PerformLayout();
+            guiPluginDescriptionGroupBox.ResumeLayout(false);
+            guiPluginDescriptionGroupBox.PerformLayout();
+            this.guiGroupCard.ResumeLayout(false);
+            this.guiGroupContext.ResumeLayout(false);
+            this.guiTabConnection.ResumeLayout(false);
             this.guiGroupCardInformations.ResumeLayout(false);
             this.guiGroupCardInformations.PerformLayout();
             this.guiGroupCardConnection.ResumeLayout(false);
             this.guiGroupCardConnection.PerformLayout();
             this.guiGroupCardAttributes.ResumeLayout(false);
             this.guiGroupCardAttributes.PerformLayout();
-            guiStatus.ResumeLayout(false);
-            guiStatus.PerformLayout();
-            guiGroupBoxLoadedPlugins.ResumeLayout(false);
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            groupBox3.ResumeLayout(false);
-            groupBox3.PerformLayout();
-            groupBox4.ResumeLayout(false);
-            groupBox4.PerformLayout();
-            groupBox5.ResumeLayout(false);
+            this.guiStatus.ResumeLayout(false);
+            this.guiStatus.PerformLayout();
+            this.guiGroupBoxLoadedPlugins.ResumeLayout(false);
+            guiPluginAssemblyInfoGroupBox.ResumeLayout(false);
+            guiPluginAssemblyInfoGroupBox.PerformLayout();
+            this.guiLayerAssemblyInfoGroupBox.ResumeLayout(false);
+            this.guiLayerAssemblyInfoGroupBox.PerformLayout();
+            this.guiLayerDescriptionGroupBox.ResumeLayout(false);
+            this.guiLayerDescriptionGroupBox.PerformLayout();
+            this.guiAvailableLayersGroupBox.ResumeLayout(false);
             this.guiTabs.ResumeLayout(false);
             this.guiTabLogs.ResumeLayout(false);
             this.guiTabPlugins.ResumeLayout(false);
-            this.guiTabPlugins.PerformLayout();
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.guiTabLayers.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
             this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
             this.toolStripContainer1.ContentPanel.ResumeLayout(false);
@@ -1207,27 +1196,57 @@ namespace WSCT.GUI
 		internal System.Windows.Forms.RichTextBox guiLogsView;
         private System.Windows.Forms.ToolStripMenuItem guiPluginsMenuItem;
 		private System.Windows.Forms.TabPage guiTabPlugins;
-		private System.Windows.Forms.ListBox guiLoadedPlugins;
-		private System.Windows.Forms.TextBox guiPluginDLL;
+		private System.Windows.Forms.ListBox guiAvailablePlugins;
 		private System.Windows.Forms.TextBox guiPluginName;
 		private System.Windows.Forms.TextBox guiPluginClassName;
-		private System.Windows.Forms.TextBox guiPluginPathToDll;
+		private System.Windows.Forms.TextBox guiPluginAssemblyPath;
 		private System.Windows.Forms.TextBox guiPluginAssemblyVersion;
 		private System.Windows.Forms.TextBox guiPluginAssemblyName;
-		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.TabPage guiTabLayers;
 		private System.Windows.Forms.TextBox guiLayerAssemblyName;
 		private System.Windows.Forms.TextBox guiLayerAssemblyVersion;
 		private System.Windows.Forms.TextBox guiLayerPathToDll;
 		private System.Windows.Forms.TextBox guiLayerClassName;
 		private System.Windows.Forms.TextBox guiLayerDLL;
 		private System.Windows.Forms.TextBox guiLayerName;
-		private System.Windows.Forms.ListBox guiLoadedChannelLayers;
-		private System.Windows.Forms.ListBox guiLoadedContextLayers;
+		private System.Windows.Forms.ListBox guiAvailableChannelLayers;
+		private System.Windows.Forms.ListBox guiAvailableContextLayers;
         private System.Windows.Forms.GroupBox guiGroupCardConnection;
         private System.Windows.Forms.GroupBox guiGroupCardAttributes;
         private System.Windows.Forms.GroupBox guiGroupCardInformations;
         private System.Windows.Forms.TextBox guiLayerAssemblyDescription;
+        private System.Windows.Forms.GroupBox guiGroupCard;
+        private System.Windows.Forms.GroupBox guiGroupContext;
+        private System.Windows.Forms.TabPage guiTabConnection;
+        private System.Windows.Forms.Label labelReaderInUser;
+        private System.Windows.Forms.Label labelCardChannel;
+        private System.Windows.Forms.Label labelContext;
+        private System.Windows.Forms.Label labelDisposition;
+        private System.Windows.Forms.Label labelShareMode;
+        private System.Windows.Forms.Label labelProtocol;
+        private System.Windows.Forms.Label labelStringAttribute;
+        private System.Windows.Forms.Label labelRawAttribute;
+        private System.Windows.Forms.StatusStrip guiStatus;
+        private System.Windows.Forms.GroupBox guiGroupBoxLoadedPlugins;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label15;
+        private System.Windows.Forms.GroupBox guiLayerAssemblyInfoGroupBox;
+        private System.Windows.Forms.Label label14;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.GroupBox guiLayerDescriptionGroupBox;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label label11;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.GroupBox guiAvailableLayersGroupBox;
         private System.Windows.Forms.TextBox guiPluginAssemblyDescription;
-	}
+        private System.Windows.Forms.TextBox guiPluginDescription;
+        private System.Windows.Forms.Label label16;
+    }
 }
 

@@ -20,9 +20,9 @@ namespace WSCT.GUI
 
         private readonly CardChannelStackDescription channelLayers;
         private readonly CardContextStackDescription contextLayers;
-        private readonly PluginRepository pluginRepository;
         private readonly StatusChangeMonitor statusMonitor;
         private readonly CardObserver observer;
+        private readonly PluginsManager pluginManager;
 
         #endregion
 
@@ -34,6 +34,8 @@ namespace WSCT.GUI
         public WinSCardGui()
         {
             InitializeComponent();
+
+            Icon = Common.Resources.Icons.WSCT;
 
             guiShareMode.DataSource = Enum.GetValues(typeof(ShareMode));
             guiShareMode.SelectedItem = ShareMode.Shared;
@@ -47,13 +49,8 @@ namespace WSCT.GUI
             guiAttribute.DataSource = Enum.GetValues(typeof(Attrib));
             guiAttribute.SelectedItem = Attrib.AtrString;
 
-            pluginRepository = new PluginRepository();
-            // Read all independant plugins repository and aggregate them in <c>pluginRepository</c>
-            foreach (var fileName in Directory.GetFiles(".", "Plugin*.xml"))
-            {
-                var pr = SerializedObject<PluginRepository>.LoadFromXml(fileName);
-                pr.Plugins.DoForEach(d => pluginRepository.Add(d));
-            }
+            pluginManager = new PluginsManager();
+            pluginManager.DiscoverInDirectory(Directory.GetCurrentDirectory());
 
             observer = new CardObserver(this);
 
@@ -65,26 +62,30 @@ namespace WSCT.GUI
 
             #region >> Initialize plugins menu and tab
 
-            foreach (var plugin in pluginRepository.Plugins)
+            foreach (var plugin in pluginManager.Plugins)
             {
-                var pluginMenuItem = new ToolStripMenuItem { Text = plugin.Name };
+                var pluginMenuItem = new ToolStripMenuItem
+                {
+                    Text = plugin.Attribute.Name,
+                    Tag = plugin
+                };
                 pluginMenuItem.Click += guiPluginsMenu_Click;
                 guiPluginsMenuItem.DropDownItems.Add(pluginMenuItem);
-
-                guiLoadedPlugins.Items.Add(plugin);
             }
 
-            guiLoadedPlugins.DisplayMember = "name";
+            guiAvailablePlugins.Format += (sender, args) =>
+                args.Value = ((PluginInfo)args.ListItem).Attribute.Name;
+            guiAvailablePlugins.DataSource = pluginManager.Plugins;
 
             #endregion
 
             #region >> Initialize layers menu and tab
 
-            channelLayers.LayerDescriptions.DoForEach(d => guiLoadedChannelLayers.Items.Add(d));
-            guiLoadedChannelLayers.DisplayMember = "name";
+            channelLayers.LayerDescriptions.DoForEach(d => guiAvailableChannelLayers.Items.Add(d));
+            guiAvailableChannelLayers.DisplayMember = "name";
 
-            contextLayers.LayerDescriptions.DoForEach(d => guiLoadedContextLayers.Items.Add(d));
-            guiLoadedContextLayers.DisplayMember = "name";
+            contextLayers.LayerDescriptions.DoForEach(d => guiAvailableContextLayers.Items.Add(d));
+            guiAvailableContextLayers.DisplayMember = "name";
 
             #endregion
         }
@@ -255,8 +256,8 @@ namespace WSCT.GUI
             var menuItem = (ToolStripMenuItem)sender;
             try
             {
-                var plugin = pluginRepository.CreateInstance(menuItem.Text);
-                plugin.Show();
+                var plugin = (PluginInfo)menuItem.Tag;
+                plugin.CreateInstance().Show();
             }
             catch (Exception ex)
             {
@@ -366,38 +367,17 @@ namespace WSCT.GUI
             var listBox = (ListBox)sender;
             if (listBox.SelectedItem != null)
             {
-                var plugin = (PluginDescription)listBox.SelectedItem;
-                guiPluginName.Text = plugin.Name;
-                guiPluginClassName.Text = plugin.ClassName;
-                guiPluginDLL.Text = plugin.DllName;
-                guiPluginPathToDll.Text = plugin.PathToDll;
+                var plugin = (PluginInfo)listBox.SelectedItem;
+                var assembly = plugin.Type.Assembly;
 
-                Assembly assembly = null;
-                try
-                {
-                    assembly = Assembly.LoadFrom(plugin.PathToDll + plugin.DllName);
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show(ex.Message, String.Format(Lang.ErrorAccessingPluginAssemblyX, plugin.Name), MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+                guiPluginName.Text = plugin.Attribute.Name;
+                guiPluginClassName.Text = plugin.Type.FullName;
+                guiPluginDescription.Text = plugin.Attribute.Description;
 
-                if (assembly != null)
-                {
-                    var assemblyName = new AssemblyName(assembly.FullName);
-                    guiPluginAssemblyVersion.Text = assemblyName.Version.ToString();
-                    guiPluginAssemblyName.Text = assemblyName.Name;
-
-                    try
-                    {
-                        var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
-                        guiPluginAssemblyDescription.Text = assemblyDescription.Description;
-                    }
-                    catch (Exception)
-                    {
-                        guiPluginAssemblyDescription.Text = "";
-                    }
-                }
+                guiPluginAssemblyPath.Text = assembly.Location;
+                guiPluginAssemblyVersion.Text = assembly.GetName().Version.ToString();
+                guiPluginAssemblyName.Text = assembly.FullName;
+                guiPluginAssemblyDescription.Text = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
             }
         }
 
@@ -407,7 +387,7 @@ namespace WSCT.GUI
             if (listBox.SelectedItem != null)
             {
                 // Deselect the selected layer in context layers
-                guiLoadedContextLayers.SetSelected(0, false);
+                guiAvailableContextLayers.SetSelected(0, false);
 
                 // Update assembly information
                 var layer = (CardChannelLayerDescription)listBox.SelectedItem;
@@ -453,7 +433,7 @@ namespace WSCT.GUI
             if (listBox.SelectedItem != null)
             {
                 // Deselect the selected layer in channel layers
-                guiLoadedChannelLayers.SetSelected(0, false);
+                guiAvailableChannelLayers.SetSelected(0, false);
 
                 // Update assembly informations
                 var layer = (CardContextLayerDescription)listBox.SelectedItem;
