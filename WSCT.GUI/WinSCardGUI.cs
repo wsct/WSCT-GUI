@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -23,6 +25,8 @@ namespace WSCT.GUI
         private readonly StatusChangeMonitor statusMonitor;
         private readonly CardObserver observer;
         private readonly PluginsManager pluginManager;
+
+        private readonly Dictionary<object, Color> defaultControlBackColors = new Dictionary<object, Color>();
 
         #endregion
 
@@ -88,11 +92,69 @@ namespace WSCT.GUI
             guiAvailableContextLayers.DisplayMember = "name";
 
             #endregion
+
+            TryToEstablishContext();
         }
 
         #endregion
 
         #region >> Methods
+
+        private void ResetControlColor(Control control)
+        {
+            if (defaultControlBackColors.TryGetValue(control, out var defaultBackColor))
+            {
+                control.BackColor = defaultBackColor;
+            }
+            else
+            {
+                defaultControlBackColors.Add(control, control.BackColor);
+            }
+        }
+
+        private void SetControlColor(Control control, Color backColor)
+        {
+            if (!defaultControlBackColors.ContainsKey(control))
+            {
+                defaultControlBackColors.Add(control, control.BackColor);
+            }
+
+            control.BackColor = backColor;
+        }
+
+        private void TryToEstablishContext()
+        {
+            statusMonitor.OnCardInsertionEvent = null;
+            statusMonitor.OnCardRemovalEvent = null;
+            CreateCardContextStack();
+
+            var lastError = SharedData.CardContext.Establish();
+
+            if (lastError == ErrorCode.Success)
+            {
+                if (SharedData.CardContext.ListReaderGroups() == ErrorCode.Success)
+                {
+                    guiReaderGroups.DataSource = SharedData.CardContext.Groups;
+                    guiFoundReaderGroups.Text = string.Format(Lang.ReaderGroupsFoundAre, SharedData.CardContext.GroupsCount);
+
+                    if (SharedData.CardContext.ListReaders(SharedData.CardContext.Groups[0]) == ErrorCode.Success)
+                    {
+                        guiReaders.DataSource = SharedData.CardContext.Readers;
+                        guiFoundReaders.Text = string.Format(Lang.ReadersFoundAre, SharedData.CardContext.ReadersCount);
+
+                        statusMonitor.Context = SharedData.CardContext;
+                        statusMonitor.Start();
+                    }
+                }
+
+                UpdateContextEstablished();
+            }
+            else
+            {
+                guiContextState.Text = Lang.AnErrorOccured;
+                SetControlColor(guiContextState, Common.Resources.Colors.StatusError);
+            }
+        }
 
         #endregion
 
@@ -128,35 +190,7 @@ namespace WSCT.GUI
 
         private void guiContextEstablish_Click(object sender, EventArgs e)
         {
-            statusMonitor.OnCardInsertionEvent = null;
-            statusMonitor.OnCardRemovalEvent = null;
-            CreateCardContextStack();
-
-            var lastError = SharedData.CardContext.Establish();
-
-            if (lastError == ErrorCode.Success)
-            {
-                if (SharedData.CardContext.ListReaderGroups() == ErrorCode.Success)
-                {
-                    guiReaderGroups.DataSource = SharedData.CardContext.Groups;
-                    guiFoundReaderGroups.Text = string.Format(Lang.ReaderGroupsFoundAre, SharedData.CardContext.GroupsCount);
-
-                    if (SharedData.CardContext.ListReaders(SharedData.CardContext.Groups[0]) == ErrorCode.Success)
-                    {
-                        guiReaders.DataSource = SharedData.CardContext.Readers;
-                        guiFoundReaders.Text = string.Format(Lang.ReadersFoundAre, SharedData.CardContext.ReadersCount);
-
-                        statusMonitor.Context = SharedData.CardContext;
-                        statusMonitor.Start();
-                    }
-                }
-
-                UpdateContextEstablished();
-            }
-            else
-            {
-                guiContextState.Text = Lang.AnErrorOccured;
-            }
+            TryToEstablishContext();
         }
 
         private void guiContextRelease_Click(object sender, EventArgs e)
@@ -285,7 +319,8 @@ namespace WSCT.GUI
         /// <param name="error"></param>
         public void UpdateLastError(ErrorCode error)
         {
-            guiLastError.Text = string.Format(Lang.LastErrorIsX, error);
+            guiLastError.Text = String.Format(Lang.LastErrorIsX, error);
+            SetControlColor(guiStatus, error == ErrorCode.Success ? Common.Resources.Colors.StatusSuccess : Common.Resources.Colors.StatusError);
         }
 
         /// <summary>
@@ -298,12 +333,15 @@ namespace WSCT.GUI
             {
                 case ChannelStatusType.Connected:
                     guiChannelState.Text = Lang.ChannelIsConnected;
+                    SetControlColor(guiChannelState, Common.Resources.Colors.StatusSuccess);
                     break;
                 case ChannelStatusType.Disconnected:
                     guiChannelState.Text = Lang.ChannelIsDisconnected;
+                    ResetControlColor(guiChannelState);
                     break;
                 case ChannelStatusType.Error:
                     guiChannelState.Text = Lang.AnErrorOccured;
+                    SetControlColor(guiChannelState, Common.Resources.Colors.StatusError);
                     break;
             }
         }

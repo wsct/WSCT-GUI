@@ -33,14 +33,22 @@ namespace WSCT.GUI
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.GroupBox guiPluginDescriptionGroupBox;
-            System.Windows.Forms.GroupBox guiPluginAssemblyInfoGroupBox;
+            this.guiPluginDescriptionGroupBox = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.guiPluginName = new System.Windows.Forms.TextBox();
             this.label4 = new System.Windows.Forms.Label();
             this.guiPluginClassName = new System.Windows.Forms.TextBox();
             this.label16 = new System.Windows.Forms.Label();
             this.guiPluginDescription = new System.Windows.Forms.TextBox();
+            this.guiPluginAssemblyInfoGroupBox = new System.Windows.Forms.GroupBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.guiPluginAssemblyName = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.guiPluginAssemblyPath = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.guiPluginAssemblyVersion = new System.Windows.Forms.TextBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.guiPluginAssemblyDescription = new System.Windows.Forms.TextBox();
             this.guiGroupCard = new System.Windows.Forms.GroupBox();
             this.guiCardConnect = new System.Windows.Forms.Button();
             this.guiCardWarmReset = new System.Windows.Forms.Button();
@@ -82,14 +90,6 @@ namespace WSCT.GUI
             this.guiLastError = new System.Windows.Forms.ToolStripStatusLabel();
             this.guiGroupBoxLoadedPlugins = new System.Windows.Forms.GroupBox();
             this.guiAvailablePlugins = new System.Windows.Forms.ListBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.guiPluginAssemblyPath = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.guiPluginAssemblyName = new System.Windows.Forms.TextBox();
-            this.guiPluginAssemblyVersion = new System.Windows.Forms.TextBox();
-            this.label15 = new System.Windows.Forms.Label();
-            this.guiPluginAssemblyDescription = new System.Windows.Forms.TextBox();
             this.guiLayerAssemblyInfoGroupBox = new System.Windows.Forms.GroupBox();
             this.label14 = new System.Windows.Forms.Label();
             this.guiLayerAssemblyDescription = new System.Windows.Forms.TextBox();
@@ -123,9 +123,8 @@ namespace WSCT.GUI
             this.guiAboutWinSCardGUI = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            guiPluginDescriptionGroupBox = new System.Windows.Forms.GroupBox();
-            guiPluginAssemblyInfoGroupBox = new System.Windows.Forms.GroupBox();
-            guiPluginDescriptionGroupBox.SuspendLayout();
+            this.guiPluginDescriptionGroupBox.SuspendLayout();
+            this.guiPluginAssemblyInfoGroupBox.SuspendLayout();
             this.guiGroupCard.SuspendLayout();
             this.guiGroupContext.SuspendLayout();
             this.guiTabConnection.SuspendLayout();
@@ -134,7 +133,6 @@ namespace WSCT.GUI
             this.guiGroupCardAttributes.SuspendLayout();
             this.guiStatus.SuspendLayout();
             this.guiGroupBoxLoadedPlugins.SuspendLayout();
-            guiPluginAssemblyInfoGroupBox.SuspendLayout();
             this.guiLayerAssemblyInfoGroupBox.SuspendLayout();
             this.guiLayerDescriptionGroupBox.SuspendLayout();
             this.guiAvailableLayersGroupBox.SuspendLayout();
@@ -151,20 +149,20 @@ namespace WSCT.GUI
             // 
             // guiPluginDescriptionGroupBox
             // 
-            guiPluginDescriptionGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.guiPluginDescriptionGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            guiPluginDescriptionGroupBox.Controls.Add(this.label2);
-            guiPluginDescriptionGroupBox.Controls.Add(this.guiPluginName);
-            guiPluginDescriptionGroupBox.Controls.Add(this.label4);
-            guiPluginDescriptionGroupBox.Controls.Add(this.guiPluginClassName);
-            guiPluginDescriptionGroupBox.Controls.Add(this.label16);
-            guiPluginDescriptionGroupBox.Controls.Add(this.guiPluginDescription);
-            guiPluginDescriptionGroupBox.Location = new System.Drawing.Point(209, 6);
-            guiPluginDescriptionGroupBox.Name = "guiPluginDescriptionGroupBox";
-            guiPluginDescriptionGroupBox.Size = new System.Drawing.Size(450, 169);
-            guiPluginDescriptionGroupBox.TabIndex = 1;
-            guiPluginDescriptionGroupBox.TabStop = false;
-            guiPluginDescriptionGroupBox.Text = "Plugin Description";
+            this.guiPluginDescriptionGroupBox.Controls.Add(this.label2);
+            this.guiPluginDescriptionGroupBox.Controls.Add(this.guiPluginName);
+            this.guiPluginDescriptionGroupBox.Controls.Add(this.label4);
+            this.guiPluginDescriptionGroupBox.Controls.Add(this.guiPluginClassName);
+            this.guiPluginDescriptionGroupBox.Controls.Add(this.label16);
+            this.guiPluginDescriptionGroupBox.Controls.Add(this.guiPluginDescription);
+            this.guiPluginDescriptionGroupBox.Location = new System.Drawing.Point(209, 6);
+            this.guiPluginDescriptionGroupBox.Name = "guiPluginDescriptionGroupBox";
+            this.guiPluginDescriptionGroupBox.Size = new System.Drawing.Size(450, 169);
+            this.guiPluginDescriptionGroupBox.TabIndex = 1;
+            this.guiPluginDescriptionGroupBox.TabStop = false;
+            this.guiPluginDescriptionGroupBox.Text = "Plugin Description";
             // 
             // label2
             // 
@@ -223,6 +221,103 @@ namespace WSCT.GUI
             this.guiPluginDescription.ReadOnly = true;
             this.guiPluginDescription.Size = new System.Drawing.Size(438, 40);
             this.guiPluginDescription.TabIndex = 6;
+            // 
+            // guiPluginAssemblyInfoGroupBox
+            // 
+            this.guiPluginAssemblyInfoGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiPluginAssemblyInfoGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.guiPluginAssemblyInfoGroupBox.Controls.Add(this.label7);
+            this.guiPluginAssemblyInfoGroupBox.Controls.Add(this.guiPluginAssemblyName);
+            this.guiPluginAssemblyInfoGroupBox.Controls.Add(this.label5);
+            this.guiPluginAssemblyInfoGroupBox.Controls.Add(this.guiPluginAssemblyPath);
+            this.guiPluginAssemblyInfoGroupBox.Controls.Add(this.label6);
+            this.guiPluginAssemblyInfoGroupBox.Controls.Add(this.guiPluginAssemblyVersion);
+            this.guiPluginAssemblyInfoGroupBox.Controls.Add(this.label15);
+            this.guiPluginAssemblyInfoGroupBox.Controls.Add(this.guiPluginAssemblyDescription);
+            this.guiPluginAssemblyInfoGroupBox.Location = new System.Drawing.Point(209, 180);
+            this.guiPluginAssemblyInfoGroupBox.Name = "guiPluginAssemblyInfoGroupBox";
+            this.guiPluginAssemblyInfoGroupBox.Size = new System.Drawing.Size(450, 208);
+            this.guiPluginAssemblyInfoGroupBox.TabIndex = 2;
+            this.guiPluginAssemblyInfoGroupBox.TabStop = false;
+            this.guiPluginAssemblyInfoGroupBox.Text = "Plugin Assembly Information";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 16);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 13);
+            this.label7.TabIndex = 2;
+            this.label7.Text = "Name";
+            // 
+            // guiPluginAssemblyName
+            // 
+            this.guiPluginAssemblyName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiPluginAssemblyName.Location = new System.Drawing.Point(6, 32);
+            this.guiPluginAssemblyName.Name = "guiPluginAssemblyName";
+            this.guiPluginAssemblyName.ReadOnly = true;
+            this.guiPluginAssemblyName.Size = new System.Drawing.Size(438, 20);
+            this.guiPluginAssemblyName.TabIndex = 3;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 55);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(29, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Path";
+            // 
+            // guiPluginAssemblyPath
+            // 
+            this.guiPluginAssemblyPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiPluginAssemblyPath.Location = new System.Drawing.Point(6, 71);
+            this.guiPluginAssemblyPath.Name = "guiPluginAssemblyPath";
+            this.guiPluginAssemblyPath.ReadOnly = true;
+            this.guiPluginAssemblyPath.Size = new System.Drawing.Size(438, 20);
+            this.guiPluginAssemblyPath.TabIndex = 7;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 94);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(42, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Version";
+            // 
+            // guiPluginAssemblyVersion
+            // 
+            this.guiPluginAssemblyVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiPluginAssemblyVersion.Location = new System.Drawing.Point(6, 110);
+            this.guiPluginAssemblyVersion.Name = "guiPluginAssemblyVersion";
+            this.guiPluginAssemblyVersion.ReadOnly = true;
+            this.guiPluginAssemblyVersion.Size = new System.Drawing.Size(438, 20);
+            this.guiPluginAssemblyVersion.TabIndex = 1;
+            // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 133);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(60, 13);
+            this.label15.TabIndex = 4;
+            this.label15.Text = "Description";
+            // 
+            // guiPluginAssemblyDescription
+            // 
+            this.guiPluginAssemblyDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiPluginAssemblyDescription.Location = new System.Drawing.Point(6, 149);
+            this.guiPluginAssemblyDescription.Multiline = true;
+            this.guiPluginAssemblyDescription.Name = "guiPluginAssemblyDescription";
+            this.guiPluginAssemblyDescription.ReadOnly = true;
+            this.guiPluginAssemblyDescription.Size = new System.Drawing.Size(438, 40);
+            this.guiPluginAssemblyDescription.TabIndex = 5;
             // 
             // guiGroupCard
             // 
@@ -324,7 +419,7 @@ namespace WSCT.GUI
             this.guiTabConnection.Controls.Add(this.guiGroupCardAttributes);
             this.guiTabConnection.Location = new System.Drawing.Point(4, 22);
             this.guiTabConnection.Name = "guiTabConnection";
-            this.guiTabConnection.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.guiTabConnection.Padding = new System.Windows.Forms.Padding(3);
             this.guiTabConnection.Size = new System.Drawing.Size(665, 509);
             this.guiTabConnection.TabIndex = 0;
             this.guiTabConnection.Text = "Card Tools";
@@ -638,8 +733,8 @@ namespace WSCT.GUI
             // guiLastError
             // 
             this.guiLastError.Name = "guiLastError";
-            this.guiLastError.Size = new System.Drawing.Size(76, 17);
-            this.guiLastError.Text = "Last Error: {0}";
+            this.guiLastError.Size = new System.Drawing.Size(53, 17);
+            this.guiLastError.Text = "LastError";
             // 
             // guiGroupBoxLoadedPlugins
             // 
@@ -661,103 +756,6 @@ namespace WSCT.GUI
             this.guiAvailablePlugins.Size = new System.Drawing.Size(188, 472);
             this.guiAvailablePlugins.TabIndex = 0;
             this.guiAvailablePlugins.SelectedIndexChanged += new System.EventHandler(this.guiLoadedPlugins_SelectedIndexChanged);
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 55);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(29, 13);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Path";
-            // 
-            // guiPluginAssemblyPath
-            // 
-            this.guiPluginAssemblyPath.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.guiPluginAssemblyPath.Location = new System.Drawing.Point(6, 71);
-            this.guiPluginAssemblyPath.Name = "guiPluginAssemblyPath";
-            this.guiPluginAssemblyPath.ReadOnly = true;
-            this.guiPluginAssemblyPath.Size = new System.Drawing.Size(438, 20);
-            this.guiPluginAssemblyPath.TabIndex = 7;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 94);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(42, 13);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Version";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 16);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(35, 13);
-            this.label7.TabIndex = 2;
-            this.label7.Text = "Name";
-            // 
-            // guiPluginAssemblyInfoGroupBox
-            // 
-            guiPluginAssemblyInfoGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            guiPluginAssemblyInfoGroupBox.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            guiPluginAssemblyInfoGroupBox.Controls.Add(this.label7);
-            guiPluginAssemblyInfoGroupBox.Controls.Add(this.guiPluginAssemblyName);
-            guiPluginAssemblyInfoGroupBox.Controls.Add(this.label5);
-            guiPluginAssemblyInfoGroupBox.Controls.Add(this.guiPluginAssemblyPath);
-            guiPluginAssemblyInfoGroupBox.Controls.Add(this.label6);
-            guiPluginAssemblyInfoGroupBox.Controls.Add(this.guiPluginAssemblyVersion);
-            guiPluginAssemblyInfoGroupBox.Controls.Add(this.label15);
-            guiPluginAssemblyInfoGroupBox.Controls.Add(this.guiPluginAssemblyDescription);
-            guiPluginAssemblyInfoGroupBox.Location = new System.Drawing.Point(209, 180);
-            guiPluginAssemblyInfoGroupBox.Name = "guiPluginAssemblyInfoGroupBox";
-            guiPluginAssemblyInfoGroupBox.Size = new System.Drawing.Size(450, 208);
-            guiPluginAssemblyInfoGroupBox.TabIndex = 2;
-            guiPluginAssemblyInfoGroupBox.TabStop = false;
-            guiPluginAssemblyInfoGroupBox.Text = "Plugin Assembly Information";
-            // 
-            // guiPluginAssemblyName
-            // 
-            this.guiPluginAssemblyName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.guiPluginAssemblyName.Location = new System.Drawing.Point(6, 32);
-            this.guiPluginAssemblyName.Name = "guiPluginAssemblyName";
-            this.guiPluginAssemblyName.ReadOnly = true;
-            this.guiPluginAssemblyName.Size = new System.Drawing.Size(438, 20);
-            this.guiPluginAssemblyName.TabIndex = 3;
-            // 
-            // guiPluginAssemblyVersion
-            // 
-            this.guiPluginAssemblyVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.guiPluginAssemblyVersion.Location = new System.Drawing.Point(6, 110);
-            this.guiPluginAssemblyVersion.Name = "guiPluginAssemblyVersion";
-            this.guiPluginAssemblyVersion.ReadOnly = true;
-            this.guiPluginAssemblyVersion.Size = new System.Drawing.Size(438, 20);
-            this.guiPluginAssemblyVersion.TabIndex = 1;
-            // 
-            // label15
-            // 
-            this.label15.AutoSize = true;
-            this.label15.Location = new System.Drawing.Point(6, 133);
-            this.label15.Name = "label15";
-            this.label15.Size = new System.Drawing.Size(60, 13);
-            this.label15.TabIndex = 4;
-            this.label15.Text = "Description";
-            // 
-            // guiPluginAssemblyDescription
-            // 
-            this.guiPluginAssemblyDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.guiPluginAssemblyDescription.Location = new System.Drawing.Point(6, 149);
-            this.guiPluginAssemblyDescription.Multiline = true;
-            this.guiPluginAssemblyDescription.Name = "guiPluginAssemblyDescription";
-            this.guiPluginAssemblyDescription.ReadOnly = true;
-            this.guiPluginAssemblyDescription.Size = new System.Drawing.Size(438, 40);
-            this.guiPluginAssemblyDescription.TabIndex = 5;
             // 
             // guiLayerAssemblyInfoGroupBox
             // 
@@ -970,7 +968,7 @@ namespace WSCT.GUI
             this.guiTabLogs.Controls.Add(this.guiLogsView);
             this.guiTabLogs.Location = new System.Drawing.Point(4, 22);
             this.guiTabLogs.Name = "guiTabLogs";
-            this.guiTabLogs.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.guiTabLogs.Padding = new System.Windows.Forms.Padding(3);
             this.guiTabLogs.Size = new System.Drawing.Size(665, 509);
             this.guiTabLogs.TabIndex = 4;
             this.guiTabLogs.Text = "Logs";
@@ -991,11 +989,11 @@ namespace WSCT.GUI
             // guiTabPlugins
             // 
             this.guiTabPlugins.Controls.Add(this.guiGroupBoxLoadedPlugins);
-            this.guiTabPlugins.Controls.Add(guiPluginDescriptionGroupBox);
-            this.guiTabPlugins.Controls.Add(guiPluginAssemblyInfoGroupBox);
+            this.guiTabPlugins.Controls.Add(this.guiPluginDescriptionGroupBox);
+            this.guiTabPlugins.Controls.Add(this.guiPluginAssemblyInfoGroupBox);
             this.guiTabPlugins.Location = new System.Drawing.Point(4, 22);
             this.guiTabPlugins.Name = "guiTabPlugins";
-            this.guiTabPlugins.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.guiTabPlugins.Padding = new System.Windows.Forms.Padding(3);
             this.guiTabPlugins.Size = new System.Drawing.Size(665, 509);
             this.guiTabPlugins.TabIndex = 5;
             this.guiTabPlugins.Text = "Plugins";
@@ -1008,7 +1006,7 @@ namespace WSCT.GUI
             this.guiTabLayers.Controls.Add(this.guiAvailableLayersGroupBox);
             this.guiTabLayers.Location = new System.Drawing.Point(4, 22);
             this.guiTabLayers.Name = "guiTabLayers";
-            this.guiTabLayers.Padding = new System.Windows.Forms.Padding(3, 3, 3, 3);
+            this.guiTabLayers.Padding = new System.Windows.Forms.Padding(3);
             this.guiTabLayers.Size = new System.Drawing.Size(665, 509);
             this.guiTabLayers.TabIndex = 6;
             this.guiTabLayers.Text = "Layers";
@@ -1118,8 +1116,10 @@ namespace WSCT.GUI
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "WinSCard GUI";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.WinSCardGUI_FormClosing);
-            guiPluginDescriptionGroupBox.ResumeLayout(false);
-            guiPluginDescriptionGroupBox.PerformLayout();
+            this.guiPluginDescriptionGroupBox.ResumeLayout(false);
+            this.guiPluginDescriptionGroupBox.PerformLayout();
+            this.guiPluginAssemblyInfoGroupBox.ResumeLayout(false);
+            this.guiPluginAssemblyInfoGroupBox.PerformLayout();
             this.guiGroupCard.ResumeLayout(false);
             this.guiGroupContext.ResumeLayout(false);
             this.guiTabConnection.ResumeLayout(false);
@@ -1132,8 +1132,6 @@ namespace WSCT.GUI
             this.guiStatus.ResumeLayout(false);
             this.guiStatus.PerformLayout();
             this.guiGroupBoxLoadedPlugins.ResumeLayout(false);
-            guiPluginAssemblyInfoGroupBox.ResumeLayout(false);
-            guiPluginAssemblyInfoGroupBox.PerformLayout();
             this.guiLayerAssemblyInfoGroupBox.ResumeLayout(false);
             this.guiLayerAssemblyInfoGroupBox.PerformLayout();
             this.guiLayerDescriptionGroupBox.ResumeLayout(false);
@@ -1247,6 +1245,8 @@ namespace WSCT.GUI
         private System.Windows.Forms.TextBox guiPluginAssemblyDescription;
         private System.Windows.Forms.TextBox guiPluginDescription;
         private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.GroupBox guiPluginDescriptionGroupBox;
+        private System.Windows.Forms.GroupBox guiPluginAssemblyInfoGroupBox;
     }
 }
 
