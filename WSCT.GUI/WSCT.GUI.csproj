@@ -5,12 +5,12 @@
     <Authors>Sylvain Vernois</Authors>
     <Company>ENSICAEN</Company>
     <Product>WSCT</Product>
-    <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2007</Copyright>
+    <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2007-2018</Copyright>
     <AssemblyName>WSCT.GUI</AssemblyName>
     <RootNamespace>WSCT.GUI</RootNamespace>
     <Description>Simple but Extensible Graphic User Interface for using WinSCard API.</Description>
     <ApplicationIcon></ApplicationIcon>
-    <Version>5.1.0</Version>
+    <Version>6.0.0</Version>
     <Win32Resource />
   </PropertyGroup>
   <ItemGroup>
