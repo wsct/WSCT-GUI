@@ -506,5 +506,10 @@ namespace WSCT.GUI
         }
 
         #endregion
+
+        private void guiClearLogs_Click(object sender, EventArgs e)
+        {
+            guiLogsView.Clear();
+        }
     }
 }

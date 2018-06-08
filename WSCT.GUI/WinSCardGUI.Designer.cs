@@ -123,6 +123,7 @@ namespace WSCT.GUI
             this.guiAboutWinSCardGUI = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.guiClearLogs = new System.Windows.Forms.Button();
             this.guiPluginDescriptionGroupBox.SuspendLayout();
             this.guiPluginAssemblyInfoGroupBox.SuspendLayout();
             this.guiGroupCard.SuspendLayout();
@@ -965,6 +966,7 @@ namespace WSCT.GUI
             // 
             // guiTabLogs
             // 
+            this.guiTabLogs.Controls.Add(this.guiClearLogs);
             this.guiTabLogs.Controls.Add(this.guiLogsView);
             this.guiTabLogs.Location = new System.Drawing.Point(4, 22);
             this.guiTabLogs.Name = "guiTabLogs";
@@ -979,9 +981,11 @@ namespace WSCT.GUI
             this.guiLogsView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiLogsView.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.guiLogsView.Location = new System.Drawing.Point(6, 6);
             this.guiLogsView.Name = "guiLogsView";
-            this.guiLogsView.Size = new System.Drawing.Size(653, 502);
+            this.guiLogsView.ReadOnly = true;
+            this.guiLogsView.Size = new System.Drawing.Size(653, 468);
             this.guiLogsView.TabIndex = 0;
             this.guiLogsView.Text = "";
             this.guiLogsView.WordWrap = false;
@@ -1104,6 +1108,17 @@ namespace WSCT.GUI
             this.label1.Size = new System.Drawing.Size(49, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Found: 0";
+            // 
+            // guiClearLogs
+            // 
+            this.guiClearLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.guiClearLogs.Location = new System.Drawing.Point(6, 480);
+            this.guiClearLogs.Name = "guiClearLogs";
+            this.guiClearLogs.Size = new System.Drawing.Size(90, 23);
+            this.guiClearLogs.TabIndex = 4;
+            this.guiClearLogs.Text = "Clear Logs";
+            this.guiClearLogs.UseVisualStyleBackColor = true;
+            this.guiClearLogs.Click += new System.EventHandler(this.guiClearLogs_Click);
             // 
             // WinSCardGui
             // 
@@ -1247,6 +1262,7 @@ namespace WSCT.GUI
         private System.Windows.Forms.Label label16;
         private System.Windows.Forms.GroupBox guiPluginDescriptionGroupBox;
         private System.Windows.Forms.GroupBox guiPluginAssemblyInfoGroupBox;
+        private System.Windows.Forms.Button guiClearLogs;
     }
 }
 
