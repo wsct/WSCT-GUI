@@ -1,7 +1,7 @@
 using System;
-using System.Drawing;
 using WSCT.Core;
 using WSCT.Core.Events;
+using WSCT.GUI.Resources;
 using WSCT.Helpers;
 using WSCT.Helpers.Linq;
 using WSCT.Stack;
@@ -10,40 +10,32 @@ using WSCT.Wrapper.Desktop.Core;
 
 namespace WSCT.GUI
 {
-    internal sealed class CardObserver
+    internal sealed class GuiObserver
     {
-        internal Color ErrorColor = Color.Red;
-
         internal WinSCardGui Gui;
-        internal String Header;
-        internal Color HighlightColor = Color.DarkBlue;
-        internal Color StandardColor = Color.Black;
+        internal string Header;
 
         private void WriteLine(LogLevel level, object sender, string message)
         {
-            var channelLayer = sender as ICardChannelLayerObservable;
-            if (channelLayer != null)
+            if (sender is ICardChannelLayerObservable channelLayer)
             {
                 Gui.guiLogsView.AppendText(String.Format(Header, level, channelLayer.LayerId, message));
                 return;
             }
 
-            var channel = sender as ICardChannelObservable;
-            if (channel != null)
+            if (sender is ICardChannelObservable)
             {
                 Gui.guiLogsView.AppendText(String.Format(Header, level, "unknown", message));
                 return;
             }
 
-            var contextLayer = sender as ICardContextLayerObservable;
-            if (contextLayer != null)
+            if (sender is ICardContextLayerObservable contextLayer)
             {
                 Gui.guiLogsView.AppendText(String.Format(Header, level, contextLayer.LayerId, message));
                 return;
             }
 
-            var context = sender as ICardContextObservable;
-            if (context != null)
+            if (sender is ICardContextObservable)
             {
                 Gui.guiLogsView.AppendText(String.Format(Header, level, "unknown", message));
             }
@@ -55,7 +47,7 @@ namespace WSCT.GUI
         /// Creates a new instance.
         /// </summary>
         /// <param name="gui"></param>
-        public CardObserver(WinSCardGui gui)
+        public GuiObserver(WinSCardGui gui)
         {
             Header = "[{0,7}] [{1,7}] {2}" + Environment.NewLine;
             Gui = gui;
@@ -122,20 +114,20 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<AfterConnectEventArgs>(NotifyConnect), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<AfterConnectEventArgs>(NotifyConnect), sender, eventArgs);
                 return;
             }
 
             if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                Gui.guiLogsView.SelectionColor = StandardColor;
-                WriteLine(LogLevel.Info, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.guiLogsView.SelectionColor = Colors.LogDefaultColor;
+                WriteLine(LogLevel.Info, sender, $"<=  {eventArgs.ReturnValue}");
                 Gui.UpdateChannelStatus(ChannelStatusType.Connected);
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = ErrorColor;
-                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.guiLogsView.SelectionColor = Colors.LogErrorColor;
+                WriteLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
                 Gui.UpdateChannelStatus(ChannelStatusType.Error);
             }
 
@@ -146,20 +138,20 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<AfterDisconnectEventArgs>(NotifyDisconnect), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<AfterDisconnectEventArgs>(NotifyDisconnect), sender, eventArgs);
                 return;
             }
 
             if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                Gui.guiLogsView.SelectionColor = StandardColor;
-                WriteLine(LogLevel.Info, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.guiLogsView.SelectionColor = Colors.LogDefaultColor;
+                WriteLine(LogLevel.Info, sender, $"<=  {eventArgs.ReturnValue}");
                 Gui.UpdateChannelStatus(ChannelStatusType.Disconnected);
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = ErrorColor;
-                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.guiLogsView.SelectionColor = Colors.LogErrorColor;
+                WriteLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
                 Gui.UpdateChannelStatus(ChannelStatusType.Error);
             }
 
@@ -170,18 +162,18 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<AfterGetAttribEventArgs>(NotifyGetAttrib), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<AfterGetAttribEventArgs>(NotifyGetAttrib), sender, eventArgs);
                 return;
             }
 
             if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                Gui.guiLogsView.SelectionColor = StandardColor;
-                WriteLine(LogLevel.Info, sender, String.Format("<=  byte[]: [{0}]", eventArgs.Buffer.ToHexa()));
+                Gui.guiLogsView.SelectionColor = Colors.LogDefaultColor;
+                WriteLine(LogLevel.Info, sender, $"<=  byte[]: [{eventArgs.Buffer.ToHexa()}]");
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = ErrorColor;
+                Gui.guiLogsView.SelectionColor = Colors.LogErrorColor;
                 WriteLine(LogLevel.Error, sender, String.Format(Header + "<=  {0}", eventArgs.ReturnValue));
             }
 
@@ -192,20 +184,20 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<AfterReconnectEventArgs>(NotifyReconnect), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<AfterReconnectEventArgs>(NotifyReconnect), sender, eventArgs);
                 return;
             }
 
             if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                Gui.guiLogsView.SelectionColor = StandardColor;
-                WriteLine(LogLevel.Info, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.guiLogsView.SelectionColor = Colors.LogDefaultColor;
+                WriteLine(LogLevel.Info, sender, $"<=  {eventArgs.ReturnValue}");
                 Gui.UpdateChannelStatus(ChannelStatusType.Connected);
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = ErrorColor;
-                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.guiLogsView.SelectionColor = Colors.LogErrorColor;
+                WriteLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
                 Gui.UpdateChannelStatus(ChannelStatusType.Error);
             }
 
@@ -216,19 +208,19 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<AfterTransmitEventArgs>(NotifyTransmit), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<AfterTransmitEventArgs>(NotifyTransmit), sender, eventArgs);
                 return;
             }
 
             if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                Gui.guiLogsView.SelectionColor = StandardColor;
-                WriteLine(LogLevel.Info, sender, String.Format("<=  RAPDU: [{0}]", eventArgs.Response));
+                Gui.guiLogsView.SelectionColor = Colors.LogDefaultColor;
+                WriteLine(LogLevel.Info, sender, $"<=  RAPDU: [{eventArgs.Response}]");
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = ErrorColor;
-                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.guiLogsView.SelectionColor = Colors.LogErrorColor;
+                WriteLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
             }
 
             Gui.UpdateLastError(eventArgs.ReturnValue);
@@ -238,63 +230,63 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<BeforeConnectEventArgs>(BeforeConnect), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<BeforeConnectEventArgs>(BeforeConnect), sender, eventArgs);
                 return;
             }
 
             var cardChannel = (ICardChannel)sender;
 
-            Gui.guiLogsView.SelectionColor = HighlightColor;
-            WriteLine(LogLevel.Info, sender, String.Format(" => Connect(\"{0}\",{1},{2})", cardChannel.ReaderName, eventArgs.ShareMode, eventArgs.PreferedProtocol));
+            Gui.guiLogsView.SelectionColor = Colors.LogHighlightColor;
+            WriteLine(LogLevel.Info, sender, $" => Connect(\"{cardChannel.ReaderName}\",{eventArgs.ShareMode},{eventArgs.PreferedProtocol})");
         }
 
         public void BeforeDisconnect(object sender, BeforeDisconnectEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<BeforeDisconnectEventArgs>(BeforeDisconnect), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<BeforeDisconnectEventArgs>(BeforeDisconnect), sender, eventArgs);
                 return;
             }
 
-            Gui.guiLogsView.SelectionColor = HighlightColor;
-            WriteLine(LogLevel.Info, sender, String.Format(" => Disconnect({0})", eventArgs.Disposition));
+            Gui.guiLogsView.SelectionColor = Colors.LogHighlightColor;
+            WriteLine(LogLevel.Info, sender, $" => Disconnect({eventArgs.Disposition})");
         }
 
         public void BeforeGetAttrib(object sender, BeforeGetAttribEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<BeforeGetAttribEventArgs>(BeforeGetAttrib), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<BeforeGetAttribEventArgs>(BeforeGetAttrib), sender, eventArgs);
                 return;
             }
 
-            Gui.guiLogsView.SelectionColor = HighlightColor;
-            WriteLine(LogLevel.Info, sender, String.Format(" => GetAttrib({0})", eventArgs.Attrib));
+            Gui.guiLogsView.SelectionColor = Colors.LogHighlightColor;
+            WriteLine(LogLevel.Info, sender, $" => GetAttrib({eventArgs.Attrib})");
         }
 
         public void BeforeReconnect(object sender, BeforeReconnectEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<BeforeReconnectEventArgs>(BeforeReconnect), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<BeforeReconnectEventArgs>(BeforeReconnect), sender, eventArgs);
                 return;
             }
 
-            Gui.guiLogsView.SelectionColor = HighlightColor;
+            Gui.guiLogsView.SelectionColor = Colors.LogHighlightColor;
             WriteLine(LogLevel.Info, sender,
-                String.Format(" => Reconnect({0},{1},{2})", eventArgs.ShareMode, eventArgs.PreferedProtocol, eventArgs.Initialization));
+                $" => Reconnect({eventArgs.ShareMode},{eventArgs.PreferedProtocol},{eventArgs.Initialization})");
         }
 
         public void BeforeTransmit(object sender, BeforeTransmitEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<BeforeTransmitEventArgs>(BeforeTransmit), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<BeforeTransmitEventArgs>(BeforeTransmit), sender, eventArgs);
                 return;
             }
 
-            Gui.guiLogsView.SelectionColor = HighlightColor;
-            WriteLine(LogLevel.Info, sender, String.Format(" => Transmit({0})", eventArgs.Command));
+            Gui.guiLogsView.SelectionColor = Colors.LogHighlightColor;
+            WriteLine(LogLevel.Info, sender, $" => Transmit({eventArgs.Command})");
         }
 
         #endregion
@@ -305,11 +297,11 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<BeforeEstablishEventArgs>(BeforeEstablish), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<BeforeEstablishEventArgs>(BeforeEstablish), sender, eventArgs);
                 return;
             }
 
-            Gui.guiLogsView.SelectionColor = HighlightColor;
+            Gui.guiLogsView.SelectionColor = Colors.LogHighlightColor;
             WriteLine(LogLevel.Info, sender, " => Establish()");
         }
 
@@ -317,23 +309,23 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<BeforeListReadersEventArgs>(BeforeListReaders), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<BeforeListReadersEventArgs>(BeforeListReaders), sender, eventArgs);
                 return;
             }
 
-            Gui.guiLogsView.SelectionColor = HighlightColor;
-            WriteLine(LogLevel.Info, sender, String.Format(" => ListReaders({0})", eventArgs.Group));
+            Gui.guiLogsView.SelectionColor = Colors.LogHighlightColor;
+            WriteLine(LogLevel.Info, sender, $" => ListReaders({eventArgs.Group})");
         }
 
         private void BeforeListReaderGroups(object sender, BeforeListReaderGroupsEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<BeforeListReaderGroupsEventArgs>(BeforeListReaderGroups), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<BeforeListReaderGroupsEventArgs>(BeforeListReaderGroups), sender, eventArgs);
                 return;
             }
 
-            Gui.guiLogsView.SelectionColor = HighlightColor;
+            Gui.guiLogsView.SelectionColor = Colors.LogHighlightColor;
             WriteLine(LogLevel.Info, sender, " => ListReaderGroups()");
         }
 
@@ -341,11 +333,11 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<BeforeReleaseEventArgs>(BeforeRelease), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<BeforeReleaseEventArgs>(BeforeRelease), sender, eventArgs);
                 return;
             }
 
-            Gui.guiLogsView.SelectionColor = HighlightColor;
+            Gui.guiLogsView.SelectionColor = Colors.LogHighlightColor;
             WriteLine(LogLevel.Info, sender, " => Release()");
         }
 
@@ -353,19 +345,19 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<AfterEstablishEventArgs>(NotifyEstablish), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<AfterEstablishEventArgs>(NotifyEstablish), sender, eventArgs);
                 return;
             }
 
             if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                Gui.guiLogsView.SelectionColor = StandardColor;
-                WriteLine(LogLevel.Info, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.guiLogsView.SelectionColor = Colors.LogDefaultColor;
+                WriteLine(LogLevel.Info, sender, $"<=  {eventArgs.ReturnValue}");
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = ErrorColor;
-                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.guiLogsView.SelectionColor = Colors.LogErrorColor;
+                WriteLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
             }
 
             Gui.UpdateLastError(eventArgs.ReturnValue);
@@ -375,7 +367,7 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<AfterListReadersEventArgs>(NotifyListReaders), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<AfterListReadersEventArgs>(NotifyListReaders), sender, eventArgs);
                 return;
             }
 
@@ -384,13 +376,13 @@ namespace WSCT.GUI
             if (eventArgs.ReturnValue == ErrorCode.Success)
             {
                 cardContext.Readers.DoForEach(
-                    r => WriteLine(LogLevel.Info, sender, String.Format("<=  Reader: {0}", r))
+                    r => WriteLine(LogLevel.Info, sender, $"<=  Reader: {r}")
                     );
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = ErrorColor;
-                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.guiLogsView.SelectionColor = Colors.LogErrorColor;
+                WriteLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
             }
 
             Gui.UpdateLastError(eventArgs.ReturnValue);
@@ -400,7 +392,7 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<AfterListReaderGroupsEventArgs>(NotifyListReaderGroups), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<AfterListReaderGroupsEventArgs>(NotifyListReaderGroups), sender, eventArgs);
                 return;
             }
 
@@ -409,13 +401,13 @@ namespace WSCT.GUI
             if (eventArgs.ReturnValue == ErrorCode.Success)
             {
                 cardContext.Groups.DoForEach(
-                    g => WriteLine(LogLevel.Info, sender, String.Format("<=  Group: {0}", g))
+                    g => WriteLine(LogLevel.Info, sender, $"<=  Group: {g}")
                     );
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = ErrorColor;
-                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.guiLogsView.SelectionColor = Colors.LogErrorColor;
+                WriteLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
             }
 
             Gui.UpdateLastError(eventArgs.ReturnValue);
@@ -425,19 +417,19 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<AfterReleaseEventArgs>(NotifyRelease), new[] { sender, eventArgs });
+                Gui.Invoke(new EventHandler<AfterReleaseEventArgs>(NotifyRelease), sender, eventArgs);
                 return;
             }
 
             if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                Gui.guiLogsView.SelectionColor = StandardColor;
-                WriteLine(LogLevel.Info, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.guiLogsView.SelectionColor = Colors.LogDefaultColor;
+                WriteLine(LogLevel.Info, sender, $"<=  {eventArgs.ReturnValue}");
             }
             else
             {
-                Gui.guiLogsView.SelectionColor = ErrorColor;
-                WriteLine(LogLevel.Error, sender, String.Format("<=  {0}", eventArgs.ReturnValue));
+                Gui.guiLogsView.SelectionColor = Colors.LogErrorColor;
+                WriteLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
             }
 
             Gui.UpdateLastError(eventArgs.ReturnValue);
@@ -451,24 +443,24 @@ namespace WSCT.GUI
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<OnCardInsertionEventArgs>(OnCardInsertionEvent), new Object[] { eventArgs });
+                Gui.Invoke(new EventHandler<OnCardInsertionEventArgs>(OnCardInsertionEvent), eventArgs);
                 return;
             }
 
-            Gui.guiLogsView.SelectionColor = HighlightColor;
-            WriteLine(LogLevel.Info, sender, String.Format("<=  Card insertion detected on reader {0}\n", eventArgs.ReaderState.ReaderName));
+            Gui.guiLogsView.SelectionColor = Colors.LogHighlightColor;
+            WriteLine(LogLevel.Info, sender, $"<=  Card insertion detected on reader {eventArgs.ReaderState.ReaderName}\n");
         }
 
         private void OnCardRemovalEvent(object sender, OnCardRemovalEventArgs eventArgs)
         {
             if (Gui.InvokeRequired)
             {
-                Gui.Invoke(new EventHandler<OnCardRemovalEventArgs>(OnCardRemovalEvent), new Object[] { eventArgs });
+                Gui.Invoke(new EventHandler<OnCardRemovalEventArgs>(OnCardRemovalEvent), eventArgs);
                 return;
             }
 
-            Gui.guiLogsView.SelectionColor = HighlightColor;
-            WriteLine(LogLevel.Info, sender, String.Format("<=  Card removal detected on reader {0}\n", eventArgs.ReaderState.ReaderName));
+            Gui.guiLogsView.SelectionColor = Colors.LogHighlightColor;
+            WriteLine(LogLevel.Info, sender, $"<=  Card removal detected on reader {eventArgs.ReaderState.ReaderName}\n");
         }
 
         #endregion

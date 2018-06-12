@@ -111,6 +111,7 @@ namespace WSCT.GUI
             this.guiAvailableChannelLayers = new System.Windows.Forms.ListBox();
             this.guiTabs = new System.Windows.Forms.TabControl();
             this.guiTabLogs = new System.Windows.Forms.TabPage();
+            this.guiClearLogs = new System.Windows.Forms.Button();
             this.guiLogsView = new System.Windows.Forms.RichTextBox();
             this.guiTabPlugins = new System.Windows.Forms.TabPage();
             this.guiTabLayers = new System.Windows.Forms.TabPage();
@@ -123,7 +124,6 @@ namespace WSCT.GUI
             this.guiAboutWinSCardGUI = new System.Windows.Forms.ToolStripMenuItem();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.label1 = new System.Windows.Forms.Label();
-            this.guiClearLogs = new System.Windows.Forms.Button();
             this.guiPluginDescriptionGroupBox.SuspendLayout();
             this.guiPluginAssemblyInfoGroupBox.SuspendLayout();
             this.guiGroupCard.SuspendLayout();
@@ -787,6 +787,8 @@ namespace WSCT.GUI
             // 
             // guiLayerAssemblyDescription
             // 
+            this.guiLayerAssemblyDescription.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiLayerAssemblyDescription.Location = new System.Drawing.Point(6, 110);
             this.guiLayerAssemblyDescription.Multiline = true;
             this.guiLayerAssemblyDescription.Name = "guiLayerAssemblyDescription";
@@ -805,6 +807,8 @@ namespace WSCT.GUI
             // 
             // guiLayerAssemblyName
             // 
+            this.guiLayerAssemblyName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiLayerAssemblyName.Location = new System.Drawing.Point(6, 71);
             this.guiLayerAssemblyName.Name = "guiLayerAssemblyName";
             this.guiLayerAssemblyName.ReadOnly = true;
@@ -822,6 +826,8 @@ namespace WSCT.GUI
             // 
             // guiLayerAssemblyVersion
             // 
+            this.guiLayerAssemblyVersion.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiLayerAssemblyVersion.Location = new System.Drawing.Point(6, 32);
             this.guiLayerAssemblyVersion.Name = "guiLayerAssemblyVersion";
             this.guiLayerAssemblyVersion.ReadOnly = true;
@@ -859,6 +865,8 @@ namespace WSCT.GUI
             // 
             // guiLayerPathToDll
             // 
+            this.guiLayerPathToDll.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiLayerPathToDll.Location = new System.Drawing.Point(6, 149);
             this.guiLayerPathToDll.Name = "guiLayerPathToDll";
             this.guiLayerPathToDll.ReadOnly = true;
@@ -876,6 +884,8 @@ namespace WSCT.GUI
             // 
             // guiLayerClassName
             // 
+            this.guiLayerClassName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiLayerClassName.Location = new System.Drawing.Point(6, 71);
             this.guiLayerClassName.Name = "guiLayerClassName";
             this.guiLayerClassName.ReadOnly = true;
@@ -893,6 +903,8 @@ namespace WSCT.GUI
             // 
             // guiLayerDLL
             // 
+            this.guiLayerDLL.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiLayerDLL.Location = new System.Drawing.Point(6, 110);
             this.guiLayerDLL.Name = "guiLayerDLL";
             this.guiLayerDLL.ReadOnly = true;
@@ -910,6 +922,8 @@ namespace WSCT.GUI
             // 
             // guiLayerName
             // 
+            this.guiLayerName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiLayerName.Location = new System.Drawing.Point(6, 32);
             this.guiLayerName.Name = "guiLayerName";
             this.guiLayerName.ReadOnly = true;
@@ -975,6 +989,17 @@ namespace WSCT.GUI
             this.guiTabLogs.TabIndex = 4;
             this.guiTabLogs.Text = "Logs";
             this.guiTabLogs.UseVisualStyleBackColor = true;
+            // 
+            // guiClearLogs
+            // 
+            this.guiClearLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.guiClearLogs.Location = new System.Drawing.Point(6, 480);
+            this.guiClearLogs.Name = "guiClearLogs";
+            this.guiClearLogs.Size = new System.Drawing.Size(90, 23);
+            this.guiClearLogs.TabIndex = 4;
+            this.guiClearLogs.Text = "Clear Logs";
+            this.guiClearLogs.UseVisualStyleBackColor = true;
+            this.guiClearLogs.Click += new System.EventHandler(this.guiClearLogs_Click);
             // 
             // guiLogsView
             // 
@@ -1109,17 +1134,6 @@ namespace WSCT.GUI
             this.label1.TabIndex = 0;
             this.label1.Text = "Found: 0";
             // 
-            // guiClearLogs
-            // 
-            this.guiClearLogs.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.guiClearLogs.Location = new System.Drawing.Point(6, 480);
-            this.guiClearLogs.Name = "guiClearLogs";
-            this.guiClearLogs.Size = new System.Drawing.Size(90, 23);
-            this.guiClearLogs.TabIndex = 4;
-            this.guiClearLogs.Text = "Clear Logs";
-            this.guiClearLogs.UseVisualStyleBackColor = true;
-            this.guiClearLogs.Click += new System.EventHandler(this.guiClearLogs_Click);
-            // 
             // WinSCardGui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1239,7 +1253,6 @@ namespace WSCT.GUI
         private System.Windows.Forms.Label labelProtocol;
         private System.Windows.Forms.Label labelStringAttribute;
         private System.Windows.Forms.Label labelRawAttribute;
-        private System.Windows.Forms.StatusStrip guiStatus;
         private System.Windows.Forms.GroupBox guiGroupBoxLoadedPlugins;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label4;
@@ -1263,6 +1276,7 @@ namespace WSCT.GUI
         private System.Windows.Forms.GroupBox guiPluginDescriptionGroupBox;
         private System.Windows.Forms.GroupBox guiPluginAssemblyInfoGroupBox;
         private System.Windows.Forms.Button guiClearLogs;
+        internal System.Windows.Forms.StatusStrip guiStatus;
     }
 }
 

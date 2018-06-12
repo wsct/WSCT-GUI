@@ -20,13 +20,12 @@ namespace WSCT.GUI
     {
         #region >> Fields
 
-        private readonly CardChannelStackDescription channelLayers;
-        private readonly CardContextStackDescription contextLayers;
-        private readonly StatusChangeMonitor statusMonitor;
-        private readonly CardObserver observer;
-        private readonly PluginsManager pluginManager;
+        private readonly CardChannelStackDescription _channelLayers;
+        private readonly CardContextStackDescription _contextLayers;
+        private readonly StatusChangeMonitor _statusMonitor;
+        private readonly GuiObserver _observer;
 
-        private readonly Dictionary<object, Color> defaultControlBackColors = new Dictionary<object, Color>();
+        private readonly Dictionary<object, Color> _defaultControlBackColors = new Dictionary<object, Color>();
 
         #endregion
 
@@ -53,16 +52,16 @@ namespace WSCT.GUI
             guiAttribute.DataSource = Enum.GetValues(typeof(Attrib));
             guiAttribute.SelectedItem = Attrib.AtrString;
 
-            pluginManager = new PluginsManager();
+            var pluginManager = new PluginsManager();
             pluginManager.DiscoverInDirectory(Directory.GetCurrentDirectory());
 
-            observer = new CardObserver(this);
+            _observer = new GuiObserver(this);
 
-            channelLayers = SerializedObject<CardChannelStackDescription>.LoadFromXml("Stack.Channel.xml");
+            _channelLayers = SerializedObject<CardChannelStackDescription>.LoadFromXml("Stack.Channel.xml");
 
-            contextLayers = SerializedObject<CardContextStackDescription>.LoadFromXml("Stack.Context.xml");
+            _contextLayers = SerializedObject<CardContextStackDescription>.LoadFromXml("Stack.Context.xml");
 
-            statusMonitor = new StatusChangeMonitor();
+            _statusMonitor = new StatusChangeMonitor();
 
             #region >> Initialize plugins menu and tab
 
@@ -85,10 +84,10 @@ namespace WSCT.GUI
 
             #region >> Initialize layers menu and tab
 
-            channelLayers.LayerDescriptions.DoForEach(d => guiAvailableChannelLayers.Items.Add(d));
+            _channelLayers.LayerDescriptions.DoForEach(d => guiAvailableChannelLayers.Items.Add(d));
             guiAvailableChannelLayers.DisplayMember = "name";
 
-            contextLayers.LayerDescriptions.DoForEach(d => guiAvailableContextLayers.Items.Add(d));
+            _contextLayers.LayerDescriptions.DoForEach(d => guiAvailableContextLayers.Items.Add(d));
             guiAvailableContextLayers.DisplayMember = "name";
 
             #endregion
@@ -100,23 +99,23 @@ namespace WSCT.GUI
 
         #region >> Methods
 
-        private void ResetControlColor(Control control)
+        internal void ResetControlColor(Control control)
         {
-            if (defaultControlBackColors.TryGetValue(control, out var defaultBackColor))
+            if (_defaultControlBackColors.TryGetValue(control, out var defaultBackColor))
             {
                 control.BackColor = defaultBackColor;
             }
             else
             {
-                defaultControlBackColors.Add(control, control.BackColor);
+                _defaultControlBackColors.Add(control, control.BackColor);
             }
         }
 
-        private void SetControlColor(Control control, Color backColor)
+        internal void SetControlColor(Control control, Color backColor)
         {
-            if (!defaultControlBackColors.ContainsKey(control))
+            if (!_defaultControlBackColors.ContainsKey(control))
             {
-                defaultControlBackColors.Add(control, control.BackColor);
+                _defaultControlBackColors.Add(control, control.BackColor);
             }
 
             control.BackColor = backColor;
@@ -124,8 +123,8 @@ namespace WSCT.GUI
 
         private void TryToEstablishContext()
         {
-            statusMonitor.OnCardInsertionEvent = null;
-            statusMonitor.OnCardRemovalEvent = null;
+            _statusMonitor.OnCardInsertionEvent = null;
+            _statusMonitor.OnCardRemovalEvent = null;
             CreateCardContextStack();
 
             var lastError = SharedData.CardContext.Establish();
@@ -142,8 +141,8 @@ namespace WSCT.GUI
                         guiReaders.DataSource = SharedData.CardContext.Readers;
                         guiFoundReaders.Text = string.Format(Lang.ReadersFoundAre, SharedData.CardContext.ReadersCount);
 
-                        statusMonitor.Context = SharedData.CardContext;
-                        statusMonitor.Start();
+                        _statusMonitor.Context = SharedData.CardContext;
+                        _statusMonitor.Start();
                     }
                 }
 
@@ -162,10 +161,10 @@ namespace WSCT.GUI
 
         private void CreateCardChannelStack()
         {
-            var layers = channelLayers.LayerDescriptions
-                .Select(ld => channelLayers.CreateInstance(ld.Name))
+            var layers = _channelLayers.LayerDescriptions
+                .Select(ld => _channelLayers.CreateInstance(ld.Name))
                 .ToObservableLayers()
-                .ForEach(observer.ObserveChannel);
+                .ForEach(_observer.ObserveChannel);
 
             var stack = new CardChannelStack(layers).ToObservableStack();
 
@@ -176,10 +175,10 @@ namespace WSCT.GUI
 
         private void CreateCardContextStack()
         {
-            var layers = contextLayers.LayerDescriptions
-                .Select(ld => contextLayers.CreateInstance(ld.Name))
+            var layers = _contextLayers.LayerDescriptions
+                .Select(ld => _contextLayers.CreateInstance(ld.Name))
                 .ToObservableLayers()
-                .ForEach(observer.ObserveContext);
+                .ForEach(_observer.ObserveContext);
 
             SharedData.CardContext = new CardContextStack(layers).ToObservableStack();
         }
@@ -195,7 +194,7 @@ namespace WSCT.GUI
 
         private void guiContextRelease_Click(object sender, EventArgs e)
         {
-            statusMonitor.Stop();
+            _statusMonitor.Stop();
 
             var lastError = SharedData.CardContext.Release();
             if (lastError == ErrorCode.Success)
@@ -502,7 +501,7 @@ namespace WSCT.GUI
 
         private void WinSCardGUI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            statusMonitor.Stop();
+            _statusMonitor.Stop();
         }
 
         #endregion
