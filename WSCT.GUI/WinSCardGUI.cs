@@ -16,7 +16,7 @@ using WSCT.Wrapper.Desktop.Core;
 
 namespace WSCT.GUI
 {
-    public partial class WinSCardGui : Form
+    public partial class WinSCardGui : Form, IWinSCardGui
     {
         #region >> Fields
 
@@ -300,32 +300,48 @@ namespace WSCT.GUI
 
         #endregion
 
-        #region >> update*
+        #region >> IWinSCardGui
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="attribute"></param>
+        /// <inheritdoc />
+        public void AppendLineToLog(string text)
+        {
+            guiLogsView.AppendText(text);
+        }
+
+        /// <inheritdoc />
+        public void InvokeOnUiThread(Action action)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(action);
+            }
+            else
+            {
+                action();
+            }
+        }
+
+        /// <inheritdoc />
+        public void SetLogForeColor(Color color)
+        {
+            guiLogsView.SelectionColor = color;
+        }
+
+        /// <inheritdoc />
         public void UpdateAttribute(byte[] attribute)
         {
             guiRawAttribute.Text = attribute.ToHexa();
             guiStringAttribute.Text = attribute.ToAsciiString();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="error"></param>
+        /// <inheritdoc />
         public void UpdateLastError(ErrorCode error)
         {
             guiLastError.Text = String.Format(Lang.LastErrorIsX, error);
             SetControlColor(guiStatus, error == ErrorCode.Success ? Common.Resources.Colors.StatusSuccess : Common.Resources.Colors.StatusError);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="status"></param>
+        /// <inheritdoc />
         public void UpdateChannelStatus(ChannelStatusType status)
         {
             switch (status)
@@ -345,18 +361,13 @@ namespace WSCT.GUI
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="readerName"></param>
+        /// <inheritdoc />
         public void UpdateReaderInUse(string readerName)
         {
             guiReaderInUse.Text = readerName;
         }
 
-        /// <summary>
-        /// Called when new context established: update GUI
-        /// </summary>
+        /// <inheritdoc />
         public void UpdateContextEstablished()
         {
             guiGroupCardConnection.Enabled = true;
@@ -373,9 +384,7 @@ namespace WSCT.GUI
             guiCardUnpower.Enabled = true;
         }
 
-        /// <summary>
-        /// Called when context is released: updateGUI
-        /// </summary>
+        /// <inheritdoc />
         public void UpdateContextReleased()
         {
             guiGroupCardConnection.Enabled = false;
