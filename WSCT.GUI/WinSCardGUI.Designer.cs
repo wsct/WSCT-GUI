@@ -1220,7 +1220,7 @@ namespace WSCT.GUI
 		private System.Windows.Forms.TextBox guiRawAttribute;
 		private System.Windows.Forms.TextBox guiStringAttribute;
 		private System.Windows.Forms.TabPage guiTabLogs;
-		internal System.Windows.Forms.RichTextBox guiLogsView;
+		private System.Windows.Forms.RichTextBox guiLogsView;
         private System.Windows.Forms.ToolStripMenuItem guiPluginsMenuItem;
 		private System.Windows.Forms.TabPage guiTabPlugins;
 		private System.Windows.Forms.ListBox guiAvailablePlugins;
@@ -1276,7 +1276,7 @@ namespace WSCT.GUI
         private System.Windows.Forms.GroupBox guiPluginDescriptionGroupBox;
         private System.Windows.Forms.GroupBox guiPluginAssemblyInfoGroupBox;
         private System.Windows.Forms.Button guiClearLogs;
-        internal System.Windows.Forms.StatusStrip guiStatus;
+	    private System.Windows.Forms.StatusStrip guiStatus;
     }
 }
 

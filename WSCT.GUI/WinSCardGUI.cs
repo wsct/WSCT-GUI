@@ -23,7 +23,8 @@ namespace WSCT.GUI
         private readonly CardChannelStackDescription _channelLayers;
         private readonly CardContextStackDescription _contextLayers;
         private readonly StatusChangeMonitor _statusMonitor;
-        private readonly GuiObserver _observer;
+        private readonly LogObserver _observer;
+        private readonly LogObserver _stackObserver;
 
         private readonly Dictionary<object, Color> _defaultControlBackColors = new Dictionary<object, Color>();
 
@@ -55,7 +56,8 @@ namespace WSCT.GUI
             var pluginManager = new PluginsManager();
             pluginManager.DiscoverInDirectory(Directory.GetCurrentDirectory());
 
-            _observer = new GuiObserver(this);
+            _observer = new LogObserver(this, Colors.LogDefaultColor);
+            _stackObserver = new LogObserver(this, Colors.LogHighlightColor);
 
             _channelLayers = SerializedObject<CardChannelStackDescription>.LoadFromXml("Stack.Channel.xml");
 
@@ -99,7 +101,7 @@ namespace WSCT.GUI
 
         #region >> Methods
 
-        internal void ResetControlColor(Control control)
+        private void ResetControlColor(Control control)
         {
             if (_defaultControlBackColors.TryGetValue(control, out var defaultBackColor))
             {
@@ -111,7 +113,7 @@ namespace WSCT.GUI
             }
         }
 
-        internal void SetControlColor(Control control, Color backColor)
+        private void SetControlColor(Control control, Color backColor)
         {
             if (!_defaultControlBackColors.ContainsKey(control))
             {
@@ -170,6 +172,8 @@ namespace WSCT.GUI
 
             stack.Attach(SharedData.CardContext, guiReaders.SelectedItem.ToString());
 
+            _stackObserver.ObserveChannel(stack);
+
             SharedData.CardChannel = stack;
         }
 
@@ -180,7 +184,11 @@ namespace WSCT.GUI
                 .ToObservableLayers()
                 .ForEach(_observer.ObserveContext);
 
-            SharedData.CardContext = new CardContextStack(layers).ToObservableStack();
+            var stack = new CardContextStack(layers).ToObservableStack();
+
+            _stackObserver.ObserveContext(stack);
+
+            SharedData.CardContext = stack;
         }
 
         #endregion

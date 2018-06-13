@@ -19,7 +19,7 @@ namespace WSCT.GUI
         void InvokeOnUiThread(Action action);
 
         /// <summary>
-        /// 
+        /// Sets the text color for the next <see cref="AppendLineToLog"/> call.
         /// </summary>
         /// <param name="color"></param>
         void SetLogForeColor(Color color);

@@ -1,4 +1,5 @@
 using System;
+using System.Drawing;
 using WSCT.Core;
 using WSCT.Core.Events;
 using WSCT.GUI.Resources;
@@ -10,28 +11,34 @@ using WSCT.Wrapper.Desktop.Core;
 
 namespace WSCT.GUI
 {
-    internal sealed class GuiObserver
+    internal sealed class LogObserver
     {
         internal IWinSCardGui Gui;
         internal string Header;
+        private readonly Color _hightlightColor;
 
         private void WriteLogLine(LogLevel level, object sender, string message)
         {
+            string identifier;
             switch (sender)
             {
                 case ICardChannelLayerObservable channelLayer:
-                    Gui.AppendLineToLog(String.Format(Header, level, channelLayer.LayerId, message));
-                    return;
-                case ICardChannelObservable _:
-                    Gui.AppendLineToLog(String.Format(Header, level, "unknown", message));
-                    return;
+                    identifier = channelLayer.LayerId;
+                    break;
+                case ICardChannelStack _:
+                    identifier = "Stack";
+                    break;
                 case ICardContextLayerObservable contextLayer:
-                    Gui.AppendLineToLog(String.Format(Header, level, contextLayer.LayerId, message));
-                    return;
-                case ICardContextObservable _:
-                    Gui.AppendLineToLog(String.Format(Header, level, "unknown", message));
+                    identifier = contextLayer.LayerId;
+                    break;
+                case ICardContextStack _:
+                    identifier = "Stack";
+                    break;
+                default:
+                    identifier = "unknown";
                     break;
             }
+            Gui.AppendLineToLog(String.Format(Header, level, identifier, message));
         }
 
         #region >> Constructors
@@ -40,10 +47,12 @@ namespace WSCT.GUI
         /// Creates a new instance.
         /// </summary>
         /// <param name="gui"></param>
-        public GuiObserver(IWinSCardGui gui)
+        /// <param name="defaultColor"></param>
+        public LogObserver(IWinSCardGui gui, Color defaultColor)
         {
             Header = "[{0,7}] [{1,7}] {2}" + Environment.NewLine;
             Gui = gui;
+            _hightlightColor = defaultColor;
         }
 
         #endregion
@@ -210,7 +219,7 @@ namespace WSCT.GUI
             {
                 var cardChannel = (ICardChannel)sender;
 
-                Gui.SetLogForeColor(Colors.LogHighlightColor);
+                Gui.SetLogForeColor(_hightlightColor);
                 WriteLogLine(LogLevel.Info, sender, $" => Connect(\"{cardChannel.ReaderName}\",{eventArgs.ShareMode},{eventArgs.PreferedProtocol})");
             });
         }
@@ -219,7 +228,7 @@ namespace WSCT.GUI
         {
             Gui.InvokeOnUiThread(() =>
             {
-                Gui.SetLogForeColor(Colors.LogHighlightColor);
+                Gui.SetLogForeColor(_hightlightColor);
                 WriteLogLine(LogLevel.Info, sender, $" => Disconnect({eventArgs.Disposition})");
             });
         }
@@ -228,7 +237,7 @@ namespace WSCT.GUI
         {
             Gui.InvokeOnUiThread(() =>
             {
-                Gui.SetLogForeColor(Colors.LogHighlightColor);
+                Gui.SetLogForeColor(_hightlightColor);
                 WriteLogLine(LogLevel.Info, sender, $" => GetAttrib({eventArgs.Attrib})");
             });
         }
@@ -237,7 +246,7 @@ namespace WSCT.GUI
         {
             Gui.InvokeOnUiThread(() =>
             {
-                Gui.SetLogForeColor(Colors.LogHighlightColor);
+                Gui.SetLogForeColor(_hightlightColor);
                 WriteLogLine(LogLevel.Info, sender,
                     $" => Reconnect({eventArgs.ShareMode},{eventArgs.PreferedProtocol},{eventArgs.Initialization})");
             });
@@ -247,7 +256,7 @@ namespace WSCT.GUI
         {
             Gui.InvokeOnUiThread(() =>
             {
-                Gui.SetLogForeColor(Colors.LogHighlightColor);
+                Gui.SetLogForeColor(_hightlightColor);
                 WriteLogLine(LogLevel.Info, sender, $" => Transmit({eventArgs.Command})");
             });
         }
@@ -260,7 +269,7 @@ namespace WSCT.GUI
         {
             Gui.InvokeOnUiThread(() =>
             {
-                Gui.SetLogForeColor(Colors.LogHighlightColor);
+                Gui.SetLogForeColor(_hightlightColor);
                 WriteLogLine(LogLevel.Info, sender, " => Establish()");
             });
         }
@@ -269,7 +278,7 @@ namespace WSCT.GUI
         {
             Gui.InvokeOnUiThread(() =>
             {
-                Gui.SetLogForeColor(Colors.LogHighlightColor);
+                Gui.SetLogForeColor(_hightlightColor);
                 WriteLogLine(LogLevel.Info, sender, $" => ListReaders({eventArgs.Group})");
             });
         }
@@ -278,7 +287,7 @@ namespace WSCT.GUI
         {
             Gui.InvokeOnUiThread(() =>
             {
-                Gui.SetLogForeColor(Colors.LogHighlightColor);
+                Gui.SetLogForeColor(_hightlightColor);
                 WriteLogLine(LogLevel.Info, sender, " => ListReaderGroups()");
             });
         }
@@ -287,7 +296,7 @@ namespace WSCT.GUI
         {
             Gui.InvokeOnUiThread(() =>
             {
-                Gui.SetLogForeColor(Colors.LogHighlightColor);
+                Gui.SetLogForeColor(_hightlightColor);
                 WriteLogLine(LogLevel.Info, sender, " => Release()");
             });
         }
@@ -319,10 +328,12 @@ namespace WSCT.GUI
 
                 if (eventArgs.ReturnValue == ErrorCode.Success)
                 {
-                    Gui.SetLogForeColor(Colors.LogDefaultColor);
                     cardContext.Readers.DoForEach(
-                        r => WriteLogLine(LogLevel.Info, sender, $"<=  Reader: {r}")
-                    );
+                        r =>
+                        {
+                            Gui.SetLogForeColor(Colors.LogDefaultColor);
+                            WriteLogLine(LogLevel.Info, sender, $"<=  Reader: {r}");
+                        });
                 }
                 else
                 {
@@ -342,10 +353,12 @@ namespace WSCT.GUI
 
                 if (eventArgs.ReturnValue == ErrorCode.Success)
                 {
-                    Gui.SetLogForeColor(Colors.LogDefaultColor);
                     cardContext.Groups.DoForEach(
-                        g => WriteLogLine(LogLevel.Info, sender, $"<=  Group: {g}")
-                    );
+                        g =>
+                        {
+                            Gui.SetLogForeColor(Colors.LogDefaultColor);
+                            WriteLogLine(LogLevel.Info, sender, $"<=  Group: {g}");
+                        });
                 }
                 else
                 {
@@ -384,7 +397,7 @@ namespace WSCT.GUI
         {
             Gui.InvokeOnUiThread(() =>
             {
-                Gui.SetLogForeColor(Colors.LogHighlightColor);
+                Gui.SetLogForeColor(_hightlightColor);
                 WriteLogLine(LogLevel.Info, sender, $"<=  Card insertion detected on reader {eventArgs.ReaderState.ReaderName}\n");
             });
         }
@@ -393,7 +406,7 @@ namespace WSCT.GUI
         {
             Gui.InvokeOnUiThread(() =>
             {
-                Gui.SetLogForeColor(Colors.LogHighlightColor);
+                Gui.SetLogForeColor(_hightlightColor);
                 WriteLogLine(LogLevel.Info, sender, $"<=  Card removal detected on reader {eventArgs.ReaderState.ReaderName}\n");
             });
         }
