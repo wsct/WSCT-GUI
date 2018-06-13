@@ -15,7 +15,7 @@
     <RootNamespace>WSCT.GUI.Plugins.ISO7816Tools</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="WSCT.Core" Version="6.1.0" />
+    <PackageReference Include="WSCT.Core" Version="6.1.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WSCT.GUI.Common.Resources\WSCT.GUI.Common.Resources.csproj" />

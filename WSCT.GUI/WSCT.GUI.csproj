@@ -22,7 +22,7 @@
     <Compile Update="AboutWinSCardGUI.designer.cs" SubType="Form" DependentUpon="AboutWinSCardGUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="WSCT.Core" Version="6.1.0" />
+    <PackageReference Include="WSCT.Core" Version="6.1.1" />
     <PackageReference Include="WSCT.Wrapper.Desktop" Version="1.1.0" />
   </ItemGroup>
   <ItemGroup>

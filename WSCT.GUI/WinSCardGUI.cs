@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Reflection;
@@ -14,15 +16,17 @@ using WSCT.Wrapper.Desktop.Core;
 
 namespace WSCT.GUI
 {
-    public partial class WinSCardGui : Form
+    public partial class WinSCardGui : Form, IWinSCardGui
     {
         #region >> Fields
 
-        private readonly CardChannelStackDescription channelLayers;
-        private readonly CardContextStackDescription contextLayers;
-        private readonly StatusChangeMonitor statusMonitor;
-        private readonly CardObserver observer;
-        private readonly PluginsManager pluginManager;
+        private readonly CardChannelStackDescription _channelLayers;
+        private readonly CardContextStackDescription _contextLayers;
+        private readonly StatusChangeMonitor _statusMonitor;
+        private readonly LogObserver _observer;
+        private readonly LogObserver _stackObserver;
+
+        private readonly Dictionary<object, Color> _defaultControlBackColors = new Dictionary<object, Color>();
 
         #endregion
 
@@ -49,16 +53,17 @@ namespace WSCT.GUI
             guiAttribute.DataSource = Enum.GetValues(typeof(Attrib));
             guiAttribute.SelectedItem = Attrib.AtrString;
 
-            pluginManager = new PluginsManager();
+            var pluginManager = new PluginsManager();
             pluginManager.DiscoverInDirectory(Directory.GetCurrentDirectory());
 
-            observer = new CardObserver(this);
+            _observer = new LogObserver(this, Colors.LogDefaultColor);
+            _stackObserver = new LogObserver(this, Colors.LogHighlightColor);
 
-            channelLayers = SerializedObject<CardChannelStackDescription>.LoadFromXml("Stack.Channel.xml");
+            _channelLayers = SerializedObject<CardChannelStackDescription>.LoadFromXml("Stack.Channel.xml");
 
-            contextLayers = SerializedObject<CardContextStackDescription>.LoadFromXml("Stack.Context.xml");
+            _contextLayers = SerializedObject<CardContextStackDescription>.LoadFromXml("Stack.Context.xml");
 
-            statusMonitor = new StatusChangeMonitor();
+            _statusMonitor = new StatusChangeMonitor();
 
             #region >> Initialize plugins menu and tab
 
@@ -81,55 +86,47 @@ namespace WSCT.GUI
 
             #region >> Initialize layers menu and tab
 
-            channelLayers.LayerDescriptions.DoForEach(d => guiAvailableChannelLayers.Items.Add(d));
+            _channelLayers.LayerDescriptions.DoForEach(d => guiAvailableChannelLayers.Items.Add(d));
             guiAvailableChannelLayers.DisplayMember = "name";
 
-            contextLayers.LayerDescriptions.DoForEach(d => guiAvailableContextLayers.Items.Add(d));
+            _contextLayers.LayerDescriptions.DoForEach(d => guiAvailableContextLayers.Items.Add(d));
             guiAvailableContextLayers.DisplayMember = "name";
 
             #endregion
+
+            TryToEstablishContext();
         }
 
         #endregion
 
         #region >> Methods
 
-        #endregion
-
-        #region >> createCard * Stack
-
-        private void CreateCardChannelStack()
+        private void ResetControlColor(Control control)
         {
-            var layers = channelLayers.LayerDescriptions
-                .Select(ld => channelLayers.CreateInstance(ld.Name))
-                .ToObservableLayers()
-                .ForEach(observer.ObserveChannel);
-
-            var stack = new CardChannelStack(layers).ToObservableStack();
-
-            stack.Attach(SharedData.CardContext, guiReaders.SelectedItem.ToString());
-
-            SharedData.CardChannel = stack;
+            if (_defaultControlBackColors.TryGetValue(control, out var defaultBackColor))
+            {
+                control.BackColor = defaultBackColor;
+            }
+            else
+            {
+                _defaultControlBackColors.Add(control, control.BackColor);
+            }
         }
 
-        private void CreateCardContextStack()
+        private void SetControlColor(Control control, Color backColor)
         {
-            var layers = contextLayers.LayerDescriptions
-                .Select(ld => contextLayers.CreateInstance(ld.Name))
-                .ToObservableLayers()
-                .ForEach(observer.ObserveContext);
+            if (!_defaultControlBackColors.ContainsKey(control))
+            {
+                _defaultControlBackColors.Add(control, control.BackColor);
+            }
 
-            SharedData.CardContext = new CardContextStack(layers).ToObservableStack();
+            control.BackColor = backColor;
         }
 
-        #endregion
-
-        #region >> *_Click
-
-        private void guiContextEstablish_Click(object sender, EventArgs e)
+        private void TryToEstablishContext()
         {
-            statusMonitor.OnCardInsertionEvent = null;
-            statusMonitor.OnCardRemovalEvent = null;
+            _statusMonitor.OnCardInsertionEvent = null;
+            _statusMonitor.OnCardRemovalEvent = null;
             CreateCardContextStack();
 
             var lastError = SharedData.CardContext.Establish();
@@ -146,8 +143,8 @@ namespace WSCT.GUI
                         guiReaders.DataSource = SharedData.CardContext.Readers;
                         guiFoundReaders.Text = string.Format(Lang.ReadersFoundAre, SharedData.CardContext.ReadersCount);
 
-                        statusMonitor.Context = SharedData.CardContext;
-                        statusMonitor.Start();
+                        _statusMonitor.Context = SharedData.CardContext;
+                        _statusMonitor.Start();
                     }
                 }
 
@@ -156,12 +153,56 @@ namespace WSCT.GUI
             else
             {
                 guiContextState.Text = Lang.AnErrorOccured;
+                SetControlColor(guiContextState, Common.Resources.Colors.StatusError);
             }
+        }
+
+        #endregion
+
+        #region >> createCard * Stack
+
+        private void CreateCardChannelStack()
+        {
+            var layers = _channelLayers.LayerDescriptions
+                .Select(ld => _channelLayers.CreateInstance(ld.Name))
+                .ToObservableLayers()
+                .ForEach(_observer.ObserveChannel);
+
+            var stack = new CardChannelStack(layers).ToObservableStack();
+
+            stack.Attach(SharedData.CardContext, guiReaders.SelectedItem.ToString());
+
+            _stackObserver.ObserveChannel(stack);
+
+            SharedData.CardChannel = stack;
+        }
+
+        private void CreateCardContextStack()
+        {
+            var layers = _contextLayers.LayerDescriptions
+                .Select(ld => _contextLayers.CreateInstance(ld.Name))
+                .ToObservableLayers()
+                .ForEach(_observer.ObserveContext);
+
+            var stack = new CardContextStack(layers).ToObservableStack();
+
+            _stackObserver.ObserveContext(stack);
+
+            SharedData.CardContext = stack;
+        }
+
+        #endregion
+
+        #region >> *_Click
+
+        private void guiContextEstablish_Click(object sender, EventArgs e)
+        {
+            TryToEstablishContext();
         }
 
         private void guiContextRelease_Click(object sender, EventArgs e)
         {
-            statusMonitor.Stop();
+            _statusMonitor.Stop();
 
             var lastError = SharedData.CardContext.Release();
             if (lastError == ErrorCode.Success)
@@ -267,59 +308,74 @@ namespace WSCT.GUI
 
         #endregion
 
-        #region >> update*
+        #region >> IWinSCardGui
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="attribute"></param>
+        /// <inheritdoc />
+        public void AppendLineToLog(string text)
+        {
+            guiLogsView.AppendText(text);
+        }
+
+        /// <inheritdoc />
+        public void InvokeOnUiThread(Action action)
+        {
+            if (InvokeRequired)
+            {
+                Invoke(action);
+            }
+            else
+            {
+                action();
+            }
+        }
+
+        /// <inheritdoc />
+        public void SetLogForeColor(Color color)
+        {
+            guiLogsView.SelectionColor = color;
+        }
+
+        /// <inheritdoc />
         public void UpdateAttribute(byte[] attribute)
         {
             guiRawAttribute.Text = attribute.ToHexa();
             guiStringAttribute.Text = attribute.ToAsciiString();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="error"></param>
+        /// <inheritdoc />
         public void UpdateLastError(ErrorCode error)
         {
-            guiLastError.Text = string.Format(Lang.LastErrorIsX, error);
+            guiLastError.Text = String.Format(Lang.LastErrorIsX, error);
+            SetControlColor(guiStatus, error == ErrorCode.Success ? Common.Resources.Colors.StatusSuccess : Common.Resources.Colors.StatusError);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="status"></param>
+        /// <inheritdoc />
         public void UpdateChannelStatus(ChannelStatusType status)
         {
             switch (status)
             {
                 case ChannelStatusType.Connected:
                     guiChannelState.Text = Lang.ChannelIsConnected;
+                    SetControlColor(guiChannelState, Common.Resources.Colors.StatusSuccess);
                     break;
                 case ChannelStatusType.Disconnected:
                     guiChannelState.Text = Lang.ChannelIsDisconnected;
+                    ResetControlColor(guiChannelState);
                     break;
                 case ChannelStatusType.Error:
                     guiChannelState.Text = Lang.AnErrorOccured;
+                    SetControlColor(guiChannelState, Common.Resources.Colors.StatusError);
                     break;
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="readerName"></param>
+        /// <inheritdoc />
         public void UpdateReaderInUse(string readerName)
         {
             guiReaderInUse.Text = readerName;
         }
 
-        /// <summary>
-        /// Called when new context established: update GUI
-        /// </summary>
+        /// <inheritdoc />
         public void UpdateContextEstablished()
         {
             guiGroupCardConnection.Enabled = true;
@@ -336,9 +392,7 @@ namespace WSCT.GUI
             guiCardUnpower.Enabled = true;
         }
 
-        /// <summary>
-        /// Called when context is released: updateGUI
-        /// </summary>
+        /// <inheritdoc />
         public void UpdateContextReleased()
         {
             guiGroupCardConnection.Enabled = false;
@@ -396,34 +450,19 @@ namespace WSCT.GUI
                 guiLayerDLL.Text = layer.DllName;
                 guiLayerPathToDll.Text = layer.PathToDll;
 
-                Assembly assembly = null;
                 try
                 {
-                    assembly = Assembly.LoadFrom(Path.Combine(layer.PathToDll, layer.DllName));
+                    var assembly = Assembly.LoadFrom(Path.Combine(layer.PathToDll, layer.DllName));
+                    var assemblyName = new AssemblyName(assembly.FullName);
+                    guiLayerAssemblyVersion.Text = assemblyName.Version.ToString();
+                    guiLayerAssemblyName.Text = assemblyName.Name;
+                    var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
+                    guiLayerAssemblyDescription.Text = assemblyDescription.Description;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, String.Format(Lang.ErrorAccessingLayerAssemblyX, layer.Name), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-
-                if (assembly != null)
-                {
-                    var assemblyName = new AssemblyName(assembly.FullName);
-                    guiLayerAssemblyVersion.Text = assemblyName.Version.ToString();
-                    guiLayerAssemblyName.Text = assemblyName.Name;
-
-                    try
-                    {
-                        var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
-                        guiLayerAssemblyDescription.Text = assemblyDescription.Description;
-                    }
-                    catch (Exception)
-                    {
-                        guiLayerAssemblyDescription.Text = "";
-                    }
-                }
-
-
             }
         }
 
@@ -444,7 +483,7 @@ namespace WSCT.GUI
 
                 try
                 {
-                    var assembly = Assembly.LoadFrom(layer.PathToDll + layer.DllName);
+                    var assembly = Assembly.LoadFrom(Path.Combine(layer.PathToDll, layer.DllName));
                     var assemblyName = new AssemblyName(assembly.FullName);
                     guiLayerAssemblyVersion.Text = assemblyName.Version.ToString();
                     guiLayerAssemblyName.Text = assemblyName.Name;
@@ -464,9 +503,14 @@ namespace WSCT.GUI
 
         private void WinSCardGUI_FormClosing(object sender, FormClosingEventArgs e)
         {
-            statusMonitor.Stop();
+            _statusMonitor.Stop();
         }
 
         #endregion
+
+        private void guiClearLogs_Click(object sender, EventArgs e)
+        {
+            guiLogsView.Clear();
+        }
     }
 }

@@ -15,7 +15,7 @@
     <RootNamespace>WSCT.GUI.Plugins.LayerInteractive</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="WSCT.Core" Version="6.1.0" />
+    <PackageReference Include="WSCT.Core" Version="6.1.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Layer Interactive\Layer Interactive.csproj" />
