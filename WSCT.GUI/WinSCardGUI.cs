@@ -450,34 +450,19 @@ namespace WSCT.GUI
                 guiLayerDLL.Text = layer.DllName;
                 guiLayerPathToDll.Text = layer.PathToDll;
 
-                Assembly assembly = null;
                 try
                 {
-                    assembly = Assembly.LoadFrom(Path.Combine(layer.PathToDll, layer.DllName));
+                    var assembly = Assembly.LoadFrom(Path.Combine(layer.PathToDll, layer.DllName));
+                    var assemblyName = new AssemblyName(assembly.FullName);
+                    guiLayerAssemblyVersion.Text = assemblyName.Version.ToString();
+                    guiLayerAssemblyName.Text = assemblyName.Name;
+                    var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
+                    guiLayerAssemblyDescription.Text = assemblyDescription.Description;
                 }
                 catch (Exception ex)
                 {
                     MessageBox.Show(ex.Message, String.Format(Lang.ErrorAccessingLayerAssemblyX, layer.Name), MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 }
-
-                if (assembly != null)
-                {
-                    var assemblyName = new AssemblyName(assembly.FullName);
-                    guiLayerAssemblyVersion.Text = assemblyName.Version.ToString();
-                    guiLayerAssemblyName.Text = assemblyName.Name;
-
-                    try
-                    {
-                        var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
-                        guiLayerAssemblyDescription.Text = assemblyDescription.Description;
-                    }
-                    catch (Exception)
-                    {
-                        guiLayerAssemblyDescription.Text = "";
-                    }
-                }
-
-
             }
         }
 
@@ -498,7 +483,7 @@ namespace WSCT.GUI
 
                 try
                 {
-                    var assembly = Assembly.LoadFrom(layer.PathToDll + layer.DllName);
+                    var assembly = Assembly.LoadFrom(Path.Combine(layer.PathToDll, layer.DllName));
                     var assemblyName = new AssemblyName(assembly.FullName);
                     guiLayerAssemblyVersion.Text = assemblyName.Version.ToString();
                     guiLayerAssemblyName.Text = assemblyName.Name;
