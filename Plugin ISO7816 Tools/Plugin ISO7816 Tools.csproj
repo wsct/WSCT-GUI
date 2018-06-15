@@ -27,7 +27,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Gui.cs" SubType="Form" />
-    <Compile Update="Gui.designer.cs" SubType="Form" DependentUpon="Gui.cs" />
+    <Compile Update="Gui.Designer.cs" SubType="Form" DependentUpon="Gui.cs" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Resources\Lang.Designer.cs">

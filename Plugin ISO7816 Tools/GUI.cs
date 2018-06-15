@@ -4,6 +4,7 @@ using System.Globalization;
 using System.Windows.Forms;
 using WSCT.Core;
 using WSCT.Core.APDU;
+using WSCT.GUI.Plugins.ISO7816Tools.Resources;
 using WSCT.Helpers;
 using WSCT.ISO7816;
 using WSCT.ISO7816.Commands;
@@ -15,14 +16,16 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
     /// <summary>
     /// 
     /// </summary>
-    public partial class Gui : Form
+    public partial class Gui : Form, IGui
     {
-        private readonly CardObserver cardObserver;
+        private readonly CardObserver _cardObserver;
 
-        private readonly List<ICardCommand> commandApduHistoric;
-        private readonly List<ICardResponse> responseApduHistoric;
+        private readonly List<ICardCommand> _commandApduHistoric;
+        private readonly List<ICardResponse> _responseApduHistoric;
 
-        private readonly StatusWordDictionary statusWordDictionary;
+        private readonly StatusWordDictionary _statusWordDictionary;
+
+        #region >> Constructors
 
         /// <summary>
         ///
@@ -30,10 +33,10 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         public Gui()
         {
             InitializeComponent();
-            
+
             Icon = Common.Resources.Icons.WSCT;
 
-            statusWordDictionary = SerializedObject<StatusWordDictionary>.LoadFromXml(@"Dictionary.StatusWord.xml");
+            _statusWordDictionary = SerializedObject<StatusWordDictionary>.LoadFromXml(@"Dictionary.StatusWord.xml");
 
             guiSelectP1.DataSource = Enum.GetValues(typeof(SelectCommand.SelectionMode));
 
@@ -45,79 +48,98 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
             guiWriteRecordTarget.DataSource = Enum.GetValues(typeof(WriteRecordCommand.TargetType));
 
-            guiParametersProtocolT.DataSource = Enum.GetValues(typeof(ProtocolT));
-
             // Install event to reinstal chennel observer if channel changes
             SharedData.CardChannelChangedEvent += ObserveChannel;
 
             // Create the card observer instance
-            cardObserver = new CardObserver(this);
+            _cardObserver = new CardObserver(this);
 
             // Install the observer on channel
             ObserveChannel();
 
             // Initialize the historic
-            commandApduHistoric = new List<ICardCommand>();
-            responseApduHistoric = new List<ICardResponse>();
+            _commandApduHistoric = new List<ICardCommand>();
+            _responseApduHistoric = new List<ICardResponse>();
         }
 
-        #region >> update*
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rAPDU"></param>
-        internal void UpdateStatusWord(ResponseAPDU rAPDU)
+        #endregion
+
+        #region >> IGui
+
+        /// <inheritdoc />
+        public void InvokeOnUiThread(Action action)
         {
-            if (rAPDU != null)
+            if (InvokeRequired)
             {
-                guiStatusStatusWord.Text = String.Format("StatusWord: {0:X2}-{1:X2} ({2})", rAPDU.Sw1, rAPDU.Sw2, statusWordDictionary.GetDescription(rAPDU.Sw1, rAPDU.Sw2));
+                Invoke(action);
             }
             else
             {
-                guiStatusStatusWord.Text = "";
+                action();
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cAPDU"></param>
-        /// <returns></returns>
-        internal void UpdateCommandApdu(ICardCommand cAPDU)
+        /// <inheritdoc />
+        public void UpdateStatusWord(ResponseAPDU rApdu)
         {
-            guiCLA.Text = String.Format("{0:X2}", ((CommandAPDU)cAPDU).Cla);
-            guiINS.Text = String.Format("{0:X2}", ((CommandAPDU)cAPDU).Ins);
-            guiP1.Text = String.Format("{0:X2}", ((CommandAPDU)cAPDU).P1);
-            guiP2.Text = String.Format("{0:X2}", ((CommandAPDU)cAPDU).P2);
-            if (((CommandAPDU)cAPDU).IsCc3 || ((CommandAPDU)cAPDU).IsCc4)
+            if (rApdu != null)
             {
-                guiLc.Text = String.Format("{0:X2}", ((CommandAPDU)cAPDU).Lc);
+                if (rApdu.StatusWord == 0x9000)
+                {
+                    guiStatusStrip.BackColor = Common.Resources.Colors.StatusSuccess;
+                }
+                else if ((rApdu.Sw1 & 0x90) == 0x90)
+                {
+                    guiStatusStrip.BackColor = Common.Resources.Colors.StatusUndefined;
+                }
+                else
+                {
+                    guiStatusStrip.BackColor = Common.Resources.Colors.StatusError;
+                }
+
+                guiStatusStripStatusWord.Text = String.Format(Lang.StatusWordIsXXXXWithDescription, rApdu.Sw1, rApdu.Sw2, _statusWordDictionary.GetDescription(rApdu.Sw1, rApdu.Sw2));
+            }
+            else
+            {
+                guiStatusStripStatusWord.Text = "";
+            }
+        }
+
+        /// <inheritdoc />
+        public void UpdateCommandApdu(ICardCommand command)
+        {
+            var cApdu = (CommandAPDU)command;
+
+            guiCLA.Text = $"{cApdu.Cla:X2}";
+            guiINS.Text = $"{cApdu.Ins:X2}";
+            guiP1.Text = $"{cApdu.P1:X2}";
+            guiP2.Text = $"{cApdu.P2:X2}";
+            if (cApdu.IsCc3 || cApdu.IsCc4)
+            {
+                guiLc.Text = $"{cApdu.Lc:X2}";
             }
             else
             {
                 guiLc.Text = "";
             }
-            if (((CommandAPDU)cAPDU).IsCc2 || ((CommandAPDU)cAPDU).IsCc4)
+            if (cApdu.IsCc2 || cApdu.IsCc4)
             {
-                guiLe.Text = String.Format("{0:X2}", ((CommandAPDU)cAPDU).Le);
+                guiLe.Text = $"{cApdu.Le:X2}";
             }
             else
             {
                 guiLe.Text = "";
             }
-            guiUDC.Text = ((CommandAPDU)cAPDU).Udc.ToHexa();
+            guiUDC.Text = cApdu.Udc.ToHexa();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="rAPDU"></param>
-        internal void UpdateResponseApdu(ICardResponse rAPDU)
+        /// <inheritdoc />
+        public void UpdateResponseApdu(ICardResponse response)
         {
-            if (rAPDU != null)
+            if (response != null)
             {
-                guiRAPDU.Text = rAPDU.ToString();
+                guiRAPDU.Text = response.ToString();
             }
             else
             {
@@ -125,17 +147,13 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="cAPDU"></param>
-        /// <param name="rAPDU"></param>
-        internal void UpdateHistoric(ICardCommand cAPDU, ICardResponse rAPDU)
+        /// <inheritdoc />
+        public void UpdateHistoric(ICardCommand command, ICardResponse response)
         {
-            commandApduHistoric.Add(cAPDU);
-            responseApduHistoric.Add(rAPDU);
-            var listViewItem = new ListViewItem { Text = commandApduHistoric.Count.ToString(CultureInfo.InvariantCulture) };
-            listViewItem.SubItems.Add(cAPDU.StringCommand);
+            _commandApduHistoric.Add(command);
+            _responseApduHistoric.Add(response);
+            var listViewItem = new ListViewItem { Text = _commandApduHistoric.Count.ToString(CultureInfo.InvariantCulture) };
+            listViewItem.SubItems.Add(command.StringCommand);
             guiCRPHistoric.Items.Add(listViewItem);
         }
 
@@ -148,9 +166,9 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             if (SharedData.IsValidChannel)
             {
                 var channelLayer = ((ICardChannelStack)SharedData.CardChannel).RequestLayer(null, SearchMode.Top);
-                if (channelLayer is ICardChannelObservable)
+                if (channelLayer is ICardChannelObservable channelObservable)
                 {
-                    cardObserver.ObserveChannel((ICardChannelObservable)channelLayer);
+                    _cardObserver.ObserveChannel(channelObservable);
                 }
             }
         }
@@ -189,7 +207,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         private void guiReadRecordExecute_Click(object sender, EventArgs e)
         {
             var crp = new CommandResponsePair();
-            UInt32 le;
+            uint le;
             if (guiReadRecordLe.Text.Length == 0)
             {
                 le = 0;
@@ -263,11 +281,11 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         {
             var card = new CardChannelIso7816(SharedData.CardChannel);
 
-            var stringAPDU = guiCLA.Text + guiINS.Text + guiP1.Text + guiP2.Text + guiLc.Text + guiUDC.Text + guiLe.Text;
-            ICardCommand cAPDU = new CommandAPDU(stringAPDU);
-            ICardResponse rAPDU = new ResponseAPDU();
+            var stringApdu = guiCLA.Text + guiINS.Text + guiP1.Text + guiP2.Text + guiLc.Text + guiUDC.Text + guiLe.Text;
+            var cApdu = new CommandAPDU(stringApdu);
+            var rApdu = new ResponseAPDU();
 
-            card.Transmit(cAPDU, rAPDU);
+            card.Transmit(cApdu, rApdu);
         }
 
         #endregion
@@ -276,19 +294,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         private void guiWriteRecordTarget_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if ((WriteRecordCommand.TargetType)guiWriteRecordTarget.SelectedItem == WriteRecordCommand.TargetType.RecordNumberInP1)
-            {
-                guiWriteRecordP1.Enabled = true;
-            }
-            else
-            {
-                guiWriteRecordP1.Enabled = false;
-            }
-        }
-
-        private void guiCommandTabProtocolT_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            // var box = (ComboBox)sender;
+            guiWriteRecordP1.Enabled = (WriteRecordCommand.TargetType)guiWriteRecordTarget.SelectedItem == WriteRecordCommand.TargetType.RecordNumberInP1;
         }
 
         #endregion
@@ -313,10 +319,9 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
                 return;
             }
 
-            var channel = SharedData.CardChannel as ICardChannelObservable;
-            if (channel != null)
+            if (SharedData.CardChannel is ICardChannelObservable channel)
             {
-                cardObserver.ObserveChannel(channel);
+                _cardObserver.ObserveChannel(channel);
             }
         }
 
@@ -325,9 +330,9 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             var listView = (ListView)sender;
             if (listView.SelectedItems.Count > 0)
             {
-                var index = Int32.Parse(guiCLA.Text = listView.SelectedItems[0].Text);
-                UpdateCommandApdu(commandApduHistoric[index - 1]);
-                UpdateResponseApdu(responseApduHistoric[index - 1]);
+                var index = int.Parse(guiCLA.Text = listView.SelectedItems[0].Text);
+                UpdateCommandApdu(_commandApduHistoric[index - 1]);
+                UpdateResponseApdu(_responseApduHistoric[index - 1]);
             }
         }
     }

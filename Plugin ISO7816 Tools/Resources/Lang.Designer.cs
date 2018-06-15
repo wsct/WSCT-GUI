@@ -77,5 +77,14 @@ namespace WSCT.GUI.Plugins.ISO7816Tools.Resources {
                 return ResourceManager.GetString("Iso7816PluginName", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to StatusWord: {0:X2}-{1:X2} ({2}).
+        /// </summary>
+        public static string StatusWordIsXXXXWithDescription {
+            get {
+                return ResourceManager.GetString("StatusWordIsXXXXWithDescription", resourceCulture);
+            }
+        }
     }
 }

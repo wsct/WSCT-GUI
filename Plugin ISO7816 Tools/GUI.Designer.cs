@@ -1,6 +1,6 @@
 ﻿namespace WSCT.GUI.Plugins.ISO7816Tools
 {
-	partial class Gui
+    public partial class Gui
 	{
 		/// <summary>
 		/// Variable nécessaire au concepteur.
@@ -28,319 +28,196 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-            System.Windows.Forms.ToolStripContainer toolStripContainer1;
-            System.Windows.Forms.StatusStrip statusStrip1;
-            System.Windows.Forms.TabControl tabControl1;
-            System.Windows.Forms.TabPage tabPage5;
-            System.Windows.Forms.GroupBox groupBox15;
-            System.Windows.Forms.GroupBox groupBox9;
-            System.Windows.Forms.TabControl guiCommandTabs;
-            System.Windows.Forms.TabPage guiCommandTabSelect;
-            System.Windows.Forms.GroupBox groupBox3;
-            System.Windows.Forms.GroupBox groupBox2;
-            System.Windows.Forms.GroupBox groupBox1;
-            System.Windows.Forms.Label label1;
-            System.Windows.Forms.TabPage guiCommandTabGetResponse;
-            System.Windows.Forms.GroupBox groupBox4;
-            System.Windows.Forms.TabControl tabControl4;
-            System.Windows.Forms.TabPage guiCommandTabReadRecord;
-            System.Windows.Forms.GroupBox groupBox8;
-            System.Windows.Forms.GroupBox groupBox7;
-            System.Windows.Forms.Label label7;
-            System.Windows.Forms.GroupBox groupBox5;
-            System.Windows.Forms.TabPage guiCommandTabUpdateRecord;
-            System.Windows.Forms.GroupBox groupBox28;
-            System.Windows.Forms.Label label20;
-            System.Windows.Forms.GroupBox groupBox27;
-            System.Windows.Forms.GroupBox groupBox24;
-            System.Windows.Forms.TabPage guiCommandTabAppendRecord;
-            System.Windows.Forms.GroupBox groupBox26;
-            System.Windows.Forms.GroupBox groupBox25;
-            System.Windows.Forms.TabControl tabControl3;
-            System.Windows.Forms.TabPage tabPage11;
-            System.Windows.Forms.TabControl tabControl2;
-            System.Windows.Forms.TabPage tabPage2;
-            System.Windows.Forms.Panel rightPanel;
-            System.Windows.Forms.GroupBox groupCommandAPDU;
-            System.Windows.Forms.Label labelLc;
-            System.Windows.Forms.Label labelLe;
-            System.Windows.Forms.Label labelCLA;
-            System.Windows.Forms.Label labelP2;
-            System.Windows.Forms.Label labelINS;
-            System.Windows.Forms.Label labelP1;
-            System.Windows.Forms.GroupBox groupBox16;
-            System.Windows.Forms.ColumnHeader guiHistoricNumber;
-            System.Windows.Forms.ColumnHeader guiHistoricCAPDU;
-            System.Windows.Forms.GroupBox groupResponseAPDU;
-            System.Windows.Forms.Label label10;
-            System.Windows.Forms.GroupBox groupBox29;
-            System.Windows.Forms.GroupBox groupBox30;
-            System.Windows.Forms.Label label24;
-            System.Windows.Forms.GroupBox groupBox31;
-            System.Windows.Forms.GroupBox groupBox32;
-            System.Windows.Forms.Label label25;
-            System.Windows.Forms.GroupBox groupBox33;
-            System.Windows.Forms.Label label26;
-            System.Windows.Forms.GroupBox groupBox34;
-            System.Windows.Forms.GroupBox groupBox35;
-            System.Windows.Forms.Label label27;
-            System.Windows.Forms.GroupBox groupBox36;
-            System.Windows.Forms.GroupBox groupBox37;
-            System.Windows.Forms.Label label28;
-            System.Windows.Forms.GroupBox groupBox38;
-            System.Windows.Forms.Label label29;
-            System.Windows.Forms.GroupBox groupBox6;
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Gui));
-            this.guiStatusStatusWord = new System.Windows.Forms.ToolStripStatusLabel();
+            this.globalTabPage = new System.Windows.Forms.TabPage();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.guiParametersReleaseObserver = new System.Windows.Forms.Button();
             this.guiParametersAttachObserver = new System.Windows.Forms.Button();
-            this.guiParametersProtocolT = new System.Windows.Forms.ComboBox();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
+            this.guiStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.guiStatusStripStatusWord = new System.Windows.Forms.ToolStripStatusLabel();
+            this.mainTabControl = new System.Windows.Forms.TabControl();
+            this.interchangeTabPage = new System.Windows.Forms.TabPage();
+            this.guiCommandTabs = new System.Windows.Forms.TabControl();
+            this.guiCommandTabSelect = new System.Windows.Forms.TabPage();
             this.guiSelectExecute = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.guiSelectUDC = new System.Windows.Forms.RichTextBox();
             this.guiSelectFCI = new System.Windows.Forms.ComboBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.label2 = new System.Windows.Forms.Label();
             this.guiSelectFileOccurence = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.guiSelectP1 = new System.Windows.Forms.ComboBox();
+            this.guiCommandTabGetResponse = new System.Windows.Forms.TabPage();
             this.guiGetResponseExecute = new System.Windows.Forms.Button();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.guiGetResponseLe = new System.Windows.Forms.RichTextBox();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tabControl4 = new System.Windows.Forms.TabControl();
+            this.guiCommandTabReadRecord = new System.Windows.Forms.TabPage();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
             this.guiReadRecordLe = new System.Windows.Forms.RichTextBox();
             this.guiReadRecordExecute = new System.Windows.Forms.Button();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.guiReadRecordP1 = new System.Windows.Forms.RichTextBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.guiReadRecordSearchMode = new System.Windows.Forms.ComboBox();
             this.label4 = new System.Windows.Forms.Label();
             this.guiReadRecordSFI = new System.Windows.Forms.RichTextBox();
+            this.guiCommandTabUpdateRecord = new System.Windows.Forms.TabPage();
+            this.groupBox28 = new System.Windows.Forms.GroupBox();
             this.guiWriteRecordP1 = new System.Windows.Forms.RichTextBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.groupBox27 = new System.Windows.Forms.GroupBox();
             this.guiWriteRecordUDC = new System.Windows.Forms.RichTextBox();
             this.guiWriteRecordExecute = new System.Windows.Forms.Button();
+            this.groupBox24 = new System.Windows.Forms.GroupBox();
             this.label21 = new System.Windows.Forms.Label();
             this.guiWriteRecordTarget = new System.Windows.Forms.ComboBox();
             this.label23 = new System.Windows.Forms.Label();
             this.guiWriteRecordSFI = new System.Windows.Forms.RichTextBox();
+            this.guiCommandTabAppendRecord = new System.Windows.Forms.TabPage();
+            this.groupBox26 = new System.Windows.Forms.GroupBox();
             this.guiAppendRecordUDC = new System.Windows.Forms.RichTextBox();
             this.guiAppendRecordExecute = new System.Windows.Forms.Button();
+            this.groupBox25 = new System.Windows.Forms.GroupBox();
             this.label22 = new System.Windows.Forms.Label();
             this.guiAppendRecordSFI = new System.Windows.Forms.RichTextBox();
             this.tabPage8 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.tabPage7 = new System.Windows.Forms.TabPage();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this.tabControl3 = new System.Windows.Forms.TabControl();
+            this.tabPage11 = new System.Windows.Forms.TabPage();
+            this.guiReadBinaryExecute = new System.Windows.Forms.Button();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.guiReadBinaryLe = new System.Windows.Forms.RichTextBox();
+            this.rightPanel = new System.Windows.Forms.Panel();
+            this.groupCommandAPDU = new System.Windows.Forms.GroupBox();
             this.guiLc = new System.Windows.Forms.TextBox();
+            this.labelLc = new System.Windows.Forms.Label();
             this.guiUDC = new System.Windows.Forms.TextBox();
             this.guiLe = new System.Windows.Forms.TextBox();
             this.guiSendCAPDU = new System.Windows.Forms.Button();
+            this.labelLe = new System.Windows.Forms.Label();
             this.guiP2 = new System.Windows.Forms.TextBox();
+            this.labelCLA = new System.Windows.Forms.Label();
             this.guiP1 = new System.Windows.Forms.TextBox();
+            this.labelP2 = new System.Windows.Forms.Label();
             this.guiCLA = new System.Windows.Forms.TextBox();
+            this.labelINS = new System.Windows.Forms.Label();
             this.guiINS = new System.Windows.Forms.TextBox();
+            this.labelP1 = new System.Windows.Forms.Label();
+            this.groupBox16 = new System.Windows.Forms.GroupBox();
             this.guiCRPHistoric = new System.Windows.Forms.ListView();
+            this.guiHistoricNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.guiHistoricCAPDU = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.groupResponseAPDU = new System.Windows.Forms.GroupBox();
             this.guiRAPDU = new System.Windows.Forms.RichTextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.groupBox29 = new System.Windows.Forms.GroupBox();
             this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.groupBox30 = new System.Windows.Forms.GroupBox();
+            this.label24 = new System.Windows.Forms.Label();
             this.comboBox3 = new System.Windows.Forms.ComboBox();
+            this.groupBox31 = new System.Windows.Forms.GroupBox();
             this.comboBox4 = new System.Windows.Forms.ComboBox();
+            this.groupBox32 = new System.Windows.Forms.GroupBox();
             this.richTextBox2 = new System.Windows.Forms.RichTextBox();
+            this.label25 = new System.Windows.Forms.Label();
+            this.groupBox33 = new System.Windows.Forms.GroupBox();
             this.richTextBox3 = new System.Windows.Forms.RichTextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.groupBox34 = new System.Windows.Forms.GroupBox();
             this.richTextBox4 = new System.Windows.Forms.RichTextBox();
+            this.groupBox35 = new System.Windows.Forms.GroupBox();
+            this.label27 = new System.Windows.Forms.Label();
             this.comboBox5 = new System.Windows.Forms.ComboBox();
+            this.groupBox36 = new System.Windows.Forms.GroupBox();
             this.comboBox6 = new System.Windows.Forms.ComboBox();
+            this.groupBox37 = new System.Windows.Forms.GroupBox();
             this.richTextBox5 = new System.Windows.Forms.RichTextBox();
+            this.label28 = new System.Windows.Forms.Label();
+            this.groupBox38 = new System.Windows.Forms.GroupBox();
             this.richTextBox6 = new System.Windows.Forms.RichTextBox();
+            this.label29 = new System.Windows.Forms.Label();
             this.guiReadRecordCC = new System.Windows.Forms.RichTextBox();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.guiReadBinaryLe = new System.Windows.Forms.RichTextBox();
-            this.guiReadBinaryExecute = new System.Windows.Forms.Button();
-            toolStripContainer1 = new System.Windows.Forms.ToolStripContainer();
-            statusStrip1 = new System.Windows.Forms.StatusStrip();
-            tabControl1 = new System.Windows.Forms.TabControl();
-            tabPage5 = new System.Windows.Forms.TabPage();
-            groupBox15 = new System.Windows.Forms.GroupBox();
-            groupBox9 = new System.Windows.Forms.GroupBox();
-            guiCommandTabs = new System.Windows.Forms.TabControl();
-            guiCommandTabSelect = new System.Windows.Forms.TabPage();
-            groupBox3 = new System.Windows.Forms.GroupBox();
-            groupBox2 = new System.Windows.Forms.GroupBox();
-            groupBox1 = new System.Windows.Forms.GroupBox();
-            label1 = new System.Windows.Forms.Label();
-            guiCommandTabGetResponse = new System.Windows.Forms.TabPage();
-            groupBox4 = new System.Windows.Forms.GroupBox();
-            tabControl4 = new System.Windows.Forms.TabControl();
-            guiCommandTabReadRecord = new System.Windows.Forms.TabPage();
-            groupBox8 = new System.Windows.Forms.GroupBox();
-            groupBox7 = new System.Windows.Forms.GroupBox();
-            label7 = new System.Windows.Forms.Label();
-            groupBox5 = new System.Windows.Forms.GroupBox();
-            guiCommandTabUpdateRecord = new System.Windows.Forms.TabPage();
-            groupBox28 = new System.Windows.Forms.GroupBox();
-            label20 = new System.Windows.Forms.Label();
-            groupBox27 = new System.Windows.Forms.GroupBox();
-            groupBox24 = new System.Windows.Forms.GroupBox();
-            guiCommandTabAppendRecord = new System.Windows.Forms.TabPage();
-            groupBox26 = new System.Windows.Forms.GroupBox();
-            groupBox25 = new System.Windows.Forms.GroupBox();
-            tabControl3 = new System.Windows.Forms.TabControl();
-            tabPage11 = new System.Windows.Forms.TabPage();
-            tabControl2 = new System.Windows.Forms.TabControl();
-            tabPage2 = new System.Windows.Forms.TabPage();
-            rightPanel = new System.Windows.Forms.Panel();
-            groupCommandAPDU = new System.Windows.Forms.GroupBox();
-            labelLc = new System.Windows.Forms.Label();
-            labelLe = new System.Windows.Forms.Label();
-            labelCLA = new System.Windows.Forms.Label();
-            labelP2 = new System.Windows.Forms.Label();
-            labelINS = new System.Windows.Forms.Label();
-            labelP1 = new System.Windows.Forms.Label();
-            groupBox16 = new System.Windows.Forms.GroupBox();
-            guiHistoricNumber = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            guiHistoricCAPDU = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            groupResponseAPDU = new System.Windows.Forms.GroupBox();
-            label10 = new System.Windows.Forms.Label();
-            groupBox29 = new System.Windows.Forms.GroupBox();
-            groupBox30 = new System.Windows.Forms.GroupBox();
-            label24 = new System.Windows.Forms.Label();
-            groupBox31 = new System.Windows.Forms.GroupBox();
-            groupBox32 = new System.Windows.Forms.GroupBox();
-            label25 = new System.Windows.Forms.Label();
-            groupBox33 = new System.Windows.Forms.GroupBox();
-            label26 = new System.Windows.Forms.Label();
-            groupBox34 = new System.Windows.Forms.GroupBox();
-            groupBox35 = new System.Windows.Forms.GroupBox();
-            label27 = new System.Windows.Forms.Label();
-            groupBox36 = new System.Windows.Forms.GroupBox();
-            groupBox37 = new System.Windows.Forms.GroupBox();
-            label28 = new System.Windows.Forms.Label();
-            groupBox38 = new System.Windows.Forms.GroupBox();
-            label29 = new System.Windows.Forms.Label();
-            groupBox6 = new System.Windows.Forms.GroupBox();
-            toolStripContainer1.BottomToolStripPanel.SuspendLayout();
-            toolStripContainer1.ContentPanel.SuspendLayout();
-            toolStripContainer1.SuspendLayout();
-            statusStrip1.SuspendLayout();
-            tabControl1.SuspendLayout();
-            tabPage5.SuspendLayout();
-            groupBox15.SuspendLayout();
-            groupBox9.SuspendLayout();
-            this.tabPage3.SuspendLayout();
-            guiCommandTabs.SuspendLayout();
-            guiCommandTabSelect.SuspendLayout();
-            groupBox3.SuspendLayout();
-            groupBox2.SuspendLayout();
-            groupBox1.SuspendLayout();
-            guiCommandTabGetResponse.SuspendLayout();
-            groupBox4.SuspendLayout();
+            this.label5 = new System.Windows.Forms.Label();
+            this.globalTabPage.SuspendLayout();
+            this.groupBox15.SuspendLayout();
+            this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
+            this.toolStripContainer1.ContentPanel.SuspendLayout();
+            this.toolStripContainer1.SuspendLayout();
+            this.guiStatusStrip.SuspendLayout();
+            this.mainTabControl.SuspendLayout();
+            this.interchangeTabPage.SuspendLayout();
+            this.guiCommandTabs.SuspendLayout();
+            this.guiCommandTabSelect.SuspendLayout();
+            this.groupBox3.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.guiCommandTabGetResponse.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.tabPage1.SuspendLayout();
-            tabControl4.SuspendLayout();
-            guiCommandTabReadRecord.SuspendLayout();
-            groupBox8.SuspendLayout();
-            groupBox7.SuspendLayout();
-            groupBox5.SuspendLayout();
-            guiCommandTabUpdateRecord.SuspendLayout();
-            groupBox28.SuspendLayout();
-            groupBox27.SuspendLayout();
-            groupBox24.SuspendLayout();
-            guiCommandTabAppendRecord.SuspendLayout();
-            groupBox26.SuspendLayout();
-            groupBox25.SuspendLayout();
+            this.tabControl4.SuspendLayout();
+            this.guiCommandTabReadRecord.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox5.SuspendLayout();
+            this.guiCommandTabUpdateRecord.SuspendLayout();
+            this.groupBox28.SuspendLayout();
+            this.groupBox27.SuspendLayout();
+            this.groupBox24.SuspendLayout();
+            this.guiCommandTabAppendRecord.SuspendLayout();
+            this.groupBox26.SuspendLayout();
+            this.groupBox25.SuspendLayout();
             this.tabPage8.SuspendLayout();
-            tabControl3.SuspendLayout();
-            tabPage11.SuspendLayout();
-            this.tabPage4.SuspendLayout();
-            tabControl2.SuspendLayout();
-            rightPanel.SuspendLayout();
-            groupCommandAPDU.SuspendLayout();
-            groupBox16.SuspendLayout();
-            groupResponseAPDU.SuspendLayout();
-            groupBox29.SuspendLayout();
-            groupBox30.SuspendLayout();
-            groupBox31.SuspendLayout();
-            groupBox32.SuspendLayout();
-            groupBox33.SuspendLayout();
-            groupBox34.SuspendLayout();
-            groupBox35.SuspendLayout();
-            groupBox36.SuspendLayout();
-            groupBox37.SuspendLayout();
-            groupBox38.SuspendLayout();
-            groupBox6.SuspendLayout();
+            this.tabControl3.SuspendLayout();
+            this.tabPage11.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.rightPanel.SuspendLayout();
+            this.groupCommandAPDU.SuspendLayout();
+            this.groupBox16.SuspendLayout();
+            this.groupResponseAPDU.SuspendLayout();
+            this.groupBox29.SuspendLayout();
+            this.groupBox30.SuspendLayout();
+            this.groupBox31.SuspendLayout();
+            this.groupBox32.SuspendLayout();
+            this.groupBox33.SuspendLayout();
+            this.groupBox34.SuspendLayout();
+            this.groupBox35.SuspendLayout();
+            this.groupBox36.SuspendLayout();
+            this.groupBox37.SuspendLayout();
+            this.groupBox38.SuspendLayout();
             this.SuspendLayout();
             // 
-            // toolStripContainer1
+            // globalTabPage
             // 
-            // 
-            // toolStripContainer1.BottomToolStripPanel
-            // 
-            toolStripContainer1.BottomToolStripPanel.Controls.Add(statusStrip1);
-            // 
-            // toolStripContainer1.ContentPanel
-            // 
-            toolStripContainer1.ContentPanel.Controls.Add(tabControl1);
-            toolStripContainer1.ContentPanel.Controls.Add(rightPanel);
-            toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(784, 517);
-            toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            toolStripContainer1.Location = new System.Drawing.Point(0, 0);
-            toolStripContainer1.Name = "toolStripContainer1";
-            toolStripContainer1.Size = new System.Drawing.Size(784, 564);
-            toolStripContainer1.TabIndex = 0;
-            toolStripContainer1.Text = "toolStripContainer1";
-            // 
-            // statusStrip1
-            // 
-            statusStrip1.Dock = System.Windows.Forms.DockStyle.None;
-            statusStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.guiStatusStatusWord});
-            statusStrip1.Location = new System.Drawing.Point(0, 0);
-            statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new System.Drawing.Size(784, 22);
-            statusStrip1.TabIndex = 0;
-            // 
-            // guiStatusStatusWord
-            // 
-            this.guiStatusStatusWord.Name = "guiStatusStatusWord";
-            this.guiStatusStatusWord.Size = new System.Drawing.Size(71, 17);
-            this.guiStatusStatusWord.Text = "StatusWord:";
-            // 
-            // tabControl1
-            // 
-            tabControl1.Alignment = System.Windows.Forms.TabAlignment.Left;
-            tabControl1.Controls.Add(tabPage5);
-            tabControl1.Controls.Add(this.tabPage3);
-            tabControl1.Controls.Add(this.tabPage4);
-            tabControl1.Dock = System.Windows.Forms.DockStyle.Left;
-            tabControl1.HotTrack = true;
-            tabControl1.Location = new System.Drawing.Point(0, 0);
-            tabControl1.Multiline = true;
-            tabControl1.Name = "tabControl1";
-            tabControl1.SelectedIndex = 0;
-            tabControl1.Size = new System.Drawing.Size(317, 517);
-            tabControl1.TabIndex = 0;
-            // 
-            // tabPage5
-            // 
-            tabPage5.Controls.Add(groupBox15);
-            tabPage5.Controls.Add(groupBox9);
-            tabPage5.Location = new System.Drawing.Point(23, 4);
-            tabPage5.Name = "tabPage5";
-            tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            tabPage5.Size = new System.Drawing.Size(290, 509);
-            tabPage5.TabIndex = 2;
-            tabPage5.Text = "Global";
+            this.globalTabPage.Controls.Add(this.groupBox15);
+            this.globalTabPage.Location = new System.Drawing.Point(23, 4);
+            this.globalTabPage.Name = "globalTabPage";
+            this.globalTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.globalTabPage.Size = new System.Drawing.Size(290, 509);
+            this.globalTabPage.TabIndex = 2;
+            this.globalTabPage.Text = "Global";
             // 
             // groupBox15
             // 
-            groupBox15.AutoSize = true;
-            groupBox15.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox15.Controls.Add(this.guiParametersReleaseObserver);
-            groupBox15.Controls.Add(this.guiParametersAttachObserver);
-            groupBox15.Location = new System.Drawing.Point(6, 71);
-            groupBox15.Name = "groupBox15";
-            groupBox15.Size = new System.Drawing.Size(278, 61);
-            groupBox15.TabIndex = 5;
-            groupBox15.TabStop = false;
-            groupBox15.Text = "Card Observer";
+            this.groupBox15.AutoSize = true;
+            this.groupBox15.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox15.Controls.Add(this.guiParametersReleaseObserver);
+            this.groupBox15.Controls.Add(this.guiParametersAttachObserver);
+            this.groupBox15.Location = new System.Drawing.Point(6, 6);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(278, 61);
+            this.groupBox15.TabIndex = 5;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "Card Observer";
             // 
             // guiParametersReleaseObserver
             // 
@@ -362,67 +239,95 @@
             this.guiParametersAttachObserver.UseVisualStyleBackColor = true;
             this.guiParametersAttachObserver.Click += new System.EventHandler(this.guiParametersAttachObserver_Click);
             // 
-            // groupBox9
+            // toolStripContainer1
             // 
-            groupBox9.AutoSize = true;
-            groupBox9.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox9.Controls.Add(this.guiParametersProtocolT);
-            groupBox9.Location = new System.Drawing.Point(6, 6);
-            groupBox9.Name = "groupBox9";
-            groupBox9.Size = new System.Drawing.Size(278, 59);
-            groupBox9.TabIndex = 4;
-            groupBox9.TabStop = false;
-            groupBox9.Text = "Protocol T";
             // 
-            // guiParametersProtocolT
+            // toolStripContainer1.BottomToolStripPanel
             // 
-            this.guiParametersProtocolT.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.guiParametersProtocolT.FormattingEnabled = true;
-            this.guiParametersProtocolT.Location = new System.Drawing.Point(6, 19);
-            this.guiParametersProtocolT.Name = "guiParametersProtocolT";
-            this.guiParametersProtocolT.Size = new System.Drawing.Size(266, 21);
-            this.guiParametersProtocolT.TabIndex = 2;
-            this.guiParametersProtocolT.SelectedIndexChanged += new System.EventHandler(this.guiCommandTabProtocolT_SelectedIndexChanged);
+            this.toolStripContainer1.BottomToolStripPanel.Controls.Add(this.guiStatusStrip);
             // 
-            // tabPage3
+            // toolStripContainer1.ContentPanel
             // 
-            this.tabPage3.Controls.Add(guiCommandTabs);
-            this.tabPage3.Location = new System.Drawing.Point(23, 4);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(290, 509);
-            this.tabPage3.TabIndex = 0;
-            this.tabPage3.Text = "Interchange";
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.mainTabControl);
+            this.toolStripContainer1.ContentPanel.Controls.Add(this.rightPanel);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(784, 517);
+            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStripContainer1.Location = new System.Drawing.Point(0, 0);
+            this.toolStripContainer1.Name = "toolStripContainer1";
+            this.toolStripContainer1.Size = new System.Drawing.Size(784, 564);
+            this.toolStripContainer1.TabIndex = 0;
+            this.toolStripContainer1.Text = "toolStripContainer1";
+            // 
+            // guiStatusStrip
+            // 
+            this.guiStatusStrip.Dock = System.Windows.Forms.DockStyle.None;
+            this.guiStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.guiStatusStripStatusWord});
+            this.guiStatusStrip.Location = new System.Drawing.Point(0, 0);
+            this.guiStatusStrip.Name = "guiStatusStrip";
+            this.guiStatusStrip.Size = new System.Drawing.Size(784, 22);
+            this.guiStatusStrip.TabIndex = 0;
+            // 
+            // guiStatusStripStatusWord
+            // 
+            this.guiStatusStripStatusWord.Name = "guiStatusStripStatusWord";
+            this.guiStatusStripStatusWord.Size = new System.Drawing.Size(71, 17);
+            this.guiStatusStripStatusWord.Text = "StatusWord:";
+            // 
+            // mainTabControl
+            // 
+            this.mainTabControl.Alignment = System.Windows.Forms.TabAlignment.Left;
+            this.mainTabControl.Controls.Add(this.globalTabPage);
+            this.mainTabControl.Controls.Add(this.interchangeTabPage);
+            this.mainTabControl.Dock = System.Windows.Forms.DockStyle.Left;
+            this.mainTabControl.HotTrack = true;
+            this.mainTabControl.Location = new System.Drawing.Point(0, 0);
+            this.mainTabControl.Multiline = true;
+            this.mainTabControl.Name = "mainTabControl";
+            this.mainTabControl.SelectedIndex = 0;
+            this.mainTabControl.Size = new System.Drawing.Size(317, 517);
+            this.mainTabControl.TabIndex = 0;
+            // 
+            // interchangeTabPage
+            // 
+            this.interchangeTabPage.Controls.Add(this.guiCommandTabs);
+            this.interchangeTabPage.Location = new System.Drawing.Point(23, 4);
+            this.interchangeTabPage.Name = "interchangeTabPage";
+            this.interchangeTabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.interchangeTabPage.Size = new System.Drawing.Size(290, 509);
+            this.interchangeTabPage.TabIndex = 0;
+            this.interchangeTabPage.Text = "Interchange";
             // 
             // guiCommandTabs
             // 
-            guiCommandTabs.Controls.Add(guiCommandTabSelect);
-            guiCommandTabs.Controls.Add(guiCommandTabGetResponse);
-            guiCommandTabs.Controls.Add(this.tabPage1);
-            guiCommandTabs.Controls.Add(this.tabPage8);
-            guiCommandTabs.Dock = System.Windows.Forms.DockStyle.Fill;
-            guiCommandTabs.HotTrack = true;
-            guiCommandTabs.Location = new System.Drawing.Point(3, 3);
-            guiCommandTabs.Multiline = true;
-            guiCommandTabs.Name = "guiCommandTabs";
-            guiCommandTabs.SelectedIndex = 0;
-            guiCommandTabs.Size = new System.Drawing.Size(284, 503);
-            guiCommandTabs.TabIndex = 0;
+            this.guiCommandTabs.Controls.Add(this.guiCommandTabSelect);
+            this.guiCommandTabs.Controls.Add(this.guiCommandTabGetResponse);
+            this.guiCommandTabs.Controls.Add(this.tabPage1);
+            this.guiCommandTabs.Controls.Add(this.tabPage8);
+            this.guiCommandTabs.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.guiCommandTabs.Enabled = false;
+            this.guiCommandTabs.HotTrack = true;
+            this.guiCommandTabs.Location = new System.Drawing.Point(3, 3);
+            this.guiCommandTabs.Multiline = true;
+            this.guiCommandTabs.Name = "guiCommandTabs";
+            this.guiCommandTabs.SelectedIndex = 0;
+            this.guiCommandTabs.Size = new System.Drawing.Size(284, 503);
+            this.guiCommandTabs.TabIndex = 0;
             // 
             // guiCommandTabSelect
             // 
-            guiCommandTabSelect.Controls.Add(this.guiSelectExecute);
-            guiCommandTabSelect.Controls.Add(groupBox3);
-            guiCommandTabSelect.Controls.Add(this.guiSelectFCI);
-            guiCommandTabSelect.Controls.Add(groupBox2);
-            guiCommandTabSelect.Controls.Add(groupBox1);
-            guiCommandTabSelect.Location = new System.Drawing.Point(4, 22);
-            guiCommandTabSelect.Name = "guiCommandTabSelect";
-            guiCommandTabSelect.Padding = new System.Windows.Forms.Padding(3);
-            guiCommandTabSelect.Size = new System.Drawing.Size(276, 477);
-            guiCommandTabSelect.TabIndex = 0;
-            guiCommandTabSelect.Text = "SELECT";
-            guiCommandTabSelect.UseVisualStyleBackColor = true;
+            this.guiCommandTabSelect.Controls.Add(this.guiSelectExecute);
+            this.guiCommandTabSelect.Controls.Add(this.groupBox3);
+            this.guiCommandTabSelect.Controls.Add(this.guiSelectFCI);
+            this.guiCommandTabSelect.Controls.Add(this.groupBox2);
+            this.guiCommandTabSelect.Controls.Add(this.groupBox1);
+            this.guiCommandTabSelect.Location = new System.Drawing.Point(4, 22);
+            this.guiCommandTabSelect.Name = "guiCommandTabSelect";
+            this.guiCommandTabSelect.Padding = new System.Windows.Forms.Padding(3);
+            this.guiCommandTabSelect.Size = new System.Drawing.Size(276, 477);
+            this.guiCommandTabSelect.TabIndex = 0;
+            this.guiCommandTabSelect.Text = "SELECT";
+            this.guiCommandTabSelect.UseVisualStyleBackColor = true;
             // 
             // guiSelectExecute
             // 
@@ -436,13 +341,13 @@
             // 
             // groupBox3
             // 
-            groupBox3.Controls.Add(this.guiSelectUDC);
-            groupBox3.Location = new System.Drawing.Point(6, 199);
-            groupBox3.Name = "groupBox3";
-            groupBox3.Size = new System.Drawing.Size(264, 59);
-            groupBox3.TabIndex = 4;
-            groupBox3.TabStop = false;
-            groupBox3.Text = "UDC";
+            this.groupBox3.Controls.Add(this.guiSelectUDC);
+            this.groupBox3.Location = new System.Drawing.Point(6, 199);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(264, 59);
+            this.groupBox3.TabIndex = 4;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "UDC";
             // 
             // guiSelectUDC
             // 
@@ -463,15 +368,15 @@
             // 
             // groupBox2
             // 
-            groupBox2.Controls.Add(this.label2);
-            groupBox2.Controls.Add(this.guiSelectFileOccurence);
-            groupBox2.Controls.Add(this.label3);
-            groupBox2.Location = new System.Drawing.Point(6, 84);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new System.Drawing.Size(264, 109);
-            groupBox2.TabIndex = 1;
-            groupBox2.TabStop = false;
-            groupBox2.Text = "P2";
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.Controls.Add(this.guiSelectFileOccurence);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Location = new System.Drawing.Point(6, 84);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(264, 109);
+            this.groupBox2.TabIndex = 1;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "P2";
             // 
             // label2
             // 
@@ -502,23 +407,23 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(this.guiSelectP1);
-            groupBox1.Location = new System.Drawing.Point(6, 6);
-            groupBox1.Name = "groupBox1";
-            groupBox1.Size = new System.Drawing.Size(264, 72);
-            groupBox1.TabIndex = 0;
-            groupBox1.TabStop = false;
-            groupBox1.Text = "P1";
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.guiSelectP1);
+            this.groupBox1.Location = new System.Drawing.Point(6, 6);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(264, 72);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "P1";
             // 
             // label1
             // 
-            label1.AutoSize = true;
-            label1.Location = new System.Drawing.Point(6, 16);
-            label1.Name = "label1";
-            label1.Size = new System.Drawing.Size(81, 13);
-            label1.TabIndex = 0;
-            label1.Text = "Selection Mode";
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(81, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Selection Mode";
             // 
             // guiSelectP1
             // 
@@ -531,15 +436,15 @@
             // 
             // guiCommandTabGetResponse
             // 
-            guiCommandTabGetResponse.Controls.Add(this.guiGetResponseExecute);
-            guiCommandTabGetResponse.Controls.Add(groupBox4);
-            guiCommandTabGetResponse.Location = new System.Drawing.Point(4, 22);
-            guiCommandTabGetResponse.Name = "guiCommandTabGetResponse";
-            guiCommandTabGetResponse.Padding = new System.Windows.Forms.Padding(3);
-            guiCommandTabGetResponse.Size = new System.Drawing.Size(276, 477);
-            guiCommandTabGetResponse.TabIndex = 2;
-            guiCommandTabGetResponse.Text = "GET RESPONSE";
-            guiCommandTabGetResponse.UseVisualStyleBackColor = true;
+            this.guiCommandTabGetResponse.Controls.Add(this.guiGetResponseExecute);
+            this.guiCommandTabGetResponse.Controls.Add(this.groupBox4);
+            this.guiCommandTabGetResponse.Location = new System.Drawing.Point(4, 22);
+            this.guiCommandTabGetResponse.Name = "guiCommandTabGetResponse";
+            this.guiCommandTabGetResponse.Padding = new System.Windows.Forms.Padding(3);
+            this.guiCommandTabGetResponse.Size = new System.Drawing.Size(276, 477);
+            this.guiCommandTabGetResponse.TabIndex = 2;
+            this.guiCommandTabGetResponse.Text = "GET RESPONSE";
+            this.guiCommandTabGetResponse.UseVisualStyleBackColor = true;
             // 
             // guiGetResponseExecute
             // 
@@ -553,15 +458,15 @@
             // 
             // groupBox4
             // 
-            groupBox4.AutoSize = true;
-            groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox4.Controls.Add(this.guiGetResponseLe);
-            groupBox4.Location = new System.Drawing.Point(6, 6);
-            groupBox4.Name = "groupBox4";
-            groupBox4.Size = new System.Drawing.Size(264, 59);
-            groupBox4.TabIndex = 0;
-            groupBox4.TabStop = false;
-            groupBox4.Text = "Le [hexa]";
+            this.groupBox4.AutoSize = true;
+            this.groupBox4.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox4.Controls.Add(this.guiGetResponseLe);
+            this.groupBox4.Location = new System.Drawing.Point(6, 6);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(264, 59);
+            this.groupBox4.TabIndex = 0;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Le [hexa]";
             // 
             // guiGetResponseLe
             // 
@@ -573,7 +478,7 @@
             // 
             // tabPage1
             // 
-            this.tabPage1.Controls.Add(tabControl4);
+            this.tabPage1.Controls.Add(this.tabControl4);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -584,40 +489,40 @@
             // 
             // tabControl4
             // 
-            tabControl4.Controls.Add(guiCommandTabReadRecord);
-            tabControl4.Controls.Add(guiCommandTabUpdateRecord);
-            tabControl4.Controls.Add(guiCommandTabAppendRecord);
-            tabControl4.Dock = System.Windows.Forms.DockStyle.Fill;
-            tabControl4.Location = new System.Drawing.Point(3, 3);
-            tabControl4.Name = "tabControl4";
-            tabControl4.SelectedIndex = 0;
-            tabControl4.Size = new System.Drawing.Size(270, 471);
-            tabControl4.TabIndex = 0;
+            this.tabControl4.Controls.Add(this.guiCommandTabReadRecord);
+            this.tabControl4.Controls.Add(this.guiCommandTabUpdateRecord);
+            this.tabControl4.Controls.Add(this.guiCommandTabAppendRecord);
+            this.tabControl4.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl4.Location = new System.Drawing.Point(3, 3);
+            this.tabControl4.Name = "tabControl4";
+            this.tabControl4.SelectedIndex = 0;
+            this.tabControl4.Size = new System.Drawing.Size(270, 471);
+            this.tabControl4.TabIndex = 0;
             // 
             // guiCommandTabReadRecord
             // 
-            guiCommandTabReadRecord.Controls.Add(groupBox8);
-            guiCommandTabReadRecord.Controls.Add(this.guiReadRecordExecute);
-            guiCommandTabReadRecord.Controls.Add(groupBox7);
-            guiCommandTabReadRecord.Controls.Add(groupBox5);
-            guiCommandTabReadRecord.Location = new System.Drawing.Point(4, 22);
-            guiCommandTabReadRecord.Name = "guiCommandTabReadRecord";
-            guiCommandTabReadRecord.Padding = new System.Windows.Forms.Padding(3);
-            guiCommandTabReadRecord.Size = new System.Drawing.Size(262, 445);
-            guiCommandTabReadRecord.TabIndex = 4;
-            guiCommandTabReadRecord.Text = "READ";
-            guiCommandTabReadRecord.UseVisualStyleBackColor = true;
+            this.guiCommandTabReadRecord.Controls.Add(this.groupBox8);
+            this.guiCommandTabReadRecord.Controls.Add(this.guiReadRecordExecute);
+            this.guiCommandTabReadRecord.Controls.Add(this.groupBox7);
+            this.guiCommandTabReadRecord.Controls.Add(this.groupBox5);
+            this.guiCommandTabReadRecord.Location = new System.Drawing.Point(4, 22);
+            this.guiCommandTabReadRecord.Name = "guiCommandTabReadRecord";
+            this.guiCommandTabReadRecord.Padding = new System.Windows.Forms.Padding(3);
+            this.guiCommandTabReadRecord.Size = new System.Drawing.Size(262, 445);
+            this.guiCommandTabReadRecord.TabIndex = 4;
+            this.guiCommandTabReadRecord.Text = "READ";
+            this.guiCommandTabReadRecord.UseVisualStyleBackColor = true;
             // 
             // groupBox8
             // 
-            groupBox8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox8.Controls.Add(this.guiReadRecordLe);
-            groupBox8.Location = new System.Drawing.Point(6, 202);
-            groupBox8.Name = "groupBox8";
-            groupBox8.Size = new System.Drawing.Size(250, 59);
-            groupBox8.TabIndex = 3;
-            groupBox8.TabStop = false;
-            groupBox8.Text = "Le [hexa]";
+            this.groupBox8.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox8.Controls.Add(this.guiReadRecordLe);
+            this.groupBox8.Location = new System.Drawing.Point(6, 202);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(250, 59);
+            this.groupBox8.TabIndex = 3;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Le [hexa]";
             // 
             // guiReadRecordLe
             // 
@@ -639,15 +544,15 @@
             // 
             // groupBox7
             // 
-            groupBox7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox7.Controls.Add(this.guiReadRecordP1);
-            groupBox7.Controls.Add(label7);
-            groupBox7.Location = new System.Drawing.Point(6, 6);
-            groupBox7.Name = "groupBox7";
-            groupBox7.Size = new System.Drawing.Size(250, 72);
-            groupBox7.TabIndex = 1;
-            groupBox7.TabStop = false;
-            groupBox7.Text = "P1 [hexa]";
+            this.groupBox7.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox7.Controls.Add(this.guiReadRecordP1);
+            this.groupBox7.Controls.Add(this.label7);
+            this.groupBox7.Location = new System.Drawing.Point(6, 6);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(250, 72);
+            this.groupBox7.TabIndex = 1;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "P1 [hexa]";
             // 
             // guiReadRecordP1
             // 
@@ -659,27 +564,27 @@
             // 
             // label7
             // 
-            label7.AutoSize = true;
-            label7.Location = new System.Drawing.Point(6, 16);
-            label7.Name = "label7";
-            label7.Size = new System.Drawing.Size(137, 13);
-            label7.TabIndex = 0;
-            label7.Text = "Record Number or Identifier";
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 16);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(137, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Record Number or Identifier";
             // 
             // groupBox5
             // 
-            groupBox5.AutoSize = true;
-            groupBox5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox5.Controls.Add(this.label6);
-            groupBox5.Controls.Add(this.guiReadRecordSearchMode);
-            groupBox5.Controls.Add(this.label4);
-            groupBox5.Controls.Add(this.guiReadRecordSFI);
-            groupBox5.Location = new System.Drawing.Point(6, 84);
-            groupBox5.Name = "groupBox5";
-            groupBox5.Size = new System.Drawing.Size(250, 112);
-            groupBox5.TabIndex = 2;
-            groupBox5.TabStop = false;
-            groupBox5.Text = "P2";
+            this.groupBox5.AutoSize = true;
+            this.groupBox5.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox5.Controls.Add(this.label6);
+            this.groupBox5.Controls.Add(this.guiReadRecordSearchMode);
+            this.groupBox5.Controls.Add(this.label4);
+            this.groupBox5.Controls.Add(this.guiReadRecordSFI);
+            this.groupBox5.Location = new System.Drawing.Point(6, 84);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(250, 112);
+            this.groupBox5.TabIndex = 2;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "P2";
             // 
             // label6
             // 
@@ -718,29 +623,29 @@
             // 
             // guiCommandTabUpdateRecord
             // 
-            guiCommandTabUpdateRecord.Controls.Add(groupBox28);
-            guiCommandTabUpdateRecord.Controls.Add(groupBox27);
-            guiCommandTabUpdateRecord.Controls.Add(this.guiWriteRecordExecute);
-            guiCommandTabUpdateRecord.Controls.Add(groupBox24);
-            guiCommandTabUpdateRecord.Location = new System.Drawing.Point(4, 22);
-            guiCommandTabUpdateRecord.Name = "guiCommandTabUpdateRecord";
-            guiCommandTabUpdateRecord.Padding = new System.Windows.Forms.Padding(3);
-            guiCommandTabUpdateRecord.Size = new System.Drawing.Size(262, 445);
-            guiCommandTabUpdateRecord.TabIndex = 8;
-            guiCommandTabUpdateRecord.Text = "WRITE";
-            guiCommandTabUpdateRecord.UseVisualStyleBackColor = true;
+            this.guiCommandTabUpdateRecord.Controls.Add(this.groupBox28);
+            this.guiCommandTabUpdateRecord.Controls.Add(this.groupBox27);
+            this.guiCommandTabUpdateRecord.Controls.Add(this.guiWriteRecordExecute);
+            this.guiCommandTabUpdateRecord.Controls.Add(this.groupBox24);
+            this.guiCommandTabUpdateRecord.Location = new System.Drawing.Point(4, 22);
+            this.guiCommandTabUpdateRecord.Name = "guiCommandTabUpdateRecord";
+            this.guiCommandTabUpdateRecord.Padding = new System.Windows.Forms.Padding(3);
+            this.guiCommandTabUpdateRecord.Size = new System.Drawing.Size(262, 445);
+            this.guiCommandTabUpdateRecord.TabIndex = 8;
+            this.guiCommandTabUpdateRecord.Text = "WRITE";
+            this.guiCommandTabUpdateRecord.UseVisualStyleBackColor = true;
             // 
             // groupBox28
             // 
-            groupBox28.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox28.Controls.Add(this.guiWriteRecordP1);
-            groupBox28.Controls.Add(label20);
-            groupBox28.Location = new System.Drawing.Point(6, 6);
-            groupBox28.Name = "groupBox28";
-            groupBox28.Size = new System.Drawing.Size(250, 72);
-            groupBox28.TabIndex = 0;
-            groupBox28.TabStop = false;
-            groupBox28.Text = "P1 [hexa]";
+            this.groupBox28.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox28.Controls.Add(this.guiWriteRecordP1);
+            this.groupBox28.Controls.Add(this.label20);
+            this.groupBox28.Location = new System.Drawing.Point(6, 6);
+            this.groupBox28.Name = "groupBox28";
+            this.groupBox28.Size = new System.Drawing.Size(250, 72);
+            this.groupBox28.TabIndex = 0;
+            this.groupBox28.TabStop = false;
+            this.groupBox28.Text = "P1 [hexa]";
             // 
             // guiWriteRecordP1
             // 
@@ -752,22 +657,22 @@
             // 
             // label20
             // 
-            label20.AutoSize = true;
-            label20.Location = new System.Drawing.Point(6, 16);
-            label20.Name = "label20";
-            label20.Size = new System.Drawing.Size(137, 13);
-            label20.TabIndex = 0;
-            label20.Text = "Record Number or Identifier";
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(6, 16);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(137, 13);
+            this.label20.TabIndex = 0;
+            this.label20.Text = "Record Number or Identifier";
             // 
             // groupBox27
             // 
-            groupBox27.Controls.Add(this.guiWriteRecordUDC);
-            groupBox27.Location = new System.Drawing.Point(6, 201);
-            groupBox27.Name = "groupBox27";
-            groupBox27.Size = new System.Drawing.Size(250, 59);
-            groupBox27.TabIndex = 2;
-            groupBox27.TabStop = false;
-            groupBox27.Text = "UDC";
+            this.groupBox27.Controls.Add(this.guiWriteRecordUDC);
+            this.groupBox27.Location = new System.Drawing.Point(6, 201);
+            this.groupBox27.Name = "groupBox27";
+            this.groupBox27.Size = new System.Drawing.Size(250, 59);
+            this.groupBox27.TabIndex = 2;
+            this.groupBox27.TabStop = false;
+            this.groupBox27.Text = "UDC";
             // 
             // guiWriteRecordUDC
             // 
@@ -789,17 +694,17 @@
             // 
             // groupBox24
             // 
-            groupBox24.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox24.Controls.Add(this.label21);
-            groupBox24.Controls.Add(this.guiWriteRecordTarget);
-            groupBox24.Controls.Add(this.label23);
-            groupBox24.Controls.Add(this.guiWriteRecordSFI);
-            groupBox24.Location = new System.Drawing.Point(6, 83);
-            groupBox24.Name = "groupBox24";
-            groupBox24.Size = new System.Drawing.Size(250, 112);
-            groupBox24.TabIndex = 1;
-            groupBox24.TabStop = false;
-            groupBox24.Text = "P2";
+            this.groupBox24.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox24.Controls.Add(this.label21);
+            this.groupBox24.Controls.Add(this.guiWriteRecordTarget);
+            this.groupBox24.Controls.Add(this.label23);
+            this.groupBox24.Controls.Add(this.guiWriteRecordSFI);
+            this.groupBox24.Location = new System.Drawing.Point(6, 83);
+            this.groupBox24.Name = "groupBox24";
+            this.groupBox24.Size = new System.Drawing.Size(250, 112);
+            this.groupBox24.TabIndex = 1;
+            this.groupBox24.TabStop = false;
+            this.groupBox24.Text = "P2";
             // 
             // label21
             // 
@@ -839,26 +744,26 @@
             // 
             // guiCommandTabAppendRecord
             // 
-            guiCommandTabAppendRecord.Controls.Add(groupBox26);
-            guiCommandTabAppendRecord.Controls.Add(this.guiAppendRecordExecute);
-            guiCommandTabAppendRecord.Controls.Add(groupBox25);
-            guiCommandTabAppendRecord.Location = new System.Drawing.Point(4, 22);
-            guiCommandTabAppendRecord.Name = "guiCommandTabAppendRecord";
-            guiCommandTabAppendRecord.Padding = new System.Windows.Forms.Padding(3);
-            guiCommandTabAppendRecord.Size = new System.Drawing.Size(262, 445);
-            guiCommandTabAppendRecord.TabIndex = 9;
-            guiCommandTabAppendRecord.Text = "APPEND";
-            guiCommandTabAppendRecord.UseVisualStyleBackColor = true;
+            this.guiCommandTabAppendRecord.Controls.Add(this.groupBox26);
+            this.guiCommandTabAppendRecord.Controls.Add(this.guiAppendRecordExecute);
+            this.guiCommandTabAppendRecord.Controls.Add(this.groupBox25);
+            this.guiCommandTabAppendRecord.Location = new System.Drawing.Point(4, 22);
+            this.guiCommandTabAppendRecord.Name = "guiCommandTabAppendRecord";
+            this.guiCommandTabAppendRecord.Padding = new System.Windows.Forms.Padding(3);
+            this.guiCommandTabAppendRecord.Size = new System.Drawing.Size(262, 445);
+            this.guiCommandTabAppendRecord.TabIndex = 9;
+            this.guiCommandTabAppendRecord.Text = "APPEND";
+            this.guiCommandTabAppendRecord.UseVisualStyleBackColor = true;
             // 
             // groupBox26
             // 
-            groupBox26.Controls.Add(this.guiAppendRecordUDC);
-            groupBox26.Location = new System.Drawing.Point(6, 84);
-            groupBox26.Name = "groupBox26";
-            groupBox26.Size = new System.Drawing.Size(250, 59);
-            groupBox26.TabIndex = 1;
-            groupBox26.TabStop = false;
-            groupBox26.Text = "UDC";
+            this.groupBox26.Controls.Add(this.guiAppendRecordUDC);
+            this.groupBox26.Location = new System.Drawing.Point(6, 84);
+            this.groupBox26.Name = "groupBox26";
+            this.groupBox26.Size = new System.Drawing.Size(250, 59);
+            this.groupBox26.TabIndex = 1;
+            this.groupBox26.TabStop = false;
+            this.groupBox26.Text = "UDC";
             // 
             // guiAppendRecordUDC
             // 
@@ -880,15 +785,15 @@
             // 
             // groupBox25
             // 
-            groupBox25.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox25.Controls.Add(this.label22);
-            groupBox25.Controls.Add(this.guiAppendRecordSFI);
-            groupBox25.Location = new System.Drawing.Point(6, 6);
-            groupBox25.Name = "groupBox25";
-            groupBox25.Size = new System.Drawing.Size(250, 72);
-            groupBox25.TabIndex = 0;
-            groupBox25.TabStop = false;
-            groupBox25.Text = "P2";
+            this.groupBox25.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox25.Controls.Add(this.label22);
+            this.groupBox25.Controls.Add(this.guiAppendRecordSFI);
+            this.groupBox25.Location = new System.Drawing.Point(6, 6);
+            this.groupBox25.Name = "groupBox25";
+            this.groupBox25.Size = new System.Drawing.Size(250, 72);
+            this.groupBox25.TabIndex = 0;
+            this.groupBox25.TabStop = false;
+            this.groupBox25.Text = "P2";
             // 
             // label22
             // 
@@ -909,7 +814,7 @@
             // 
             // tabPage8
             // 
-            this.tabPage8.Controls.Add(tabControl3);
+            this.tabPage8.Controls.Add(this.tabControl3);
             this.tabPage8.Location = new System.Drawing.Point(4, 22);
             this.tabPage8.Name = "tabPage8";
             this.tabPage8.Padding = new System.Windows.Forms.Padding(3);
@@ -920,122 +825,99 @@
             // 
             // tabControl3
             // 
-            tabControl3.Controls.Add(tabPage11);
-            tabControl3.Dock = System.Windows.Forms.DockStyle.Fill;
-            tabControl3.HotTrack = true;
-            tabControl3.Location = new System.Drawing.Point(3, 3);
-            tabControl3.Multiline = true;
-            tabControl3.Name = "tabControl3";
-            tabControl3.SelectedIndex = 0;
-            tabControl3.Size = new System.Drawing.Size(270, 471);
-            tabControl3.TabIndex = 0;
+            this.tabControl3.Controls.Add(this.tabPage11);
+            this.tabControl3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tabControl3.HotTrack = true;
+            this.tabControl3.Location = new System.Drawing.Point(3, 3);
+            this.tabControl3.Multiline = true;
+            this.tabControl3.Name = "tabControl3";
+            this.tabControl3.SelectedIndex = 0;
+            this.tabControl3.Size = new System.Drawing.Size(270, 471);
+            this.tabControl3.TabIndex = 0;
             // 
             // tabPage11
             // 
-            tabPage11.Controls.Add(this.guiReadBinaryExecute);
-            tabPage11.Controls.Add(groupBox6);
-            tabPage11.Location = new System.Drawing.Point(4, 22);
-            tabPage11.Name = "tabPage11";
-            tabPage11.Padding = new System.Windows.Forms.Padding(3);
-            tabPage11.Size = new System.Drawing.Size(262, 445);
-            tabPage11.TabIndex = 6;
-            tabPage11.Text = "READ BINARY";
-            tabPage11.UseVisualStyleBackColor = true;
+            this.tabPage11.Controls.Add(this.guiReadBinaryExecute);
+            this.tabPage11.Controls.Add(this.groupBox6);
+            this.tabPage11.Location = new System.Drawing.Point(4, 22);
+            this.tabPage11.Name = "tabPage11";
+            this.tabPage11.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage11.Size = new System.Drawing.Size(262, 445);
+            this.tabPage11.TabIndex = 6;
+            this.tabPage11.Text = "READ BINARY";
+            this.tabPage11.UseVisualStyleBackColor = true;
             // 
-            // tabPage4
+            // guiReadBinaryExecute
             // 
-            this.tabPage4.Controls.Add(tabControl2);
-            this.tabPage4.Location = new System.Drawing.Point(23, 4);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage4.Size = new System.Drawing.Size(290, 509);
-            this.tabPage4.TabIndex = 1;
-            this.tabPage4.Text = "Card Management";
+            this.guiReadBinaryExecute.Location = new System.Drawing.Point(181, 71);
+            this.guiReadBinaryExecute.Name = "guiReadBinaryExecute";
+            this.guiReadBinaryExecute.Size = new System.Drawing.Size(75, 23);
+            this.guiReadBinaryExecute.TabIndex = 5;
+            this.guiReadBinaryExecute.Text = "Execute";
+            this.guiReadBinaryExecute.UseVisualStyleBackColor = true;
+            this.guiReadBinaryExecute.Click += new System.EventHandler(this.guiReadBinaryExecute_Click);
             // 
-            // tabControl2
+            // groupBox6
             // 
-            tabControl2.Controls.Add(this.tabPage7);
-            tabControl2.Controls.Add(tabPage2);
-            tabControl2.Controls.Add(this.tabPage6);
-            tabControl2.Dock = System.Windows.Forms.DockStyle.Fill;
-            tabControl2.Location = new System.Drawing.Point(3, 3);
-            tabControl2.Multiline = true;
-            tabControl2.Name = "tabControl2";
-            tabControl2.SelectedIndex = 0;
-            tabControl2.Size = new System.Drawing.Size(284, 503);
-            tabControl2.TabIndex = 0;
+            this.groupBox6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox6.Controls.Add(this.guiReadBinaryLe);
+            this.groupBox6.Location = new System.Drawing.Point(6, 6);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(250, 59);
+            this.groupBox6.TabIndex = 4;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "Le [hexa]";
             // 
-            // tabPage7
+            // guiReadBinaryLe
             // 
-            this.tabPage7.Location = new System.Drawing.Point(4, 22);
-            this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage7.Size = new System.Drawing.Size(276, 477);
-            this.tabPage7.TabIndex = 1;
-            this.tabPage7.Text = "CREATE FILE";
-            this.tabPage7.UseVisualStyleBackColor = true;
-            // 
-            // tabPage2
-            // 
-            tabPage2.Location = new System.Drawing.Point(4, 22);
-            tabPage2.Name = "tabPage2";
-            tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            tabPage2.Size = new System.Drawing.Size(276, 477);
-            tabPage2.TabIndex = 2;
-            tabPage2.Text = "TERMINATE CARD USAGE";
-            tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.Location = new System.Drawing.Point(4, 22);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(276, 477);
-            this.tabPage6.TabIndex = 0;
-            this.tabPage6.Text = "Other";
-            this.tabPage6.UseVisualStyleBackColor = true;
+            this.guiReadBinaryLe.Location = new System.Drawing.Point(6, 19);
+            this.guiReadBinaryLe.Name = "guiReadBinaryLe";
+            this.guiReadBinaryLe.Size = new System.Drawing.Size(238, 21);
+            this.guiReadBinaryLe.TabIndex = 0;
+            this.guiReadBinaryLe.Text = "";
             // 
             // rightPanel
             // 
-            rightPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            rightPanel.Controls.Add(groupCommandAPDU);
-            rightPanel.Controls.Add(groupBox16);
-            rightPanel.Controls.Add(groupResponseAPDU);
-            rightPanel.Location = new System.Drawing.Point(322, 3);
-            rightPanel.Name = "rightPanel";
-            rightPanel.Size = new System.Drawing.Size(459, 510);
-            rightPanel.TabIndex = 1;
+            this.rightPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.rightPanel.Controls.Add(this.groupCommandAPDU);
+            this.rightPanel.Controls.Add(this.groupBox16);
+            this.rightPanel.Controls.Add(this.groupResponseAPDU);
+            this.rightPanel.Location = new System.Drawing.Point(322, 3);
+            this.rightPanel.Name = "rightPanel";
+            this.rightPanel.Size = new System.Drawing.Size(459, 510);
+            this.rightPanel.TabIndex = 1;
             // 
             // groupCommandAPDU
             // 
-            groupCommandAPDU.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            groupCommandAPDU.Controls.Add(this.guiLc);
-            groupCommandAPDU.Controls.Add(labelLc);
-            groupCommandAPDU.Controls.Add(this.guiUDC);
-            groupCommandAPDU.Controls.Add(this.guiLe);
-            groupCommandAPDU.Controls.Add(this.guiSendCAPDU);
-            groupCommandAPDU.Controls.Add(labelLe);
-            groupCommandAPDU.Controls.Add(this.guiP2);
-            groupCommandAPDU.Controls.Add(labelCLA);
-            groupCommandAPDU.Controls.Add(this.guiP1);
-            groupCommandAPDU.Controls.Add(labelP2);
-            groupCommandAPDU.Controls.Add(this.guiCLA);
-            groupCommandAPDU.Controls.Add(labelINS);
-            groupCommandAPDU.Controls.Add(this.guiINS);
-            groupCommandAPDU.Controls.Add(labelP1);
-            groupCommandAPDU.Location = new System.Drawing.Point(3, 3);
-            groupCommandAPDU.Name = "groupCommandAPDU";
-            groupCommandAPDU.Size = new System.Drawing.Size(447, 184);
-            groupCommandAPDU.TabIndex = 0;
-            groupCommandAPDU.TabStop = false;
-            groupCommandAPDU.Text = "Command APDU";
+            this.groupCommandAPDU.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupCommandAPDU.Controls.Add(this.label5);
+            this.groupCommandAPDU.Controls.Add(this.guiLc);
+            this.groupCommandAPDU.Controls.Add(this.labelLc);
+            this.groupCommandAPDU.Controls.Add(this.guiUDC);
+            this.groupCommandAPDU.Controls.Add(this.guiLe);
+            this.groupCommandAPDU.Controls.Add(this.guiSendCAPDU);
+            this.groupCommandAPDU.Controls.Add(this.labelLe);
+            this.groupCommandAPDU.Controls.Add(this.guiP2);
+            this.groupCommandAPDU.Controls.Add(this.labelCLA);
+            this.groupCommandAPDU.Controls.Add(this.guiP1);
+            this.groupCommandAPDU.Controls.Add(this.labelP2);
+            this.groupCommandAPDU.Controls.Add(this.guiCLA);
+            this.groupCommandAPDU.Controls.Add(this.labelINS);
+            this.groupCommandAPDU.Controls.Add(this.guiINS);
+            this.groupCommandAPDU.Controls.Add(this.labelP1);
+            this.groupCommandAPDU.Location = new System.Drawing.Point(3, 3);
+            this.groupCommandAPDU.Name = "groupCommandAPDU";
+            this.groupCommandAPDU.Size = new System.Drawing.Size(447, 184);
+            this.groupCommandAPDU.TabIndex = 0;
+            this.groupCommandAPDU.TabStop = false;
+            this.groupCommandAPDU.Text = "Command APDU";
             // 
             // guiLc
             // 
-            this.guiLc.Location = new System.Drawing.Point(283, 19);
+            this.guiLc.Location = new System.Drawing.Point(286, 19);
             this.guiLc.MaxLength = 2;
             this.guiLc.Name = "guiLc";
             this.guiLc.Size = new System.Drawing.Size(25, 20);
@@ -1043,27 +925,27 @@
             // 
             // labelLc
             // 
-            labelLc.AutoSize = true;
-            labelLc.Location = new System.Drawing.Point(255, 22);
-            labelLc.Name = "labelLc";
-            labelLc.Size = new System.Drawing.Size(22, 13);
-            labelLc.TabIndex = 8;
-            labelLc.Text = "Lc:";
+            this.labelLc.AutoSize = true;
+            this.labelLc.Location = new System.Drawing.Point(258, 22);
+            this.labelLc.Name = "labelLc";
+            this.labelLc.Size = new System.Drawing.Size(22, 13);
+            this.labelLc.TabIndex = 8;
+            this.labelLc.Text = "Lc:";
             // 
             // guiUDC
             // 
-            this.guiUDC.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.guiUDC.Location = new System.Drawing.Point(6, 45);
+            this.guiUDC.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiUDC.Location = new System.Drawing.Point(42, 45);
             this.guiUDC.MaxLength = 32000;
             this.guiUDC.Multiline = true;
             this.guiUDC.Name = "guiUDC";
-            this.guiUDC.Size = new System.Drawing.Size(435, 91);
+            this.guiUDC.Size = new System.Drawing.Size(399, 91);
             this.guiUDC.TabIndex = 12;
             // 
             // guiLe
             // 
-            this.guiLe.Location = new System.Drawing.Point(342, 19);
+            this.guiLe.Location = new System.Drawing.Point(416, 19);
             this.guiLe.MaxLength = 2;
             this.guiLe.Name = "guiLe";
             this.guiLe.Size = new System.Drawing.Size(25, 20);
@@ -1082,16 +964,16 @@
             // 
             // labelLe
             // 
-            labelLe.AutoSize = true;
-            labelLe.Location = new System.Drawing.Point(314, 22);
-            labelLe.Name = "labelLe";
-            labelLe.Size = new System.Drawing.Size(22, 13);
-            labelLe.TabIndex = 10;
-            labelLe.Text = "Le:";
+            this.labelLe.AutoSize = true;
+            this.labelLe.Location = new System.Drawing.Point(388, 23);
+            this.labelLe.Name = "labelLe";
+            this.labelLe.Size = new System.Drawing.Size(22, 13);
+            this.labelLe.TabIndex = 10;
+            this.labelLe.Text = "Le:";
             // 
             // guiP2
             // 
-            this.guiP2.Location = new System.Drawing.Point(224, 19);
+            this.guiP2.Location = new System.Drawing.Point(227, 19);
             this.guiP2.MaxLength = 2;
             this.guiP2.Name = "guiP2";
             this.guiP2.Size = new System.Drawing.Size(25, 20);
@@ -1099,16 +981,16 @@
             // 
             // labelCLA
             // 
-            labelCLA.AutoSize = true;
-            labelCLA.Location = new System.Drawing.Point(6, 22);
-            labelCLA.Name = "labelCLA";
-            labelCLA.Size = new System.Drawing.Size(30, 13);
-            labelCLA.TabIndex = 0;
-            labelCLA.Text = "CLA:";
+            this.labelCLA.AutoSize = true;
+            this.labelCLA.Location = new System.Drawing.Point(6, 22);
+            this.labelCLA.Name = "labelCLA";
+            this.labelCLA.Size = new System.Drawing.Size(30, 13);
+            this.labelCLA.TabIndex = 0;
+            this.labelCLA.Text = "CLA:";
             // 
             // guiP1
             // 
-            this.guiP1.Location = new System.Drawing.Point(164, 19);
+            this.guiP1.Location = new System.Drawing.Point(167, 19);
             this.guiP1.MaxLength = 2;
             this.guiP1.Name = "guiP1";
             this.guiP1.Size = new System.Drawing.Size(25, 20);
@@ -1116,16 +998,16 @@
             // 
             // labelP2
             // 
-            labelP2.AutoSize = true;
-            labelP2.Location = new System.Drawing.Point(195, 22);
-            labelP2.Name = "labelP2";
-            labelP2.Size = new System.Drawing.Size(23, 13);
-            labelP2.TabIndex = 6;
-            labelP2.Text = "P2:";
+            this.labelP2.AutoSize = true;
+            this.labelP2.Location = new System.Drawing.Point(198, 22);
+            this.labelP2.Name = "labelP2";
+            this.labelP2.Size = new System.Drawing.Size(23, 13);
+            this.labelP2.TabIndex = 6;
+            this.labelP2.Text = "P2:";
             // 
             // guiCLA
             // 
-            this.guiCLA.Location = new System.Drawing.Point(39, 19);
+            this.guiCLA.Location = new System.Drawing.Point(42, 19);
             this.guiCLA.MaxLength = 2;
             this.guiCLA.Name = "guiCLA";
             this.guiCLA.Size = new System.Drawing.Size(25, 20);
@@ -1133,16 +1015,16 @@
             // 
             // labelINS
             // 
-            labelINS.AutoSize = true;
-            labelINS.Location = new System.Drawing.Point(70, 22);
-            labelINS.Name = "labelINS";
-            labelINS.Size = new System.Drawing.Size(28, 13);
-            labelINS.TabIndex = 2;
-            labelINS.Text = "INS:";
+            this.labelINS.AutoSize = true;
+            this.labelINS.Location = new System.Drawing.Point(73, 22);
+            this.labelINS.Name = "labelINS";
+            this.labelINS.Size = new System.Drawing.Size(28, 13);
+            this.labelINS.TabIndex = 2;
+            this.labelINS.Text = "INS:";
             // 
             // guiINS
             // 
-            this.guiINS.Location = new System.Drawing.Point(104, 19);
+            this.guiINS.Location = new System.Drawing.Point(107, 19);
             this.guiINS.MaxLength = 2;
             this.guiINS.Name = "guiINS";
             this.guiINS.Size = new System.Drawing.Size(25, 20);
@@ -1150,34 +1032,34 @@
             // 
             // labelP1
             // 
-            labelP1.AutoSize = true;
-            labelP1.Location = new System.Drawing.Point(135, 22);
-            labelP1.Name = "labelP1";
-            labelP1.Size = new System.Drawing.Size(23, 13);
-            labelP1.TabIndex = 4;
-            labelP1.Text = "P1:";
+            this.labelP1.AutoSize = true;
+            this.labelP1.Location = new System.Drawing.Point(138, 22);
+            this.labelP1.Name = "labelP1";
+            this.labelP1.Size = new System.Drawing.Size(23, 13);
+            this.labelP1.TabIndex = 4;
+            this.labelP1.Text = "P1:";
             // 
             // groupBox16
             // 
-            groupBox16.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            groupBox16.Controls.Add(this.guiCRPHistoric);
-            groupBox16.Location = new System.Drawing.Point(3, 359);
-            groupBox16.Name = "groupBox16";
-            groupBox16.Size = new System.Drawing.Size(447, 148);
-            groupBox16.TabIndex = 2;
-            groupBox16.TabStop = false;
-            groupBox16.Text = "Commands historic";
+            this.groupBox16.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox16.Controls.Add(this.guiCRPHistoric);
+            this.groupBox16.Location = new System.Drawing.Point(3, 359);
+            this.groupBox16.Name = "groupBox16";
+            this.groupBox16.Size = new System.Drawing.Size(447, 148);
+            this.groupBox16.TabIndex = 2;
+            this.groupBox16.TabStop = false;
+            this.groupBox16.Text = "Commands historic";
             // 
             // guiCRPHistoric
             // 
-            this.guiCRPHistoric.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiCRPHistoric.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiCRPHistoric.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            guiHistoricNumber,
-            guiHistoricCAPDU});
+            this.guiHistoricNumber,
+            this.guiHistoricCAPDU});
             this.guiCRPHistoric.FullRowSelect = true;
             this.guiCRPHistoric.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable;
             this.guiCRPHistoric.HideSelection = false;
@@ -1192,30 +1074,30 @@
             // 
             // guiHistoricNumber
             // 
-            guiHistoricNumber.Text = "N°";
-            guiHistoricNumber.Width = 30;
+            this.guiHistoricNumber.Text = "N°";
+            this.guiHistoricNumber.Width = 30;
             // 
             // guiHistoricCAPDU
             // 
-            guiHistoricCAPDU.Text = "CAPDU";
-            guiHistoricCAPDU.Width = 400;
+            this.guiHistoricCAPDU.Text = "CAPDU";
+            this.guiHistoricCAPDU.Width = 400;
             // 
             // groupResponseAPDU
             // 
-            groupResponseAPDU.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            groupResponseAPDU.Controls.Add(this.guiRAPDU);
-            groupResponseAPDU.Location = new System.Drawing.Point(3, 193);
-            groupResponseAPDU.Name = "groupResponseAPDU";
-            groupResponseAPDU.Size = new System.Drawing.Size(447, 160);
-            groupResponseAPDU.TabIndex = 1;
-            groupResponseAPDU.TabStop = false;
-            groupResponseAPDU.Text = "Response APDU";
+            this.groupResponseAPDU.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupResponseAPDU.Controls.Add(this.guiRAPDU);
+            this.groupResponseAPDU.Location = new System.Drawing.Point(3, 193);
+            this.groupResponseAPDU.Name = "groupResponseAPDU";
+            this.groupResponseAPDU.Size = new System.Drawing.Size(447, 160);
+            this.groupResponseAPDU.TabIndex = 1;
+            this.groupResponseAPDU.TabStop = false;
+            this.groupResponseAPDU.Text = "Response APDU";
             // 
             // guiRAPDU
             // 
-            this.guiRAPDU.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.guiRAPDU.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.guiRAPDU.Location = new System.Drawing.Point(6, 19);
             this.guiRAPDU.Name = "guiRAPDU";
             this.guiRAPDU.ReadOnly = true;
@@ -1226,24 +1108,24 @@
             // 
             // label10
             // 
-            label10.AutoSize = true;
-            label10.Location = new System.Drawing.Point(6, 16);
-            label10.Name = "label10";
-            label10.Size = new System.Drawing.Size(81, 13);
-            label10.TabIndex = 0;
-            label10.Text = "Selection Mode";
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(6, 16);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(81, 13);
+            this.label10.TabIndex = 0;
+            this.label10.Text = "Selection Mode";
             // 
             // groupBox29
             // 
-            groupBox29.AutoSize = true;
-            groupBox29.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox29.Controls.Add(this.richTextBox1);
-            groupBox29.Location = new System.Drawing.Point(6, 305);
-            groupBox29.Name = "groupBox29";
-            groupBox29.Size = new System.Drawing.Size(264, 59);
-            groupBox29.TabIndex = 4;
-            groupBox29.TabStop = false;
-            groupBox29.Text = "Le [hexa]";
+            this.groupBox29.AutoSize = true;
+            this.groupBox29.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox29.Controls.Add(this.richTextBox1);
+            this.groupBox29.Location = new System.Drawing.Point(6, 305);
+            this.groupBox29.Name = "groupBox29";
+            this.groupBox29.Size = new System.Drawing.Size(264, 59);
+            this.groupBox29.TabIndex = 4;
+            this.groupBox29.TabStop = false;
+            this.groupBox29.Text = "Le [hexa]";
             // 
             // richTextBox1
             // 
@@ -1255,25 +1137,25 @@
             // 
             // groupBox30
             // 
-            groupBox30.AutoSize = true;
-            groupBox30.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox30.Controls.Add(label24);
-            groupBox30.Controls.Add(this.comboBox3);
-            groupBox30.Location = new System.Drawing.Point(6, 71);
-            groupBox30.Name = "groupBox30";
-            groupBox30.Size = new System.Drawing.Size(264, 72);
-            groupBox30.TabIndex = 1;
-            groupBox30.TabStop = false;
-            groupBox30.Text = "P1 [b8]";
+            this.groupBox30.AutoSize = true;
+            this.groupBox30.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox30.Controls.Add(this.label24);
+            this.groupBox30.Controls.Add(this.comboBox3);
+            this.groupBox30.Location = new System.Drawing.Point(6, 71);
+            this.groupBox30.Name = "groupBox30";
+            this.groupBox30.Size = new System.Drawing.Size(264, 72);
+            this.groupBox30.TabIndex = 1;
+            this.groupBox30.TabStop = false;
+            this.groupBox30.Text = "P1 [b8]";
             // 
             // label24
             // 
-            label24.AutoSize = true;
-            label24.Location = new System.Drawing.Point(6, 16);
-            label24.Name = "label24";
-            label24.Size = new System.Drawing.Size(81, 13);
-            label24.TabIndex = 0;
-            label24.Text = "Selection Mode";
+            this.label24.AutoSize = true;
+            this.label24.Location = new System.Drawing.Point(6, 16);
+            this.label24.Name = "label24";
+            this.label24.Size = new System.Drawing.Size(81, 13);
+            this.label24.TabIndex = 0;
+            this.label24.Text = "Selection Mode";
             // 
             // comboBox3
             // 
@@ -1286,15 +1168,15 @@
             // 
             // groupBox31
             // 
-            groupBox31.AutoSize = true;
-            groupBox31.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox31.Controls.Add(this.comboBox4);
-            groupBox31.Location = new System.Drawing.Point(6, 6);
-            groupBox31.Name = "groupBox31";
-            groupBox31.Size = new System.Drawing.Size(264, 59);
-            groupBox31.TabIndex = 0;
-            groupBox31.TabStop = false;
-            groupBox31.Text = "READ BINARY";
+            this.groupBox31.AutoSize = true;
+            this.groupBox31.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox31.Controls.Add(this.comboBox4);
+            this.groupBox31.Location = new System.Drawing.Point(6, 6);
+            this.groupBox31.Name = "groupBox31";
+            this.groupBox31.Size = new System.Drawing.Size(264, 59);
+            this.groupBox31.TabIndex = 0;
+            this.groupBox31.TabStop = false;
+            this.groupBox31.Text = "READ BINARY";
             // 
             // comboBox4
             // 
@@ -1307,16 +1189,16 @@
             // 
             // groupBox32
             // 
-            groupBox32.AutoSize = true;
-            groupBox32.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox32.Controls.Add(this.richTextBox2);
-            groupBox32.Controls.Add(label25);
-            groupBox32.Location = new System.Drawing.Point(6, 149);
-            groupBox32.Name = "groupBox32";
-            groupBox32.Size = new System.Drawing.Size(264, 72);
-            groupBox32.TabIndex = 2;
-            groupBox32.TabStop = false;
-            groupBox32.Text = "P1 [b7...b1]";
+            this.groupBox32.AutoSize = true;
+            this.groupBox32.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox32.Controls.Add(this.richTextBox2);
+            this.groupBox32.Controls.Add(this.label25);
+            this.groupBox32.Location = new System.Drawing.Point(6, 149);
+            this.groupBox32.Name = "groupBox32";
+            this.groupBox32.Size = new System.Drawing.Size(264, 72);
+            this.groupBox32.TabIndex = 2;
+            this.groupBox32.TabStop = false;
+            this.groupBox32.Text = "P1 [b7...b1]";
             // 
             // richTextBox2
             // 
@@ -1328,25 +1210,25 @@
             // 
             // label25
             // 
-            label25.AutoSize = true;
-            label25.Location = new System.Drawing.Point(6, 16);
-            label25.Name = "label25";
-            label25.Size = new System.Drawing.Size(94, 13);
-            label25.TabIndex = 0;
-            label25.Text = "Short File Identifier";
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(6, 16);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(94, 13);
+            this.label25.TabIndex = 0;
+            this.label25.Text = "Short File Identifier";
             // 
             // groupBox33
             // 
-            groupBox33.AutoSize = true;
-            groupBox33.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox33.Controls.Add(this.richTextBox3);
-            groupBox33.Controls.Add(label26);
-            groupBox33.Location = new System.Drawing.Point(6, 227);
-            groupBox33.Name = "groupBox33";
-            groupBox33.Size = new System.Drawing.Size(264, 72);
-            groupBox33.TabIndex = 3;
-            groupBox33.TabStop = false;
-            groupBox33.Text = "(P1) P2";
+            this.groupBox33.AutoSize = true;
+            this.groupBox33.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox33.Controls.Add(this.richTextBox3);
+            this.groupBox33.Controls.Add(this.label26);
+            this.groupBox33.Location = new System.Drawing.Point(6, 227);
+            this.groupBox33.Name = "groupBox33";
+            this.groupBox33.Size = new System.Drawing.Size(264, 72);
+            this.groupBox33.TabIndex = 3;
+            this.groupBox33.TabStop = false;
+            this.groupBox33.Text = "(P1) P2";
             // 
             // richTextBox3
             // 
@@ -1358,24 +1240,24 @@
             // 
             // label26
             // 
-            label26.AutoSize = true;
-            label26.Location = new System.Drawing.Point(6, 16);
-            label26.Name = "label26";
-            label26.Size = new System.Drawing.Size(35, 13);
-            label26.TabIndex = 0;
-            label26.Text = "Offset";
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(6, 16);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(35, 13);
+            this.label26.TabIndex = 0;
+            this.label26.Text = "Offset";
             // 
             // groupBox34
             // 
-            groupBox34.AutoSize = true;
-            groupBox34.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox34.Controls.Add(this.richTextBox4);
-            groupBox34.Location = new System.Drawing.Point(6, 305);
-            groupBox34.Name = "groupBox34";
-            groupBox34.Size = new System.Drawing.Size(264, 59);
-            groupBox34.TabIndex = 4;
-            groupBox34.TabStop = false;
-            groupBox34.Text = "Le [hexa]";
+            this.groupBox34.AutoSize = true;
+            this.groupBox34.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox34.Controls.Add(this.richTextBox4);
+            this.groupBox34.Location = new System.Drawing.Point(6, 305);
+            this.groupBox34.Name = "groupBox34";
+            this.groupBox34.Size = new System.Drawing.Size(264, 59);
+            this.groupBox34.TabIndex = 4;
+            this.groupBox34.TabStop = false;
+            this.groupBox34.Text = "Le [hexa]";
             // 
             // richTextBox4
             // 
@@ -1387,25 +1269,25 @@
             // 
             // groupBox35
             // 
-            groupBox35.AutoSize = true;
-            groupBox35.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox35.Controls.Add(label27);
-            groupBox35.Controls.Add(this.comboBox5);
-            groupBox35.Location = new System.Drawing.Point(6, 71);
-            groupBox35.Name = "groupBox35";
-            groupBox35.Size = new System.Drawing.Size(264, 72);
-            groupBox35.TabIndex = 1;
-            groupBox35.TabStop = false;
-            groupBox35.Text = "P1 [b8]";
+            this.groupBox35.AutoSize = true;
+            this.groupBox35.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox35.Controls.Add(this.label27);
+            this.groupBox35.Controls.Add(this.comboBox5);
+            this.groupBox35.Location = new System.Drawing.Point(6, 71);
+            this.groupBox35.Name = "groupBox35";
+            this.groupBox35.Size = new System.Drawing.Size(264, 72);
+            this.groupBox35.TabIndex = 1;
+            this.groupBox35.TabStop = false;
+            this.groupBox35.Text = "P1 [b8]";
             // 
             // label27
             // 
-            label27.AutoSize = true;
-            label27.Location = new System.Drawing.Point(6, 16);
-            label27.Name = "label27";
-            label27.Size = new System.Drawing.Size(81, 13);
-            label27.TabIndex = 0;
-            label27.Text = "Selection Mode";
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(6, 16);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(81, 13);
+            this.label27.TabIndex = 0;
+            this.label27.Text = "Selection Mode";
             // 
             // comboBox5
             // 
@@ -1418,15 +1300,15 @@
             // 
             // groupBox36
             // 
-            groupBox36.AutoSize = true;
-            groupBox36.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox36.Controls.Add(this.comboBox6);
-            groupBox36.Location = new System.Drawing.Point(6, 6);
-            groupBox36.Name = "groupBox36";
-            groupBox36.Size = new System.Drawing.Size(264, 59);
-            groupBox36.TabIndex = 0;
-            groupBox36.TabStop = false;
-            groupBox36.Text = "READ BINARY";
+            this.groupBox36.AutoSize = true;
+            this.groupBox36.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox36.Controls.Add(this.comboBox6);
+            this.groupBox36.Location = new System.Drawing.Point(6, 6);
+            this.groupBox36.Name = "groupBox36";
+            this.groupBox36.Size = new System.Drawing.Size(264, 59);
+            this.groupBox36.TabIndex = 0;
+            this.groupBox36.TabStop = false;
+            this.groupBox36.Text = "READ BINARY";
             // 
             // comboBox6
             // 
@@ -1439,16 +1321,16 @@
             // 
             // groupBox37
             // 
-            groupBox37.AutoSize = true;
-            groupBox37.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox37.Controls.Add(this.richTextBox5);
-            groupBox37.Controls.Add(label28);
-            groupBox37.Location = new System.Drawing.Point(6, 149);
-            groupBox37.Name = "groupBox37";
-            groupBox37.Size = new System.Drawing.Size(264, 72);
-            groupBox37.TabIndex = 2;
-            groupBox37.TabStop = false;
-            groupBox37.Text = "P1 [b7...b1]";
+            this.groupBox37.AutoSize = true;
+            this.groupBox37.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox37.Controls.Add(this.richTextBox5);
+            this.groupBox37.Controls.Add(this.label28);
+            this.groupBox37.Location = new System.Drawing.Point(6, 149);
+            this.groupBox37.Name = "groupBox37";
+            this.groupBox37.Size = new System.Drawing.Size(264, 72);
+            this.groupBox37.TabIndex = 2;
+            this.groupBox37.TabStop = false;
+            this.groupBox37.Text = "P1 [b7...b1]";
             // 
             // richTextBox5
             // 
@@ -1460,25 +1342,25 @@
             // 
             // label28
             // 
-            label28.AutoSize = true;
-            label28.Location = new System.Drawing.Point(6, 16);
-            label28.Name = "label28";
-            label28.Size = new System.Drawing.Size(94, 13);
-            label28.TabIndex = 0;
-            label28.Text = "Short File Identifier";
+            this.label28.AutoSize = true;
+            this.label28.Location = new System.Drawing.Point(6, 16);
+            this.label28.Name = "label28";
+            this.label28.Size = new System.Drawing.Size(94, 13);
+            this.label28.TabIndex = 0;
+            this.label28.Text = "Short File Identifier";
             // 
             // groupBox38
             // 
-            groupBox38.AutoSize = true;
-            groupBox38.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox38.Controls.Add(this.richTextBox6);
-            groupBox38.Controls.Add(label29);
-            groupBox38.Location = new System.Drawing.Point(6, 227);
-            groupBox38.Name = "groupBox38";
-            groupBox38.Size = new System.Drawing.Size(264, 72);
-            groupBox38.TabIndex = 3;
-            groupBox38.TabStop = false;
-            groupBox38.Text = "(P1) P2";
+            this.groupBox38.AutoSize = true;
+            this.groupBox38.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.groupBox38.Controls.Add(this.richTextBox6);
+            this.groupBox38.Controls.Add(this.label29);
+            this.groupBox38.Location = new System.Drawing.Point(6, 227);
+            this.groupBox38.Name = "groupBox38";
+            this.groupBox38.Size = new System.Drawing.Size(264, 72);
+            this.groupBox38.TabIndex = 3;
+            this.groupBox38.TabStop = false;
+            this.groupBox38.Text = "(P1) P2";
             // 
             // richTextBox6
             // 
@@ -1490,12 +1372,12 @@
             // 
             // label29
             // 
-            label29.AutoSize = true;
-            label29.Location = new System.Drawing.Point(6, 16);
-            label29.Name = "label29";
-            label29.Size = new System.Drawing.Size(35, 13);
-            label29.TabIndex = 0;
-            label29.Text = "Offset";
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(6, 16);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(35, 13);
+            this.label29.TabIndex = 0;
+            this.label29.Text = "Offset";
             // 
             // guiReadRecordCC
             // 
@@ -1541,113 +1423,90 @@
             this.button2.Text = "Execute";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // groupBox6
+            // label5
             // 
-            groupBox6.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            groupBox6.Controls.Add(this.guiReadBinaryLe);
-            groupBox6.Location = new System.Drawing.Point(6, 6);
-            groupBox6.Name = "groupBox6";
-            groupBox6.Size = new System.Drawing.Size(250, 59);
-            groupBox6.TabIndex = 4;
-            groupBox6.TabStop = false;
-            groupBox6.Text = "Le [hexa]";
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 52);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(33, 13);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "UDC:";
             // 
-            // guiReadBinaryLe
-            // 
-            this.guiReadBinaryLe.Location = new System.Drawing.Point(6, 19);
-            this.guiReadBinaryLe.Name = "guiReadBinaryLe";
-            this.guiReadBinaryLe.Size = new System.Drawing.Size(238, 21);
-            this.guiReadBinaryLe.TabIndex = 0;
-            this.guiReadBinaryLe.Text = "";
-            // 
-            // guiReadBinaryExecute
-            // 
-            this.guiReadBinaryExecute.Location = new System.Drawing.Point(181, 71);
-            this.guiReadBinaryExecute.Name = "guiReadBinaryExecute";
-            this.guiReadBinaryExecute.Size = new System.Drawing.Size(75, 23);
-            this.guiReadBinaryExecute.TabIndex = 5;
-            this.guiReadBinaryExecute.Text = "Execute";
-            this.guiReadBinaryExecute.UseVisualStyleBackColor = true;
-            this.guiReadBinaryExecute.Click += new System.EventHandler(this.guiReadBinaryExecute_Click);
-            // 
-            // GUI
+            // Gui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(784, 564);
-            this.Controls.Add(toolStripContainer1);
-            this.Name = "GUI";
+            this.Controls.Add(this.toolStripContainer1);
+            this.Name = "Gui";
             this.Text = "ISO7816 Tools Plugin";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GUI_FormClosing);
-            toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
-            toolStripContainer1.BottomToolStripPanel.PerformLayout();
-            toolStripContainer1.ContentPanel.ResumeLayout(false);
-            toolStripContainer1.ResumeLayout(false);
-            toolStripContainer1.PerformLayout();
-            statusStrip1.ResumeLayout(false);
-            statusStrip1.PerformLayout();
-            tabControl1.ResumeLayout(false);
-            tabPage5.ResumeLayout(false);
-            tabPage5.PerformLayout();
-            groupBox15.ResumeLayout(false);
-            groupBox9.ResumeLayout(false);
-            this.tabPage3.ResumeLayout(false);
-            guiCommandTabs.ResumeLayout(false);
-            guiCommandTabSelect.ResumeLayout(false);
-            groupBox3.ResumeLayout(false);
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
-            groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
-            guiCommandTabGetResponse.ResumeLayout(false);
-            guiCommandTabGetResponse.PerformLayout();
-            groupBox4.ResumeLayout(false);
+            this.globalTabPage.ResumeLayout(false);
+            this.globalTabPage.PerformLayout();
+            this.groupBox15.ResumeLayout(false);
+            this.toolStripContainer1.BottomToolStripPanel.ResumeLayout(false);
+            this.toolStripContainer1.BottomToolStripPanel.PerformLayout();
+            this.toolStripContainer1.ContentPanel.ResumeLayout(false);
+            this.toolStripContainer1.ResumeLayout(false);
+            this.toolStripContainer1.PerformLayout();
+            this.guiStatusStrip.ResumeLayout(false);
+            this.guiStatusStrip.PerformLayout();
+            this.mainTabControl.ResumeLayout(false);
+            this.interchangeTabPage.ResumeLayout(false);
+            this.guiCommandTabs.ResumeLayout(false);
+            this.guiCommandTabSelect.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.guiCommandTabGetResponse.ResumeLayout(false);
+            this.guiCommandTabGetResponse.PerformLayout();
+            this.groupBox4.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            tabControl4.ResumeLayout(false);
-            guiCommandTabReadRecord.ResumeLayout(false);
-            guiCommandTabReadRecord.PerformLayout();
-            groupBox8.ResumeLayout(false);
-            groupBox7.ResumeLayout(false);
-            groupBox7.PerformLayout();
-            groupBox5.ResumeLayout(false);
-            groupBox5.PerformLayout();
-            guiCommandTabUpdateRecord.ResumeLayout(false);
-            groupBox28.ResumeLayout(false);
-            groupBox28.PerformLayout();
-            groupBox27.ResumeLayout(false);
-            groupBox24.ResumeLayout(false);
-            groupBox24.PerformLayout();
-            guiCommandTabAppendRecord.ResumeLayout(false);
-            groupBox26.ResumeLayout(false);
-            groupBox25.ResumeLayout(false);
-            groupBox25.PerformLayout();
+            this.tabControl4.ResumeLayout(false);
+            this.guiCommandTabReadRecord.ResumeLayout(false);
+            this.guiCommandTabReadRecord.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
+            this.guiCommandTabUpdateRecord.ResumeLayout(false);
+            this.groupBox28.ResumeLayout(false);
+            this.groupBox28.PerformLayout();
+            this.groupBox27.ResumeLayout(false);
+            this.groupBox24.ResumeLayout(false);
+            this.groupBox24.PerformLayout();
+            this.guiCommandTabAppendRecord.ResumeLayout(false);
+            this.groupBox26.ResumeLayout(false);
+            this.groupBox25.ResumeLayout(false);
+            this.groupBox25.PerformLayout();
             this.tabPage8.ResumeLayout(false);
-            tabControl3.ResumeLayout(false);
-            tabPage11.ResumeLayout(false);
-            this.tabPage4.ResumeLayout(false);
-            tabControl2.ResumeLayout(false);
-            rightPanel.ResumeLayout(false);
-            groupCommandAPDU.ResumeLayout(false);
-            groupCommandAPDU.PerformLayout();
-            groupBox16.ResumeLayout(false);
-            groupResponseAPDU.ResumeLayout(false);
-            groupBox29.ResumeLayout(false);
-            groupBox30.ResumeLayout(false);
-            groupBox30.PerformLayout();
-            groupBox31.ResumeLayout(false);
-            groupBox32.ResumeLayout(false);
-            groupBox32.PerformLayout();
-            groupBox33.ResumeLayout(false);
-            groupBox33.PerformLayout();
-            groupBox34.ResumeLayout(false);
-            groupBox35.ResumeLayout(false);
-            groupBox35.PerformLayout();
-            groupBox36.ResumeLayout(false);
-            groupBox37.ResumeLayout(false);
-            groupBox37.PerformLayout();
-            groupBox38.ResumeLayout(false);
-            groupBox38.PerformLayout();
-            groupBox6.ResumeLayout(false);
+            this.tabControl3.ResumeLayout(false);
+            this.tabPage11.ResumeLayout(false);
+            this.groupBox6.ResumeLayout(false);
+            this.rightPanel.ResumeLayout(false);
+            this.groupCommandAPDU.ResumeLayout(false);
+            this.groupCommandAPDU.PerformLayout();
+            this.groupBox16.ResumeLayout(false);
+            this.groupResponseAPDU.ResumeLayout(false);
+            this.groupBox29.ResumeLayout(false);
+            this.groupBox30.ResumeLayout(false);
+            this.groupBox30.PerformLayout();
+            this.groupBox31.ResumeLayout(false);
+            this.groupBox32.ResumeLayout(false);
+            this.groupBox32.PerformLayout();
+            this.groupBox33.ResumeLayout(false);
+            this.groupBox33.PerformLayout();
+            this.groupBox34.ResumeLayout(false);
+            this.groupBox35.ResumeLayout(false);
+            this.groupBox35.PerformLayout();
+            this.groupBox36.ResumeLayout(false);
+            this.groupBox37.ResumeLayout(false);
+            this.groupBox37.PerformLayout();
+            this.groupBox38.ResumeLayout(false);
+            this.groupBox38.PerformLayout();
             this.ResumeLayout(false);
 
 		}
@@ -1664,7 +1523,7 @@
 		private System.Windows.Forms.Button guiGetResponseExecute;
 		private System.Windows.Forms.RichTextBox guiGetResponseLe;
 		private System.Windows.Forms.RichTextBox guiReadRecordCC;
-		private System.Windows.Forms.ToolStripStatusLabel guiStatusStatusWord;
+		private System.Windows.Forms.ToolStripStatusLabel guiStatusStripStatusWord;
 		private System.Windows.Forms.ComboBox comboBox1;
 		private System.Windows.Forms.ComboBox comboBox2;
 		private System.Windows.Forms.TextBox guiLc;
@@ -1677,13 +1536,9 @@
 		private System.Windows.Forms.TextBox guiINS;
 		private System.Windows.Forms.RichTextBox guiRAPDU;
 		internal System.Windows.Forms.ListView guiCRPHistoric;
-		private System.Windows.Forms.TabPage tabPage3;
-		private System.Windows.Forms.TabPage tabPage4;
-		private System.Windows.Forms.TabPage tabPage6;
-		private System.Windows.Forms.TabPage tabPage7;
+		private System.Windows.Forms.TabPage interchangeTabPage;
 		private System.Windows.Forms.Button guiParametersReleaseObserver;
 		private System.Windows.Forms.Button guiParametersAttachObserver;
-        private System.Windows.Forms.ComboBox guiParametersProtocolT;
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabPage tabPage8;
 		private System.Windows.Forms.RichTextBox richTextBox1;
@@ -1718,9 +1573,65 @@
 		private System.Windows.Forms.RichTextBox guiAppendRecordSFI;
         private System.Windows.Forms.Button guiReadBinaryExecute;
         private System.Windows.Forms.RichTextBox guiReadBinaryLe;
-
-
-
-
-	}
+        private System.Windows.Forms.ToolStripContainer toolStripContainer1;
+        private System.Windows.Forms.StatusStrip guiStatusStrip;
+        private System.Windows.Forms.TabControl mainTabControl;
+        private System.Windows.Forms.GroupBox groupBox15;
+        private System.Windows.Forms.TabControl guiCommandTabs;
+        private System.Windows.Forms.TabPage guiCommandTabSelect;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.TabPage guiCommandTabGetResponse;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.TabControl tabControl4;
+        private System.Windows.Forms.TabPage guiCommandTabReadRecord;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.TabPage guiCommandTabUpdateRecord;
+        private System.Windows.Forms.GroupBox groupBox28;
+        private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.GroupBox groupBox27;
+        private System.Windows.Forms.GroupBox groupBox24;
+        private System.Windows.Forms.TabPage guiCommandTabAppendRecord;
+        private System.Windows.Forms.GroupBox groupBox26;
+        private System.Windows.Forms.GroupBox groupBox25;
+        private System.Windows.Forms.TabControl tabControl3;
+        private System.Windows.Forms.TabPage tabPage11;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Panel rightPanel;
+        private System.Windows.Forms.GroupBox groupCommandAPDU;
+        private System.Windows.Forms.Label labelLc;
+        private System.Windows.Forms.Label labelLe;
+        private System.Windows.Forms.Label labelCLA;
+        private System.Windows.Forms.Label labelP2;
+        private System.Windows.Forms.Label labelINS;
+        private System.Windows.Forms.Label labelP1;
+        private System.Windows.Forms.GroupBox groupBox16;
+        private System.Windows.Forms.ColumnHeader guiHistoricNumber;
+        private System.Windows.Forms.ColumnHeader guiHistoricCAPDU;
+        private System.Windows.Forms.GroupBox groupResponseAPDU;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.GroupBox groupBox29;
+        private System.Windows.Forms.GroupBox groupBox30;
+        private System.Windows.Forms.Label label24;
+        private System.Windows.Forms.GroupBox groupBox31;
+        private System.Windows.Forms.GroupBox groupBox32;
+        private System.Windows.Forms.Label label25;
+        private System.Windows.Forms.GroupBox groupBox33;
+        private System.Windows.Forms.Label label26;
+        private System.Windows.Forms.GroupBox groupBox34;
+        private System.Windows.Forms.GroupBox groupBox35;
+        private System.Windows.Forms.Label label27;
+        private System.Windows.Forms.GroupBox groupBox36;
+        private System.Windows.Forms.GroupBox groupBox37;
+        private System.Windows.Forms.Label label28;
+        private System.Windows.Forms.GroupBox groupBox38;
+        private System.Windows.Forms.Label label29;
+        private System.Windows.Forms.TabPage globalTabPage;
+        private System.Windows.Forms.Label label5;
+    }
 }
