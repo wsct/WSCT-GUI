@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
+using WSCT.GUI.Common.Resources.Helpers;
 using WSCT.GUI.Plugins;
 using WSCT.GUI.Resources;
 using WSCT.Helpers;
@@ -101,28 +102,6 @@ namespace WSCT.GUI
 
         #region >> Methods
 
-        private void ResetControlColor(Control control)
-        {
-            if (_defaultControlBackColors.TryGetValue(control, out var defaultBackColor))
-            {
-                control.BackColor = defaultBackColor;
-            }
-            else
-            {
-                _defaultControlBackColors.Add(control, control.BackColor);
-            }
-        }
-
-        private void SetControlColor(Control control, Color backColor)
-        {
-            if (!_defaultControlBackColors.ContainsKey(control))
-            {
-                _defaultControlBackColors.Add(control, control.BackColor);
-            }
-
-            control.BackColor = backColor;
-        }
-
         private void TryToEstablishContext()
         {
             _statusMonitor.OnCardInsertionEvent = null;
@@ -153,7 +132,7 @@ namespace WSCT.GUI
             else
             {
                 guiContextState.Text = Lang.AnErrorOccured;
-                SetControlColor(guiContextState, Common.Resources.Colors.StatusError);
+                guiContextState.SetControlBackColor(Common.Resources.Colors.StatusError);
             }
         }
 
@@ -346,7 +325,7 @@ namespace WSCT.GUI
         public void UpdateLastError(ErrorCode error)
         {
             guiLastError.Text = String.Format(Lang.LastErrorIsX, error);
-            SetControlColor(guiStatus, error == ErrorCode.Success ? Common.Resources.Colors.StatusSuccess : Common.Resources.Colors.StatusError);
+            guiStatus.SetControlBackColor(error == ErrorCode.Success ? Common.Resources.Colors.StatusSuccess : Common.Resources.Colors.StatusError);
         }
 
         /// <inheritdoc />
@@ -356,15 +335,15 @@ namespace WSCT.GUI
             {
                 case ChannelStatusType.Connected:
                     guiChannelState.Text = Lang.ChannelIsConnected;
-                    SetControlColor(guiChannelState, Common.Resources.Colors.StatusSuccess);
+                    guiChannelState.SetControlBackColor(Common.Resources.Colors.StatusSuccess);
                     break;
                 case ChannelStatusType.Disconnected:
                     guiChannelState.Text = Lang.ChannelIsDisconnected;
-                    ResetControlColor(guiChannelState);
+                    guiChannelState.ResetControlBackColor();
                     break;
                 case ChannelStatusType.Error:
                     guiChannelState.Text = Lang.AnErrorOccured;
-                    SetControlColor(guiChannelState, Common.Resources.Colors.StatusError);
+                    guiChannelState.SetControlBackColor(Common.Resources.Colors.StatusError);
                     break;
             }
         }

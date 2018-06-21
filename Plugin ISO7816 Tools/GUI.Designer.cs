@@ -1,33 +1,33 @@
 ﻿namespace WSCT.GUI.Plugins.ISO7816Tools
 {
     public partial class Gui
-	{
-		/// <summary>
-		/// Variable nécessaire au concepteur.
-		/// </summary>
-		private System.ComponentModel.IContainer components = null;
+    {
+        /// <summary>
+        /// Variable nécessaire au concepteur.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
 
-		/// <summary>
-		/// Nettoyage des ressources utilisées.
-		/// </summary>
-		/// <param name="disposing">true si les ressources managées doivent être supprimées ; sinon, false.</param>
-		protected override void Dispose(bool disposing)
-		{
-			if (disposing && (components != null))
-			{
-				components.Dispose();
-			}
-			base.Dispose(disposing);
-		}
+        /// <summary>
+        /// Nettoyage des ressources utilisées.
+        /// </summary>
+        /// <param name="disposing">true si les ressources managées doivent être supprimées ; sinon, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
 
-		#region Code généré par le Concepteur Windows Form
+        #region Code généré par le Concepteur Windows Form
 
-		/// <summary>
-		/// Méthode requise pour la prise en charge du concepteur - ne modifiez pas
-		/// le contenu de cette méthode avec l'éditeur de code.
-		/// </summary>
-		private void InitializeComponent()
-		{
+        /// <summary>
+        /// Méthode requise pour la prise en charge du concepteur - ne modifiez pas
+        /// le contenu de cette méthode avec l'éditeur de code.
+        /// </summary>
+        private void InitializeComponent()
+        {
             this.globalTabPage = new System.Windows.Forms.TabPage();
             this.groupBox15 = new System.Windows.Forms.GroupBox();
             this.guiParametersReleaseObserver = new System.Windows.Forms.Button();
@@ -95,6 +95,8 @@
             this.guiReadBinaryLe = new System.Windows.Forms.RichTextBox();
             this.rightPanel = new System.Windows.Forms.Panel();
             this.groupCommandAPDU = new System.Windows.Forms.GroupBox();
+            this.guiLcAutoCheckBox = new System.Windows.Forms.CheckBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.guiLc = new System.Windows.Forms.TextBox();
             this.labelLc = new System.Windows.Forms.Label();
             this.guiUDC = new System.Windows.Forms.TextBox();
@@ -147,7 +149,6 @@
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
             this.globalTabPage.SuspendLayout();
             this.groupBox15.SuspendLayout();
             this.toolStripContainer1.BottomToolStripPanel.SuspendLayout();
@@ -893,6 +894,7 @@
             // 
             this.groupCommandAPDU.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupCommandAPDU.Controls.Add(this.guiLcAutoCheckBox);
             this.groupCommandAPDU.Controls.Add(this.label5);
             this.groupCommandAPDU.Controls.Add(this.guiLc);
             this.groupCommandAPDU.Controls.Add(this.labelLc);
@@ -914,6 +916,26 @@
             this.groupCommandAPDU.TabIndex = 0;
             this.groupCommandAPDU.TabStop = false;
             this.groupCommandAPDU.Text = "Command APDU";
+            // 
+            // guiLcAutoCheckBox
+            // 
+            this.guiLcAutoCheckBox.AutoSize = true;
+            this.guiLcAutoCheckBox.Location = new System.Drawing.Point(42, 142);
+            this.guiLcAutoCheckBox.Name = "guiLcAutoCheckBox";
+            this.guiLcAutoCheckBox.Size = new System.Drawing.Size(63, 17);
+            this.guiLcAutoCheckBox.TabIndex = 16;
+            this.guiLcAutoCheckBox.Text = "Lc Auto";
+            this.guiLcAutoCheckBox.UseVisualStyleBackColor = true;
+            this.guiLcAutoCheckBox.CheckedChanged += new System.EventHandler(this.guiLcAutoCheckBox_CheckedChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 52);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(33, 13);
+            this.label5.TabIndex = 14;
+            this.label5.Text = "UDC:";
             // 
             // guiLc
             // 
@@ -1423,15 +1445,6 @@
             this.button2.Text = "Execute";
             this.button2.UseVisualStyleBackColor = true;
             // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 52);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(33, 13);
-            this.label5.TabIndex = 14;
-            this.label5.Text = "UDC:";
-            // 
             // Gui
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1509,68 +1522,68 @@
             this.groupBox38.PerformLayout();
             this.ResumeLayout(false);
 
-		}
+        }
 
-		#endregion
+        #endregion
 
-		private System.Windows.Forms.Button guiSelectExecute;
-		private System.Windows.Forms.RichTextBox guiSelectUDC;
-		private System.Windows.Forms.Label label3;
-		private System.Windows.Forms.ComboBox guiSelectFCI;
-		private System.Windows.Forms.Label label2;
-		private System.Windows.Forms.ComboBox guiSelectFileOccurence;
-		private System.Windows.Forms.ComboBox guiSelectP1;
-		private System.Windows.Forms.Button guiGetResponseExecute;
-		private System.Windows.Forms.RichTextBox guiGetResponseLe;
-		private System.Windows.Forms.RichTextBox guiReadRecordCC;
-		private System.Windows.Forms.ToolStripStatusLabel guiStatusStripStatusWord;
-		private System.Windows.Forms.ComboBox comboBox1;
-		private System.Windows.Forms.ComboBox comboBox2;
-		private System.Windows.Forms.TextBox guiLc;
-		private System.Windows.Forms.TextBox guiUDC;
-		private System.Windows.Forms.TextBox guiLe;
-		private System.Windows.Forms.Button guiSendCAPDU;
-		private System.Windows.Forms.TextBox guiP2;
-		private System.Windows.Forms.TextBox guiP1;
-		private System.Windows.Forms.TextBox guiCLA;
-		private System.Windows.Forms.TextBox guiINS;
-		private System.Windows.Forms.RichTextBox guiRAPDU;
-		internal System.Windows.Forms.ListView guiCRPHistoric;
-		private System.Windows.Forms.TabPage interchangeTabPage;
-		private System.Windows.Forms.Button guiParametersReleaseObserver;
-		private System.Windows.Forms.Button guiParametersAttachObserver;
-		private System.Windows.Forms.TabPage tabPage1;
-		private System.Windows.Forms.TabPage tabPage8;
-		private System.Windows.Forms.RichTextBox richTextBox1;
-		private System.Windows.Forms.ComboBox comboBox3;
-		private System.Windows.Forms.ComboBox comboBox4;
-		private System.Windows.Forms.RichTextBox richTextBox2;
-		private System.Windows.Forms.RichTextBox richTextBox3;
-		private System.Windows.Forms.Button button1;
-		private System.Windows.Forms.RichTextBox richTextBox4;
-		private System.Windows.Forms.ComboBox comboBox5;
-		private System.Windows.Forms.ComboBox comboBox6;
-		private System.Windows.Forms.RichTextBox richTextBox5;
-		private System.Windows.Forms.RichTextBox richTextBox6;
+        private System.Windows.Forms.Button guiSelectExecute;
+        private System.Windows.Forms.RichTextBox guiSelectUDC;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox guiSelectFCI;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox guiSelectFileOccurence;
+        private System.Windows.Forms.ComboBox guiSelectP1;
+        private System.Windows.Forms.Button guiGetResponseExecute;
+        private System.Windows.Forms.RichTextBox guiGetResponseLe;
+        private System.Windows.Forms.RichTextBox guiReadRecordCC;
+        private System.Windows.Forms.ToolStripStatusLabel guiStatusStripStatusWord;
+        private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.ComboBox comboBox2;
+        private System.Windows.Forms.TextBox guiLc;
+        private System.Windows.Forms.TextBox guiUDC;
+        private System.Windows.Forms.TextBox guiLe;
+        private System.Windows.Forms.Button guiSendCAPDU;
+        private System.Windows.Forms.TextBox guiP2;
+        private System.Windows.Forms.TextBox guiP1;
+        private System.Windows.Forms.TextBox guiCLA;
+        private System.Windows.Forms.TextBox guiINS;
+        private System.Windows.Forms.RichTextBox guiRAPDU;
+        internal System.Windows.Forms.ListView guiCRPHistoric;
+        private System.Windows.Forms.TabPage interchangeTabPage;
+        private System.Windows.Forms.Button guiParametersReleaseObserver;
+        private System.Windows.Forms.Button guiParametersAttachObserver;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.TabPage tabPage8;
+        private System.Windows.Forms.RichTextBox richTextBox1;
+        private System.Windows.Forms.ComboBox comboBox3;
+        private System.Windows.Forms.ComboBox comboBox4;
+        private System.Windows.Forms.RichTextBox richTextBox2;
+        private System.Windows.Forms.RichTextBox richTextBox3;
+        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.RichTextBox richTextBox4;
+        private System.Windows.Forms.ComboBox comboBox5;
+        private System.Windows.Forms.ComboBox comboBox6;
+        private System.Windows.Forms.RichTextBox richTextBox5;
+        private System.Windows.Forms.RichTextBox richTextBox6;
         private System.Windows.Forms.Button button2;
-		private System.Windows.Forms.RichTextBox guiReadRecordLe;
-		private System.Windows.Forms.Button guiReadRecordExecute;
+        private System.Windows.Forms.RichTextBox guiReadRecordLe;
+        private System.Windows.Forms.Button guiReadRecordExecute;
         private System.Windows.Forms.RichTextBox guiReadRecordP1;
-		private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label6;
         private System.Windows.Forms.ComboBox guiReadRecordSearchMode;
-		private System.Windows.Forms.Label label4;
-		private System.Windows.Forms.RichTextBox guiReadRecordSFI;
-		private System.Windows.Forms.RichTextBox guiWriteRecordP1;
-		private System.Windows.Forms.RichTextBox guiWriteRecordUDC;
-		private System.Windows.Forms.Button guiWriteRecordExecute;
-		private System.Windows.Forms.Label label21;
-		private System.Windows.Forms.ComboBox guiWriteRecordTarget;
-		private System.Windows.Forms.Label label23;
-		private System.Windows.Forms.RichTextBox guiWriteRecordSFI;
-		private System.Windows.Forms.RichTextBox guiAppendRecordUDC;
-		private System.Windows.Forms.Button guiAppendRecordExecute;
-		private System.Windows.Forms.Label label22;
-		private System.Windows.Forms.RichTextBox guiAppendRecordSFI;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.RichTextBox guiReadRecordSFI;
+        private System.Windows.Forms.RichTextBox guiWriteRecordP1;
+        private System.Windows.Forms.RichTextBox guiWriteRecordUDC;
+        private System.Windows.Forms.Button guiWriteRecordExecute;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.ComboBox guiWriteRecordTarget;
+        private System.Windows.Forms.Label label23;
+        private System.Windows.Forms.RichTextBox guiWriteRecordSFI;
+        private System.Windows.Forms.RichTextBox guiAppendRecordUDC;
+        private System.Windows.Forms.Button guiAppendRecordExecute;
+        private System.Windows.Forms.Label label22;
+        private System.Windows.Forms.RichTextBox guiAppendRecordSFI;
         private System.Windows.Forms.Button guiReadBinaryExecute;
         private System.Windows.Forms.RichTextBox guiReadBinaryLe;
         private System.Windows.Forms.ToolStripContainer toolStripContainer1;
@@ -1633,5 +1646,6 @@
         private System.Windows.Forms.Label label29;
         private System.Windows.Forms.TabPage globalTabPage;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.CheckBox guiLcAutoCheckBox;
     }
 }

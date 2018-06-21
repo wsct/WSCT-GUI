@@ -19,7 +19,6 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WSCT.GUI.Common.Resources\WSCT.GUI.Common.Resources.csproj" />
-    <ProjectReference Include="..\WSCT.GUI\WSCT.GUI.csproj" />
     <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />
   </ItemGroup>
   <ItemGroup>
@@ -41,10 +40,5 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Lang.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Dictionary.StatusWord.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
 </Project>

@@ -4,8 +4,10 @@ using System.Globalization;
 using System.Windows.Forms;
 using WSCT.Core;
 using WSCT.Core.APDU;
+using WSCT.GUI.Common.Resources.Helpers;
 using WSCT.GUI.Plugins.ISO7816Tools.Resources;
 using WSCT.Helpers;
+using WSCT.Helpers.Linq;
 using WSCT.ISO7816;
 using WSCT.ISO7816.Commands;
 using WSCT.ISO7816.StatusWord;
@@ -36,7 +38,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
             Icon = Common.Resources.Icons.WSCT;
 
-            _statusWordDictionary = SerializedObject<StatusWordDictionary>.LoadFromXml(@"Dictionary.StatusWord.xml");
+            _statusWordDictionary = SerializedObject<StatusWordDictionary>.LoadFromXml(@"ISO7816/Dictionary.StatusWord.xml");
 
             guiSelectP1.DataSource = Enum.GetValues(typeof(SelectCommand.SelectionMode));
 
@@ -60,8 +62,56 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             // Initialize the historic
             _commandApduHistoric = new List<ICardCommand>();
             _responseApduHistoric = new List<ICardResponse>();
+
+            new[] { guiCLA, guiINS, guiP1, guiP2 }.DoForEach(tb =>
+              {
+                  tb.TextChanged += (s, e) => ValidateAndColorByteData(tb);
+                  tb.SetControlBackColor(Common.Resources.Colors.StatusError);
+              });
+            guiLc.TextChanged += (s, e) => ValidateAndColorLc();
+            guiUDC.TextChanged += (s, e) => ValidateAndColorUdc();
+            guiLe.TextChanged += (s, e) => ValidateAndColorLe();
         }
 
+        #endregion
+
+        #region >> Properties
+
+        private byte Cla
+        {
+            get => byte.TryParse(guiCLA.Text, NumberStyles.HexNumber, null, out var cla) ? cla : (byte)0;
+            set => guiCLA.Text = $"{value:X2}";
+        }
+
+        private byte Ins
+        {
+            get => byte.TryParse(guiINS.Text, NumberStyles.HexNumber, null, out var ins) ? ins : (byte)0;
+            set => guiINS.Text = $"{value:X2}";
+        }
+
+        private byte P1
+        {
+            get => byte.TryParse(guiP1.Text, NumberStyles.HexNumber, null, out var p1) ? p1 : (byte)0;
+            set => guiP1.Text = $"{value:X2}";
+        }
+
+        private byte P2
+        {
+            get => byte.TryParse(guiP2.Text, NumberStyles.HexNumber, null, out var p2) ? p2 : (byte)0;
+            set => guiP2.Text = $"{value:X2}";
+        }
+
+        private uint Lc
+        {
+            get => uint.TryParse(guiLc.Text, NumberStyles.HexNumber, null, out var lc) ? lc : 0;
+            set => guiLc.Text = value < 256 ? $"{value:X2}" : $"00{value:X4}";
+        }
+
+        private uint Le
+        {
+            get => uint.TryParse(guiLe.Text, NumberStyles.HexNumber, null, out var le) ? le : 0;
+            set => guiLe.Text = value < 256 ? $"{value:X2}" : $"00{value:X4}";
+        }
 
         #endregion
 
@@ -111,13 +161,13 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         {
             var cApdu = (CommandAPDU)command;
 
-            guiCLA.Text = $"{cApdu.Cla:X2}";
-            guiINS.Text = $"{cApdu.Ins:X2}";
-            guiP1.Text = $"{cApdu.P1:X2}";
-            guiP2.Text = $"{cApdu.P2:X2}";
+            Cla = cApdu.Cla;
+            Ins = cApdu.Ins;
+            P1 = cApdu.P1;
+            P2 = cApdu.P2;
             if (cApdu.IsCc3 || cApdu.IsCc4)
             {
-                guiLc.Text = $"{cApdu.Lc:X2}";
+                Lc = cApdu.Lc;
             }
             else
             {
@@ -125,7 +175,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             }
             if (cApdu.IsCc2 || cApdu.IsCc4)
             {
-                guiLe.Text = $"{cApdu.Le:X2}";
+                Le = cApdu.Le;
             }
             else
             {
@@ -297,6 +347,31 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             guiWriteRecordP1.Enabled = (WriteRecordCommand.TargetType)guiWriteRecordTarget.SelectedItem == WriteRecordCommand.TargetType.RecordNumberInP1;
         }
 
+        private void guiCRPHistoric_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            var listView = (ListView)sender;
+            if (listView.SelectedItems.Count > 0)
+            {
+                var index = int.Parse(guiCLA.Text = listView.SelectedItems[0].Text);
+                UpdateCommandApdu(_commandApduHistoric[index - 1]);
+                UpdateResponseApdu(_responseApduHistoric[index - 1]);
+            }
+        }
+
+        #endregion
+
+        #region >> *_CheckedChanged
+
+        private void guiLcAutoCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            guiLc.Enabled = !guiLcAutoCheckBox.Checked;
+
+            if (guiLcAutoCheckBox.Checked)
+            {
+                ValidateAndColorUdc();
+            }
+        }
+
         #endregion
 
         #region >> *_FormClosing
@@ -311,7 +386,6 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         }
 
         #endregion
-
         private void ObserveChannel()
         {
             if (!SharedData.IsValidChannel)
@@ -325,14 +399,80 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             }
         }
 
-        private void guiCRPHistoric_SelectedIndexChanged(object sender, EventArgs e)
+        private static void ValidateAndColorByteData(TextBox textBox)
         {
-            var listView = (ListView)sender;
-            if (listView.SelectedItems.Count > 0)
+            if (!String.IsNullOrEmpty(textBox.Text) && byte.TryParse(textBox.Text, NumberStyles.HexNumber, null, out _))
             {
-                var index = int.Parse(guiCLA.Text = listView.SelectedItems[0].Text);
-                UpdateCommandApdu(_commandApduHistoric[index - 1]);
-                UpdateResponseApdu(_responseApduHistoric[index - 1]);
+                textBox.ResetControlBackColor();
+                return;
+            }
+
+            textBox.SetControlBackColor(Common.Resources.Colors.StatusError);
+        }
+
+        private void ValidateAndColorLe()
+        {
+            if (String.IsNullOrEmpty(guiLe.Text) || byte.TryParse(guiLe.Text, NumberStyles.HexNumber, null, out _))
+            {
+                guiLe.ResetControlBackColor();
+                return;
+            }
+
+            guiLe.SetControlBackColor(Common.Resources.Colors.StatusError);
+        }
+
+        private void ValidateAndColorLc()
+        {
+            uint udcLength;
+            try
+            {
+                udcLength = (uint)guiUDC.Text.FromHexa().Length;
+            }
+            catch (Exception)
+            {
+                guiUDC.SetControlBackColor(Common.Resources.Colors.StatusError);
+                return;
+            }
+
+            if (Lc == udcLength)
+            {
+                guiLc.ResetControlBackColor();
+            }
+            else
+            {
+                guiLc.SetControlBackColor(Common.Resources.Colors.StatusError);
+            }
+        }
+
+        private void ValidateAndColorUdc()
+        {
+            uint udcLength;
+            try
+            {
+                udcLength = (uint)guiUDC.Text.FromHexa().Length;
+                guiUDC.ResetControlBackColor();
+            }
+            catch (Exception)
+            {
+                guiUDC.SetControlBackColor(Common.Resources.Colors.StatusError);
+                return;
+            }
+
+            if (guiLcAutoCheckBox.Checked)
+            {
+                try
+                {
+                    Lc = udcLength;
+                    guiLc.ResetBackColor();
+                }
+                catch (Exception)
+                {
+                    guiLc.SetControlBackColor(Common.Resources.Colors.StatusError);
+                }
+            }
+            else
+            {
+                ValidateAndColorLc();
             }
         }
     }
