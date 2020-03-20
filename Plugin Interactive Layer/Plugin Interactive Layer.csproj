@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFramework>net462</TargetFramework>
-    <Version>2.2.0.0</Version>
+    <Version>3.0.0.0</Version>
     <Copyright>Copyright © Sylvain Vernois 2010</Copyright>
     <Product>WSCT</Product>
     <Company>ENSICAEN</Company>
@@ -10,35 +10,43 @@
     <RepositoryUrl>https://github.com/wsct/WSCT-GUI</RepositoryUrl>
     <PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
     <Description>Plugin acting as a controller for Interactive Layer.</Description>
-    <ApplicationIcon>Resources\$this.Icon.ico</ApplicationIcon>
     <OutputType>Library</OutputType>
     <AssemblyName>Plugin.LayerInteractive</AssemblyName>
     <RootNamespace>WSCT.GUI.Plugins.LayerInteractive</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <None Remove="Resources\%24this.Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Resources\$this.Icon.ico" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="WSCT.Core" Version="6.1.0" />
+    <PackageReference Include="WSCT.Core" Version="6.1.1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Layer Interactive\Layer Interactive.csproj" />
+    <ProjectReference Include="..\WSCT.GUI.Common.Resources\WSCT.GUI.Common.Resources.csproj" />
     <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Update="Gui.cs" SubType="Form" />
+    <Compile Update="Gui.designer.cs" SubType="Form" DependentUpon="Gui.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Resources\Lang.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Lang.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="Resources\Lang.resx">
+      <Generator>PublicResXFileCodeGenerator</Generator>
+      <LastGenOutput>Lang.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
     <None Update="Dictionary.StatusWord.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="Plugin.ISO7816Tools.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Plugin.LayerInteractive.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>

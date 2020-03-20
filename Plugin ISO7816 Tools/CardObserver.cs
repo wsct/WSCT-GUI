@@ -1,4 +1,3 @@
-using System;
 using WSCT.Core;
 using WSCT.Core.Events;
 using WSCT.ISO7816;
@@ -8,7 +7,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 {
     internal sealed class CardObserver
     {
-        private readonly Gui gui;
+        private readonly IGui _gui;
 
         #region >> Constructors
 
@@ -16,19 +15,9 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         /// Creates a new instance.
         /// </summary>
         /// <param name="gui"></param>
-        public CardObserver(Gui gui)
-            : this(gui, "[{0,7}] Core ")
+        public CardObserver(IGui gui)
         {
-        }
-
-        /// <summary>
-        /// Creates a new instance.
-        /// </summary>
-        /// <param name="gui"></param>
-        /// <param name="header"></param>
-        public CardObserver(Gui gui, string header)
-        {
-            this.gui = gui;
+            _gui = gui;
         }
 
         #endregion
@@ -47,37 +36,26 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         private void NotifyTransmit(object sender, AfterTransmitEventArgs eventArgs)
         {
-            if (gui.InvokeRequired)
-            {
-                gui.Invoke(new EventHandler<AfterTransmitEventArgs>(NotifyTransmit), new Object[] { sender, eventArgs });
-            }
-            else
+            _gui.InvokeOnUiThread(() =>
             {
                 if (eventArgs.ReturnValue == ErrorCode.Success)
                 {
-                    gui.UpdateResponseApdu(eventArgs.Response);
-                    gui.UpdateStatusWord((ResponseAPDU)eventArgs.Response);
-                    gui.UpdateHistoric(eventArgs.Command, eventArgs.Response);
+                    _gui.UpdateResponseApdu(eventArgs.Response);
+                    _gui.UpdateStatusWord((ResponseAPDU)eventArgs.Response);
+                    _gui.UpdateHistoric(eventArgs.Command, eventArgs.Response);
                 }
                 else
                 {
-                    gui.UpdateResponseApdu(null);
-                    gui.UpdateStatusWord(null);
-                    gui.UpdateHistoric(eventArgs.Command, null);
+                    _gui.UpdateResponseApdu(null);
+                    _gui.UpdateStatusWord(null);
+                    _gui.UpdateHistoric(eventArgs.Command, null);
                 }
-            }
+            });
         }
 
         private void BeforeTransmit(object sender, BeforeTransmitEventArgs eventArgs)
         {
-            if (gui.InvokeRequired)
-            {
-                gui.Invoke(new EventHandler<BeforeTransmitEventArgs>(BeforeTransmit), new Object[] { sender, eventArgs });
-            }
-            else
-            {
-                gui.UpdateCommandApdu(eventArgs.Command);
-            }
+            _gui.InvokeOnUiThread(() => _gui.UpdateCommandApdu(eventArgs.Command));
         }
 
         #endregion

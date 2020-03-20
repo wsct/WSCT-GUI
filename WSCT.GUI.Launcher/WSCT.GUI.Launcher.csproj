@@ -7,10 +7,12 @@
     <Product>WSCT</Product>
     <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2011</Copyright>
     <Description>Launcher of WSCT GUI configured with default plugins.</Description>
-    <ApplicationIcon />
+    <ApplicationIcon>Resources\WSCT.ico</ApplicationIcon>
     <OutputType>WinExe</OutputType>
     <StartupObject />
     <Version>1.1.0</Version>
+    <Win32Resource />
+    <NoWin32Manifest>true</NoWin32Manifest>
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Plugin Interactive Layer\Plugin Interactive Layer.csproj" />

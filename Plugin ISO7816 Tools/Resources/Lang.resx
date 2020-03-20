@@ -117,38 +117,13 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="ErrorAccessingLayerAssemblyX" xml:space="preserve">
-    <value>Error(s) occured when accessing layer '{0}'</value>
+  <data name="Iso7816pluginDescription" xml:space="preserve">
+    <value>ISO/IEC 7816-4 Plugin for WinSCard GUI (APDU).</value>
   </data>
-  <data name="ErrorAccessingPluginAssemblyX" xml:space="preserve">
-    <value>Error(s) occured when accessing plugin '{0}'</value>
+  <data name="Iso7816PluginName" xml:space="preserve">
+    <value>ISO/IEC 7816 - 4</value>
   </data>
-  <data name="AnErrorOccured" xml:space="preserve">
-    <value>An error occured</value>
-    <comment>Default but useless error message</comment>
-  </data>
-  <data name="ContextIsReleased" xml:space="preserve">
-    <value>Released</value>
-  </data>
-  <data name="ErrorWhenLaunchingPluginX" xml:space="preserve">
-    <value>Error(s) occured when launching plugin '{0}'</value>
-  </data>
-  <data name="ChannelIsConnected" xml:space="preserve">
-    <value>Connected</value>
-  </data>
-  <data name="ChannelIsDisconnected" xml:space="preserve">
-    <value>Disconnected</value>
-  </data>
-  <data name="ContextIsEstablish" xml:space="preserve">
-    <value>Established</value>
-  </data>
-  <data name="ReaderGroupsFoundAre" xml:space="preserve">
-    <value>Reader groups descriptionFound: {0}</value>
-  </data>
-  <data name="ReadersFoundAre" xml:space="preserve">
-    <value>Readers descriptionFound: {0}</value>
-  </data>
-  <data name="LastErrorIsX" xml:space="preserve">
-    <value>Last PC/SC Status: {0}</value>
+  <data name="StatusWordIsXXXXWithDescription" xml:space="preserve">
+    <value>StatusWord: {0:X2}-{1:X2} ({2})</value>
   </data>
 </root>

@@ -20,6 +20,8 @@ namespace WSCT.GUI.Plugins.LayerInteractive
         {
             InitializeComponent();
 
+            Icon = Common.Resources.Icons.WSCT;
+
             guiUseFakeReader.Checked = InteractiveController.UseFakeReader;
             guiFakeReaderName.Text = InteractiveController.FakeReaderName;
 
