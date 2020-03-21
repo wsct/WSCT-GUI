@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 
@@ -36,7 +37,18 @@ namespace WSCT.GUI.Plugins
 
         private static IEnumerable<PluginInfo> EnumeratePluginInfo(Assembly assembly)
         {
-            foreach (var type in assembly.GetTypes())
+            // In a Linux + Mono environment, an exception may be raised on some system dll (System.Runtime.Serialization.Xml.dll): just ignore it
+            Type[] typesInAssembly;
+            try
+            {
+                typesInAssembly = assembly.GetTypes();
+            }
+            catch (Exception)
+            {
+                typesInAssembly = Array.Empty<Type>();
+            }
+
+            foreach (var type in typesInAssembly)
             {
                 if (type.GetCustomAttribute(typeof(PluginEntryAttribute)) is PluginEntryAttribute attribute)
                 {
