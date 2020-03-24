@@ -1,6 +1,6 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
+    <TargetFrameworks>netstandard2.0;netcoreapp3.1</TargetFrameworks>
     <PackageId>WSCT.Layers.Interactive</PackageId>
     <Authors>Sylvain Vernois</Authors>
     <Company>ENSICAEN</Company>
@@ -9,7 +9,7 @@
     <AssemblyName>Layer.Interactive</AssemblyName>
     <RootNamespace>Layer.Interactive</RootNamespace>
     <Description>WSCT Layer allowing basic interception of CRP and replay of previously intercepted CRP.</Description>
-    <Version>2.2.0</Version>
+    <Version>2.3.0</Version>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="WSCT.Core" Version="6.1.1" />

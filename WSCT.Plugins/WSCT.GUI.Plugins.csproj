@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk" ToolsVersion="15.0">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
-    <Version>5.0.0.0</Version>
+    <TargetFrameworks>net462;netcoreapp3.1</TargetFrameworks>
+    <Version>5.1.0.0</Version>
     <Copyright>Copyright © Sylvain Vernois 2007-2018</Copyright>
     <Product>WSCT</Product>
     <Company>ENSICAEN</Company>
@@ -11,11 +11,9 @@
     <PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
     <Description>Plugins core objects for WinSCard GUI.</Description>
     <OutputType>Library</OutputType>
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="WSCT.Core" Version="6.1.1" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 </Project>

@@ -1,6 +1,6 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFrameworks>net462;netcoreapp3.1</TargetFrameworks>
     <PackageId>WSCT.GUI</PackageId>
     <Authors>Sylvain Vernois</Authors>
     <Company>ENSICAEN</Company>
@@ -10,8 +10,9 @@
     <RootNamespace>WSCT.GUI</RootNamespace>
     <Description>Simple but Extensible Graphic User Interface for using WinSCard API.</Description>
     <ApplicationIcon></ApplicationIcon>
-    <Version>6.0.0</Version>
+    <Version>6.1.0</Version>
     <Win32Resource />
+    <UseWindowsForms>true</UseWindowsForms>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="WinSCardGui.cs" SubType="Form" />
@@ -23,13 +24,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="WSCT.Core" Version="6.1.1" />
-    <PackageReference Include="WSCT.Wrapper.Desktop" Version="1.1.0" />
+    <PackageReference Include="WSCT.Wrapper.Desktop" Version="1.2.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WSCT.GUI.Common.Resources\WSCT.GUI.Common.Resources.csproj" />
     <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
 </Project>
