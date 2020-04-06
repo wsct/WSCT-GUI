@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.27703.2018
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29926.136
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WSCT.GUI", "WSCT.GUI\WSCT.GUI.csproj", "{AD3F035D-2806-4F94-8C29-09E5E183C36D}"
 EndProject
@@ -14,8 +14,6 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Layer Interactive", "Layer Interactive\Layer Interactive.csproj", "{8843A8DE-B802-4049-84CA-7EAB27BCD39F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WSCT.GUI.Launcher", "WSCT.GUI.Launcher\WSCT.GUI.Launcher.csproj", "{056F1E5C-6A73-4C6D-9FFF-CC50B195F218}"
-EndProject
-Project("{7CF6DF6D-3B04-46F8-A40B-537D21BCA0B4}") = "Documentation", "Documentation\Documentation.shfbproj", "{C2B56F21-6174-4D8C-84FC-265C90BAFEE8}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WSCT.GUI.Common.Resources", "WSCT.GUI.Common.Resources\WSCT.GUI.Common.Resources.csproj", "{43460EDE-D2DF-45E9-A2D3-C57D34384C52}"
 EndProject
@@ -49,8 +47,6 @@ Global
 		{056F1E5C-6A73-4C6D-9FFF-CC50B195F218}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{056F1E5C-6A73-4C6D-9FFF-CC50B195F218}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{056F1E5C-6A73-4C6D-9FFF-CC50B195F218}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C2B56F21-6174-4D8C-84FC-265C90BAFEE8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{C2B56F21-6174-4D8C-84FC-265C90BAFEE8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{43460EDE-D2DF-45E9-A2D3-C57D34384C52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{43460EDE-D2DF-45E9-A2D3-C57D34384C52}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{43460EDE-D2DF-45E9-A2D3-C57D34384C52}.Release|Any CPU.ActiveCfg = Release|Any CPU
