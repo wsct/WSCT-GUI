@@ -12,6 +12,7 @@
     <Description>Plugins core objects for WinSCard GUI.</Description>
     <OutputType>Library</OutputType>
     <UseWindowsForms>true</UseWindowsForms>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="WSCT.Core" Version="6.1.1" />
