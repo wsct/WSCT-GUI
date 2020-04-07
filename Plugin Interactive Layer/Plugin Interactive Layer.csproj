@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop" ToolsVersion="15.0">
   <PropertyGroup>
     <TargetFrameworks>net462;netcoreapp3.1</TargetFrameworks>
-    <Version>3.1.0.0</Version>
-    <Copyright>Copyright © Sylvain Vernois 2010</Copyright>
+    <Version>3.1.0.1</Version>
+    <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2010-2020</Copyright>
     <Product>WSCT</Product>
     <Company>ENSICAEN</Company>
     <Authors>Sylvain Vernois</Authors>
     <PackageId>WSCT.GUI.Plugins.LayerInteractive</PackageId>
-    <RepositoryUrl>https://github.com/wsct/WSCT-GUI</RepositoryUrl>
+    <RepositoryUrl></RepositoryUrl>
     <PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
     <Description>Plugin acting as a controller for Interactive Layer.</Description>
     <OutputType>Library</OutputType>
@@ -15,6 +15,7 @@
     <RootNamespace>WSCT.GUI.Plugins.LayerInteractive</RootNamespace>
     <UseWindowsForms>true</UseWindowsForms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="WSCT.Core" Version="6.1.1" />

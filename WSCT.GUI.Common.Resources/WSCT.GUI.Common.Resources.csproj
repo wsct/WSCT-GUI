@@ -5,14 +5,16 @@
     <Authors>Sylvain Vernois</Authors>
     <Company>ENSICAEN</Company>
     <Product>WSCT</Product>
-    <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2018</Copyright>
+    <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2018-2020</Copyright>
     <AssemblyName>WSCT.GUI.Common.Resources</AssemblyName>
     <RootNamespace>WSCT.GUI.Common.Resources</RootNamespace>
     <Description>Common Resources for WSCT.GUI.</Description>
     <ApplicationIcon></ApplicationIcon>
-    <Version>1.1.0</Version>
+    <Version>1.1.0.1</Version>
     <UseWindowsForms>true</UseWindowsForms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="System.Drawing.Common" Version="4.7.0" />

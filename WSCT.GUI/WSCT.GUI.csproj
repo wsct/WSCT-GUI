@@ -5,15 +5,17 @@
     <Authors>Sylvain Vernois</Authors>
     <Company>ENSICAEN</Company>
     <Product>WSCT</Product>
-    <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2007-2018</Copyright>
+    <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2007-2020</Copyright>
     <AssemblyName>WSCT.GUI</AssemblyName>
     <RootNamespace>WSCT.GUI</RootNamespace>
     <Description>Simple but Extensible Graphic User Interface for using WinSCard API.</Description>
     <ApplicationIcon></ApplicationIcon>
-    <Version>6.1.0</Version>
+    <Version>6.1.0.1</Version>
     <Win32Resource />
     <UseWindowsForms>true</UseWindowsForms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="WinSCardGui.cs" SubType="Form" />
