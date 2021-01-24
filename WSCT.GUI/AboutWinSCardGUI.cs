@@ -43,7 +43,7 @@ namespace WSCT.GUI
                     }
                 }
                 // Si aucun attribut Title n'existe ou si l'attribut Title était la chaîne vide, retourner le nom .exe
-                return Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().CodeBase);
+                return Path.GetFileNameWithoutExtension(Assembly.GetExecutingAssembly().Location);
             }
         }
 

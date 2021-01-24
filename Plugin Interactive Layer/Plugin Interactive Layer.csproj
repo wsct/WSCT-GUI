@@ -1,7 +1,11 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop" ToolsVersion="15.0">
   <PropertyGroup>
-    <TargetFrameworks>net462;netcoreapp3.1</TargetFrameworks>
-    <Version>3.1.0.1</Version>
+    <TargetFrameworks>net462;net5.0-windows</TargetFrameworks>
+    <OutputType>Library</OutputType>
+    <Version>3.1.1</Version>
+
+    <UseWindowsForms>true</UseWindowsForms>
+
     <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2010-2020</Copyright>
     <Product>WSCT</Product>
     <Company>ENSICAEN</Company>
@@ -13,12 +17,11 @@
     <OutputType>Library</OutputType>
     <AssemblyName>Plugin.LayerInteractive</AssemblyName>
     <RootNamespace>WSCT.GUI.Plugins.LayerInteractive</RootNamespace>
-    <UseWindowsForms>true</UseWindowsForms>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="WSCT.Core" Version="6.1.1" />
+    <PackageReference Include="WSCT.Core" Version="6.1.3" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Layer Interactive\Layer Interactive.csproj" />

@@ -1,6 +1,11 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFramework>net462</TargetFramework>
+    <TargetFrameworks>net462;net5.0-windows</TargetFrameworks>
+    <OutputType>WinExe</OutputType>
+    <Version>1.1.1</Version>
+
+    <UseWindowsForms>true</UseWindowsForms>
+
     <PackageId>WSCT.GUI.Launcher</PackageId>
     <Authors>Sylvain Vernois</Authors>
     <Company>ENSICAEN</Company>
@@ -9,20 +14,16 @@
     <Description>Launcher of WSCT GUI configured with default plugins.</Description>
     <ApplicationIcon>Resources\WSCT.ico</ApplicationIcon>
     <OutputType>WinExe</OutputType>
-    <StartupObject />
-    <Version>1.1.0</Version>
-    <Win32Resource />
     <NoWin32Manifest>true</NoWin32Manifest>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
+
+    <StartupObject />
   </PropertyGroup>
   <ItemGroup>
     <ProjectReference Include="..\Plugin Interactive Layer\Plugin Interactive Layer.csproj" />
     <ProjectReference Include="..\Plugin ISO7816 Tools\Plugin ISO7816 Tools.csproj" />
     <ProjectReference Include="..\WSCT.GUI\WSCT.GUI.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Reference Include="System.Windows.Forms" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Stack.Channel.xml">
