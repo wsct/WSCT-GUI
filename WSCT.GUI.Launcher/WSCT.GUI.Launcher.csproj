@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net462;net5.0-windows</TargetFrameworks>
     <OutputType>WinExe</OutputType>
-    <Version>1.1.1</Version>
+    <Version>1.1.2</Version>
 
     <UseWindowsForms>true</UseWindowsForms>
 
@@ -24,6 +24,9 @@
     <ProjectReference Include="..\Plugin Interactive Layer\Plugin Interactive Layer.csproj" />
     <ProjectReference Include="..\Plugin ISO7816 Tools\Plugin ISO7816 Tools.csproj" />
     <ProjectReference Include="..\WSCT.GUI\WSCT.GUI.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="System.Resources.Extensions" Version="5.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Stack.Channel.xml">
