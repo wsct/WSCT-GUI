@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFrameworks>net462;net5.0-windows</TargetFrameworks>
+    <TargetFrameworks>net462;net6.0-windows</TargetFrameworks>
     <OutputType>Library</OutputType>
-    <Version>6.1.1</Version>
+    <Version>6.2.0</Version>
 
     <UseWindowsForms>true</UseWindowsForms>
 
@@ -19,6 +19,7 @@
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
+	<RepositoryUrl>https://github.com/wsct/WSCT-GUI</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
     <Compile Update="WinSCardGui.cs" SubType="Form" />
@@ -29,8 +30,8 @@
     <Compile Update="AboutWinSCardGUI.designer.cs" SubType="Form" DependentUpon="AboutWinSCardGUI.cs" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="WSCT.Core" Version="6.1.3" />
-    <PackageReference Include="WSCT.Wrapper.Desktop" Version="1.2.2" />
+    <PackageReference Include="WSCT.Core" Version="6.2.0" />
+    <PackageReference Include="WSCT.Wrapper.Desktop" Version="1.3.0" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WSCT.GUI.Common.Resources\WSCT.GUI.Common.Resources.csproj" />

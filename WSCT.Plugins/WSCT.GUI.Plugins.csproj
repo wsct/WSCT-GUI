@@ -1,8 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
   <PropertyGroup>
-    <TargetFrameworks>net462;net5.0-windows</TargetFrameworks>
+    <TargetFrameworks>net462;net6.0-windows</TargetFrameworks>
     <OutputType>Library</OutputType>
-    <Version>5.1.1</Version>
+    <Version>5.2.0</Version>
 
     <UseWindowsForms>true</UseWindowsForms>
 
@@ -17,8 +17,9 @@
     <OutputType>Library</OutputType>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
+	<RepositoryUrl>https://github.com/wsct/WSCT-GUI</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="WSCT.Core" Version="6.1.3" />
+    <PackageReference Include="WSCT.Core" Version="6.2.0" />
   </ItemGroup>
 </Project>
