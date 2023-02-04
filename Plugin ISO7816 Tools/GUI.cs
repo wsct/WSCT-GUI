@@ -329,13 +329,11 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         private void guiSendCAPDU_Click(object sender, EventArgs e)
         {
-            var card = new CardChannelIso7816(SharedData.CardChannel);
-
             var stringApdu = guiCLA.Text + guiINS.Text + guiP1.Text + guiP2.Text + guiLc.Text + guiUDC.Text + guiLe.Text;
             var cApdu = new CommandAPDU(stringApdu);
             var rApdu = new ResponseAPDU();
 
-            card.Transmit(cApdu, rApdu);
+            SharedData.CardChannel.Transmit(cApdu, rApdu);
         }
 
         #endregion
