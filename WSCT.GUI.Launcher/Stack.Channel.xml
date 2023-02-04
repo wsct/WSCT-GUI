@@ -2,16 +2,22 @@
 
 <ChannelStack>
 
-  <layer name="Interactive Channel">
-    <dll>Layer.Interactive.dll</dll>
-    <className>WSCT.Layers.Interactive.CardChannelLayer</className>
-    <pathToDll></pathToDll>
-  </layer>
+	<layer name="Interactive Channel">
+		<dll>Layer.Interactive.dll</dll>
+		<className>WSCT.Layers.Interactive.CardChannelLayer</className>
+		<pathToDll></pathToDll>
+	</layer>
 
-  <layer name="WinSCard Core Channel">
-    <dll>WSCT.Wrapper.Desktop.dll</dll>
-    <className>WSCT.Wrapper.Desktop.Stack.CardChannelLayer</className>
-    <pathToDll></pathToDll>
-  </layer>
+	<layer name="T0 Friendly Adapter">
+		<dll>WSCT.dll</dll>
+		<className>WSCT.ISO7816.T0FriendlyCardChannelLayer</className>
+		<pathToDll></pathToDll>
+	</layer>
+
+	<layer name="WinSCard Core Channel">
+		<dll>WSCT.Wrapper.Desktop.dll</dll>
+		<className>WSCT.Wrapper.Desktop.Stack.CardChannelLayer</className>
+		<pathToDll></pathToDll>
+	</layer>
 
 </ChannelStack>
