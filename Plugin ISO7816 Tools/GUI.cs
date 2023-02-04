@@ -1,9 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 using System.Windows.Forms;
 using WSCT.Core;
 using WSCT.Core.APDU;
+using WSCT.Core.Fluent.Helpers;
 using WSCT.GUI.Common.Resources.Helpers;
 using WSCT.GUI.Plugins.ISO7816Tools.Resources;
 using WSCT.Helpers;
@@ -103,13 +105,13 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         private uint Lc
         {
-            get => uint.TryParse(guiLc.Text, NumberStyles.HexNumber, null, out var lc) ? lc : 0;
+            get => TryParseLc(guiLc.Text, out var lc) ? lc : 0;
             set => guiLc.Text = value < 256 ? $"{value:X2}" : $"00{value:X4}";
         }
 
         private uint Le
         {
-            get => uint.TryParse(guiLe.Text, NumberStyles.HexNumber, null, out var le) ? le : 0;
+            get => TryParseLe(guiLe.Text, out var le) ? le : 0;
             set => guiLe.Text = value < 256 ? $"{value:X2}" : $"00{value:X4}";
         }
 
@@ -165,22 +167,37 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             Ins = cApdu.Ins;
             P1 = cApdu.P1;
             P2 = cApdu.P2;
+
             if (cApdu.IsCc3 || cApdu.IsCc4)
             {
-                Lc = cApdu.Lc;
+                guiLc.Text = EncodeLengthOn1Byte(cApdu.Lc).ToHexa();
+            }
+            else if (cApdu.IsCc3E || cApdu.IsCc4E)
+            {
+                guiLc.Text = EncodeLengthOn3Bytes(cApdu.Lc).ToHexa();
             }
             else
             {
                 guiLc.Text = "";
             }
+
             if (cApdu.IsCc2 || cApdu.IsCc4)
             {
-                Le = cApdu.Le;
+                guiLe.Text = EncodeLengthOn1Byte(cApdu.Le).ToHexa();
+            }
+            else if (cApdu.IsCc2E)
+            {
+                guiLe.Text = EncodeLengthOn3Bytes(cApdu.Le).ToHexa();
+            }
+            else if (cApdu.IsCc4E)
+            {
+                guiLe.Text = EncodeLengthOn2Bytes(cApdu.Le).ToHexa();
             }
             else
             {
                 guiLe.Text = "";
             }
+
             guiUDC.Text = cApdu.Udc.ToHexa();
         }
 
@@ -195,6 +212,8 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             {
                 guiRAPDU.Text = "";
             }
+
+            UpdateStatusWord(response as ResponseAPDU);
         }
 
         /// <inheritdoc />
@@ -211,7 +230,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         #region >> *_Click
 
-        private void guiParametersAttachObserver_Click(object sender, EventArgs e)
+        private void GuiParametersAttachObserver_Click(object sender, EventArgs e)
         {
             if (SharedData.IsValidChannel)
             {
@@ -223,7 +242,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             }
         }
 
-        private void guiParametersReleaseObserver_Click(object sender, EventArgs e)
+        private void GuiParametersReleaseObserver_Click(object sender, EventArgs e)
         {
             // TODO: !
             //if (SharedData.validChannel)
@@ -233,30 +252,32 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             //}
         }
 
-        private void guiSelectExecute_Click(object sender, EventArgs e)
+        private void GuiSelectExecute_Click(object sender, EventArgs e)
         {
-            var crp = new CommandResponsePair(
-                new SelectCommand(
-                    (SelectCommand.SelectionMode)guiSelectP1.SelectedItem,
-                    (SelectCommand.FileOccurrence)guiSelectFileOccurence.SelectedItem,
-                    (SelectCommand.FileControlInformation)guiSelectFCI.SelectedItem,
-                    guiSelectUDC.Text.FromHexa()
-                    )
-                );
-            crp.Transmit(SharedData.CardChannel);
+            var command = new SelectCommand(
+                 (SelectCommand.SelectionMode)guiSelectP1.SelectedItem,
+                 (SelectCommand.FileOccurrence)guiSelectFileOccurence.SelectedItem,
+                 (SelectCommand.FileControlInformation)guiSelectFCI.SelectedItem,
+                 guiSelectUDC.Text.FromHexa()
+                 );
+
+            if (guiSelectLe.Text.Length > 0)
+            {
+                command.Le = uint.Parse(guiSelectLe.Text);
+            }
+
+            command
+                .Transmit(SharedData.CardChannel);
         }
 
-        private void guiGetResponseExecute_Click(object sender, EventArgs e)
+        private void GuiGetResponseExecute_Click(object sender, EventArgs e)
         {
-            var crp = new CommandResponsePair(
-                new GetResponseCommand(Convert.ToUInt32(guiGetResponseLe.Text, 16))
-                );
-            crp.Transmit(SharedData.CardChannel);
+            new GetResponseCommand(Convert.ToUInt32(guiGetResponseLe.Text, 16))
+                .Transmit(SharedData.CardChannel);
         }
 
-        private void guiReadRecordExecute_Click(object sender, EventArgs e)
+        private void GuiReadRecordExecute_Click(object sender, EventArgs e)
         {
-            var crp = new CommandResponsePair();
             uint le;
             if (guiReadRecordLe.Text.Length == 0)
             {
@@ -264,70 +285,56 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             }
             else
             {
-                le = Convert.ToUInt32(guiReadRecordLe.Text, 16);
+                le = uint.Parse(guiReadRecordLe.Text);
             }
 
-            crp.CApdu = new ReadRecordCommand(
+            new ReadRecordCommand(
                 Convert.ToByte(guiReadRecordP1.Text, 16),
                 Convert.ToByte(guiReadRecordSFI.Text, 16),
                 (ReadRecordCommand.SearchMode)guiReadRecordSearchMode.SelectedItem,
                 le
-                );
-            crp.Transmit(SharedData.CardChannel);
+                )
+                .Transmit(SharedData.CardChannel);
         }
 
-        private void guiAppendRecordExecute_Click(object sender, EventArgs e)
+        private void GuiAppendRecordExecute_Click(object sender, EventArgs e)
         {
-            var crp = new CommandResponsePair(
-                new AppendRecordCommand(
-                    byte.Parse(guiAppendRecordSFI.Text, NumberStyles.HexNumber),
-                    guiAppendRecordUDC.Text.FromHexa()
-                    )
-                );
-            crp.Transmit(SharedData.CardChannel);
+            new AppendRecordCommand(
+                byte.Parse(guiAppendRecordSFI.Text, NumberStyles.HexNumber),
+                guiAppendRecordUDC.Text.FromHexa()
+                )
+                .Transmit(SharedData.CardChannel);
         }
 
-        private void guiWriteRecordExecute_Click(object sender, EventArgs e)
+        private void GuiWriteRecordExecute_Click(object sender, EventArgs e)
         {
-            byte record;
-
-            if ((WriteRecordCommand.TargetType)guiWriteRecordTarget.SelectedItem == WriteRecordCommand.TargetType.RecordNumberInP1)
+            byte record = (WriteRecordCommand.TargetType)guiWriteRecordTarget.SelectedItem switch
             {
-                record = Convert.ToByte(guiWriteRecordP1.Text, 16);
-            }
-            else
-            {
-                record = 0;
-            }
+                WriteRecordCommand.TargetType.RecordNumberInP1 => Convert.ToByte(guiWriteRecordP1.Text, 16),
+                _ => 0
+            };
 
-            var crp = new CommandResponsePair(
-                new WriteRecordCommand(record,
-                    Convert.ToByte(guiWriteRecordSFI.Text, 16),
-                    (WriteRecordCommand.TargetType)guiWriteRecordTarget.SelectedItem,
-                    guiWriteRecordUDC.Text.FromHexa()
-                    )
-                );
-            crp.Transmit(SharedData.CardChannel);
+            new WriteRecordCommand(record,
+                Convert.ToByte(guiWriteRecordSFI.Text, 16),
+                (WriteRecordCommand.TargetType)guiWriteRecordTarget.SelectedItem,
+                guiWriteRecordUDC.Text.FromHexa()
+                )
+                .Transmit(SharedData.CardChannel);
         }
 
-        private void guiReadBinaryExecute_Click(object sender, EventArgs e)
+        private void GuiReadBinaryExecute_Click(object sender, EventArgs e)
         {
-            var crp = new CommandResponsePair();
-            UInt32 le;
-            if (guiReadBinaryLe.Text.Length == 0)
+            uint le = guiReadBinaryLe.Text.Length switch
             {
-                le = 0;
-            }
-            else
-            {
-                le = Convert.ToUInt32(guiReadBinaryLe.Text, 16);
-            }
+                0 => 0,
+                _ => Convert.ToUInt32(guiReadBinaryLe.Text, 16)
+            };
 
-            crp.CApdu = new ReadBinaryCommand(le);
-            crp.Transmit(SharedData.CardChannel);
+            new ReadBinaryCommand(le)
+                .Transmit(SharedData.CardChannel);
         }
 
-        private void guiSendCAPDU_Click(object sender, EventArgs e)
+        private void GuiSendCAPDU_Click(object sender, EventArgs e)
         {
             var stringApdu = guiCLA.Text + guiINS.Text + guiP1.Text + guiP2.Text + guiLc.Text + guiUDC.Text + guiLe.Text;
             var cApdu = new CommandAPDU(stringApdu);
@@ -340,17 +347,17 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         #region >> *_SelectedIndexChanged
 
-        private void guiWriteRecordTarget_SelectedIndexChanged(object sender, EventArgs e)
+        private void GuiWriteRecordTarget_SelectedIndexChanged(object sender, EventArgs e)
         {
             guiWriteRecordP1.Enabled = (WriteRecordCommand.TargetType)guiWriteRecordTarget.SelectedItem == WriteRecordCommand.TargetType.RecordNumberInP1;
         }
 
-        private void guiCRPHistoric_SelectedIndexChanged(object sender, EventArgs e)
+        private void GuiCRPHistoric_SelectedIndexChanged(object sender, EventArgs e)
         {
             var listView = (ListView)sender;
             if (listView.SelectedItems.Count > 0)
             {
-                var index = int.Parse(guiCLA.Text = listView.SelectedItems[0].Text);
+                var index = int.Parse(listView.SelectedItems[0].Text);
                 UpdateCommandApdu(_commandApduHistoric[index - 1]);
                 UpdateResponseApdu(_responseApduHistoric[index - 1]);
             }
@@ -360,7 +367,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         #region >> *_CheckedChanged
 
-        private void guiLcAutoCheckBox_CheckedChanged(object sender, EventArgs e)
+        private void GuiLcAutoCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             guiLc.Enabled = !guiLcAutoCheckBox.Checked;
 
@@ -384,6 +391,73 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         }
 
         #endregion
+
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static byte[] EncodeLengthOn1Byte(uint nx) =>
+            new byte[] { (byte)nx };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static byte[] EncodeLengthOn2Bytes(uint nx) =>
+            new byte[] { (byte)((nx & 0xFF00) >> 8), (byte)(nx & 0x00FF) };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static byte[] EncodeLengthOn3Bytes(uint nx) =>
+            new byte[] { 0x00, (byte)((nx & 0xFF00) >> 8), (byte)(nx & 0x00FF) };
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int GetNcFromLc(ReadOnlySpan<byte> lc)
+        {
+            return lc.Length switch
+            {
+                0 => 0,
+                1 => lc[0],
+                3 when lc[0] == 0 => (lc[1] << 8) + lc[2],
+                _ => throw new ArgumentOutOfRangeException(nameof(lc), "Lc must be 1 byte 'xx' or 3 bytes '00xxxx'")
+            };
+        }
+
+        [MethodImpl(MethodImplOptions.AggressiveInlining)]
+        private static int GetNeFromLe(ReadOnlySpan<byte> le)
+        {
+            return le.Length switch
+            {
+                0 => 0,
+                1 => le[0],
+                2 => (le[0] << 8) + le[1],
+                3 when le[0] == 0 => (le[1] << 8) + le[2],
+                _ => throw new ArgumentOutOfRangeException(nameof(le), "Le must be 1 byte 'xx', 2 bytes 'xxxx' or 3 bytes '00xxxx'")
+            };
+        }
+
+        private static bool TryParseLe(string hexa, out uint value)
+        {
+            try
+            {
+                value = (uint)GetNeFromLe(hexa.FromHexa());
+                return true;
+            }
+            catch
+            {
+                value = 0;
+                return false;
+            }
+        }
+
+        private static bool TryParseLc(string hexa, out uint value)
+        {
+            try
+            {
+                value = (uint)GetNcFromLc(hexa.FromHexa());
+                return true;
+            }
+            catch
+            {
+                value = 0;
+                return false;
+            }
+        }
+
         private void ObserveChannel()
         {
             if (!SharedData.IsValidChannel)
@@ -410,7 +484,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         private void ValidateAndColorLe()
         {
-            if (String.IsNullOrEmpty(guiLe.Text) || byte.TryParse(guiLe.Text, NumberStyles.HexNumber, null, out _))
+            if (String.IsNullOrEmpty(guiLe.Text) || TryParseLe(guiLe.Text, out _))
             {
                 guiLe.ResetControlBackColor();
                 return;

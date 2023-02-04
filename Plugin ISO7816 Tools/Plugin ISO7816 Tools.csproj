@@ -24,7 +24,7 @@
 	<RepositoryUrl>https://github.com/wsct/WSCT-GUI</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="WSCT.Core" Version="6.5.1" />
+    <PackageReference Include="WSCT.Core" Version="6.5.*" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WSCT.GUI.Common.Resources\WSCT.GUI.Common.Resources.csproj" />

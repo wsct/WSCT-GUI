@@ -14,31 +14,19 @@ namespace WSCT.GUI
     internal sealed class LogObserver
     {
         internal IWinSCardGui Gui;
-        internal string Header;
         private readonly Color _hightlightColor;
 
         private void WriteLogLine(LogLevel level, object sender, string message)
         {
-            string identifier;
-            switch (sender)
+            string identifier = sender switch
             {
-                case ICardChannelLayerObservable channelLayer:
-                    identifier = channelLayer.LayerId;
-                    break;
-                case ICardChannelStack _:
-                    identifier = "Stack";
-                    break;
-                case ICardContextLayerObservable contextLayer:
-                    identifier = contextLayer.LayerId;
-                    break;
-                case ICardContextStack _:
-                    identifier = "Stack";
-                    break;
-                default:
-                    identifier = "unknown";
-                    break;
-            }
-            Gui.AppendLineToLog(String.Format(Header, level, identifier, message));
+                ICardChannelLayerObservable channelLayer => channelLayer.LayerId,
+                ICardChannelStack => "Stack",
+                ICardContextLayerObservable contextLayer => contextLayer.LayerId,
+                ICardContextStack => "Stack",
+                _ => "unknown"
+            };
+            Gui.AppendLineToLog($"[{level,7}] [{identifier,10}] {message}{Environment.NewLine}");
         }
 
         #region >> Constructors
@@ -50,7 +38,6 @@ namespace WSCT.GUI
         /// <param name="defaultColor"></param>
         public LogObserver(IWinSCardGui gui, Color defaultColor)
         {
-            Header = "[{0,7}] [{1,7}] {2}" + Environment.NewLine;
             Gui = gui;
             _hightlightColor = defaultColor;
         }
@@ -166,7 +153,7 @@ namespace WSCT.GUI
                 else
                 {
                     Gui.SetLogForeColor(Colors.LogErrorColor);
-                    WriteLogLine(LogLevel.Error, sender, String.Format(Header + "<=  {0}", eventArgs.ReturnValue));
+                    WriteLogLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
                 }
 
                 Gui.UpdateLastError(eventArgs.ReturnValue);

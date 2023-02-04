@@ -47,10 +47,7 @@ namespace WSCT.GUI.Plugins
             set
             {
                 _cardContext = value;
-                if (CardContextChangedEvent != null)
-                {
-                    CardContextChangedEvent();
-                }
+                CardContextChangedEvent?.Invoke();
             }
         }
 
@@ -70,28 +67,19 @@ namespace WSCT.GUI.Plugins
             set
             {
                 _cardChannel = value;
-                if (CardChannelChangedEvent != null)
-                {
-                    CardChannelChangedEvent();
-                }
+                CardChannelChangedEvent?.Invoke();
             }
         }
 
         /// <summary>
         /// True if <see cref="CardContext"/> is valid.
         /// </summary>
-        public static Boolean IsValidContext
-        {
-            get { return _cardContext != null; }
-        }
+        public static Boolean IsValidContext => _cardContext != null;
 
         /// <summary>
         /// True if <see cref="CardChannel"/> is valid.
         /// </summary>
-        public static Boolean IsValidChannel
-        {
-            get { return _cardChannel != null; }
-        }
+        public static Boolean IsValidChannel => _cardChannel != null;
 
         #endregion
 
