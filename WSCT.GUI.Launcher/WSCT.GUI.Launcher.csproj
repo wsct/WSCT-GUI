@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net462;net6.0-windows</TargetFrameworks>
     <OutputType>WinExe</OutputType>
-    <Version>1.2.0</Version>
+    <Version>1.2.1</Version>
 
     <UseWindowsForms>true</UseWindowsForms>
 
@@ -27,7 +27,7 @@
     <ProjectReference Include="..\WSCT.GUI\WSCT.GUI.csproj" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="System.Resources.Extensions" Version="6.0.0" />
+    <PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
   </ItemGroup>
   <ItemGroup>
     <None Update="Stack.Channel.xml">
