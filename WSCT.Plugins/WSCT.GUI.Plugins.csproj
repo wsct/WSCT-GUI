@@ -20,6 +20,6 @@
 	<RepositoryUrl>https://github.com/wsct/WSCT-GUI</RepositoryUrl>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="WSCT.Core" Version="6.5.0" />
+    <PackageReference Include="WSCT.Core" Version="6.5.1" />
   </ItemGroup>
 </Project>
