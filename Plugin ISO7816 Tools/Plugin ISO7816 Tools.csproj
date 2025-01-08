@@ -2,7 +2,7 @@
   <PropertyGroup>
     <TargetFrameworks>net462;net6.0-windows</TargetFrameworks>
     <OutputType>Library</OutputType>
-    <Version>5.2.1</Version>
+    <Version>5.2.2</Version>
 
     <LangVersion>latest</LangVersion>
 

@@ -263,7 +263,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
             if (guiSelectLe.Text.Length > 0)
             {
-                command.Le = uint.Parse(guiSelectLe.Text);
+                command.Le = Convert.ToByte(guiSelectLe.Text, 16);
             }
 
             command
@@ -278,15 +278,11 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         private void GuiReadRecordExecute_Click(object sender, EventArgs e)
         {
-            uint le;
-            if (guiReadRecordLe.Text.Length == 0)
+            uint le = guiReadRecordLe.Text.Length switch
             {
-                le = 0;
-            }
-            else
-            {
-                le = uint.Parse(guiReadRecordLe.Text);
-            }
+                0 => 0,
+                _ => Convert.ToByte(guiReadRecordLe.Text, 16)
+            };
 
             new ReadRecordCommand(
                 Convert.ToByte(guiReadRecordP1.Text, 16),
