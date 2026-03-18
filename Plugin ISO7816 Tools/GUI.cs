@@ -136,7 +136,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         }
 
         /// <inheritdoc />
-        public void UpdateStatusWord(ResponseAPDU rApdu)
+        public void UpdateStatusWord(ResponseAPDU? rApdu)
         {
             if (rApdu != null)
             {
@@ -205,7 +205,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         }
 
         /// <inheritdoc />
-        public void UpdateResponseApdu(ICardResponse response)
+        public void UpdateResponseApdu(ICardResponse? response)
         {
             if (response != null)
             {
@@ -220,7 +220,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         }
 
         /// <inheritdoc />
-        public void UpdateHistoric(ICardCommand command, ICardResponse response)
+        public void UpdateHistoric(ICardCommand command, ICardResponse? response)
         {
             _commandApduHistoric.Add(command);
             _responseApduHistoric.Add(response);

@@ -16,7 +16,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         /// 
         /// </summary>
         /// <param name="rApdu"></param>
-        void UpdateStatusWord(ResponseAPDU rApdu);
+        void UpdateStatusWord(ResponseAPDU? rApdu);
 
         /// <summary>
         /// 
@@ -29,13 +29,13 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         /// 
         /// </summary>
         /// <param name="response"></param>
-        void UpdateResponseApdu(ICardResponse response);
+        void UpdateResponseApdu(ICardResponse? response);
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="command"></param>
         /// <param name="response"></param>
-        void UpdateHistoric(ICardCommand command, ICardResponse response);
+        void UpdateHistoric(ICardCommand command, ICardResponse? response);
     }
 }

@@ -5,20 +5,15 @@ using WSCT.Wrapper;
 
 namespace WSCT.GUI.Plugins.ISO7816Tools
 {
-    internal sealed class CardObserver
+    /// <summary>
+    /// Creates a new instance.
+    /// </summary>
+    /// <param name="gui"></param>
+    internal sealed class CardObserver(IGui gui)
     {
-        private readonly IGui _gui;
+        private readonly IGui _gui = gui;
 
         #region >> Constructors
-
-        /// <summary>
-        /// Creates a new instance.
-        /// </summary>
-        /// <param name="gui"></param>
-        public CardObserver(IGui gui)
-        {
-            _gui = gui;
-        }
 
         #endregion
 
@@ -34,7 +29,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
 
         #region >> CardChannelObservable delegates
 
-        private void NotifyTransmit(object sender, AfterTransmitEventArgs eventArgs)
+        private void NotifyTransmit(object? sender, AfterTransmitEventArgs eventArgs)
         {
             _gui.InvokeOnUiThread(() =>
             {
@@ -53,7 +48,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             });
         }
 
-        private void BeforeTransmit(object sender, BeforeTransmitEventArgs eventArgs)
+        private void BeforeTransmit(object? sender, BeforeTransmitEventArgs eventArgs)
         {
             _gui.InvokeOnUiThread(() => _gui.UpdateCommandApdu(eventArgs.Command));
         }

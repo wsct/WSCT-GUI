@@ -46,7 +46,7 @@ namespace WSCT.GUI
 
         public string AssemblyVersion
         {
-            get { return Assembly.GetExecutingAssembly().GetName().Version.ToString(); }
+            get { return $"{Assembly.GetExecutingAssembly().GetName().Version}"; }
         }
 
         public string AssemblyDescription

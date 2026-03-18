@@ -14,7 +14,7 @@ namespace WSCT.GUI
         internal IWinSCardGui Gui;
         private readonly Color _hightlightColor;
 
-        private void WriteLogLine(LogLevel level, object sender, string message)
+        private void WriteLogLine(LogLevel level, object? sender, string message)
         {
             string identifier = sender switch
             {
@@ -97,7 +97,7 @@ namespace WSCT.GUI
 
         #region >> CardChannelObservable delegates
 
-        public void NotifyConnect(object sender, AfterConnectEventArgs eventArgs)
+        public void NotifyConnect(object? sender, AfterConnectEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -118,7 +118,7 @@ namespace WSCT.GUI
             });
         }
 
-        public void NotifyDisconnect(object sender, AfterDisconnectEventArgs eventArgs)
+        public void NotifyDisconnect(object? sender, AfterDisconnectEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -139,7 +139,7 @@ namespace WSCT.GUI
             });
         }
 
-        public void NotifyGetAttrib(object sender, AfterGetAttribEventArgs eventArgs)
+        public void NotifyGetAttrib(object? sender, AfterGetAttribEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -158,7 +158,7 @@ namespace WSCT.GUI
             });
         }
 
-        public void NotifyReconnect(object sender, AfterReconnectEventArgs eventArgs)
+        public void NotifyReconnect(object? sender, AfterReconnectEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -179,7 +179,7 @@ namespace WSCT.GUI
             });
         }
 
-        public void NotifyTransmit(object sender, AfterTransmitEventArgs eventArgs)
+        public void NotifyTransmit(object? sender, AfterTransmitEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -198,18 +198,21 @@ namespace WSCT.GUI
             });
         }
 
-        public void BeforeConnect(object sender, BeforeConnectEventArgs eventArgs)
+        public void BeforeConnect(object? sender, BeforeConnectEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
-                var cardChannel = (ICardChannel)sender;
+                if (sender is not ICardChannel cardChannel)
+                {
+                    return;
+                }
 
                 Gui.SetLogForeColor(_hightlightColor);
                 WriteLogLine(LogLevel.Info, sender, $" => Connect(\"{cardChannel.ReaderName}\",{eventArgs.ShareMode},{eventArgs.PreferedProtocol})");
             });
         }
 
-        public void BeforeDisconnect(object sender, BeforeDisconnectEventArgs eventArgs)
+        public void BeforeDisconnect(object? sender, BeforeDisconnectEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -218,7 +221,7 @@ namespace WSCT.GUI
             });
         }
 
-        public void BeforeGetAttrib(object sender, BeforeGetAttribEventArgs eventArgs)
+        public void BeforeGetAttrib(object? sender, BeforeGetAttribEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -227,7 +230,7 @@ namespace WSCT.GUI
             });
         }
 
-        public void BeforeReconnect(object sender, BeforeReconnectEventArgs eventArgs)
+        public void BeforeReconnect(object? sender, BeforeReconnectEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -237,7 +240,7 @@ namespace WSCT.GUI
             });
         }
 
-        public void BeforeTransmit(object sender, BeforeTransmitEventArgs eventArgs)
+        public void BeforeTransmit(object? sender, BeforeTransmitEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -250,7 +253,7 @@ namespace WSCT.GUI
 
         #region >> CardContextObservable delegates
 
-        private void BeforeEstablish(object sender, BeforeEstablishEventArgs eventArgs)
+        private void BeforeEstablish(object? sender, BeforeEstablishEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -259,7 +262,7 @@ namespace WSCT.GUI
             });
         }
 
-        private void BeforeListReaders(object sender, BeforeListReadersEventArgs eventArgs)
+        private void BeforeListReaders(object? sender, BeforeListReadersEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -268,7 +271,7 @@ namespace WSCT.GUI
             });
         }
 
-        private void BeforeListReaderGroups(object sender, BeforeListReaderGroupsEventArgs eventArgs)
+        private void BeforeListReaderGroups(object? sender, BeforeListReaderGroupsEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -277,7 +280,7 @@ namespace WSCT.GUI
             });
         }
 
-        private void BeforeRelease(object sender, BeforeReleaseEventArgs eventArgs)
+        private void BeforeRelease(object? sender, BeforeReleaseEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -286,7 +289,7 @@ namespace WSCT.GUI
             });
         }
 
-        private void NotifyEstablish(object sender, AfterEstablishEventArgs eventArgs)
+        private void NotifyEstablish(object? sender, AfterEstablishEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -305,11 +308,14 @@ namespace WSCT.GUI
             });
         }
 
-        private void NotifyListReaders(object sender, AfterListReadersEventArgs eventArgs)
+        private void NotifyListReaders(object? sender, AfterListReadersEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
-                var cardContext = (ICardContext)sender;
+                if (sender is not ICardContext cardContext)
+                {
+                    return;
+                }
 
                 if (eventArgs.ReturnValue == ErrorCode.Success)
                 {
@@ -330,11 +336,14 @@ namespace WSCT.GUI
             });
         }
 
-        private void NotifyListReaderGroups(object sender, AfterListReaderGroupsEventArgs eventArgs)
+        private void NotifyListReaderGroups(object? sender, AfterListReaderGroupsEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
-                var cardContext = (ICardContext)sender;
+                if (sender is not ICardContext cardContext)
+                {
+                    return;
+                }
 
                 if (eventArgs.ReturnValue == ErrorCode.Success)
                 {
@@ -355,7 +364,7 @@ namespace WSCT.GUI
             });
         }
 
-        private void NotifyRelease(object sender, AfterReleaseEventArgs eventArgs)
+        private void NotifyRelease(object? sender, AfterReleaseEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -378,7 +387,7 @@ namespace WSCT.GUI
 
         #region >> StatusChangeMonitor delegates
 
-        private void OnCardInsertionEvent(object sender, OnCardInsertionEventArgs eventArgs)
+        private void OnCardInsertionEvent(object? sender, OnCardInsertionEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {
@@ -387,7 +396,7 @@ namespace WSCT.GUI
             });
         }
 
-        private void OnCardRemovalEvent(object sender, OnCardRemovalEventArgs eventArgs)
+        private void OnCardRemovalEvent(object? sender, OnCardRemovalEventArgs eventArgs)
         {
             Gui.InvokeOnUiThread(() =>
             {

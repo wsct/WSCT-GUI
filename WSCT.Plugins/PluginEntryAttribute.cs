@@ -2,8 +2,8 @@
 {
     public class PluginEntryAttribute : Attribute
     {
-        private readonly LocalizableString _name = new LocalizableString();
-        private readonly LocalizableString _description = new LocalizableString();
+        private readonly LocalizableString _name = new();
+        private readonly LocalizableString _description = new();
         private Type _resourceType;
 
         /// <summary>
