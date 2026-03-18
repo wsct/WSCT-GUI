@@ -1,5 +1,3 @@
-using System;
-using System.Windows.Forms;
 using WSCT.Helpers;
 using WSCT.Layers.Interactive;
 using WSCT.Layers.Interactive.Actions;

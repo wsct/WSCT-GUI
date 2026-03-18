@@ -1,8 +1,5 @@
-using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.Runtime.CompilerServices;
-using System.Windows.Forms;
 using WSCT.Core;
 using WSCT.Core.APDU;
 using WSCT.Core.Fluent.Helpers;
@@ -62,8 +59,8 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
             ObserveChannel();
 
             // Initialize the historic
-            _commandApduHistoric = new List<ICardCommand>();
-            _responseApduHistoric = new List<ICardResponse>();
+            _commandApduHistoric = [];
+            _responseApduHistoric = [];
 
             new[] { guiCLA, guiINS, guiP1, guiP2 }.DoForEach(tb =>
               {

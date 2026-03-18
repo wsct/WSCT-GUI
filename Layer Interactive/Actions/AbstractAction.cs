@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WSCT.Layers.Interactive.Actions
+﻿namespace WSCT.Layers.Interactive.Actions
 {
     /// <summary>
     /// 

@@ -1,10 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Windows.Forms;
 using WSCT.GUI.Common.Resources.Helpers;
 using WSCT.GUI.Plugins;
 using WSCT.GUI.Resources;
@@ -27,7 +21,7 @@ namespace WSCT.GUI
         private readonly LogObserver _observer;
         private readonly LogObserver _stackObserver;
 
-        private readonly Dictionary<object, Color> _defaultControlBackColors = new Dictionary<object, Color>();
+        private readonly Dictionary<object, Color> _defaultControlBackColors = [];
 
         #endregion
 
@@ -246,11 +240,14 @@ namespace WSCT.GUI
         {
             try
             {
-                byte[] recvBuffer = null;
-                var errorCode = SharedData.CardChannel.GetAttrib((Attrib)guiAttribute.SelectedItem, ref recvBuffer);
-                if (errorCode == ErrorCode.Success)
+                if (guiAttribute.SelectedItem is not null)
                 {
-                    UpdateAttribute(recvBuffer);
+                    byte[]? recvBuffer = null;
+                    var errorCode = SharedData.CardChannel.GetAttrib((Attrib)guiAttribute.SelectedItem, ref recvBuffer);
+                    if (errorCode == ErrorCode.Success)
+                    {
+                        UpdateAttribute(recvBuffer);
+                    }
                 }
             }
             catch (Exception)
@@ -276,8 +273,8 @@ namespace WSCT.GUI
             var menuItem = (ToolStripMenuItem)sender;
             try
             {
-                var plugin = (PluginInfo)menuItem.Tag;
-                plugin.CreateInstance().Show();
+                var plugin = menuItem.Tag as PluginInfo;
+                plugin?.CreateInstance().Show();
             }
             catch (Exception ex)
             {
@@ -408,9 +405,9 @@ namespace WSCT.GUI
                 guiPluginDescription.Text = plugin.Attribute.Description;
 
                 guiPluginAssemblyPath.Text = assembly.Location;
-                guiPluginAssemblyVersion.Text = assembly.GetName().Version.ToString();
+                guiPluginAssemblyVersion.Text = assembly.GetName().Version?.ToString();
                 guiPluginAssemblyName.Text = assembly.FullName;
-                guiPluginAssemblyDescription.Text = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>().Description;
+                guiPluginAssemblyDescription.Text = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
             }
         }
 
@@ -432,11 +429,11 @@ namespace WSCT.GUI
                 try
                 {
                     var assembly = Assembly.LoadFrom(Path.Combine(layer.PathToDll, layer.DllName));
-                    var assemblyName = new AssemblyName(assembly.FullName);
-                    guiLayerAssemblyVersion.Text = assemblyName.Version.ToString();
+                    var assemblyName = new AssemblyName(assembly.FullName ?? "");
+                    guiLayerAssemblyVersion.Text = assemblyName.Version?.ToString();
                     guiLayerAssemblyName.Text = assemblyName.Name;
-                    var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
-                    guiLayerAssemblyDescription.Text = assemblyDescription.Description;
+                    var assemblyDescription = Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute)) as AssemblyDescriptionAttribute;
+                    guiLayerAssemblyDescription.Text = assemblyDescription?.Description ?? "";
                 }
                 catch (Exception ex)
                 {
@@ -463,11 +460,11 @@ namespace WSCT.GUI
                 try
                 {
                     var assembly = Assembly.LoadFrom(Path.Combine(layer.PathToDll, layer.DllName));
-                    var assemblyName = new AssemblyName(assembly.FullName);
-                    guiLayerAssemblyVersion.Text = assemblyName.Version.ToString();
+                    var assemblyName = new AssemblyName(assembly.FullName ?? "");
+                    guiLayerAssemblyVersion.Text = assemblyName.Version?.ToString();
                     guiLayerAssemblyName.Text = assemblyName.Name;
-                    var assemblyDescription = (AssemblyDescriptionAttribute)Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute));
-                    guiLayerAssemblyDescription.Text = assemblyDescription.Description;
+                    var assemblyDescription = Attribute.GetCustomAttribute(assembly, typeof(AssemblyDescriptionAttribute)) as AssemblyDescriptionAttribute;
+                    guiLayerAssemblyDescription.Text = assemblyDescription.Description ?? "";
                 }
                 catch (Exception ex)
                 {

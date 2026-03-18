@@ -16,7 +16,7 @@ namespace WSCT.Layers.Interactive
         #region >> Fields
 
         private Protocol protocol;
-        private ICardChannelStack stack;
+        private ICardChannelStack stack = null!; // MUST be set by the stack before using the layer
 
         #endregion
 
@@ -239,7 +239,7 @@ namespace WSCT.Layers.Interactive
 
                     if (InteractiveController.Mode == InteractiveMode.Record)
                     {
-                        InteractiveController.ActionsList.Add(new TransmitAction(command.ToString(), response.ToString()));
+                        InteractiveController.ActionsList.Add(new TransmitAction($"{command}", $"{response}"));
                     }
 
                     return ret;

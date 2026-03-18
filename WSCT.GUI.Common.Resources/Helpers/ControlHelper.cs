@@ -1,12 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.Windows.Forms;
-
-namespace WSCT.GUI.Common.Resources.Helpers
+﻿namespace WSCT.GUI.Common.Resources.Helpers
 {
     public static class ControlHelper
     {
-        private static readonly Dictionary<Control, Color> DefaultControlBackColors = new Dictionary<Control, Color>();
+        private static readonly Dictionary<Control, Color> DefaultControlBackColors = [];
 
         /// <summary>
         /// Resets BackColor property of <param name="control" /> to its original value.

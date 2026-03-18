@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Xml;
+﻿using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
@@ -17,7 +15,7 @@ namespace WSCT.Layers.Interactive.Actions
         /// <summary>
         /// List of concrete actions.
         /// </summary>
-        public List<AbstractAction> ActionsList { get; set; }
+        public List<AbstractAction> ActionsList { get; set; } = [];
 
         #endregion
 
@@ -45,7 +43,7 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> IXmlSerializable Members
 
         /// <inheritdoc />
-        public XmlSchema GetSchema()
+        public XmlSchema? GetSchema()
         {
             return null;
         }
@@ -53,7 +51,7 @@ namespace WSCT.Layers.Interactive.Actions
         /// <inheritdoc />
         public void ReadXml(XmlReader reader)
         {
-            ActionsList = new List<AbstractAction>();
+            ActionsList = [];
 
             reader.ReadStartElement();
 
@@ -62,34 +60,25 @@ namespace WSCT.Layers.Interactive.Actions
                 switch (reader.NodeType)
                 {
                     case (XmlNodeType.Element):
-                        XmlSerializer serializer;
-                        switch (reader.Name)
+                        var serializer = reader.Name switch
                         {
-                            case "connect":
-                                serializer = new XmlSerializer(typeof(ConnectAction));
-                                break;
-                            case "disconnect":
-                                serializer = new XmlSerializer(typeof(DisconnectAction));
-                                break;
-                            case "getAttrib":
-                                serializer = new XmlSerializer(typeof(GetAttribAction));
-                                break;
-                            case "reconnect":
-                                serializer = new XmlSerializer(typeof(ReconnectAction));
-                                break;
-                            case "transmit":
-                                serializer = new XmlSerializer(typeof(TransmitAction));
-                                break;
-                            default:
-                                throw new Exception(String.Format("Unattended node name [{0}] when deserializing", reader.Name));
+                            "connect" => new XmlSerializer(typeof(ConnectAction)),
+                            "disconnect" => new XmlSerializer(typeof(DisconnectAction)),
+                            "getAttrib" => new XmlSerializer(typeof(GetAttribAction)),
+                            "reconnect" => new XmlSerializer(typeof(ReconnectAction)),
+                            "transmit" => new XmlSerializer(typeof(TransmitAction)),
+                            _ => throw new Exception($"Unattended node name [{reader.Name}] when deserializing"),
+                        };
+                        if (serializer.Deserialize(reader) is AbstractAction action)
+                        {
+                            ActionsList.Add(action);
                         }
-                        ActionsList.Add((AbstractAction)serializer.Deserialize(reader));
                         break;
                     case (XmlNodeType.Comment):
                         reader.ReadContentAsString();
                         break;
                     default:
-                        throw new Exception(String.Format("Unattended XmlNodeType [{0}] when deserializing", reader.NodeType));
+                        throw new Exception($"Unattended XmlNodeType [{reader.NodeType}] when deserializing");
                 }
             }
 

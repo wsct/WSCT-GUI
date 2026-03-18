@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using WSCT.Core;
@@ -18,12 +17,12 @@ namespace WSCT.Layers.Interactive.Actions
         /// <summary>
         /// R-APDU.
         /// </summary>
-        public String Response { get; set; }
+        public string? Response { get; set; }
 
         /// <summary>
         /// C-APDU.
         /// </summary>
-        public String Command { get; set; }
+        public string? Command { get; set; }
 
         #endregion
 
@@ -54,7 +53,7 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> IXmlSerializable Members
 
         /// <inheritdoc />
-        public XmlSchema GetSchema()
+        public XmlSchema? GetSchema()
         {
             return null;
         }

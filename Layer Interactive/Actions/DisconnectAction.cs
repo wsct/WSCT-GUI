@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using WSCT.Core;
@@ -48,7 +47,7 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> IXmlSerializable Members
 
         /// <inheritdoc />
-        public XmlSchema GetSchema()
+        public XmlSchema? GetSchema()
         {
             return null;
         }
@@ -56,9 +55,12 @@ namespace WSCT.Layers.Interactive.Actions
         /// <inheritdoc />
         public void ReadXml(XmlReader reader)
         {
-            Disposition = (Disposition)Enum.Parse(typeof(Disposition), reader.GetAttribute("disposition"));
-            reader.ReadStartElement();
-            reader.ReadEndElement();
+            if (reader.GetAttribute("disposition") is string disposition)
+            {
+                Disposition = (Disposition)Enum.Parse(typeof(Disposition), disposition);
+                reader.ReadStartElement();
+                reader.ReadEndElement();
+            }
         }
 
         /// <inheritdoc />

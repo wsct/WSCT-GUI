@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WSCT.GUI.Plugins
+﻿namespace WSCT.GUI.Plugins
 {
     /// <summary>
     /// Helper class for providing a localizable string property. 

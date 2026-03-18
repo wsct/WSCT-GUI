@@ -1,5 +1,3 @@
-using System;
-using System.Drawing;
 using WSCT.Wrapper;
 
 namespace WSCT.GUI

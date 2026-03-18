@@ -1,7 +1,4 @@
-﻿using System;
-using System.Windows.Forms;
-
-namespace WSCT.GUI.Launcher
+﻿namespace WSCT.GUI.Launcher
 {
     internal static class Program
     {

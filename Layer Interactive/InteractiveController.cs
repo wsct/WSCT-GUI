@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using WSCT.Layers.Interactive.Actions;
+﻿using WSCT.Layers.Interactive.Actions;
 
 namespace WSCT.Layers.Interactive
 {
@@ -32,7 +30,7 @@ namespace WSCT.Layers.Interactive
         /// <summary>
         /// Event raised when <see cref="Mode"/> has changed.
         /// </summary>
-        public static InteractiveModeChangedEventHandler InteractiveModeChangedEvent;
+        public static InteractiveModeChangedEventHandler? InteractiveModeChangedEvent;
 
         #endregion
 
@@ -72,7 +70,7 @@ namespace WSCT.Layers.Interactive
         /// <summary>
         /// List of actions used as source (REPLAY mode) or destination (RECORD mode)
         /// </summary>
-        public static List<AbstractAction> ActionsList = new List<AbstractAction>();
+        public static List<AbstractAction> ActionsList = [];
 
         /// <summary>
         /// Identifier of current action in list of actions (REPLAY mode)
@@ -88,7 +86,7 @@ namespace WSCT.Layers.Interactive
                 return;
             }
 
-            ActionsList = new List<AbstractAction>();
+            ActionsList = [];
             ActionsListId = 0;
         }
     }

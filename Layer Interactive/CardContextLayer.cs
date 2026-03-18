@@ -1,6 +1,4 @@
-﻿using System;
-using System.Linq;
-using WSCT.Stack;
+﻿using WSCT.Stack;
 using WSCT.Wrapper;
 
 namespace WSCT.Layers.Interactive
@@ -13,7 +11,7 @@ namespace WSCT.Layers.Interactive
     {
         #region >> Fields
 
-        private ICardContextStack stack;
+        private ICardContextStack stack = null!; // MUST be set by the stack before using the layer
 
         #endregion
 

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WSCT.GUI.Plugins
+﻿namespace WSCT.GUI.Plugins
 {
     public class PluginEntryAttribute : Attribute
     {

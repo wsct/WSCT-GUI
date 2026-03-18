@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace WSCT.GUI.Plugins
+﻿namespace WSCT.GUI.Plugins
 {
     /// <summary>
     /// Exception to be raised when PC/SC is used but not initialized.

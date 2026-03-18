@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
+﻿using System.Reflection;
 
 namespace WSCT.GUI.Plugins
 {
@@ -11,7 +8,7 @@ namespace WSCT.GUI.Plugins
 
         public PluginsManager()
         {
-            Plugins = new List<PluginInfo>();
+            Plugins = [];
         }
 
         public void Discover(Assembly assembly)

@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Reflection;
-using System.Windows.Forms;
+﻿using System.Reflection;
 
 namespace WSCT.GUI
 {
@@ -15,9 +12,9 @@ namespace WSCT.GUI
             //  Modifiez les paramètres des informations de l'assembly pour votre application via :
             //  - Projet->Propriétés->Application->Informations de l'assembly
             //  - AssemblyInfo.cs
-            Text = String.Format("À propos de {0}", AssemblyTitle);
+            Text = $"À propos de {AssemblyTitle}";
             labelProductName.Text = AssemblyProduct;
-            labelVersion.Text = String.Format("Version {0}", AssemblyVersion);
+            labelVersion.Text = $"Version {AssemblyVersion}";
             labelCopyright.Text = AssemblyCopyright;
             labelCompanyName.Text = AssemblyCompany;
             textBoxDescription.Text = AssemblyDescription;

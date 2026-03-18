@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading;
-using System.Windows.Forms;
-
-namespace WSCT.GUI.Plugins
+﻿namespace WSCT.GUI.Plugins
 {
     /// <summary>
     /// Generic IPluginEntry implementation able to manage Mono Winforms implementation constraint: only one message loop thread is authorized (ie Application.Run()).

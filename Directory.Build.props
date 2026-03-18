@@ -3,7 +3,7 @@
 	<PropertyGroup>
 		<Company>ENSICAEN</Company>
 		<Authors>Sylvain Vernois</Authors>
-		<Copyright>Copyright © Sylvain Vernois / ENSICAEN 2006-$([System.DateTime]::Now.Year)</Copyright>
+		<Copyright>Sylvain Vernois / ENSICAEN 2006-$([System.DateTime]::Now.Year)</Copyright>
 		<Product>WSCT</Product>
 	</PropertyGroup>
 
@@ -14,7 +14,7 @@
 
 	<PropertyGroup>
 		<Deterministic>true</Deterministic>
-		<TargetFrameworks>net462;net6.0-windows;net9.0-windows</TargetFrameworks>
+		<TargetFrameworks>net6.0-windows;net9.0-windows</TargetFrameworks>
 		<LangVersion>latest</LangVersion>
 	</PropertyGroup>
 

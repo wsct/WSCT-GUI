@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using WSCT.Core;
@@ -55,7 +54,7 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> IXmlSerializable Members
 
         /// <inheritdoc />
-        public XmlSchema GetSchema()
+        public XmlSchema? GetSchema()
         {
             return null;
         }
@@ -63,7 +62,8 @@ namespace WSCT.Layers.Interactive.Actions
         /// <inheritdoc />
         public void ReadXml(XmlReader reader)
         {
-            Initialization = (Disposition)Enum.Parse(typeof(Disposition), reader.GetAttribute("initialization"));
+            var attribute = reader.GetAttribute("initialization") ?? throw new XmlException("The field [initialization] is missing");
+            Initialization = (Disposition)Enum.Parse(typeof(Disposition), attribute);
             reader.ReadStartElement();
             Protocol = (Protocol)Enum.Parse(typeof(Protocol), reader.ReadContentAsString());
             reader.ReadEndElement();

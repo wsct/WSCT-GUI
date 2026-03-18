@@ -1,4 +1,3 @@
-using System;
 using WSCT.Core.APDU;
 using WSCT.ISO7816;
 

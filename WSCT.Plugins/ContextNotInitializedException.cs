@@ -1,5 +1,3 @@
-using System;
-
 namespace WSCT.GUI.Plugins
 {
     /// <summary>

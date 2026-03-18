@@ -1,5 +1,4 @@
-﻿using System;
-using System.Xml;
+﻿using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 using WSCT.Core;
@@ -19,7 +18,7 @@ namespace WSCT.Layers.Interactive.Actions
         /// <summary>
         /// R-APDU.
         /// </summary>
-        public String Response { get; set; }
+        public String Response { get; set; } = string.Empty;
 
         /// <summary>
         /// Action parameter.
@@ -55,7 +54,7 @@ namespace WSCT.Layers.Interactive.Actions
         #region >> IXmlSerializable Members
 
         /// <inheritdoc />
-        public XmlSchema GetSchema()
+        public XmlSchema? GetSchema()
         {
             return null;
         }
@@ -63,7 +62,8 @@ namespace WSCT.Layers.Interactive.Actions
         /// <inheritdoc />
         public void ReadXml(XmlReader reader)
         {
-            Attrib = (Attrib)Enum.Parse(typeof(Attrib), reader.GetAttribute("attrib"));
+            var attribute = reader.GetAttribute("attrib") ?? throw new XmlException("The field [attrib] is missing");
+            Attrib = (Attrib)Enum.Parse(typeof(Attrib), attribute);
             reader.ReadStartElement();
             Response = reader.ReadContentAsString();
             reader.ReadEndElement();

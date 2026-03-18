@@ -1,6 +1,4 @@
-﻿using System.Drawing;
-
-namespace WSCT.GUI.Resources
+﻿namespace WSCT.GUI.Resources
 {
     /// <summary>
     /// Color resources.
