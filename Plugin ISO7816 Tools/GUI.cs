@@ -106,7 +106,13 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         private uint Lc
         {
             get => TryParseLc(guiLc.Text, out var lc) ? lc : 0;
-            set => guiLc.Text = value < 256 ? $"{value:X2}" : $"00{value:X4}";
+            set => guiLc.Text = value switch
+            {
+                0 => "",
+                <= 0xFF => $"{value:X2}",
+                <= 0xFFFF => $"00{value:X4}",
+                _ => throw new ArgumentOutOfRangeException(nameof(value), "Lc must be less than 65536")
+            };
         }
 
         private uint Le
@@ -137,7 +143,7 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
         {
             if (rApdu != null)
             {
-                if (rApdu.StatusWord == 0x9000)
+                if (rApdu.StatusWord == 0x9000 || rApdu.Sw1 == 0x61)
                 {
                     guiStatusStrip.BackColor = Common.Resources.Colors.StatusSuccess;
                 }
