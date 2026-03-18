@@ -1,25 +1,20 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <PropertyGroup>
-    <TargetFrameworks>net462;net6.0-windows</TargetFrameworks>
-    <OutputType>Library</OutputType>
-    <Version>5.2.1</Version>
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<Version>5.2.1</Version>
+	</PropertyGroup>
 
-    <UseWindowsForms>true</UseWindowsForms>
+	<PropertyGroup>
+		<UseWindowsForms>true</UseWindowsForms>	
+	</PropertyGroup>
 
-    <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2007-2020</Copyright>
-    <Product>WSCT</Product>
-    <Company>ENSICAEN</Company>
-    <Authors>Sylvain Vernois</Authors>
-    <PackageId>WSCT.GUI.Plugins</PackageId>
-    <RepositoryUrl></RepositoryUrl>
-    <PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
-    <Description>Plugins core objects for WinSCard GUI.</Description>
-    <OutputType>Library</OutputType>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<RepositoryUrl>https://github.com/wsct/WSCT-GUI</RepositoryUrl>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="WSCT.Core" Version="6.5.1" />
-  </ItemGroup>
+	<PropertyGroup>
+		<PackageId>WSCT.GUI.Plugins</PackageId>
+		<Description>Plugins core objects for WinSCard GUI.</Description>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<PackageReference Include="WSCT.Core" />
+	</ItemGroup>
 </Project>

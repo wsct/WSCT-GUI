@@ -1,0 +1,12 @@
+<Solution>
+  <Project Path="Layer Interactive/Layer Interactive.csproj" />
+  <Project Path="Plugin Interactive Layer/Plugin Interactive Layer.csproj" />
+  <Project Path="Plugin ISO7816 Tools/Plugin ISO7816 Tools.csproj" />
+  <Project Path="WSCT.GUI.Common.Resources/WSCT.GUI.Common.Resources.csproj" />
+  <Project Path="WSCT.GUI.Launcher/WSCT.GUI.Launcher.csproj" />
+  <Project Path="WSCT.GUI/WSCT.GUI.csproj" />
+  <Project Path="WSCT.Plugins/WSCT.GUI.Plugins.csproj" />
+  <Properties Name="MonoDevelopProperties">
+    <Property Name="StartupItem" Value="WSCT.Core.ConsoleTests\WSCT.Core.ConsoleTests.csproj" />
+  </Properties>
+</Solution>

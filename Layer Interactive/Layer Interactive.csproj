@@ -1,23 +1,21 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-  <PropertyGroup>
-    <TargetFrameworks>netstandard2.0;net6.0</TargetFrameworks>
-    <OutputType>Library</OutputType>
-    <Version>2.4.1</Version>
-    
-    <PackageId>WSCT.Layers.Interactive</PackageId>
-    <Authors>Sylvain Vernois</Authors>
-    <Company>ENSICAEN</Company>
-    <Product>WSCT</Product>
-    <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2010-2020</Copyright>
-    <AssemblyName>Layer.Interactive</AssemblyName>
-    <RootNamespace>WSCT.Layers.Interactive</RootNamespace>
-    <Description>WSCT Layer allowing basic interception of CRP and replay of previously intercepted CRP.</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
-	<RepositoryUrl>https://github.com/wsct/WSCT-GUI</RepositoryUrl>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="WSCT.Core" Version="6.5.1" />
-  </ItemGroup>
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<Version>2.4.1</Version>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AssemblyName>Layer.Interactive</AssemblyName>
+		<RootNamespace>WSCT.Layers.Interactive</RootNamespace>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>WSCT.Layers.Interactive</PackageId>
+		<Description>WSCT Layer allowing basic interception of CRP and replay of previously intercepted CRP.</Description>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="WSCT.Core" />
+	</ItemGroup>
 </Project>

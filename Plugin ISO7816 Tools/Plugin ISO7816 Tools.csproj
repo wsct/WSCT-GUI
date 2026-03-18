@@ -1,50 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <PropertyGroup>
-    <TargetFrameworks>net462;net6.0-windows</TargetFrameworks>
-    <OutputType>Library</OutputType>
-    <Version>5.2.2</Version>
+	<PropertyGroup>
+		<OutputType>Library</OutputType>
+		<Version>5.2.2</Version>
+	</PropertyGroup>
 
-    <LangVersion>latest</LangVersion>
+	<PropertyGroup>
+		<UseWindowsForms>true</UseWindowsForms>
+	</PropertyGroup>
 
-	<UseWindowsForms>true</UseWindowsForms>
+	<PropertyGroup>
+		<AssemblyName>Plugin.ISO7816Tools</AssemblyName>
+		<RootNamespace>WSCT.GUI.Plugins.ISO7816Tools</RootNamespace>
+	</PropertyGroup>
 
-    <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2010-2020</Copyright>
-    <Product>WSCT</Product>
-    <Company>ENSICAEN</Company>
-    <Authors>Sylvain Vernois</Authors>
-    <PackageId>WSCT.Plugin.ISO7816Tools</PackageId>
-    <RepositoryUrl></RepositoryUrl>
-    <PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
-    <Description>ISO7816 Plugin for WinSCard GUI.</Description>
-    <OutputType>Library</OutputType>
-    <AssemblyName>Plugin.ISO7816Tools</AssemblyName>
-    <RootNamespace>WSCT.GUI.Plugins.ISO7816Tools</RootNamespace>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-	<RepositoryUrl>https://github.com/wsct/WSCT-GUI</RepositoryUrl>
-  </PropertyGroup>
-  <ItemGroup>
-    <PackageReference Include="WSCT.Core" Version="6.5.*" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\WSCT.GUI.Common.Resources\WSCT.GUI.Common.Resources.csproj" />
-    <ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Gui.cs" SubType="Form" />
-    <Compile Update="Gui.Designer.cs" SubType="Form" DependentUpon="Gui.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Compile Update="Resources\Lang.Designer.cs">
-      <DesignTime>True</DesignTime>
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Lang.resx</DependentUpon>
-    </Compile>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Update="Resources\Lang.resx">
-      <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>Lang.Designer.cs</LastGenOutput>
-    </EmbeddedResource>
-  </ItemGroup>
+	<PropertyGroup>
+		<PackageId>WSCT.Plugin.ISO7816Tools</PackageId>
+		<Description>ISO7816 Plugin for WinSCard GUI.</Description>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="WSCT.Core" />
+	</ItemGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\WSCT.GUI.Common.Resources\WSCT.GUI.Common.Resources.csproj" />
+		<ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="Gui.cs" />
+		<Compile Update="Gui.Designer.cs" SubType="Form" DependentUpon="Gui.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<Compile Update="Resources\Lang.Designer.cs">
+			<DesignTime>True</DesignTime>
+			<AutoGen>True</AutoGen>
+			<DependentUpon>Lang.resx</DependentUpon>
+		</Compile>
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Update="Resources\Lang.resx">
+			<Generator>PublicResXFileCodeGenerator</Generator>
+			<LastGenOutput>Lang.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+	</ItemGroup>
 </Project>

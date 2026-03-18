@@ -1,40 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
-  <PropertyGroup>
-    <TargetFrameworks>net462;net6.0-windows</TargetFrameworks>
-    <OutputType>WinExe</OutputType>
-    <Version>1.2.1</Version>
-
-    <UseWindowsForms>true</UseWindowsForms>
-
-    <PackageId>WSCT.GUI.Launcher</PackageId>
-    <Authors>Sylvain Vernois</Authors>
-    <Company>ENSICAEN</Company>
-    <Product>WSCT</Product>
-    <Copyright>Copyright © Sylvain Vernois / ENSICAEN 2011-2020</Copyright>
-    <Description>Launcher of WSCT GUI configured with default plugins.</Description>
-    <ApplicationIcon>Resources\WSCT.ico</ApplicationIcon>
-    <OutputType>WinExe</OutputType>
-    <NoWin32Manifest>true</NoWin32Manifest>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
-	<RepositoryUrl>https://github.com/wsct/WSCT-GUI</RepositoryUrl>
-
-	  <StartupObject />
-  </PropertyGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Plugin Interactive Layer\Plugin Interactive Layer.csproj" />
-    <ProjectReference Include="..\Plugin ISO7816 Tools\Plugin ISO7816 Tools.csproj" />
-    <ProjectReference Include="..\WSCT.GUI\WSCT.GUI.csproj" />
-  </ItemGroup>
-  <ItemGroup>
-    <PackageReference Include="System.Resources.Extensions" Version="7.0.0" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Update="Stack.Channel.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Update="Stack.Context.xml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-  </ItemGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<Version>1.2.1</Version>
+		<StartupObject />
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<UseWindowsForms>true</UseWindowsForms>
+		<ApplicationIcon>Resources\WSCT.ico</ApplicationIcon>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<PackageId>WSCT.GUI.Launcher</PackageId>
+		<Description>Launcher of WSCT GUI configured with default plugins.</Description>
+		<NoWin32Manifest>true</NoWin32Manifest>
+	</PropertyGroup>
+	
+	<ItemGroup>
+		<ProjectReference Include="..\Plugin Interactive Layer\Plugin Interactive Layer.csproj" />
+		<ProjectReference Include="..\Plugin ISO7816 Tools\Plugin ISO7816 Tools.csproj" />
+		<ProjectReference Include="..\WSCT.GUI\WSCT.GUI.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="System.Resources.Extensions" />
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="Stack.Channel.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Stack.Context.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>

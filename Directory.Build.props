@@ -1,0 +1,46 @@
+<Project>
+
+	<PropertyGroup>
+		<Company>ENSICAEN</Company>
+		<Authors>Sylvain Vernois</Authors>
+		<Copyright>Copyright © Sylvain Vernois / ENSICAEN 2006-$([System.DateTime]::Now.Year)</Copyright>
+		<Product>WSCT</Product>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<RepositoryUrl>https://github.com/wsct/WSCT-GUI</RepositoryUrl>
+		<PackageProjectUrl>https://github.com/wsct/WSCT-GUI</PackageProjectUrl>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Deterministic>true</Deterministic>
+		<TargetFrameworks>net462;net6.0-windows;net9.0-windows</TargetFrameworks>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(MSBuildProjectName)' == 'Layer Interactive'">
+		<TargetFrameworks>netstandard2.0;net6.0;net9.0</TargetFrameworks>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<InvariantGlobalization>true</InvariantGlobalization>
+		<!--GenerateDocumentationFile>true</GenerateDocumentationFile-->
+		<!-- https://docs.microsoft.com/en-us/dotnet/core/project-sdk/msbuild-props#satelliteresourcelanguages -->
+		<SatelliteResourceLanguages>en</SatelliteResourceLanguages>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<AssemblyName>$(MSBuildProjectName)</AssemblyName>
+		<RootNamespace>$(AssemblyName)</RootNamespace>
+		<PackageOutputPath>../nuget/$(Configuration)</PackageOutputPath>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<UseArtifactsOutput>false</UseArtifactsOutput>
+		<ArtifactsPath>$(MSBuildThisFileDirectory)\.artifacts</ArtifactsPath>
+	</PropertyGroup>
+
+</Project>
