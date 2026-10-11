@@ -1,34 +1,32 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.Web">
 	<PropertyGroup>
-		<OutputType>WinExe</OutputType>
+		<OutputType>Exe</OutputType>
 		<Version>1.2.1</Version>
-		<StartupObject />
+		<TargetFramework>net10.0</TargetFramework>
 	</PropertyGroup>
-	
-	<PropertyGroup>
-		<UseWindowsForms>true</UseWindowsForms>
-		<ApplicationIcon>Resources\WSCT.ico</ApplicationIcon>
-	</PropertyGroup>
-	
+
 	<PropertyGroup>
 		<PackageId>WSCT.GUI.Launcher</PackageId>
-		<Description>Launcher of WSCT GUI configured with default plugins.</Description>
-		<NoWin32Manifest>true</NoWin32Manifest>
+		<Description>Blazor Server Launcher of WSCT GUI configured with default plugins.</Description>
 	</PropertyGroup>
-	
+
 	<ItemGroup>
+		<ProjectReference Include="..\Layer Interactive\Layer Interactive.csproj" />
 		<ProjectReference Include="..\Plugin Interactive Layer\Plugin Interactive Layer.csproj" />
 		<ProjectReference Include="..\Plugin ISO7816 Tools\Plugin ISO7816 Tools.csproj" />
 		<ProjectReference Include="..\WSCT.GUI\WSCT.GUI.csproj" />
+		<ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />
 	</ItemGroup>
-	<ItemGroup>
-		<PackageReference Include="System.Resources.Extensions" />
-	</ItemGroup>
+
 	<ItemGroup>
 		<None Update="Stack.Channel.xml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 		<None Update="Stack.Context.xml">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Include="..\Plugin ISO7816 Tools\ISO7816\Dictionary.StatusWord.xml">
+			<Link>ISO7816\Dictionary.StatusWord.xml</Link>
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
 	</ItemGroup>

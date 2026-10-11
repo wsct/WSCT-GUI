@@ -1,0 +1,72 @@
+@using System.Reflection
+
+@if (IsOpen)
+{
+    <div class="modal fade show d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5);" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow">
+                <div class="modal-header bg-primary text-white py-2">
+                    <h5 class="modal-title fs-6">
+                        <i class="bi bi-info-circle me-1"></i> À propos de @AssemblyTitle
+                    </h5>
+                    <button type="button" class="btn-close btn-close-white" @onclick="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row align-items-center">
+                        <div class="col-4 text-center">
+                            <i class="bi bi-smartwatch text-primary" style="font-size: 4rem;"></i>
+                        </div>
+                        <div class="col-8">
+                            <h5 class="fw-bold text-primary mb-1">@AssemblyProduct</h5>
+                            <div class="text-muted small mb-2">Version @AssemblyVersion</div>
+                            <div class="small fw-semibold">@AssemblyCompany</div>
+                            <div class="small text-muted mb-2">@AssemblyCopyright</div>
+                            <p class="small text-secondary mb-0">@AssemblyDescription</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer py-1">
+                    <button type="button" class="btn btn-secondary btn-sm" @onclick="Close">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public bool IsOpen { get; set; }
+
+    [Parameter]
+    public EventCallback<bool> IsOpenChanged { get; set; }
+
+    private void Close()
+    {
+        IsOpen = false;
+        IsOpenChanged.InvokeAsync(false);
+    }
+
+    private string AssemblyTitle =>
+        typeof(AboutModal).Assembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title
+        ?? "WSCT GUI";
+
+    private string AssemblyProduct =>
+        typeof(AboutModal).Assembly.GetCustomAttribute<AssemblyProductAttribute>()?.Product
+        ?? "WSCT";
+
+    private string AssemblyVersion =>
+        typeof(AboutModal).Assembly.GetName().Version?.ToString()
+        ?? "6.2.1";
+
+    private string AssemblyCopyright =>
+        typeof(AboutModal).Assembly.GetCustomAttribute<AssemblyCopyrightAttribute>()?.Copyright
+        ?? "Sylvain Vernois / ENSICAEN";
+
+    private string AssemblyCompany =>
+        typeof(AboutModal).Assembly.GetCustomAttribute<AssemblyCompanyAttribute>()?.Company
+        ?? "ENSICAEN / GREYC";
+
+    private string AssemblyDescription =>
+        typeof(AboutModal).Assembly.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description
+        ?? "Extensible Graphic User Interface for using WinSCard API.";
+}

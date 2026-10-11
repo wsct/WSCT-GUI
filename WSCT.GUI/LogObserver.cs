@@ -1,6 +1,7 @@
 using WSCT.Core;
 using WSCT.Core.Events;
 using WSCT.GUI.Resources;
+using WSCT.GUI.Services;
 using WSCT.Helpers;
 using WSCT.Helpers.Linq;
 using WSCT.Stack;
@@ -9,12 +10,13 @@ using WSCT.Wrapper.Desktop.Core;
 
 namespace WSCT.GUI
 {
-    internal sealed class LogObserver
+    public sealed class LogObserver
     {
-        internal IWinSCardGui Gui;
-        private readonly Color _hightlightColor;
+        private readonly ILogService _logService;
+        private readonly ISmartCardSessionService _sessionService;
+        private readonly string _highlightColor;
 
-        private void WriteLogLine(LogLevel level, object? sender, string message)
+        private void WriteLogLine(LogLevel level, object? sender, string message, string? color = null)
         {
             string identifier = sender switch
             {
@@ -22,32 +24,18 @@ namespace WSCT.GUI
                 ICardChannelStack => "Stack",
                 ICardContextLayerObservable contextLayer => contextLayer.LayerId,
                 ICardContextStack => "Stack",
-                _ => "unknown"
+                _ => "Core"
             };
-            Gui.AppendLineToLog($"[{level,7}] [{identifier,10}] {message}{Environment.NewLine}");
+            _logService.Append(level, identifier, message, color ?? Colors.LogDefaultColor);
         }
 
-        #region >> Constructors
-
-        /// <summary>
-        /// Creates a new instance.
-        /// </summary>
-        /// <param name="gui"></param>
-        /// <param name="defaultColor"></param>
-        public LogObserver(IWinSCardGui gui, Color defaultColor)
+        public LogObserver(ILogService logService, ISmartCardSessionService sessionService, string highlightColor)
         {
-            Gui = gui;
-            _hightlightColor = defaultColor;
+            _logService = logService;
+            _sessionService = sessionService;
+            _highlightColor = highlightColor;
         }
 
-        #endregion
-
-        #region >> observe *
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="context"></param>
         public void ObserveContext(ICardContextObservable context)
         {
             context.BeforeEstablishEvent += BeforeEstablish;
@@ -61,10 +49,6 @@ namespace WSCT.GUI
             context.AfterReleaseEvent += NotifyRelease;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="channel"></param>
         public void ObserveChannel(ICardChannelObservable channel)
         {
             channel.BeforeConnectEvent += BeforeConnect;
@@ -83,328 +67,212 @@ namespace WSCT.GUI
             channel.AfterTransmitEvent += NotifyTransmit;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="monitor"></param>
         public void ObserveMonitor(StatusChangeMonitor monitor)
         {
             monitor.OnCardInsertionEvent += OnCardInsertionEvent;
             monitor.OnCardRemovalEvent += OnCardRemovalEvent;
         }
 
-        #endregion
-
-        #region >> CardChannelObservable delegates
-
         public void NotifyConnect(object? sender, AfterConnectEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
+            if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                if (eventArgs.ReturnValue == ErrorCode.Success)
-                {
-                    Gui.SetLogForeColor(Colors.LogDefaultColor);
-                    WriteLogLine(LogLevel.Info, sender, $"<=  {eventArgs.ReturnValue}");
-                    Gui.UpdateChannelStatus(ChannelStatusType.Connected);
-                }
-                else
-                {
-                    Gui.SetLogForeColor(Colors.LogErrorColor);
-                    WriteLogLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
-                    Gui.UpdateChannelStatus(ChannelStatusType.Error);
-                }
+                WriteLogLine(LogLevel.Info, sender, $"<= {eventArgs.ReturnValue}");
+                _sessionService.UpdateChannelStatus(ChannelStatusType.Connected);
+            }
+            else
+            {
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+                _sessionService.UpdateChannelStatus(ChannelStatusType.Error);
+            }
 
-                Gui.UpdateLastError(eventArgs.ReturnValue);
-            });
+            _sessionService.UpdateLastError(eventArgs.ReturnValue);
         }
 
         public void NotifyDisconnect(object? sender, AfterDisconnectEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
+            if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                if (eventArgs.ReturnValue == ErrorCode.Success)
-                {
-                    Gui.SetLogForeColor(Colors.LogDefaultColor);
-                    WriteLogLine(LogLevel.Info, sender, $"<=  {eventArgs.ReturnValue}");
-                    Gui.UpdateChannelStatus(ChannelStatusType.Disconnected);
-                }
-                else
-                {
-                    Gui.SetLogForeColor(Colors.LogErrorColor);
-                    WriteLogLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
-                    Gui.UpdateChannelStatus(ChannelStatusType.Error);
-                }
+                WriteLogLine(LogLevel.Info, sender, $"<= {eventArgs.ReturnValue}");
+                _sessionService.UpdateChannelStatus(ChannelStatusType.Disconnected);
+            }
+            else
+            {
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+                _sessionService.UpdateChannelStatus(ChannelStatusType.Error);
+            }
 
-                Gui.UpdateLastError(eventArgs.ReturnValue);
-            });
+            _sessionService.UpdateLastError(eventArgs.ReturnValue);
         }
 
         public void NotifyGetAttrib(object? sender, AfterGetAttribEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
+            if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                if (eventArgs.ReturnValue == ErrorCode.Success)
-                {
-                    Gui.SetLogForeColor(Colors.LogDefaultColor);
-                    WriteLogLine(LogLevel.Info, sender, $"<=  byte[]: [{eventArgs.Buffer.ToHexa()}]");
-                }
-                else
-                {
-                    Gui.SetLogForeColor(Colors.LogErrorColor);
-                    WriteLogLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
-                }
+                WriteLogLine(LogLevel.Info, sender, $"<= byte[]: [{eventArgs.Buffer.ToHexa()}]");
+            }
+            else
+            {
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+            }
 
-                Gui.UpdateLastError(eventArgs.ReturnValue);
-            });
+            _sessionService.UpdateLastError(eventArgs.ReturnValue);
         }
 
         public void NotifyReconnect(object? sender, AfterReconnectEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
+            if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                if (eventArgs.ReturnValue == ErrorCode.Success)
-                {
-                    Gui.SetLogForeColor(Colors.LogDefaultColor);
-                    WriteLogLine(LogLevel.Info, sender, $"<=  {eventArgs.ReturnValue}");
-                    Gui.UpdateChannelStatus(ChannelStatusType.Connected);
-                }
-                else
-                {
-                    Gui.SetLogForeColor(Colors.LogErrorColor);
-                    WriteLogLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
-                    Gui.UpdateChannelStatus(ChannelStatusType.Error);
-                }
+                WriteLogLine(LogLevel.Info, sender, $"<= {eventArgs.ReturnValue}");
+                _sessionService.UpdateChannelStatus(ChannelStatusType.Connected);
+            }
+            else
+            {
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+                _sessionService.UpdateChannelStatus(ChannelStatusType.Error);
+            }
 
-                Gui.UpdateLastError(eventArgs.ReturnValue);
-            });
+            _sessionService.UpdateLastError(eventArgs.ReturnValue);
         }
 
         public void NotifyTransmit(object? sender, AfterTransmitEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
+            if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                if (eventArgs.ReturnValue == ErrorCode.Success)
-                {
-                    Gui.SetLogForeColor(Colors.LogDefaultColor);
-                    WriteLogLine(LogLevel.Info, sender, $"<=  RAPDU: [{eventArgs.Response}]");
-                }
-                else
-                {
-                    Gui.SetLogForeColor(Colors.LogErrorColor);
-                    WriteLogLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
-                }
+                WriteLogLine(LogLevel.Info, sender, $"<= RAPDU: [{eventArgs.Response}]");
+            }
+            else
+            {
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+            }
 
-                Gui.UpdateLastError(eventArgs.ReturnValue);
-            });
+            _sessionService.UpdateLastError(eventArgs.ReturnValue);
         }
 
         public void BeforeConnect(object? sender, BeforeConnectEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
+            if (sender is not ICardChannel cardChannel)
             {
-                if (sender is not ICardChannel cardChannel)
-                {
-                    return;
-                }
+                return;
+            }
 
-                Gui.SetLogForeColor(_hightlightColor);
-                WriteLogLine(LogLevel.Info, sender, $" => Connect(\"{cardChannel.ReaderName}\",{eventArgs.ShareMode},{eventArgs.PreferedProtocol})");
-            });
+            WriteLogLine(LogLevel.Info, sender, $" => Connect(\"{cardChannel.ReaderName}\", {eventArgs.ShareMode}, {eventArgs.PreferedProtocol})", _highlightColor);
         }
 
         public void BeforeDisconnect(object? sender, BeforeDisconnectEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
-            {
-                Gui.SetLogForeColor(_hightlightColor);
-                WriteLogLine(LogLevel.Info, sender, $" => Disconnect({eventArgs.Disposition})");
-            });
+            WriteLogLine(LogLevel.Info, sender, $" => Disconnect({eventArgs.Disposition})", _highlightColor);
         }
 
         public void BeforeGetAttrib(object? sender, BeforeGetAttribEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
-            {
-                Gui.SetLogForeColor(_hightlightColor);
-                WriteLogLine(LogLevel.Info, sender, $" => GetAttrib({eventArgs.Attrib})");
-            });
+            WriteLogLine(LogLevel.Info, sender, $" => GetAttrib({eventArgs.Attrib})", _highlightColor);
         }
 
         public void BeforeReconnect(object? sender, BeforeReconnectEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
-            {
-                Gui.SetLogForeColor(_hightlightColor);
-                WriteLogLine(LogLevel.Info, sender,
-                    $" => Reconnect({eventArgs.ShareMode},{eventArgs.PreferedProtocol},{eventArgs.Initialization})");
-            });
+            WriteLogLine(LogLevel.Info, sender, $" => Reconnect({eventArgs.ShareMode}, {eventArgs.PreferedProtocol}, {eventArgs.Initialization})", _highlightColor);
         }
 
         public void BeforeTransmit(object? sender, BeforeTransmitEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
-            {
-                Gui.SetLogForeColor(_hightlightColor);
-                WriteLogLine(LogLevel.Info, sender, $" => Transmit({eventArgs.Command})");
-            });
+            WriteLogLine(LogLevel.Info, sender, $" => Transmit({eventArgs.Command})", _highlightColor);
         }
-
-        #endregion
-
-        #region >> CardContextObservable delegates
 
         private void BeforeEstablish(object? sender, BeforeEstablishEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
-            {
-                Gui.SetLogForeColor(_hightlightColor);
-                WriteLogLine(LogLevel.Info, sender, " => Establish()");
-            });
+            WriteLogLine(LogLevel.Info, sender, " => Establish()", _highlightColor);
         }
 
         private void BeforeListReaders(object? sender, BeforeListReadersEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
-            {
-                Gui.SetLogForeColor(_hightlightColor);
-                WriteLogLine(LogLevel.Info, sender, $" => ListReaders({eventArgs.Group})");
-            });
+            WriteLogLine(LogLevel.Info, sender, $" => ListReaders({eventArgs.Group})", _highlightColor);
         }
 
         private void BeforeListReaderGroups(object? sender, BeforeListReaderGroupsEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
-            {
-                Gui.SetLogForeColor(_hightlightColor);
-                WriteLogLine(LogLevel.Info, sender, " => ListReaderGroups()");
-            });
+            WriteLogLine(LogLevel.Info, sender, " => ListReaderGroups()", _highlightColor);
         }
 
         private void BeforeRelease(object? sender, BeforeReleaseEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
-            {
-                Gui.SetLogForeColor(_hightlightColor);
-                WriteLogLine(LogLevel.Info, sender, " => Release()");
-            });
+            WriteLogLine(LogLevel.Info, sender, " => Release()", _highlightColor);
         }
 
         private void NotifyEstablish(object? sender, AfterEstablishEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
+            if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                if (eventArgs.ReturnValue == ErrorCode.Success)
-                {
-                    Gui.SetLogForeColor(Colors.LogDefaultColor);
-                    WriteLogLine(LogLevel.Info, sender, $"<=  {eventArgs.ReturnValue}");
-                }
-                else
-                {
-                    Gui.SetLogForeColor(Colors.LogErrorColor);
-                    WriteLogLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
-                }
+                WriteLogLine(LogLevel.Info, sender, $"<= {eventArgs.ReturnValue}");
+            }
+            else
+            {
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+            }
 
-                Gui.UpdateLastError(eventArgs.ReturnValue);
-            });
+            _sessionService.UpdateLastError(eventArgs.ReturnValue);
         }
 
         private void NotifyListReaders(object? sender, AfterListReadersEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
+            if (sender is not ICardContext cardContext)
             {
-                if (sender is not ICardContext cardContext)
-                {
-                    return;
-                }
+                return;
+            }
 
-                if (eventArgs.ReturnValue == ErrorCode.Success)
-                {
-                    cardContext.Readers.DoForEach(
-                        r =>
-                        {
-                            Gui.SetLogForeColor(Colors.LogDefaultColor);
-                            WriteLogLine(LogLevel.Info, sender, $"<=  Reader: {r}");
-                        });
-                }
-                else
-                {
-                    Gui.SetLogForeColor(Colors.LogErrorColor);
-                    WriteLogLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
-                }
+            if (eventArgs.ReturnValue == ErrorCode.Success)
+            {
+                cardContext.Readers.DoForEach(r => WriteLogLine(LogLevel.Info, sender, $"<= Reader: {r}"));
+            }
+            else
+            {
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+            }
 
-                Gui.UpdateLastError(eventArgs.ReturnValue);
-            });
+            _sessionService.UpdateLastError(eventArgs.ReturnValue);
         }
 
         private void NotifyListReaderGroups(object? sender, AfterListReaderGroupsEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
+            if (sender is not ICardContext cardContext)
             {
-                if (sender is not ICardContext cardContext)
-                {
-                    return;
-                }
+                return;
+            }
 
-                if (eventArgs.ReturnValue == ErrorCode.Success)
-                {
-                    cardContext.Groups.DoForEach(
-                        g =>
-                        {
-                            Gui.SetLogForeColor(Colors.LogDefaultColor);
-                            WriteLogLine(LogLevel.Info, sender, $"<=  Group: {g}");
-                        });
-                }
-                else
-                {
-                    Gui.SetLogForeColor(Colors.LogErrorColor);
-                    WriteLogLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
-                }
+            if (eventArgs.ReturnValue == ErrorCode.Success)
+            {
+                cardContext.Groups.DoForEach(g => WriteLogLine(LogLevel.Info, sender, $"<= Group: {g}"));
+            }
+            else
+            {
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+            }
 
-                Gui.UpdateLastError(eventArgs.ReturnValue);
-            });
+            _sessionService.UpdateLastError(eventArgs.ReturnValue);
         }
 
         private void NotifyRelease(object? sender, AfterReleaseEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
+            if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                if (eventArgs.ReturnValue == ErrorCode.Success)
-                {
-                    Gui.SetLogForeColor(Colors.LogDefaultColor);
-                    WriteLogLine(LogLevel.Info, sender, $"<=  {eventArgs.ReturnValue}");
-                }
-                else
-                {
-                    Gui.SetLogForeColor(Colors.LogErrorColor);
-                    WriteLogLine(LogLevel.Error, sender, $"<=  {eventArgs.ReturnValue}");
-                }
+                WriteLogLine(LogLevel.Info, sender, $"<= {eventArgs.ReturnValue}");
+            }
+            else
+            {
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+            }
 
-                Gui.UpdateLastError(eventArgs.ReturnValue);
-            });
+            _sessionService.UpdateLastError(eventArgs.ReturnValue);
         }
-
-        #endregion
-
-        #region >> StatusChangeMonitor delegates
 
         private void OnCardInsertionEvent(object? sender, OnCardInsertionEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
-            {
-                Gui.SetLogForeColor(_hightlightColor);
-                WriteLogLine(LogLevel.Info, sender, $"<=  Card insertion detected on reader {eventArgs.ReaderState.ReaderName}\n");
-            });
+            WriteLogLine(LogLevel.Info, sender, $"<= Card insertion detected on reader {eventArgs.ReaderState.ReaderName}", _highlightColor);
         }
 
         private void OnCardRemovalEvent(object? sender, OnCardRemovalEventArgs eventArgs)
         {
-            Gui.InvokeOnUiThread(() =>
-            {
-                Gui.SetLogForeColor(_hightlightColor);
-                WriteLogLine(LogLevel.Info, sender, $"<=  Card removal detected on reader {eventArgs.ReaderState.ReaderName}\n");
-            });
+            WriteLogLine(LogLevel.Info, sender, $"<= Card removal detected on reader {eventArgs.ReaderState.ReaderName}", _highlightColor);
         }
-
-        #endregion
     }
 }

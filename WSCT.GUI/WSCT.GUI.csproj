@@ -1,31 +1,20 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<Version>6.2.1</Version>
 	</PropertyGroup>
 
 	<PropertyGroup>
-		<UseWindowsForms>true</UseWindowsForms>
-		<GenerateResourceUsePreserializedResources>true</GenerateResourceUsePreserializedResources>
-	</PropertyGroup>
-
-	<PropertyGroup>
 		<PackageId>WSCT.GUI</PackageId>
-		<Description>Simple but Extensible Graphic User Interface for using WinSCard API.</Description>
+		<Description>Blazor User Interface and Services for using WinSCard API.</Description>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	</PropertyGroup>
 
 	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 		<PackageReference Include="WSCT.Wrapper.Desktop" />
 	</ItemGroup>
-	<ItemGroup>
-		<Compile Update="WinSCardGui.cs" />
-		<Compile Update="WinSCardGui.designer.cs" SubType="Form" DependentUpon="WinSCardGui.cs" />
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Update="AboutWinSCardGUI.cs" />
-		<Compile Update="AboutWinSCardGUI.designer.cs" SubType="Form" DependentUpon="AboutWinSCardGUI.cs" />
-	</ItemGroup>
+
 	<ItemGroup>
 		<ProjectReference Include="..\WSCT.GUI.Common.Resources\WSCT.GUI.Common.Resources.csproj" />
 		<ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />

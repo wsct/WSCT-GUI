@@ -1,11 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+<Project Sdk="Microsoft.NET.Sdk.Razor">
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
 		<Version>5.2.3</Version>
-	</PropertyGroup>
-
-	<PropertyGroup>
-		<UseWindowsForms>true</UseWindowsForms>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -20,16 +16,13 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 		<PackageReference Include="WSCT.Core" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\WSCT.GUI.Common.Resources\WSCT.GUI.Common.Resources.csproj" />
 		<ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />
-	</ItemGroup>
-	<ItemGroup>
-		<Compile Update="Gui.cs" />
-		<Compile Update="Gui.Designer.cs" SubType="Form" DependentUpon="Gui.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<Compile Update="Resources\Lang.Designer.cs">
@@ -43,5 +36,10 @@
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>Lang.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+	</ItemGroup>
+	<ItemGroup>
+		<None Update="ISO7816\Dictionary.StatusWord.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 </Project>

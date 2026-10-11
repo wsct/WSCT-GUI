@@ -1,0 +1,238 @@
+@using WSCT.GUI.Services
+@using WSCT.Wrapper
+@inject ISmartCardSessionService SessionService
+@implements IDisposable
+
+<div class="row g-3">
+    <!-- Left Column: Context & Quick Actions -->
+    <div class="col-md-3">
+        <!-- Context Card -->
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-primary text-white py-2">
+                <i class="bi bi-cpu me-1"></i> Context
+            </div>
+            <div class="card-body">
+                <div class="mb-2">
+                    <span class="text-muted small">Status:</span>
+                    <span class="badge @(SessionService.IsContextEstablished ? "bg-success" : "bg-secondary") ms-1">
+                        @SessionService.ContextStateText
+                    </span>
+                </div>
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-primary btn-sm"
+                            @onclick="SessionService.TryEstablishContext"
+                            disabled="@SessionService.IsContextEstablished">
+                        <i class="bi bi-play-circle me-1"></i> Establish
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm"
+                            @onclick="SessionService.ReleaseContext"
+                            disabled="@(!SessionService.IsContextEstablished)">
+                        <i class="bi bi-stop-circle me-1"></i> Release
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Quick Connect Card -->
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-secondary text-white py-2">
+                <i class="bi bi-lightning-charge me-1"></i> Quick Connect
+            </div>
+            <div class="card-body d-grid gap-2">
+                <button class="btn btn-success btn-sm"
+                        @onclick="SessionService.QuickConnect"
+                        disabled="@(!SessionService.IsContextEstablished || string.IsNullOrEmpty(SessionService.SelectedReader))">
+                    <i class="bi bi-plug me-1"></i> Connect
+                </button>
+                <button class="btn btn-warning btn-sm text-dark"
+                        @onclick="SessionService.WarmReset"
+                        disabled="@(SessionService.ChannelStatus != ChannelStatusType.Connected)">
+                    <i class="bi bi-arrow-clockwise me-1"></i> Warm reset
+                </button>
+                <button class="btn btn-warning btn-sm text-dark"
+                        @onclick="SessionService.ColdReset"
+                        disabled="@(SessionService.ChannelStatus != ChannelStatusType.Connected)">
+                    <i class="bi bi-snow me-1"></i> Cold reset
+                </button>
+                <button class="btn btn-outline-danger btn-sm"
+                        @onclick="SessionService.Unpower"
+                        disabled="@(SessionService.ChannelStatus != ChannelStatusType.Connected)">
+                    <i class="bi bi-power me-1"></i> Unpower
+                </button>
+            </div>
+        </div>
+
+        <!-- Status Summary Card -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-light py-2 small fw-bold">
+                <i class="bi bi-info-circle me-1"></i> Card Information
+            </div>
+            <div class="card-body small">
+                <div class="mb-1">
+                    <span class="text-muted">Channel:</span>
+                    <span class="badge @(SessionService.ChannelStatus == ChannelStatusType.Connected ? "bg-success" : (SessionService.ChannelStatus == ChannelStatusType.Error ? "bg-danger" : "bg-secondary")) ms-1">
+                        @SessionService.ChannelStatusText
+                    </span>
+                </div>
+                <div>
+                    <span class="text-muted">Active Reader:</span>
+                    <div class="text-truncate fw-semibold" title="@SessionService.ReaderInUse">
+                        @(string.IsNullOrEmpty(SessionService.ReaderInUse) ? "(None)" : SessionService.ReaderInUse)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Card Connection & Attributes -->
+    <div class="col-md-9">
+        <!-- Card Connection Configuration -->
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-light fw-bold py-2">
+                <i class="bi bi-hdd-network me-1"></i> Card Connection Setup
+            </div>
+            <div class="card-body">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Reader Groups (@SessionService.ReaderGroups.Count)</label>
+                        <select class="form-select form-select-sm"
+                                @bind="SessionService.SelectedReaderGroup"
+                                disabled="@(!SessionService.IsContextEstablished)">
+                            @foreach (var group in SessionService.ReaderGroups)
+                            {
+                                <option value="@group">@group</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold">Readers (@SessionService.Readers.Count)</label>
+                        <select class="form-select form-select-sm"
+                                @bind="SessionService.SelectedReader"
+                                disabled="@(!SessionService.IsContextEstablished || SessionService.Readers.Count == 0)">
+                            @foreach (var reader in SessionService.Readers)
+                            {
+                                <option value="@reader">@reader</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label small fw-semibold">Share Mode</label>
+                        <select class="form-select form-select-sm"
+                                @bind="SessionService.SelectedShareMode"
+                                disabled="@(!SessionService.IsContextEstablished)">
+                            @foreach (ShareMode mode in Enum.GetValues(typeof(ShareMode)))
+                            {
+                                <option value="@mode">@mode</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label small fw-semibold">Protocol</label>
+                        <select class="form-select form-select-sm"
+                                @bind="SessionService.SelectedProtocol"
+                                disabled="@(!SessionService.IsContextEstablished)">
+                            @foreach (Protocol proto in Enum.GetValues(typeof(Protocol)))
+                            {
+                                <option value="@proto">@proto</option>
+                            }
+                        </select>
+                    </div>
+
+                    <div class="col-md-4">
+                        <label class="form-label small fw-semibold">Disposition</label>
+                        <select class="form-select form-select-sm"
+                                @bind="SessionService.SelectedDisposition"
+                                disabled="@(!SessionService.IsContextEstablished)">
+                            @foreach (Disposition disp in Enum.GetValues(typeof(Disposition)))
+                            {
+                                <option value="@disp">@disp</option>
+                            }
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-3 d-flex gap-2">
+                    <button class="btn btn-primary btn-sm"
+                            @onclick="SessionService.ChannelConnect"
+                            disabled="@(!SessionService.IsContextEstablished || string.IsNullOrEmpty(SessionService.SelectedReader))">
+                        <i class="bi bi-box-arrow-in-right me-1"></i> Connect
+                    </button>
+                    <button class="btn btn-secondary btn-sm"
+                            @onclick="SessionService.ChannelReconnect"
+                            disabled="@(SessionService.ChannelStatus != ChannelStatusType.Connected)">
+                        <i class="bi bi-arrow-repeat me-1"></i> Reconnect
+                    </button>
+                    <button class="btn btn-outline-danger btn-sm"
+                            @onclick="SessionService.ChannelDisconnect"
+                            disabled="@(SessionService.ChannelStatus != ChannelStatusType.Connected)">
+                        <i class="bi bi-x-circle me-1"></i> Disconnect
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card Attributes Card -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-light fw-bold py-2">
+                <i class="bi bi-card-checklist me-1"></i> Card Attributes
+            </div>
+            <div class="card-body">
+                <div class="row g-2 align-items-end mb-3">
+                    <div class="col-md-8">
+                        <label class="form-label small fw-semibold">Select Attribute</label>
+                        <select class="form-select form-select-sm"
+                                @bind="SessionService.SelectedAttribute"
+                                disabled="@(SessionService.ChannelStatus != ChannelStatusType.Connected)">
+                            @foreach (Attrib attr in Enum.GetValues(typeof(Attrib)))
+                            {
+                                <option value="@attr">@attr</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-outline-primary btn-sm w-100"
+                                @onclick="SessionService.QueryAttribute"
+                                disabled="@(SessionService.ChannelStatus != ChannelStatusType.Connected)">
+                            <i class="bi bi-search me-1"></i> Get attribute
+                        </button>
+                    </div>
+                </div>
+
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">Raw Attribute (Hex)</label>
+                        <textarea class="form-control form-control-sm font-monospace bg-light"
+                                  rows="3" readonly
+                                  placeholder="Hex data will appear here...">@SessionService.RawAttributeHex</textarea>
+                    </div>
+                    <div class="col-md-6">
+                        <label class="form-label small fw-semibold text-muted">String Interpretation (ASCII)</label>
+                        <textarea class="form-control form-control-sm font-monospace bg-light"
+                                  rows="3" readonly
+                                  placeholder="ASCII text will appear here...">@SessionService.StringAttribute</textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    protected override void OnInitialized()
+    {
+        SessionService.OnStateChanged += HandleStateChanged;
+    }
+
+    private void HandleStateChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    public void Dispose()
+    {
+        SessionService.OnStateChanged -= HandleStateChanged;
+    }
+}

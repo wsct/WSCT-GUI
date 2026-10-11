@@ -1,9 +1,13 @@
-﻿namespace WSCT.GUI.Common.Resources
+namespace WSCT.GUI.Common.Resources
 {
-    public class Colors
+    public static class Colors
     {
-        public static readonly Color StatusSuccess = Color.FromArgb(165, 214, 167);
-        public static readonly Color StatusError = Color.FromArgb(255, 171, 145);
-        public static readonly Color StatusUndefined = Color.FromArgb(255, 245, 157);
+        public const string StatusSuccessHex = "#a5d6a7";
+        public const string StatusErrorHex = "#ffab91";
+        public const string StatusUndefinedHex = "#fff59d";
+
+        public const string StatusSuccessBadgeClass = "bg-success";
+        public const string StatusErrorBadgeClass = "bg-danger";
+        public const string StatusUndefinedBadgeClass = "bg-warning text-dark";
     }
 }

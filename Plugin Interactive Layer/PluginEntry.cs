@@ -1,13 +1,14 @@
-﻿using WSCT.GUI.Plugins.LayerInteractive.Resources;
+using WSCT.GUI.Plugins.LayerInteractive.Resources;
 
 namespace WSCT.GUI.Plugins.LayerInteractive
 {
     /// <inheritdoc />
     /// <summary>
-    /// Plugin Entry point dedicated to create and show associated GUI.
+    /// Plugin Entry point providing the Interactive Layer controller view.
     /// </summary>
     [PluginEntry(Name = nameof(Lang.ControllerPluginName), Description = nameof(Lang.ControllerPluginDescription), ResourceType = typeof(Lang))]
-    public class PluginEntry : GenericPluginEntry<Gui>
+    public class PluginEntry : GenericPluginEntry<InteractiveLayerGui>
     {
+        public override string Icon => "bi bi-sliders";
     }
 }

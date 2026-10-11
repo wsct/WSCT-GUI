@@ -1,12 +1,12 @@
-﻿namespace WSCT.GUI.Resources
+namespace WSCT.GUI.Resources
 {
     /// <summary>
-    /// Color resources.
+    /// Color resources for logs and UI.
     /// </summary>
-    internal abstract class Colors
+    public static class Colors
     {
-        public static readonly Color LogDefaultColor = Color.FromArgb(55, 71, 79);
-        public static readonly Color LogErrorColor = Color.FromArgb(216, 67, 21);
-        public static readonly Color LogHighlightColor = Color.FromArgb(21, 101, 192);
+        public const string LogDefaultColor = "#37474f";
+        public const string LogErrorColor = "#d84315";
+        public const string LogHighlightColor = "#1565c0";
     }
 }

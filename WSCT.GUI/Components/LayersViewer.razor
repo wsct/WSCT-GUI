@@ -1,0 +1,157 @@
+@using System.Reflection
+@using WSCT.GUI.Services
+@using WSCT.Stack
+@inject ISmartCardSessionService SessionService
+
+<div class="row g-3">
+    <!-- Channel Layers List -->
+    <div class="col-md-3">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-light fw-bold py-2 small">
+                <i class="bi bi-layers me-1"></i> Channel Layers
+            </div>
+            <div class="list-group list-group-flush" style="max-height: 230px; overflow-y: auto;">
+                @if (SessionService.ChannelLayerDescriptions?.LayerDescriptions.Count > 0)
+                {
+                    @foreach (var layer in SessionService.ChannelLayerDescriptions.LayerDescriptions)
+                    {
+                        var isSel = ReferenceEquals(layer, _selectedLayer);
+                        <button type="button"
+                                class="list-group-item list-group-item-action @(isSel ? "active" : "") py-2"
+                                @onclick="() => SelectLayer(layer)">
+                            <div class="fw-semibold">@layer.Name</div>
+                            <small class="text-truncate d-block @(isSel ? "text-light" : "text-muted")">@layer.ClassName</small>
+                        </button>
+                    }
+                }
+                else
+                {
+                    <div class="p-2 text-muted small text-center">No channel layers configured.</div>
+                }
+            </div>
+        </div>
+
+        <!-- Context Layers List -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-light fw-bold py-2 small">
+                <i class="bi bi-stack me-1"></i> Context Layers
+            </div>
+            <div class="list-group list-group-flush" style="max-height: 230px; overflow-y: auto;">
+                @if (SessionService.ContextLayerDescriptions?.LayerDescriptions.Count > 0)
+                {
+                    @foreach (var layer in SessionService.ContextLayerDescriptions.LayerDescriptions)
+                    {
+                        var isSel = ReferenceEquals(layer, _selectedLayer);
+                        <button type="button"
+                                class="list-group-item list-group-item-action @(isSel ? "active" : "") py-2"
+                                @onclick="() => SelectLayer(layer)">
+                            <div class="fw-semibold">@layer.Name</div>
+                            <small class="text-truncate d-block @(isSel ? "text-light" : "text-muted")">@layer.ClassName</small>
+                        </button>
+                    }
+                }
+                else
+                {
+                    <div class="p-2 text-muted small text-center">No context layers configured.</div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Layer Details -->
+    <div class="col-md-9">
+        @if (_selectedLayer != null)
+        {
+            <div class="card shadow-sm h-100">
+                <div class="card-header bg-light fw-bold py-2">
+                    <i class="bi bi-gear me-1"></i> Layer Description: @_selectedLayer.Name
+                </div>
+                <div class="card-body">
+                    <h5 class="text-primary mb-3">@_selectedLayer.Name</h5>
+                    <dl class="row small mb-4">
+                        <dt class="col-sm-3">Class Name:</dt>
+                        <dd class="col-sm-9 font-monospace">@_selectedLayer.ClassName</dd>
+
+                        <dt class="col-sm-3">DLL Name:</dt>
+                        <dd class="col-sm-9 font-monospace">@Path.GetFileName((string)(_selectedLayer.DllName ?? ""))</dd>
+
+                        <dt class="col-sm-3">Path to DLL:</dt>
+                        <dd class="col-sm-9 font-monospace text-truncate">@_selectedLayer.PathToDll</dd>
+                    </dl>
+
+                    <h6 class="border-bottom pb-1 fw-bold text-secondary">Assembly Reflection Info</h6>
+                    <dl class="row small mb-0">
+                        <dt class="col-sm-3">Assembly Name:</dt>
+                        <dd class="col-sm-9 font-monospace">@_layerAssemblyName</dd>
+
+                        <dt class="col-sm-3">Version:</dt>
+                        <dd class="col-sm-9 font-monospace">@_layerAssemblyVersion</dd>
+
+                        <dt class="col-sm-3">Description:</dt>
+                        <dd class="col-sm-9 text-muted">@_layerAssemblyDescription</dd>
+                    </dl>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="card shadow-sm h-100 d-flex align-items-center justify-content-center p-5 text-muted">
+                <i class="bi bi-layers display-4 mb-2"></i>
+                <div>Select a channel or context layer to inspect details.</div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private dynamic? _selectedLayer;
+    private string _layerAssemblyName = string.Empty;
+    private string _layerAssemblyVersion = string.Empty;
+    private string _layerAssemblyDescription = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        var first = SessionService.ChannelLayerDescriptions?.LayerDescriptions.FirstOrDefault();
+        if (first != null)
+        {
+            SelectLayer(first);
+        }
+    }
+
+    private void SelectLayer(dynamic layer)
+    {
+        _selectedLayer = layer;
+        try
+        {
+            string dll = layer.DllName ?? "";
+            string path = layer.PathToDll ?? "";
+            string fullPath = Path.IsPathRooted(dll) && File.Exists(dll)
+                ? dll
+                : (!string.IsNullOrEmpty(path) && File.Exists(Path.Combine(path, dll))
+                    ? Path.Combine(path, dll)
+                    : Path.Combine(AppDomain.CurrentDomain.BaseDirectory, Path.GetFileName(dll)));
+
+            if (File.Exists(fullPath))
+            {
+                var assembly = Assembly.LoadFrom(fullPath);
+                var name = assembly.GetName();
+                _layerAssemblyName = name.Name ?? "";
+                _layerAssemblyVersion = name.Version?.ToString() ?? "";
+                var desc = assembly.GetCustomAttribute<AssemblyDescriptionAttribute>();
+                _layerAssemblyDescription = desc?.Description ?? "";
+            }
+            else
+            {
+                _layerAssemblyName = Path.GetFileName(dll);
+                _layerAssemblyVersion = "N/A";
+                _layerAssemblyDescription = "DLL file not found on disk.";
+            }
+        }
+        catch (Exception ex)
+        {
+            _layerAssemblyName = "Error";
+            _layerAssemblyVersion = ex.Message;
+            _layerAssemblyDescription = string.Empty;
+        }
+    }
+}

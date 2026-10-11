@@ -1,0 +1,188 @@
+@page "/"
+@rendermode InteractiveServer
+@inject ISmartCardSessionService SessionService
+
+<div class="container-fluid px-0">
+    <!-- Workbench Navigation Tabs -->
+    <div class="d-flex justify-content-between align-items-center border-bottom mb-3">
+        <ul class="nav nav-tabs border-bottom-0 flex-nowrap overflow-auto" role="tablist">
+            <!-- Fixed Tab: Workbench -->
+            <li class="nav-item">
+                <button class="nav-link d-flex align-items-center gap-1 @(_activeTabId == "workbench" ? "active" : "")"
+                        @onclick='() => SelectTab("workbench")'>
+                    <i class="bi bi-sliders text-primary"></i>
+                    <span>Workbench</span>
+                </button>
+            </li>
+
+            <!-- Fixed Tab: Logs -->
+            <li class="nav-item">
+                <button class="nav-link d-flex align-items-center gap-1 @(_activeTabId == "logs" ? "active" : "")"
+                        @onclick='() => SelectTab("logs")'>
+                    <i class="bi bi-terminal text-secondary"></i>
+                    <span>Logs</span>
+                </button>
+            </li>
+
+            <!-- Fixed Tab: Layers -->
+            <li class="nav-item">
+                <button class="nav-link d-flex align-items-center gap-1 @(_activeTabId == "layers" ? "active" : "")"
+                        @onclick='() => SelectTab("layers")'>
+                    <i class="bi bi-stack text-info"></i>
+                    <span>Layers</span>
+                </button>
+            </li>
+
+            <!-- Fixed Tab: Plugins -->
+            <li class="nav-item">
+                <button class="nav-link d-flex align-items-center gap-1 @(_activeTabId == "plugins" ? "active" : "")"
+                        @onclick='() => SelectTab("plugins")'>
+                    <i class="bi bi-puzzle text-warning"></i>
+                    <span>Plugins</span>
+                    @if (SessionService.DiscoveredPlugins.Count > 0)
+                    {
+                        <span class="badge bg-secondary ms-1">@SessionService.DiscoveredPlugins.Count</span>
+                    }
+                </button>
+            </li>
+
+            <!-- Dynamic Plugin Tabs -->
+            @foreach (var tab in _openPluginTabs)
+            {
+                var isTabActive = _activeTabId == tab.Id;
+                <li class="nav-item">
+                    <button class="nav-link d-flex align-items-center gap-1 @(isTabActive ? "active" : "")"
+                            @onclick="() => SelectTab(tab.Id)">
+                        <i class="@tab.Icon text-success"></i>
+                        <span>@tab.Title</span>
+                        <span class="tab-close-btn"
+                              @onclick:stopPropagation="true"
+                              @onclick="() => CloseTab(tab)"
+                              title="Close tab">
+                            &times;
+                        </span>
+                    </button>
+                </li>
+            }
+        </ul>
+
+        <!-- Quick Plugins Dropdown -->
+        @if (SessionService.DiscoveredPlugins.Count > 0)
+        {
+            <div class="dropdown me-2">
+                <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <i class="bi bi-plus-circle me-1"></i> Open Plugin
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+                    @foreach (var plugin in SessionService.DiscoveredPlugins)
+                    {
+                        <li>
+                            <button class="dropdown-item small" type="button" @onclick="() => OpenPluginTab(plugin)">
+                                <i class="bi bi-box-arrow-up-right me-2 text-primary"></i>@plugin.Attribute.Name
+                            </button>
+                        </li>
+                    }
+                </ul>
+            </div>
+        }
+    </div>
+
+    <!-- Tab Contents -->
+    <div>
+        <!-- Workbench Tab Content -->
+        <div class="@(_activeTabId == "workbench" ? "d-block" : "d-none")">
+            <CardWorkbench />
+        </div>
+
+        <!-- Logs Tab Content -->
+        <div class="@(_activeTabId == "logs" ? "d-block" : "d-none")">
+            <LogViewer />
+        </div>
+
+        <!-- Layers Tab Content -->
+        <div class="@(_activeTabId == "layers" ? "d-block" : "d-none")">
+            <LayersViewer />
+        </div>
+
+        <!-- Plugins Tab Content -->
+        <div class="@(_activeTabId == "plugins" ? "d-block" : "d-none")">
+            <PluginsViewer OnOpenPlugin="OpenPluginTab" />
+        </div>
+
+        <!-- Dynamic Tabs Content -->
+        @foreach (var tab in _openPluginTabs)
+        {
+            <div class="@(_activeTabId == tab.Id ? "d-block" : "d-none")">
+                <DynamicComponent Type="@tab.ComponentType" />
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    private string _activeTabId = "workbench";
+    private readonly List<PluginTabItem> _openPluginTabs = [];
+
+    private class PluginTabItem
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public string Icon { get; set; } = "bi bi-puzzle";
+        public Type ComponentType { get; set; } = null!;
+    }
+
+    private void SelectTab(string id)
+    {
+        _activeTabId = id;
+    }
+
+    private void OpenPluginTab(PluginInfo pluginInfo)
+    {
+        var existing = _openPluginTabs.FirstOrDefault(t => t.Id == pluginInfo.Type.FullName);
+        if (existing != null)
+        {
+            _activeTabId = existing.Id;
+            return;
+        }
+
+        try
+        {
+            var instance = pluginInfo.CreateInstance();
+            if (instance?.ComponentType != null)
+            {
+                var tab = new PluginTabItem
+                {
+                    Id = pluginInfo.Type.FullName ?? Guid.NewGuid().ToString(),
+                    Title = instance.Name,
+                    Icon = instance.Icon,
+                    ComponentType = instance.ComponentType
+                };
+                _openPluginTabs.Add(tab);
+                _activeTabId = tab.Id;
+            }
+        }
+        catch (Exception)
+        {
+            // If plugin fails to instantiate, stay on plugins page
+        }
+    }
+
+    private void CloseTab(PluginTabItem tab)
+    {
+        int index = _openPluginTabs.IndexOf(tab);
+        _openPluginTabs.Remove(tab);
+
+        if (_activeTabId == tab.Id)
+        {
+            if (_openPluginTabs.Count > 0)
+            {
+                int newIndex = Math.Min(index, _openPluginTabs.Count - 1);
+                _activeTabId = _openPluginTabs[newIndex].Id;
+            }
+            else
+            {
+                _activeTabId = "workbench";
+            }
+        }
+    }
+}

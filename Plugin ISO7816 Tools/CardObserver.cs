@@ -1,58 +1,43 @@
 using WSCT.Core;
 using WSCT.Core.Events;
+using WSCT.GUI.Plugins.ISO7816Tools.Services;
 using WSCT.ISO7816;
 using WSCT.Wrapper;
 
 namespace WSCT.GUI.Plugins.ISO7816Tools
 {
-    /// <summary>
-    /// Creates a new instance.
-    /// </summary>
-    /// <param name="gui"></param>
-    internal sealed class CardObserver(IGui gui)
+    internal sealed class CardObserver
     {
-        private readonly IGui _gui = gui;
+        private readonly Iso7816SessionService _service;
 
-        #region >> Constructors
+        public CardObserver(Iso7816SessionService service)
+        {
+            _service = service;
+        }
 
-        #endregion
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="channel"></param>
         public void ObserveChannel(ICardChannelObservable channel)
         {
             channel.BeforeTransmitEvent += BeforeTransmit;
             channel.AfterTransmitEvent += NotifyTransmit;
         }
 
-        #region >> CardChannelObservable delegates
-
         private void NotifyTransmit(object? sender, AfterTransmitEventArgs eventArgs)
         {
-            _gui.InvokeOnUiThread(() =>
+            if (eventArgs.ReturnValue == ErrorCode.Success)
             {
-                if (eventArgs.ReturnValue == ErrorCode.Success)
-                {
-                    _gui.UpdateResponseApdu(eventArgs.Response);
-                    _gui.UpdateStatusWord((ResponseAPDU)eventArgs.Response);
-                    _gui.UpdateHistoric(eventArgs.Command, eventArgs.Response);
-                }
-                else
-                {
-                    _gui.UpdateResponseApdu(null);
-                    _gui.UpdateStatusWord(null);
-                    _gui.UpdateHistoric(eventArgs.Command, null);
-                }
-            });
+                _service.UpdateResponse(eventArgs.Response);
+                _service.AddToHistory(eventArgs.Command, eventArgs.Response);
+            }
+            else
+            {
+                _service.UpdateResponse(null);
+                _service.AddToHistory(eventArgs.Command, null);
+            }
         }
 
         private void BeforeTransmit(object? sender, BeforeTransmitEventArgs eventArgs)
         {
-            _gui.InvokeOnUiThread(() => _gui.UpdateCommandApdu(eventArgs.Command));
+            _service.UpdateCommand(eventArgs.Command);
         }
-
-        #endregion
     }
 }

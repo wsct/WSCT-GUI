@@ -1,0 +1,558 @@
+@using System.Globalization
+@using WSCT.Core.APDU
+@using WSCT.GUI.Plugins.ISO7816Tools.Services
+@using WSCT.Helpers
+@using WSCT.ISO7816
+@using WSCT.ISO7816.Commands
+@using WSCT.Stack
+@inject Iso7816SessionService SessionService
+@implements IDisposable
+
+<div class="row g-3">
+    <!-- Left Column: Command Builders & Sub-Tabs -->
+    <div class="col-lg-7">
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-light py-2">
+                <ul class="nav nav-tabs card-header-tabs" role="tablist">
+                    <li class="nav-item">
+                        <button class="nav-link @(_activeSubTab == "select" ? "active fw-bold" : "")"
+                                @onclick='() => _activeSubTab = "select"'>
+                            SELECT
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link @(_activeSubTab == "getresponse" ? "active fw-bold" : "")"
+                                @onclick='() => _activeSubTab = "getresponse"'>
+                            GET RESPONSE
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link @(_activeSubTab == "record" ? "active fw-bold" : "")"
+                                @onclick='() => _activeSubTab = "record"'>
+                            * RECORD
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link @(_activeSubTab == "binary" ? "active fw-bold" : "")"
+                                @onclick='() => _activeSubTab = "binary"'>
+                            * BINARY
+                        </button>
+                    </li>
+                    <li class="nav-item">
+                        <button class="nav-link @(_activeSubTab == "observer" ? "active fw-bold" : "")"
+                                @onclick='() => _activeSubTab = "observer"'>
+                            Card Observer
+                        </button>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="card-body">
+                @if (_activeSubTab == "select")
+                {
+                    <h6 class="fw-bold text-primary mb-3">SELECT FILE Command</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">P1: Selection Mode</label>
+                            <select class="form-select form-select-sm" @bind="_selectP1">
+                                @foreach (SelectCommand.SelectionMode mode in Enum.GetValues(typeof(SelectCommand.SelectionMode)))
+                                {
+                                    <option value="@mode">@mode</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">P2: File Occurrence</label>
+                            <select class="form-select form-select-sm" @bind="_selectOccurrence">
+                                @foreach (SelectCommand.FileOccurrence occ in Enum.GetValues(typeof(SelectCommand.FileOccurrence)))
+                                {
+                                    <option value="@occ">@occ</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">P2: File Control Info (FCI)</label>
+                            <select class="form-select form-select-sm" @bind="_selectFci">
+                                @foreach (SelectCommand.FileControlInformation fci in Enum.GetValues(typeof(SelectCommand.FileControlInformation)))
+                                {
+                                    <option value="@fci">@fci</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Le [hex]</label>
+                            <input type="text" class="form-control form-control-sm font-monospace" placeholder="e.g. 00" @bind="_selectLe" />
+                        </div>
+                        <div class="col-12">
+                            <label class="form-label small fw-semibold">UDC (Data / AID / File ID) [hex]</label>
+                            <textarea class="form-control form-control-sm font-monospace" rows="2" placeholder="e.g. 3F00 or A0000000041010" @bind="_selectUdc"></textarea>
+                        </div>
+                        <div class="col-12 text-end">
+                            <button class="btn btn-primary btn-sm px-4" @onclick="ExecuteSelect" disabled="@(!SharedData.IsValidChannel)">
+                                <i class="bi bi-play-fill me-1"></i> Execute SELECT
+                            </button>
+                        </div>
+                    </div>
+                }
+                else if (_activeSubTab == "getresponse")
+                {
+                    <h6 class="fw-bold text-primary mb-3">GET RESPONSE Command</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Le (Length to retrieve) [hex]</label>
+                            <input type="text" class="form-control form-control-sm font-monospace" placeholder="e.g. 10" @bind="_getResponseLe" />
+                        </div>
+                        <div class="col-12 text-end">
+                            <button class="btn btn-primary btn-sm px-4" @onclick="ExecuteGetResponse" disabled="@(!SharedData.IsValidChannel)">
+                                <i class="bi bi-play-fill me-1"></i> Execute GET RESPONSE
+                            </button>
+                        </div>
+                    </div>
+                }
+                else if (_activeSubTab == "record")
+                {
+                    <h6 class="fw-bold text-primary mb-3">RECORD Commands</h6>
+                    <ul class="nav nav-pills mb-3" role="tablist">
+                        <li class="nav-item">
+                            <button class="nav-link nav-link-sm py-1 px-3 @(_activeRecordSubTab == "read" ? "active" : "")"
+                                    @onclick='() => _activeRecordSubTab = "read"'>Read Record</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link nav-link-sm py-1 px-3 @(_activeRecordSubTab == "write" ? "active" : "")"
+                                    @onclick='() => _activeRecordSubTab = "write"'>Write Record</button>
+                        </li>
+                        <li class="nav-item">
+                            <button class="nav-link nav-link-sm py-1 px-3 @(_activeRecordSubTab == "append" ? "active" : "")"
+                                    @onclick='() => _activeRecordSubTab = "append"'>Append Record</button>
+                        </li>
+                    </ul>
+
+                    @if (_activeRecordSubTab == "read")
+                    {
+                        <div class="row g-2">
+                            <div class="col-md-3">
+                                <label class="form-label small fw-semibold">P1 (Record N°)</label>
+                                <input type="text" class="form-control form-control-sm font-monospace" placeholder="01" @bind="_readRecordP1" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-semibold">SFI (5-bit) [hex]</label>
+                                <input type="text" class="form-control form-control-sm font-monospace" placeholder="01" @bind="_readRecordSfi" />
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-semibold">Search Mode</label>
+                                <select class="form-select form-select-sm" @bind="_readRecordSearchMode">
+                                    @foreach (ReadRecordCommand.SearchMode sm in Enum.GetValues(typeof(ReadRecordCommand.SearchMode)))
+                                    {
+                                        <option value="@sm">@sm</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-3">
+                                <label class="form-label small fw-semibold">Le [hex]</label>
+                                <input type="text" class="form-control form-control-sm font-monospace" placeholder="00" @bind="_readRecordLe" />
+                            </div>
+                            <div class="col-12 text-end mt-3">
+                                <button class="btn btn-primary btn-sm px-4" @onclick="ExecuteReadRecord" disabled="@(!SharedData.IsValidChannel)">
+                                    <i class="bi bi-play-fill me-1"></i> Execute READ RECORD
+                                </button>
+                            </div>
+                        </div>
+                    }
+                    else if (_activeRecordSubTab == "write")
+                    {
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">Target Type</label>
+                                <select class="form-select form-select-sm" @bind="_writeRecordTarget">
+                                    @foreach (WriteRecordCommand.TargetType tt in Enum.GetValues(typeof(WriteRecordCommand.TargetType)))
+                                    {
+                                        <option value="@tt">@tt</option>
+                                    }
+                                </select>
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">P1 (Record N°)</label>
+                                <input type="text" class="form-control form-control-sm font-monospace" placeholder="01" @bind="_writeRecordP1" />
+                            </div>
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">SFI [hex]</label>
+                                <input type="text" class="form-control form-control-sm font-monospace" placeholder="01" @bind="_writeRecordSfi" />
+                            </div>
+                            <div class="col-12">
+                                <label class="form-label small fw-semibold">UDC (Record Data) [hex]</label>
+                                <textarea class="form-control form-control-sm font-monospace" rows="2" @bind="_writeRecordUdc"></textarea>
+                            </div>
+                            <div class="col-12 text-end mt-3">
+                                <button class="btn btn-primary btn-sm px-4" @onclick="ExecuteWriteRecord" disabled="@(!SharedData.IsValidChannel)">
+                                    <i class="bi bi-play-fill me-1"></i> Execute WRITE RECORD
+                                </button>
+                            </div>
+                        </div>
+                    }
+                    else if (_activeRecordSubTab == "append")
+                    {
+                        <div class="row g-2">
+                            <div class="col-md-4">
+                                <label class="form-label small fw-semibold">SFI [hex]</label>
+                                <input type="text" class="form-control form-control-sm font-monospace" placeholder="01" @bind="_appendRecordSfi" />
+                            </div>
+                            <div class="col-md-8">
+                                <label class="form-label small fw-semibold">UDC (Record Data) [hex]</label>
+                                <textarea class="form-control form-control-sm font-monospace" rows="2" @bind="_appendRecordUdc"></textarea>
+                            </div>
+                            <div class="col-12 text-end mt-3">
+                                <button class="btn btn-primary btn-sm px-4" @onclick="ExecuteAppendRecord" disabled="@(!SharedData.IsValidChannel)">
+                                    <i class="bi bi-play-fill me-1"></i> Execute APPEND RECORD
+                                </button>
+                            </div>
+                        </div>
+                    }
+                }
+                else if (_activeSubTab == "binary")
+                {
+                    <h6 class="fw-bold text-primary mb-3">READ BINARY Command</h6>
+                    <div class="row g-3">
+                        <div class="col-md-6">
+                            <label class="form-label small fw-semibold">Le [hex]</label>
+                            <input type="text" class="form-control form-control-sm font-monospace" placeholder="e.g. 10" @bind="_readBinaryLe" />
+                        </div>
+                        <div class="col-12 text-end">
+                            <button class="btn btn-primary btn-sm px-4" @onclick="ExecuteReadBinary" disabled="@(!SharedData.IsValidChannel)">
+                                <i class="bi bi-play-fill me-1"></i> Execute READ BINARY
+                            </button>
+                        </div>
+                    </div>
+                }
+                else if (_activeSubTab == "observer")
+                {
+                    <h6 class="fw-bold text-primary mb-3">Card Channel Observer</h6>
+                    <p class="small text-muted">Attach or re-attach the ISO 7816 observer on the top observable channel layer.</p>
+                    <div class="d-flex gap-2">
+                        <button class="btn btn-outline-success btn-sm" @onclick="AttachObserver" disabled="@(!SharedData.IsValidChannel)">
+                            <i class="bi bi-link-45deg me-1"></i> Attach Observer
+                        </button>
+                    </div>
+                }
+            </div>
+        </div>
+
+        <!-- Commands Historic List -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-light d-flex justify-content-between align-items-center py-2 small fw-bold">
+                <span><i class="bi bi-clock-history me-1"></i> Commands History (@SessionService.History.Count)</span>
+                @if (SessionService.History.Count > 0)
+                {
+                    <span class="small text-muted">Click row to inspect exchange</span>
+                }
+            </div>
+            <div class="table-responsive" style="max-height: 250px; overflow-y: auto;">
+                <table class="table table-hover table-sm font-monospace small mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th style="width: 50px;">N°</th>
+                            <th>Command (C-APDU)</th>
+                            <th>Response (R-APDU)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if (SessionService.History.Count == 0)
+                        {
+                            <tr><td colspan="3" class="text-center text-muted py-3">No command exchanges recorded yet.</td></tr>
+                        }
+                        else
+                        {
+                            @foreach (var item in SessionService.History)
+                            {
+                                <tr style="cursor: pointer;" @onclick="() => LoadFromHistory(item)">
+                                    <td class="fw-bold text-secondary">@item.Index</td>
+                                    <td class="text-primary text-truncate" style="max-width: 250px;">@item.CommandString</td>
+                                    <td class="text-truncate" style="max-width: 200px;">@item.ResponseString</td>
+                                </tr>
+                            }
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Column: Raw C-APDU & R-APDU Inspector -->
+    <div class="col-lg-5">
+        <!-- Raw Command APDU Panel -->
+        <div class="card shadow-sm mb-3">
+            <div class="card-header bg-dark text-white py-2 small fw-bold d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-terminal me-1"></i> Command APDU (C-APDU)</span>
+                <div class="form-check form-switch mb-0">
+                    <input class="form-check-input" type="checkbox" id="lcAuto" @bind="_lcAuto" />
+                    <label class="form-check-label text-light small" for="lcAuto">Lc Auto</label>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row g-2 mb-2">
+                    <div class="col-3">
+                        <label class="form-label small fw-bold mb-0">CLA</label>
+                        <input type="text" class="form-control form-control-sm font-monospace text-center @(IsValidHexByte(_cla) ? "" : "is-invalid")"
+                               maxlength="2" @bind="_cla" />
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label small fw-bold mb-0">INS</label>
+                        <input type="text" class="form-control form-control-sm font-monospace text-center @(IsValidHexByte(_ins) ? "" : "is-invalid")"
+                               maxlength="2" @bind="_ins" />
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label small fw-bold mb-0">P1</label>
+                        <input type="text" class="form-control form-control-sm font-monospace text-center @(IsValidHexByte(_p1) ? "" : "is-invalid")"
+                               maxlength="2" @bind="_p1" />
+                    </div>
+                    <div class="col-3">
+                        <label class="form-label small fw-bold mb-0">P2</label>
+                        <input type="text" class="form-control form-control-sm font-monospace text-center @(IsValidHexByte(_p2) ? "" : "is-invalid")"
+                               maxlength="2" @bind="_p2" />
+                    </div>
+                </div>
+
+                <div class="row g-2 mb-2">
+                    <div class="col-6">
+                        <label class="form-label small fw-semibold mb-0">Lc (Length)</label>
+                        <input type="text" class="form-control form-control-sm font-monospace"
+                               readonly="@_lcAuto" @bind="_lc" />
+                    </div>
+                    <div class="col-6">
+                        <label class="form-label small fw-semibold mb-0">Le (Expected)</label>
+                        <input type="text" class="form-control form-control-sm font-monospace"
+                               placeholder="e.g. 00" @bind="_le" />
+                    </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold mb-0">UDC (Data Payload) [hex]</label>
+                    <textarea class="form-control form-control-sm font-monospace" rows="2"
+                              placeholder="e.g. A0000000041010"
+                              @bind="_udc"
+                              @bind:after="OnUdcChanged"></textarea>
+                </div>
+
+                <button class="btn btn-primary btn-sm w-100" @onclick="SendRawCapdu" disabled="@(!SharedData.IsValidChannel)">
+                    <i class="bi bi-send me-1"></i> Send C-APDU
+                </button>
+            </div>
+        </div>
+
+        <!-- Response APDU Panel -->
+        <div class="card shadow-sm">
+            <div class="card-header bg-light py-2 small fw-bold">
+                <i class="bi bi-arrow-return-left me-1"></i> Response APDU (R-APDU)
+            </div>
+            <div class="card-body">
+                <div class="mb-3">
+                    <label class="form-label small fw-semibold text-muted mb-0">Response Data (Hex)</label>
+                    <textarea class="form-control form-control-sm font-monospace bg-light" rows="3" readonly>@(SessionService.CurrentResponse?.ToString() ?? "")</textarea>
+                </div>
+
+                <div>
+                    <label class="form-label small fw-semibold text-muted mb-1 d-block">Status Word</label>
+                    @if (!string.IsNullOrEmpty(SessionService.StatusWordText))
+                    {
+                        <div class="badge @SessionService.StatusWordBadgeClass p-2 text-wrap w-100 text-start font-monospace fs-6">
+                            @SessionService.StatusWordText
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="badge bg-secondary p-2 w-100 text-start font-monospace">
+                            (No status word received)
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string _activeSubTab = "select";
+    private string _activeRecordSubTab = "read";
+
+    // Raw C-APDU fields
+    private string _cla = "00";
+    private string _ins = "A4";
+    private string _p1 = "04";
+    private string _p2 = "00";
+    private string _lc = string.Empty;
+    private string _udc = string.Empty;
+    private string _le = string.Empty;
+    private bool _lcAuto = true;
+
+    // SELECT fields
+    private SelectCommand.SelectionMode _selectP1 = SelectCommand.SelectionMode.SelectDFName;
+    private SelectCommand.FileOccurrence _selectOccurrence = SelectCommand.FileOccurrence.FirstOrOnly;
+    private SelectCommand.FileControlInformation _selectFci = SelectCommand.FileControlInformation.ReturnFci;
+    private string _selectUdc = string.Empty;
+    private string _selectLe = string.Empty;
+
+    // GET RESPONSE
+    private string _getResponseLe = "00";
+
+    // READ RECORD
+    private string _readRecordP1 = "01";
+    private string _readRecordSfi = "01";
+    private ReadRecordCommand.SearchMode _readRecordSearchMode = ReadRecordCommand.SearchMode.ReadRecordP1;
+    private string _readRecordLe = "00";
+
+    // WRITE RECORD
+    private WriteRecordCommand.TargetType _writeRecordTarget = WriteRecordCommand.TargetType.RecordNumberInP1;
+    private string _writeRecordP1 = "01";
+    private string _writeRecordSfi = "01";
+    private string _writeRecordUdc = string.Empty;
+
+    // APPEND RECORD
+    private string _appendRecordSfi = "01";
+    private string _appendRecordUdc = string.Empty;
+
+    // READ BINARY
+    private string _readBinaryLe = "00";
+
+    protected override void OnInitialized()
+    {
+        SessionService.OnStateChanged += HandleStateChanged;
+    }
+
+    private void HandleStateChanged()
+    {
+        InvokeAsync(StateHasChanged);
+    }
+
+    private void OnUdcChanged()
+    {
+        if (_lcAuto)
+        {
+            try
+            {
+                var bytes = _udc.FromHexa();
+                _lc = bytes.Length > 0 ? $"{bytes.Length:X2}" : string.Empty;
+            }
+            catch
+            {
+                _lc = string.Empty;
+            }
+        }
+    }
+
+    private bool IsValidHexByte(string val) =>
+        !string.IsNullOrEmpty(val) && byte.TryParse(val, NumberStyles.HexNumber, null, out _);
+
+    private void SendRawCapdu()
+    {
+        try
+        {
+            string hexString = $"{_cla}{_ins}{_p1}{_p2}{_lc}{_udc}{_le}";
+            var cApdu = new CommandAPDU(hexString);
+            var rApdu = new ResponseAPDU();
+            SessionService.Transmit(cApdu, rApdu);
+        }
+        catch
+        {
+            // Invalid APDU hex format
+        }
+    }
+
+    private void ExecuteSelect()
+    {
+        try
+        {
+            var cmd = new SelectCommand(_selectP1, _selectOccurrence, _selectFci, _selectUdc.FromHexa());
+            if (!string.IsNullOrEmpty(_selectLe))
+            {
+                cmd.Le = Convert.ToByte(_selectLe, 16);
+            }
+            SessionService.Transmit(cmd);
+        }
+        catch { }
+    }
+
+    private void ExecuteGetResponse()
+    {
+        try
+        {
+            uint le = string.IsNullOrEmpty(_getResponseLe) ? 0 : Convert.ToUInt32(_getResponseLe, 16);
+            var cmd = new GetResponseCommand(le);
+            SessionService.Transmit(cmd);
+        }
+        catch { }
+    }
+
+    private void ExecuteReadRecord()
+    {
+        try
+        {
+            byte p1 = Convert.ToByte(_readRecordP1, 16);
+            byte sfi = Convert.ToByte(_readRecordSfi, 16);
+            uint le = string.IsNullOrEmpty(_readRecordLe) ? 0u : Convert.ToUInt32(_readRecordLe, 16);
+            var cmd = new ReadRecordCommand(p1, sfi, _readRecordSearchMode, le);
+            SessionService.Transmit(cmd);
+        }
+        catch { }
+    }
+
+    private void ExecuteWriteRecord()
+    {
+        try
+        {
+            byte record = _writeRecordTarget == WriteRecordCommand.TargetType.RecordNumberInP1 ? Convert.ToByte(_writeRecordP1, 16) : (byte)0;
+            byte sfi = Convert.ToByte(_writeRecordSfi, 16);
+            var cmd = new WriteRecordCommand(record, sfi, _writeRecordTarget, _writeRecordUdc.FromHexa());
+            SessionService.Transmit(cmd);
+        }
+        catch { }
+    }
+
+    private void ExecuteAppendRecord()
+    {
+        try
+        {
+            byte sfi = byte.Parse(_appendRecordSfi, NumberStyles.HexNumber);
+            var cmd = new AppendRecordCommand(sfi, _appendRecordUdc.FromHexa());
+            SessionService.Transmit(cmd);
+        }
+        catch { }
+    }
+
+    private void ExecuteReadBinary()
+    {
+        try
+        {
+            uint le = string.IsNullOrEmpty(_readBinaryLe) ? 0 : Convert.ToUInt32(_readBinaryLe, 16);
+            var cmd = new ReadBinaryCommand(le);
+            SessionService.Transmit(cmd);
+        }
+        catch { }
+    }
+
+    private void AttachObserver()
+    {
+        SessionService.ObserveChannel();
+    }
+
+    private void LoadFromHistory(ApduExchangeItem item)
+    {
+        if (item.Command is CommandAPDU cApdu)
+        {
+            _cla = $"{cApdu.Cla:X2}";
+            _ins = $"{cApdu.Ins:X2}";
+            _p1 = $"{cApdu.P1:X2}";
+            _p2 = $"{cApdu.P2:X2}";
+            _udc = cApdu.Udc?.ToHexa() ?? string.Empty;
+            _lc = cApdu.Lc > 0 ? $"{cApdu.Lc:X2}" : string.Empty;
+            _le = cApdu.Le > 0 ? $"{cApdu.Le:X2}" : string.Empty;
+        }
+        if (item.Response is ResponseAPDU rApdu)
+        {
+            SessionService.UpdateResponse(rApdu);
+        }
+    }
+
+    public void Dispose()
+    {
+        SessionService.OnStateChanged -= HandleStateChanged;
+    }
+}

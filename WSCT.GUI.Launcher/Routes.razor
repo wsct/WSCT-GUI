@@ -1,0 +1,20 @@
+<Router AppAssembly="@typeof(Program).Assembly"
+        AdditionalAssemblies="new[] {
+            typeof(WSCT.GUI.Components.CardWorkbench).Assembly,
+            typeof(WSCT.GUI.Plugins.LayerInteractive.InteractiveLayerGui).Assembly,
+            typeof(WSCT.GUI.Plugins.ISO7816Tools.Iso7816ToolsGui).Assembly
+        }">
+    <Found Context="routeData">
+        <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
+        <FocusOnNavigate RouteData="@routeData" Selector="h1" />
+    </Found>
+    <NotFound>
+        <LayoutView Layout="@typeof(Layout.MainLayout)">
+            <div class="container p-5 text-center">
+                <h3>Page Not Found</h3>
+                <p class="text-muted">There's nothing at this address.</p>
+                <a href="/" class="btn btn-primary">Return to Workbench</a>
+            </div>
+        </LayoutView>
+    </NotFound>
+</Router>
