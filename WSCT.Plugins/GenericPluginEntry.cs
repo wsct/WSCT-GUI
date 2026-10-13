@@ -1,4 +1,5 @@
 using System.Reflection;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace WSCT.GUI.Plugins
 {
@@ -14,5 +15,7 @@ namespace WSCT.GUI.Plugins
         public virtual string Icon => "bi bi-puzzle";
 
         public virtual Type ComponentType => typeof(TComponent);
+
+        public virtual void ConfigureServices(IServiceCollection services) { }
     }
 }

@@ -1,3 +1,5 @@
+using Microsoft.Extensions.DependencyInjection;
+
 namespace WSCT.GUI.Plugins
 {
     /// <summary>
@@ -24,5 +26,11 @@ namespace WSCT.GUI.Plugins
         /// The Razor Component type to render in an integrated tab.
         /// </summary>
         Type ComponentType { get; }
+
+        /// <summary>
+        /// Configures services required by the plugin in the application dependency injection container.
+        /// </summary>
+        /// <param name="services">The service collection to register services into.</param>
+        void ConfigureServices(IServiceCollection services) { }
     }
 }

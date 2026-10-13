@@ -1,9 +1,10 @@
+@inject WSCT.GUI.Plugins.PluginsManager PluginsManager
+
 <Router AppAssembly="@typeof(Program).Assembly"
-        AdditionalAssemblies="new[] {
+        AdditionalAssemblies="@([
             typeof(WSCT.GUI.Components.CardWorkbench).Assembly,
-            typeof(WSCT.GUI.Plugins.LayerInteractive.InteractiveLayerGui).Assembly,
-            typeof(WSCT.GUI.Plugins.ISO7816Tools.Iso7816ToolsGui).Assembly
-        }">
+            .. PluginsManager.PluginAssemblies
+        ])">
     <Found Context="routeData">
         <RouteView RouteData="@routeData" DefaultLayout="@typeof(Layout.MainLayout)" />
         <FocusOnNavigate RouteData="@routeData" Selector="h1" />

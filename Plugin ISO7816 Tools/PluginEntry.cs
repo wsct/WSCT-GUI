@@ -1,4 +1,6 @@
+using Microsoft.Extensions.DependencyInjection;
 using WSCT.GUI.Plugins.ISO7816Tools.Resources;
+using WSCT.GUI.Plugins.ISO7816Tools.Services;
 
 namespace WSCT.GUI.Plugins.ISO7816Tools
 {
@@ -10,5 +12,10 @@ namespace WSCT.GUI.Plugins.ISO7816Tools
     public class PluginEntry : GenericPluginEntry<Iso7816ToolsGui>
     {
         public override string Icon => "bi bi-credit-card-2-front";
+
+        public override void ConfigureServices(IServiceCollection services)
+        {
+            services.AddSingleton<Iso7816SessionService>();
+        }
     }
 }

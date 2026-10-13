@@ -1,10 +1,12 @@
-﻿using System.Reflection;
+using System.Reflection;
 
 namespace WSCT.GUI.Plugins
 {
     public class PluginsManager
     {
         public List<PluginInfo> Plugins { get; }
+
+        public IEnumerable<Assembly> PluginAssemblies => Plugins.Select(p => p.Type.Assembly).Distinct();
 
         public PluginsManager()
         {
@@ -15,20 +17,50 @@ namespace WSCT.GUI.Plugins
         {
             foreach (var pluginInfo in EnumeratePluginInfo(assembly))
             {
-                Plugins.Add(pluginInfo);
+                if (!Plugins.Any(p => p.Type == pluginInfo.Type))
+                {
+                    Plugins.Add(pluginInfo);
+                }
             }
         }
 
         public void Discover(string assemblyPath)
         {
-            Discover(Assembly.LoadFrom(assemblyPath));
+            try
+            {
+                var asmName = Path.GetFileNameWithoutExtension(assemblyPath);
+                var loaded = AppDomain.CurrentDomain.GetAssemblies()
+                    .FirstOrDefault(a => !a.IsDynamic && string.Equals(a.GetName().Name, asmName, StringComparison.OrdinalIgnoreCase));
+                var assembly = loaded ?? Assembly.LoadFrom(assemblyPath);
+                Discover(assembly);
+            }
+            catch (Exception)
+            {
+                // Ignore files that are not valid .NET assemblies or fail to load
+            }
         }
 
         public void DiscoverInDirectory(string directoryPath)
         {
+            if (!Directory.Exists(directoryPath))
+            {
+                return;
+            }
+
             foreach (var assemblyPath in Directory.EnumerateFiles(directoryPath, "*.dll"))
             {
                 Discover(assemblyPath);
+            }
+        }
+
+        public void DiscoverLoadedAssemblies()
+        {
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies())
+            {
+                if (!assembly.IsDynamic)
+                {
+                    Discover(assembly);
+                }
             }
         }
 
@@ -40,6 +72,10 @@ namespace WSCT.GUI.Plugins
             {
                 typesInAssembly = assembly.GetTypes();
             }
+            catch (ReflectionTypeLoadException ex)
+            {
+                typesInAssembly = ex.Types.Where(t => t != null).ToArray()!;
+            }
             catch (Exception)
             {
                 typesInAssembly = Array.Empty<Type>();
@@ -47,7 +83,17 @@ namespace WSCT.GUI.Plugins
 
             foreach (var type in typesInAssembly)
             {
-                if (type.GetCustomAttribute(typeof(PluginEntryAttribute)) is PluginEntryAttribute attribute)
+                PluginEntryAttribute? attribute = null;
+                try
+                {
+                    attribute = type.GetCustomAttribute(typeof(PluginEntryAttribute)) as PluginEntryAttribute;
+                }
+                catch (Exception)
+                {
+                    // Ignore attribute inspection errors
+                }
+
+                if (attribute != null && typeof(IPlugin).IsAssignableFrom(type))
                 {
                     yield return new PluginInfo { Type = type, Attribute = attribute };
                 }

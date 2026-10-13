@@ -1,7 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 	<PropertyGroup>
 		<OutputType>Library</OutputType>
-		<Version>5.2.3</Version>
+		<VersionPrefix>6.0.0</VersionPrefix>
+		<VersionSuffix>alpha</VersionSuffix>
 	</PropertyGroup>
 
 	<PropertyGroup>

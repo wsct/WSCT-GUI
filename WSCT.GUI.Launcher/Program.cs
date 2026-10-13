@@ -13,11 +13,10 @@ builder.Services.AddRazorComponents()
 
 // Core Headless Services
 builder.Services.AddSingleton<ILogService, LogService>();
-builder.Services.AddSingleton<PluginsManager>();
 builder.Services.AddSingleton<ISmartCardSessionService, SmartCardSessionService>();
 
-// Plugin Services
-builder.Services.AddSingleton<WSCT.GUI.Plugins.ISO7816Tools.Services.Iso7816SessionService>();
+// Discover and configure plugins
+var pluginsManager = builder.Services.AddPlugins();
 
 var app = builder.Build();
 
@@ -32,15 +31,11 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode()
     .AddAdditionalAssemblies(
-        typeof(WSCT.GUI.Components.CardWorkbench).Assembly,
-        typeof(WSCT.GUI.Plugins.LayerInteractive.InteractiveLayerGui).Assembly,
-        typeof(WSCT.GUI.Plugins.ISO7816Tools.Iso7816ToolsGui).Assembly
+        [
+            typeof(WSCT.GUI.Components.CardWorkbench).Assembly,
+            .. pluginsManager.PluginAssemblies
+        ]
     );
-
-// Discover built-in plugins
-var pluginsManager = app.Services.GetRequiredService<PluginsManager>();
-pluginsManager.Discover(typeof(WSCT.GUI.Plugins.LayerInteractive.PluginEntry).Assembly);
-pluginsManager.Discover(typeof(WSCT.GUI.Plugins.ISO7816Tools.PluginEntry).Assembly);
 
 // Initialize smartcard session and layers
 var sessionService = app.Services.GetRequiredService<ISmartCardSessionService>();
