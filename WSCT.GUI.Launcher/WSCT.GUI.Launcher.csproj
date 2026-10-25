@@ -4,6 +4,7 @@
 		<VersionPrefix>2.0.0</VersionPrefix>
 		<VersionSuffix>alpha</VersionSuffix>
 		<TargetFramework>net10.0</TargetFramework>
+		<RequiresAspNetWebAssets>true</RequiresAspNetWebAssets>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -12,11 +13,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Layer Interactive\Layer Interactive.csproj" />
 		<ProjectReference Include="..\Plugin Interactive Layer\Plugin Interactive Layer.csproj" />
 		<ProjectReference Include="..\Plugin ISO7816 Tools\Plugin ISO7816 Tools.csproj" />
 		<ProjectReference Include="..\WSCT.GUI\WSCT.GUI.csproj" />
-		<ProjectReference Include="..\WSCT.Plugins\WSCT.GUI.Plugins.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

@@ -3,6 +3,7 @@
 		<OutputType>Library</OutputType>
 		<VersionPrefix>7.0.0</VersionPrefix>
 		<VersionSuffix>alpha</VersionSuffix>
+		<RequiresAspNetWebAssets>true</RequiresAspNetWebAssets>
 	</PropertyGroup>
 
 	<PropertyGroup>

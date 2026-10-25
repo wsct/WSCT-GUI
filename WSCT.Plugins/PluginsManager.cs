@@ -86,7 +86,7 @@ namespace WSCT.GUI.Plugins
                 PluginEntryAttribute? attribute = null;
                 try
                 {
-                    attribute = type.GetCustomAttribute(typeof(PluginEntryAttribute)) as PluginEntryAttribute;
+                    attribute = type.GetCustomAttribute<PluginEntryAttribute>() as PluginEntryAttribute;
                 }
                 catch (Exception)
                 {
