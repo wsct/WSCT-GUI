@@ -25,9 +25,5 @@
 		<None Update="Stack.Context.xml">
 			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 		</None>
-		<None Include="..\Plugin ISO7816 Tools\ISO7816\Dictionary.StatusWord.xml">
-			<Link>ISO7816\Dictionary.StatusWord.xml</Link>
-			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
-		</None>
 	</ItemGroup>
 </Project>
