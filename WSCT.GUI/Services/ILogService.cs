@@ -8,7 +8,7 @@ namespace WSCT.GUI.Services
 
         event Action? OnLogsCleared;
 
-        void Append(LogLevel level, string source, string message, string? colorHex = null);
+        void Append(LogLevel level, string source, string message);
 
         void Clear();
     }

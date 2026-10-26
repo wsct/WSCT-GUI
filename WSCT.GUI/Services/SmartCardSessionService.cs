@@ -1,6 +1,5 @@
 using System.Reflection;
 using WSCT.GUI.Plugins;
-using WSCT.GUI.Resources;
 using WSCT.Helpers;
 using WSCT.Helpers.Linq;
 using WSCT.Linq;
@@ -18,7 +17,6 @@ namespace WSCT.GUI.Services
         private CardContextStackDescription? _contextLayers;
         private StatusChangeMonitor? _statusMonitor;
         private LogObserver? _observer;
-        private LogObserver? _stackObserver;
 
         public bool IsContextEstablished { get; private set; }
         public string ContextStateText { get; private set; } = "Released";
@@ -63,8 +61,7 @@ namespace WSCT.GUI.Services
             {
                 AppDomain.CurrentDomain.AssemblyResolve += ResolveLayerAssembly;
 
-                _observer = new LogObserver(_logService, this, Colors.LogDefaultColor);
-                _stackObserver = new LogObserver(_logService, this, Colors.LogHighlightColor);
+                _observer = new LogObserver(_logService, this);
 
                 string channelXmlPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Stack.Channel.xml");
                 if (!File.Exists(channelXmlPath) && File.Exists("Stack.Channel.xml"))
@@ -102,12 +99,12 @@ namespace WSCT.GUI.Services
                 _statusMonitor = new StatusChangeMonitor();
                 _statusMonitor.OnCardInsertionEvent += (s, e) =>
                 {
-                    _logService.Append(LogLevel.Info, "Monitor", $"Card insertion on reader: {e.ReaderState.ReaderName}", Colors.LogHighlightColor);
+                    _logService.Append(LogLevel.Info, "Monitor", $"Card insertion on reader: {e.ReaderState.ReaderName}");
                     NotifyStateChanged();
                 };
                 _statusMonitor.OnCardRemovalEvent += (s, e) =>
                 {
-                    _logService.Append(LogLevel.Info, "Monitor", $"Card removal on reader: {e.ReaderState.ReaderName}", Colors.LogHighlightColor);
+                    _logService.Append(LogLevel.Info, "Monitor", $"Card removal on reader: {e.ReaderState.ReaderName}");
                     NotifyStateChanged();
                 };
 
@@ -117,7 +114,7 @@ namespace WSCT.GUI.Services
             }
             catch (Exception ex)
             {
-                _logService.Append(LogLevel.Error, "Init", $"Initialization error: {ex.Message}", Colors.LogErrorColor);
+                _logService.Append(LogLevel.Error, "Init", $"Initialization error: {ex.Message}");
             }
         }
 
@@ -215,7 +212,7 @@ namespace WSCT.GUI.Services
             {
                 IsContextEstablished = false;
                 ContextStateText = "Error";
-                _logService.Append(LogLevel.Error, "Context", ex.Message, Colors.LogErrorColor);
+                _logService.Append(LogLevel.Error, "Context", ex.Message);
             }
 
             NotifyStateChanged();
@@ -245,7 +242,7 @@ namespace WSCT.GUI.Services
             }
             catch (Exception ex)
             {
-                _logService.Append(LogLevel.Error, "Release", ex.Message, Colors.LogErrorColor);
+                _logService.Append(LogLevel.Error, "Release", ex.Message);
             }
 
             NotifyStateChanged();
@@ -266,7 +263,7 @@ namespace WSCT.GUI.Services
             var stack = new CardChannelStack(layers).ToObservableStack();
             stack.Attach(SharedData.CardContext, SelectedReader);
 
-            _stackObserver?.ObserveChannel(stack);
+            _observer?.ObserveChannel(stack);
             SharedData.CardChannel = stack;
         }
 
@@ -283,7 +280,7 @@ namespace WSCT.GUI.Services
                 .ForEach(l => _observer?.ObserveContext(l));
 
             var stack = new CardContextStack(layers).ToObservableStack();
-            _stackObserver?.ObserveContext(stack);
+            _observer?.ObserveContext(stack);
             SharedData.CardContext = stack;
         }
 
@@ -389,7 +386,7 @@ namespace WSCT.GUI.Services
             }
             catch (Exception ex)
             {
-                _logService.Append(LogLevel.Error, "GetAttrib", ex.Message, Colors.LogErrorColor);
+                _logService.Append(LogLevel.Error, "GetAttrib", ex.Message);
             }
         }
 

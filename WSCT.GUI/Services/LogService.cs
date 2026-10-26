@@ -21,14 +21,13 @@ namespace WSCT.GUI.Services
 
         public event Action? OnLogsCleared;
 
-        public void Append(LogLevel level, string source, string message, string? colorHex = null)
+        public void Append(LogLevel level, string source, string message)
         {
             var entry = new LogEntry
             {
                 Level = level,
                 Source = source,
-                Message = message,
-                ColorHex = colorHex ?? Resources.Colors.LogDefaultColor
+                Message = message
             };
 
             lock (_lock)

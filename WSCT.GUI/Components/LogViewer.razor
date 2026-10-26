@@ -22,9 +22,9 @@
         {
             @foreach (var entry in LogService.Entries)
             {
-                <div class="text-nowrap" style="color: @(entry.Level == LogLevel.Error ? "#ff8a80" : (entry.Level == LogLevel.Warning ? "#ffd54f" : "#eceff1"))">
+                <div class="text-nowrap @GetTextClass(entry.Level)">
                     <span class="text-secondary">[@entry.FormattedTimestamp]</span>
-                    <span class="badge @(entry.Level == LogLevel.Error ? "bg-danger" : (entry.Level == LogLevel.Warning ? "bg-warning text-dark" : "bg-secondary")) px-1 me-1">@entry.Level</span>
+                    <span class="badge @GetBadgeClass(entry.Level) px-1 me-1">@entry.Level</span>
                     <span class="text-info fw-semibold">[@entry.Source]</span>
                     <span>@entry.Message</span>
                 </div>
@@ -34,6 +34,20 @@
 </div>
 
 @code {
+    private static string GetTextClass(LogLevel level) => level switch
+    {
+        LogLevel.Error => "text-danger",
+        LogLevel.Warning => "text-warning",
+        _ => "text-light"
+    };
+
+    private static string GetBadgeClass(LogLevel level) => level switch
+    {
+        LogLevel.Error => "bg-danger",
+        LogLevel.Warning => "bg-warning text-dark",
+        _ => "bg-secondary"
+    };
+
     protected override void OnInitialized()
     {
         LogService.OnLogAppended += HandleLogUpdate;
