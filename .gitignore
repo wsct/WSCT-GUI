@@ -12,3 +12,5 @@ obj
 packages/
 *.DotSettings.user
 /nuget
+/WSCT.GUI/wwwroot/lib/bootstrap/dist/
+/WSCT.GUI/wwwroot/lib/bootstrap-icons/font/

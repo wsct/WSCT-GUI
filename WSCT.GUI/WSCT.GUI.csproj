@@ -14,6 +14,7 @@
 
 	<ItemGroup>
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Microsoft.Web.LibraryManager.Build" PrivateAssets="all" />
 		<PackageReference Include="WSCT.Wrapper.Desktop" />
 	</ItemGroup>
 

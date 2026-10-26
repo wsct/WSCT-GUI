@@ -6,7 +6,6 @@ namespace WSCT.GUI.Services
         public LogLevel Level { get; set; }
         public string Source { get; set; } = string.Empty;
         public string Message { get; set; } = string.Empty;
-        public string ColorHex { get; set; } = "#37474f";
 
         public string FormattedTimestamp => Timestamp.ToString("HH:mm:ss.fff");
     }

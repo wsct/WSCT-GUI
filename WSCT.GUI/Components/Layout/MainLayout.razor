@@ -1,6 +1,4 @@
 @inherits LayoutComponentBase
-@inject ISmartCardSessionService SessionService
-@implements IDisposable
 
 <div class="d-flex flex-column min-vh-100">
     <!-- Top Navbar -->
@@ -60,22 +58,3 @@
 </div>
 
 <AboutModal @bind-IsOpen="_showAbout" />
-
-@code {
-    private bool _showAbout;
-
-    protected override void OnInitialized()
-    {
-        SessionService.OnStateChanged += HandleStateChanged;
-    }
-
-    private void HandleStateChanged()
-    {
-        InvokeAsync(StateHasChanged);
-    }
-
-    public void Dispose()
-    {
-        SessionService.OnStateChanged -= HandleStateChanged;
-    }
-}

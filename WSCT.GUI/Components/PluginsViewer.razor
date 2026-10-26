@@ -1,7 +1,3 @@
-@using WSCT.GUI.Plugins
-@using WSCT.GUI.Services
-@inject ISmartCardSessionService SessionService
-
 <div class="row g-3">
     <div class="col-md-4">
         <div class="card shadow-sm h-100">
@@ -86,20 +82,3 @@
         }
     </div>
 </div>
-
-@code {
-    [Parameter]
-    public EventCallback<PluginInfo> OnOpenPlugin { get; set; }
-
-    private PluginInfo? _selectedPlugin;
-
-    protected override void OnInitialized()
-    {
-        _selectedPlugin = SessionService.DiscoveredPlugins.FirstOrDefault();
-    }
-
-    private void SelectPlugin(PluginInfo plugin)
-    {
-        _selectedPlugin = plugin;
-    }
-}

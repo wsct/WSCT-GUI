@@ -1,6 +1,5 @@
 using WSCT.Core;
 using WSCT.Core.Events;
-using WSCT.GUI.Resources;
 using WSCT.GUI.Services;
 using WSCT.Helpers;
 using WSCT.Helpers.Linq;
@@ -10,13 +9,12 @@ using WSCT.Wrapper.Desktop.Core;
 
 namespace WSCT.GUI
 {
-    public sealed class LogObserver
+    internal sealed class LogObserver
     {
         private readonly ILogService _logService;
         private readonly ISmartCardSessionService _sessionService;
-        private readonly string _highlightColor;
 
-        private void WriteLogLine(LogLevel level, object? sender, string message, string? color = null)
+        private void WriteLogLine(LogLevel level, object? sender, string message)
         {
             string identifier = sender switch
             {
@@ -26,14 +24,13 @@ namespace WSCT.GUI
                 ICardContextStack => "Stack",
                 _ => "Core"
             };
-            _logService.Append(level, identifier, message, color ?? Colors.LogDefaultColor);
+            _logService.Append(level, identifier, message);
         }
 
-        public LogObserver(ILogService logService, ISmartCardSessionService sessionService, string highlightColor)
+        public LogObserver(ILogService logService, ISmartCardSessionService sessionService)
         {
             _logService = logService;
             _sessionService = sessionService;
-            _highlightColor = highlightColor;
         }
 
         public void ObserveContext(ICardContextObservable context)
@@ -82,7 +79,7 @@ namespace WSCT.GUI
             }
             else
             {
-                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}");
                 _sessionService.UpdateChannelStatus(ChannelStatusType.Error);
             }
 
@@ -98,7 +95,7 @@ namespace WSCT.GUI
             }
             else
             {
-                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}");
                 _sessionService.UpdateChannelStatus(ChannelStatusType.Error);
             }
 
@@ -113,7 +110,7 @@ namespace WSCT.GUI
             }
             else
             {
-                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}");
             }
 
             _sessionService.UpdateLastError(eventArgs.ReturnValue);
@@ -128,7 +125,7 @@ namespace WSCT.GUI
             }
             else
             {
-                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}");
                 _sessionService.UpdateChannelStatus(ChannelStatusType.Error);
             }
 
@@ -143,7 +140,7 @@ namespace WSCT.GUI
             }
             else
             {
-                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}");
             }
 
             _sessionService.UpdateLastError(eventArgs.ReturnValue);
@@ -156,47 +153,47 @@ namespace WSCT.GUI
                 return;
             }
 
-            WriteLogLine(LogLevel.Info, sender, $" => Connect(\"{cardChannel.ReaderName}\", {eventArgs.ShareMode}, {eventArgs.PreferedProtocol})", _highlightColor);
+            WriteLogLine(LogLevel.Info, sender, $" => Connect(\"{cardChannel.ReaderName}\", {eventArgs.ShareMode}, {eventArgs.PreferedProtocol})");
         }
 
         public void BeforeDisconnect(object? sender, BeforeDisconnectEventArgs eventArgs)
         {
-            WriteLogLine(LogLevel.Info, sender, $" => Disconnect({eventArgs.Disposition})", _highlightColor);
+            WriteLogLine(LogLevel.Info, sender, $" => Disconnect({eventArgs.Disposition})");
         }
 
         public void BeforeGetAttrib(object? sender, BeforeGetAttribEventArgs eventArgs)
         {
-            WriteLogLine(LogLevel.Info, sender, $" => GetAttrib({eventArgs.Attrib})", _highlightColor);
+            WriteLogLine(LogLevel.Info, sender, $" => GetAttrib({eventArgs.Attrib})");
         }
 
         public void BeforeReconnect(object? sender, BeforeReconnectEventArgs eventArgs)
         {
-            WriteLogLine(LogLevel.Info, sender, $" => Reconnect({eventArgs.ShareMode}, {eventArgs.PreferedProtocol}, {eventArgs.Initialization})", _highlightColor);
+            WriteLogLine(LogLevel.Info, sender, $" => Reconnect({eventArgs.ShareMode}, {eventArgs.PreferedProtocol}, {eventArgs.Initialization})");
         }
 
         public void BeforeTransmit(object? sender, BeforeTransmitEventArgs eventArgs)
         {
-            WriteLogLine(LogLevel.Info, sender, $" => Transmit({eventArgs.Command})", _highlightColor);
+            WriteLogLine(LogLevel.Info, sender, $" => Transmit({eventArgs.Command})");
         }
 
         private void BeforeEstablish(object? sender, BeforeEstablishEventArgs eventArgs)
         {
-            WriteLogLine(LogLevel.Info, sender, " => Establish()", _highlightColor);
+            WriteLogLine(LogLevel.Info, sender, " => Establish()");
         }
 
         private void BeforeListReaders(object? sender, BeforeListReadersEventArgs eventArgs)
         {
-            WriteLogLine(LogLevel.Info, sender, $" => ListReaders({eventArgs.Group})", _highlightColor);
+            WriteLogLine(LogLevel.Info, sender, $" => ListReaders({eventArgs.Group})");
         }
 
         private void BeforeListReaderGroups(object? sender, BeforeListReaderGroupsEventArgs eventArgs)
         {
-            WriteLogLine(LogLevel.Info, sender, " => ListReaderGroups()", _highlightColor);
+            WriteLogLine(LogLevel.Info, sender, " => ListReaderGroups()");
         }
 
         private void BeforeRelease(object? sender, BeforeReleaseEventArgs eventArgs)
         {
-            WriteLogLine(LogLevel.Info, sender, " => Release()", _highlightColor);
+            WriteLogLine(LogLevel.Info, sender, " => Release()");
         }
 
         private void NotifyEstablish(object? sender, AfterEstablishEventArgs eventArgs)
@@ -207,7 +204,7 @@ namespace WSCT.GUI
             }
             else
             {
-                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}");
             }
 
             _sessionService.UpdateLastError(eventArgs.ReturnValue);
@@ -226,7 +223,7 @@ namespace WSCT.GUI
             }
             else
             {
-                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}");
             }
 
             _sessionService.UpdateLastError(eventArgs.ReturnValue);
@@ -245,7 +242,7 @@ namespace WSCT.GUI
             }
             else
             {
-                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}");
             }
 
             _sessionService.UpdateLastError(eventArgs.ReturnValue);
@@ -259,7 +256,7 @@ namespace WSCT.GUI
             }
             else
             {
-                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}", Colors.LogErrorColor);
+                WriteLogLine(LogLevel.Error, sender, $"<= {eventArgs.ReturnValue}");
             }
 
             _sessionService.UpdateLastError(eventArgs.ReturnValue);
@@ -267,12 +264,12 @@ namespace WSCT.GUI
 
         private void OnCardInsertionEvent(object? sender, OnCardInsertionEventArgs eventArgs)
         {
-            WriteLogLine(LogLevel.Info, sender, $"<= Card insertion detected on reader {eventArgs.ReaderState.ReaderName}", _highlightColor);
+            WriteLogLine(LogLevel.Info, sender, $"<= Card insertion detected on reader {eventArgs.ReaderState.ReaderName}");
         }
 
         private void OnCardRemovalEvent(object? sender, OnCardRemovalEventArgs eventArgs)
         {
-            WriteLogLine(LogLevel.Info, sender, $"<= Card removal detected on reader {eventArgs.ReaderState.ReaderName}", _highlightColor);
+            WriteLogLine(LogLevel.Info, sender, $"<= Card removal detected on reader {eventArgs.ReaderState.ReaderName}");
         }
     }
 }

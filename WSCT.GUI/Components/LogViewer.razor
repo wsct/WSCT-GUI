@@ -1,7 +1,3 @@
-@using WSCT.GUI.Services
-@inject ILogService LogService
-@implements IDisposable
-
 <div class="card shadow-sm h-100">
     <div class="card-header bg-dark text-white d-flex justify-content-between align-items-center py-2">
         <span class="small fw-semibold">
@@ -22,9 +18,9 @@
         {
             @foreach (var entry in LogService.Entries)
             {
-                <div class="text-nowrap" style="color: @(entry.Level == LogLevel.Error ? "#ff8a80" : (entry.Level == LogLevel.Warning ? "#ffd54f" : "#eceff1"))">
+                <div class="text-nowrap @GetTextClass(entry.Level)">
                     <span class="text-secondary">[@entry.FormattedTimestamp]</span>
-                    <span class="badge @(entry.Level == LogLevel.Error ? "bg-danger" : (entry.Level == LogLevel.Warning ? "bg-warning text-dark" : "bg-secondary")) px-1 me-1">@entry.Level</span>
+                    <span class="badge @GetBadgeClass(entry.Level) px-1 me-1">@entry.Level</span>
                     <span class="text-info fw-semibold">[@entry.Source]</span>
                     <span>@entry.Message</span>
                 </div>
@@ -32,27 +28,3 @@
         }
     </div>
 </div>
-
-@code {
-    protected override void OnInitialized()
-    {
-        LogService.OnLogAppended += HandleLogUpdate;
-        LogService.OnLogsCleared += HandleLogCleared;
-    }
-
-    private void HandleLogUpdate(LogEntry entry)
-    {
-        InvokeAsync(StateHasChanged);
-    }
-
-    private void HandleLogCleared()
-    {
-        InvokeAsync(StateHasChanged);
-    }
-
-    public void Dispose()
-    {
-        LogService.OnLogAppended -= HandleLogUpdate;
-        LogService.OnLogsCleared -= HandleLogCleared;
-    }
-}
