@@ -1,4 +1,7 @@
 <Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="README.md" />
+  </Folder>
   <Project Path="Layer Interactive/Layer Interactive.csproj" />
   <Project Path="Plugin Interactive Layer/Plugin Interactive Layer.csproj" />
   <Project Path="Plugin ISO7816 Tools/Plugin ISO7816 Tools.csproj" />
