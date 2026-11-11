@@ -5,6 +5,7 @@
 		<VersionSuffix>alpha</VersionSuffix>
 		<TargetFramework>net10.0</TargetFramework>
 		<RequiresAspNetWebAssets>true</RequiresAspNetWebAssets>
+		<ApplicationIcon>Resources\WSCT.ico</ApplicationIcon>
 	</PropertyGroup>
 
 	<PropertyGroup>
